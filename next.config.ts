@@ -5,8 +5,13 @@ const nextConfig: NextConfig = {
   /**
    * Docker deploy uchun o'z-o'zi yetarli server (`server.js`).
    * `next start` ham ishlashda davom etadi — standalone qo'shimcha artefakt.
+   *
+   * Vercel'da BU YOQILMASLIGI KERAK: standalone rejimi Vercel serverless
+   * funksiyalari uchun zarur `.next/*.nft.json` fayllarini yaratmaydi va
+   * build "ENOENT: next-server.js.nft.json" xatosi bilan yiqiladi. Shuning
+   * uchun faqat Vercel muhitidan tashqarida (Docker build) yoqamiz.
    */
-  output: 'standalone',
+  output: process.env.VERCEL ? undefined : 'standalone',
   poweredByHeader: false,
   compress: true,
 
