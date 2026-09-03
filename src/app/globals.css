@@ -1,0 +1,469 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   SELF-HOSTED VARIABLE FONTS
+   ------------------------------------------------------------
+   Google Fonts'ga tashqi so'rov yo'q: fayllar public/fonts/ da
+   (scripts/copy-fonts.mjs orqali @fontsource paketlaridan nusxalanadi).
+   unicode-range tufayli brauzer faqat kerakli subsetni yuklaydi:
+   lotin (~25 KB) yoki kirill (~15 KB).
+   ============================================================ */
+
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/manrope-latin.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD, U+018F, U+0259, U+2018-201F, U+00AB, U+00BB;
+}
+
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/manrope-cyrillic.woff2') format('woff2-variations');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Unbounded Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url('/fonts/unbounded-latin.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD, U+018F, U+0259, U+2018-201F, U+00AB, U+00BB;
+}
+
+@font-face {
+  font-family: 'Unbounded Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url('/fonts/unbounded-cyrillic.woff2') format('woff2-variations');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* ============================================================
+   GFF UZBEKISTAN — Design System
+   Deep pine + gold + turquoise (Registan tilework homage)
+   ============================================================ */
+
+@theme {
+  /* ---- Brand palette ---- */
+  --color-ink: #07110f;
+  --color-pine-950: #03201c;
+  --color-pine-900: #06302b;
+  --color-pine-800: #0a4038;
+  --color-pine-700: #0d5449;
+  --color-pine-600: #116a5c;
+  --color-teal-600: #0e7c6b;
+  --color-teal-500: #14a08c;
+  --color-teal-400: #2cc0a8;
+  --color-teal-300: #63d3c0;
+  --color-teal-100: #d3f3ec;
+  --color-mint-300: #7fd8c4;
+  --color-mint-200: #b6ebde;
+  --color-mint-50: #f2fbf8;
+  --color-mint-100: #e0f7f1;
+
+  --color-gold-700: #9a7516;
+  --color-gold-600: #b8891f;
+  --color-gold-500: #d4a63c;
+  --color-gold-400: #e5be63;
+  --color-gold-300: #ecd08a;
+  --color-gold-200: #f4e2b0;
+  --color-gold-100: #faf1d9;
+
+  --color-clay-600: #a8552a;
+  --color-clay-500: #c4703a;
+  --color-clay-400: #d98a5c;
+  --color-clay-300: #eaa87c;
+  --color-clay-200: #f5d5bd;
+  --color-clay-100: #fbeee4;
+
+  --color-cream-50: #fdfbf7;
+  --color-cream-100: #f9f4ea;
+  --color-cream-200: #f1e9d9;
+  --color-cream-300: #e4d8c1;
+  --color-cream-400: #d3c3a4;
+
+  --color-slate-warm-100: #eef1f0;
+  --color-slate-warm-200: #e2e7e5;
+  --color-slate-warm-300: #ccd4d1;
+  --color-slate-warm-400: #9aa6a2;
+  --color-slate-warm-500: #6b7a76;
+  --color-slate-warm-600: #4f5d59;
+  --color-slate-warm-700: #38443f;
+  --color-slate-warm-800: #26302c;
+
+  /* ---- Fonts ---- */
+  --font-display: 'Unbounded Variable', 'Unbounded', 'Manrope Variable', system-ui, sans-serif;
+  --font-sans: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+  /* ---- Radius ---- */
+  --radius-xs: 0.25rem;
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+
+  /* ---- Shadows ---- */
+  --shadow-soft: 0 1px 2px rgb(7 17 15 / 0.04), 0 8px 24px -12px rgb(7 17 15 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(7 17 15 / 0.05), 0 18px 40px -18px rgb(7 17 15 / 0.22);
+  --shadow-float: 0 24px 60px -20px rgb(7 17 15 / 0.35), 0 4px 14px -6px rgb(7 17 15 / 0.18);
+  --shadow-inset-line: inset 0 -1px 0 rgb(7 17 15 / 0.06);
+  --shadow-glow: 0 0 0 1px rgb(20 160 140 / 0.25), 0 12px 40px -12px rgb(14 124 107 / 0.45);
+
+  /* ---- Animation ---- */
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-scale-in: scale-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-right: slide-in-right 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-up: slide-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-in-up: in-up 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-in-down: in-down 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-left: slide-in-left 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-right: slide-in-right 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-spin-slow: spin 1.1s linear infinite;
+  --animate-count-up: count-up 0.6s ease-out both;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes in-up {
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes in-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0.4; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(20 160 140 / 0.5); }
+  70% { box-shadow: 0 0 0 14px rgb(20 160 140 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(20 160 140 / 0); }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  * {
+    border-color: var(--color-cream-200);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  ::selection {
+    background-color: var(--color-mint-200);
+    color: var(--color-pine-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-teal-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-cream-100); }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-pine-700) 40%, transparent);
+    border-radius: 99px;
+    border: 2px solid var(--color-cream-100);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-pine-700); }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type='number'] { -moz-appearance: textfield; }
+
+  /* Native form controls inherit brand font */
+  input, textarea, select, button { font-family: inherit; }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+@utility container-x {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) { padding-inline: 1.5rem; }
+  @media (width >= 80rem) { padding-inline: 2rem; }
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-teal-600);
+}
+
+@utility text-balance-pretty {
+  text-wrap: balance;
+}
+
+@utility card-surface {
+  background-color: #fff;
+  border: 1px solid var(--color-cream-200);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility glass-panel {
+  background-color: rgb(255 255 255 / 0.82);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.6);
+}
+
+@utility pattern-tile {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgb(20 160 140 / 0.16) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+@utility pattern-grid-fine {
+  background-image:
+    linear-gradient(to right, rgb(7 17 15 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(7 17 15 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@utility pattern-uzbek {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2314a08c' stroke-opacity='0.14' stroke-width='1'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z'/%3E%3Cpath d='M30 12 L48 30 L30 48 L12 30 Z'/%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@utility skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-cream-100) 25%,
+    var(--color-cream-200) 37%,
+    var(--color-cream-100) 63%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility gradient-text {
+  background: linear-gradient(100deg, var(--color-teal-400), var(--color-gold-400) 55%, var(--color-mint-300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@utility line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@utility line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Safe-area helpers for iOS */
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* ============================================================
+   Accessibility — klaviatura bilan o'tkazib yuborish havolasi
+   ============================================================ */
+
+@utility skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 200;
+  transform: translateY(-160%);
+  border-radius: 0.75rem;
+  background-color: var(--color-pine-900);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: var(--shadow-float);
+  transition: transform 0.18s ease-out;
+
+  &:focus-visible {
+    transform: translateY(0);
+    outline-offset: 3px;
+  }
+}
+
+/* Prose-like kontent bloklari (shartnoma, maxfiylik siyosati) */
+@utility legal-prose {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-slate-warm-700);
+
+  & h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.625rem;
+    font-size: 1.0625rem;
+    font-weight: 800;
+    color: var(--color-pine-900);
+  }
+
+  & h3 {
+    margin-top: 1.375rem;
+    margin-bottom: 0.375rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-pine-800);
+  }
+
+  & p {
+    margin-bottom: 0.75rem;
+  }
+
+  & ul {
+    margin-bottom: 0.875rem;
+    padding-left: 1.125rem;
+    list-style: disc;
+  }
+
+  & li {
+    margin-bottom: 0.25rem;
+  }
+
+  & a {
+    color: var(--color-teal-600);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: color-mix(in srgb, var(--color-teal-500) 40%, transparent);
+
+    &:hover {
+      text-decoration-color: var(--color-teal-600);
+    }
+  }
+
+  & strong {
+    color: var(--color-pine-900);
+    font-weight: 700;
+  }
+}
+
+/* Jadval — texnik spetsifikatsiyalar uchun */
+@utility spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+
+  & th,
+  & td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-cream-200);
+    text-align: left;
+  }
+
+  & th {
+    font-weight: 600;
+    color: var(--color-slate-warm-600);
+    background-color: var(--color-cream-50);
+  }
+
+  & td {
+    font-weight: 600;
+    color: var(--color-pine-900);
+  }
+}

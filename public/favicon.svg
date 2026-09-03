@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- GFF favicon: to'q yashil (pine) kvadrat + oq tomchi/kolba belgisi -->
+  <rect width="64" height="64" rx="14" fill="#0d5449"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="12" fill="none" stroke="#0e7c6b" stroke-width="2.5"/>
+  <!-- Tomchi (aromatizator tomchisi) -->
+  <path d="M32 12c6.4 8.6 12 15.2 12 22.4C44 41.6 38.6 47 32 47s-12-5.4-12-12.6C20 27.2 25.6 20.6 32 12z" fill="#2cc0a8"/>
+  <path d="M32 19.5c4 5.6 7.5 10 7.5 14.9 0 4.9-3.4 8.6-7.5 8.6s-7.5-3.7-7.5-8.6c0-4.9 3.5-9.3 7.5-14.9z" fill="#fdfbf7"/>
+  <!-- Oltin nuqta — sifat belgisi -->
+  <circle cx="45" cy="19" r="5" fill="#d4a63c"/>
+</svg>
