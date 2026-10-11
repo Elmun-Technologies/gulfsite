@@ -1,0 +1,1056 @@
+﻿key,screen,uz,ru,en,flags,note
+nf.catalog,404,Katalog,Каталог,Catalogue,,
+nf.code,404,404,404,404,,
+nf.contact,404,Aloqa,Контакты,Contact,,
+nf.home,404,Bosh sahifa,Главная,Home,,
+nf.monogramAlt,404,Qahva monogrammasi,Кофейная монограмма,Coffee monogram,,
+nf.searchCta,404,Qidirish,Искать,Search,,
+nf.searchTitle,404,Qidiruv,Поиск,Search,,
+nf.text,404,Sahifa ko‘chirilgan yoki manzil xato yozilgan. Katalogdan qidirib ko‘ring yoki bosh sahifaga qayting.,Страница перемещена или адрес введён с ошибкой. Попробуйте поиск по каталогу или вернитесь на главную.,The page has moved or the address was mistyped. Try the catalogue search or return to the home page.,,
+nf.title,404,Bu ta’m hali\ntopilmadi,Такой вкус\nпока не найден,That flavour has\nnot been found,,
+admin.dashboard,Admin panel,Boshqaruv paneli,Панель управления,Dashboard,,
+admin.errors.badJson,Admin panel,So‘rov formatida xatolik,Ошибка формата запроса,Malformed request,,
+admin.errors.emptyPatch,Admin panel,O‘zgartirish kiritilmadi,Изменений не указано,Nothing to update,,
+admin.errors.invalidStatus,Admin panel,Noto‘g‘ri holat tanlandi,Выбран неверный статус,Invalid status selected,,
+admin.errors.notFound,Admin panel,Ariza topilmadi,Заявка не найдена,Lead not found,,
+admin.errors.saveFailed,Admin panel,Saqlab bo‘lmadi — qayta urinib ko‘ring,Не удалось сохранить — попробуйте ещё раз,Could not save — please retry,,
+admin.errors.unauthorized,Admin panel,Sessiya tugagan — qaytadan tizimga kiring,Сессия истекла — войдите снова,Session expired — please sign in again,,
+admin.lead.addNote,Admin panel,Izoh qo‘shish,Добавить заметку,Add a note,,
+admin.lead.backToList,Admin panel,Ro‘yxatga qaytish,К списку,Back to list,,
+admin.lead.company,Admin panel,Kompaniya,Компания,Company,,
+admin.lead.contact,Admin panel,Aloqa ma‘lumotlari,Контактные данные,Contact details,,
+admin.lead.detail,Admin panel,Ariza tafsilotlari,Детали заявки,Request details,,
+admin.lead.history,Admin panel,Tarix,История,History,,
+admin.lead.markSpam,Admin panel,Spam deb belgilash,Пометить как спам,Mark as spam,,
+admin.lead.notConfigured,Admin panel,Telegram/e-mail sozlanmagan — .env faylini tekshiring,Telegram/e-mail не настроены — проверьте .env,Telegram/e-mail not configured — check your .env file,,
+admin.lead.notePlaceholder,Admin panel,"Nima gaplashildi, keyingi qadam…","Что обсудили, следующий шаг…","What was discussed, next step…",,
+admin.lead.notes,Admin panel,Izohlar,Заметки,Notes,,
+admin.lead.notifications,Admin panel,Bildirishnomalar,Уведомления,Notifications,,
+admin.lead.quality,Admin panel,Lead sifati,Качество лида,Lead quality,,
+admin.lead.quality.high,Admin panel,Yuqori,Высокое,High,,
+admin.lead.quality.low,Admin panel,Past,Низкое,Low,,
+admin.lead.quality.medium,Admin panel,O‘rta,Среднее,Medium,,
+admin.lead.request,Admin panel,So‘rov mazmuni,Содержание запроса,Request contents,,
+admin.lead.save,Admin panel,Saqlash,Сохранить,Save,,
+admin.lead.saved,Admin panel,Saqlandi,Сохранено,Saved,,
+admin.lead.source,Admin panel,Manba,Источник,Source,,
+admin.lead.spamScore,Admin panel,Spam bahosi,Оценка спама,Spam score,,
+admin.lead.statusChanged,Admin panel,Holat o‘zgardi: {from} → {to},Статус изменён: {from} → {to},Status changed: {from} → {to},vars:{from}{to},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+admin.lead.unmarkSpam,Admin panel,Spam emas,Не спам,Not spam,,
+admin.leads,Admin panel,Arizalar,Заявки,Requests,,
+admin.leads.columns.company,Admin panel,Kompaniya,Компания,Company,,
+admin.leads.columns.contact,Admin panel,Aloqa,Контакт,Contact,,
+admin.leads.columns.date,Admin panel,Sana,Дата,Date,,
+admin.leads.columns.products,Admin panel,Mahsulotlar,Продукты,Products,,
+admin.leads.columns.ref,Admin panel,Raqam,Номер,Reference,,
+admin.leads.columns.region,Admin panel,Hudud,Регион,Region,,
+admin.leads.columns.status,Admin panel,Holat,Статус,Status,,
+admin.leads.columns.type,Admin panel,Tur,Тип,Type,,
+admin.leads.export,Admin panel,CSV eksport,Экспорт CSV,Export CSV,,
+admin.leads.filterPeriod,Admin panel,Davr,Период,Period,,
+admin.leads.noResults,Admin panel,Arizalar topilmadi,Заявки не найдены,No requests found,,
+admin.leads.noResultsHint,Admin panel,Filtrlarni o‘zgartiring yoki boshqa davrni tanlang.,Измените фильтры или выберите другой период.,Change the filters or select a different period.,,
+admin.leads.period.30d,Admin panel,So‘nggi 30 kun,30 дней,30 days,,
+admin.leads.period.7d,Admin panel,So‘nggi 7 kun,7 дней,7 days,,
+admin.leads.period.all,Admin panel,Butun davr,Всё время,All time,,
+admin.leads.period.today,Admin panel,Bugun,Сегодня,Today,,
+admin.leads.search,Admin panel,"Arizalarni qidirish (ism, telefon, kompaniya, raqam)","Поиск заявок (имя, телефон, компания, номер)","Search requests (name, phone, company, reference)",,
+admin.leads.title,Admin panel,Arizalar ro‘yxati,Список заявок,Request list,,
+admin.login,Admin panel,Kirish,Войти,Sign in,,
+admin.loginFailed,Admin panel,Parol noto‘g‘ri,Неверный пароль,Incorrect password,,
+admin.loginHint,Admin panel,Faqat kompaniya xodimlari uchun.,Только для сотрудников компании.,For company staff only.,,
+admin.loginRateLimit,Admin panel,Juda ko‘p urinish. 15 daqiqadan so‘ng qayta urinib ko‘ring.,Слишком много попыток. Повторите через 15 минут.,Too many attempts. Try again in 15 minutes.,,
+admin.loginTitle,Admin panel,Boshqaruv paneliga kirish,Вход в панель управления,Sign in to the control panel,,
+admin.logout,Admin panel,Chiqish,Выйти,Sign out,,
+admin.password,Admin panel,Parol,Пароль,Password,,
+admin.passwordPh,Admin panel,Parolni kiriting,Введите пароль,Enter password,,
+admin.products,Admin panel,Mahsulotlar,Продукты,Products,,
+admin.setup,Admin panel,Sozlash kerak,Требуется настройка,Setup required,,
+admin.setupHint,Admin panel,Bildirishnomalar ishlashi uchun .env faylida ADMIN_PASSWORD va TELEGRAM_BOT_TOKEN sozlang.,Для работы уведомлений настройте ADMIN_PASSWORD и TELEGRAM_BOT_TOKEN в файле .env.,"For notifications to work, configure ADMIN_PASSWORD and TELEGRAM_BOT_TOKEN in your .env file.",,
+admin.stats.byRegion,Admin panel,Hududlar bo‘yicha,По регионам,By region,,
+admin.stats.byStatus,Admin panel,Holat bo‘yicha,По статусу,By status,,
+admin.stats.byType,Admin panel,Tur bo‘yicha,По типу,By type,,
+admin.stats.new,Admin panel,Yangi (ko‘rilmagan),Новые (не просмотрены),New (unseen),,
+admin.stats.quotes,Admin panel,RFQ,RFQ,RFQs,ru-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+admin.stats.recent,Admin panel,So‘nggi arizalar,Последние заявки,Recent requests,,
+admin.stats.samples,Admin panel,Test box,Тест-боксы,Sample boxes,,
+admin.stats.today,Admin panel,Bugun,Сегодня,Today,,
+admin.stats.topProducts,Admin panel,Eng ko‘p so‘ralgan mahsulotlar,Самые запрашиваемые продукты,Most requested products,,
+admin.stats.total,Admin panel,Jami arizalar,Всего заявок,Total requests,,
+admin.stats.week,Admin panel,So‘nggi 7 kun,За 7 дней,Last 7 days,,
+admin.stats.won,Admin panel,Yopilgan bitimlar,Закрытые сделки,Closed deals,,
+admin.title,Admin panel,Admin panel,Админ-панель,Admin panel,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+contact.accounts,Aloqa,Buxgalteriya,Бухгалтерия,Accounts,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.address,Aloqa,Manzil,Адрес,Address,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.addressLabel,Aloqa,Manzil,Адрес,Address,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.callBack,Aloqa,Qo‘ng‘iroq so‘rash,Заказать звонок,Request a call back,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.callBackHint,Aloqa,Raqamingizni qoldiring — 30 daqiqa ichida qo‘ng‘iroq qilamiz.,Оставьте номер — перезвоним в течение 30 минут.,Leave your number — we will call within 30 minutes.,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.callUs,Aloqa,Qo‘ng‘iroq qilish,Позвонить,Call us,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.departments,Aloqa,Bo‘limlar,Отделы,Departments,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.email,Aloqa,E-mail,E-mail,E-mail,ru-same-as-uz en-same-as-uz client,Tarjima qilinmagan — ko'rib chiqish shart
+contact.emailLabel,Aloqa,Email,E-mail,Email,en-same-as-uz client,Tarjima qilinmagan — ko'rib chiqish shart
+contact.emailText,Aloqa,"Narx, hujjat va hamkorlik so‘rovlari","Запросы по ценам, документам и сотрудничеству","Price, document and partnership requests",client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.fIndustry,Aloqa,Soha,Отрасль,Industry,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.formText,Aloqa,Ish vaqtida {minutes} daqiqa ichida javob beramiz.,Отвечаем за {minutes} минут в рабочее время.,We reply within {minutes} minutes during business hours.,vars:{minutes} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.formTitle,Aloqa,So‘rov qoldiring,Оставьте заявку,Leave a request,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.headquarters,Aloqa,Bosh ofis (zavod),Головной офис (завод),Head office (plant),client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.headText,Aloqa,So‘rov qoldiring — texnolog ish vaqtida {minutes} daqiqa ichida qo‘ng‘iroq qiladi. Yoki to‘g‘ridan-to‘g‘ri bog‘laning.,Оставьте заявку — технолог перезвонит в течение {minutes} минут в рабочее время. Или свяжитесь напрямую.,Leave a request — the technologist calls within {minutes} minutes during working hours. Or contact us directly.,vars:{minutes} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.hours,Aloqa,Ish vaqti,Часы работы,Working hours,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.hoursLabel,Aloqa,Ish vaqti,Часы работы,Working hours,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.hoursSat,Aloqa,Shanba {from}–{to},Суббота {from}–{to},Saturday {from}–{to},vars:{from}{to} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.hoursValue,Aloqa,"Dushanba–Juma 09:00–18:00, Shanba 10:00–15:00","Пн–Пт 09:00–18:00, Сб 10:00–15:00","Mon–Fri 09:00–18:00, Sat 10:00–15:00",client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.hoursWeek,Aloqa,Du–Ju {from}–{to},Пн–Пт {from}–{to},Mon–Fri {from}–{to},vars:{from}{to} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.hqAddress,Aloqa,"P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA","P.O. Box 18129, Jebel Ali Free Zone, Дубай, ОАЭ","P.O. Box 18129, Jebel Ali Free Zone, Dubai, UAE",client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.hqLabel,Aloqa,Bosh ofis va zavod,Головной офис и завод,Head office and plant,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.hqValue,Aloqa,"P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA · {phone}","P.O. Box 18129, Jebel Ali Free Zone, Дубай, ОАЭ · {phone}","P.O. Box 18129, Jebel Ali Free Zone, Dubai, UAE · {phone}",vars:{phone} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.industry.other,Aloqa,Boshqa,Другое,Other,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.loadMap,Aloqa,Xaritani yuklash,Загрузить карту,Load the map,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.logistics,Aloqa,Logistika,Логистика,Logistics,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.mapConsent,Aloqa,"Xarita Google Maps orqali yuklanadi. Rozilik bildirsangiz, cookie saqlanadi.",Карта загружается через Google Maps. При согласии сохраняются cookie.,The map is loaded from Google Maps. Cookies are stored once you consent.,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.mapHint,Aloqa,Xaritani ochish,Открыть карту,Open map,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.office,Aloqa,Ofis,Офис,Office,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.openMap,Aloqa,Xaritada ochish,Открыть на карте,Open in maps,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.phone,Aloqa,Telefon,Телефон,Phone,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.prefillMessage,Aloqa,Menga {subject} bo‘yicha ma’lumot kerak.,Мне нужна информация по {subject}.,I need information about {subject}.,vars:{subject} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.sales,Aloqa,Savdo bo‘limi,Отдел продаж,Sales,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.salesDept,Aloqa,Sotuv bo‘limi,Отдел продаж,Sales department,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.socialLabel,Aloqa,Telegram · Instagram,Telegram · Instagram,Telegram · Instagram,ru-same-as-uz en-same-as-uz client,Tarjima qilinmagan — ko'rib chiqish shart
+contact.subtitle,Aloqa,"Savol, hamkorlik yoki narx bo‘yicha murojaat qiling. Ishchi vaqtda 30 daqiqa ichida javob beramiz.","Обратитесь по вопросам продукции, сотрудничества или цены. Отвечаем в течение 30 минут в рабочее время.","Contact us about products, partnership or pricing. We reply within 30 minutes during business hours.",client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.tech,Aloqa,Texnik bo‘lim,Технический отдел,Technical,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.telegram,Aloqa,Telegram,Telegram,Telegram,ru-same-as-uz en-same-as-uz client,Tarjima qilinmagan — ko'rib chiqish shart
+contact.telegramHint,Aloqa,Tez javob kerakmi? Telegramda yozing — ish vaqtida bir necha daqiqada javob beramiz.,Нужен быстрый ответ? Напишите в Telegram — ответим за несколько минут в рабочее время.,Need a fast answer? Message us on Telegram — we reply within minutes during business hours.,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.thanks,Aloqa,Rahmat!,Спасибо!,Thank you!,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.thanksText,Aloqa,«{type}» bo‘yicha so‘rovingiz qabul qilindi. Mutaxassis ish vaqtida {minutes} daqiqa ichida bog‘lanadi.,Заявка «{type}» принята. Специалист свяжется в рабочее время в течение {minutes} минут.,Your “{type}” request has been received. A specialist will get in touch within {minutes} minutes during working hours.,vars:{type}{minutes} client,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+contact.title,Aloqa,Biz bilan bog‘laning,Свяжитесь с нами,Get in touch,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.type.partner,Aloqa,Hamkorlik,Сотрудничество,Partnership,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.type.price,Aloqa,Narx so‘rovi,Запрос цены,Price request,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.type.sample,Aloqa,Namuna,Образцы,Samples,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.type.tech,Aloqa,Texnik savol,Технический вопрос,Technical question,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.typeLabel,Aloqa,So‘rov turi,Тип запроса,Request type,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.viewCatalog,Aloqa,Katalogni ko‘rish,Смотреть каталог,Browse the catalogue,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.warehouse,Aloqa,Ombor,Склад,Warehouse,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+contact.writeUs,Aloqa,Bizga yozing,Напишите нам,Write to us,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+home.about.certsImgAlt,Bosh sahifa,Ziravorlar va xomashyo,Специи и сырьё,Spices and raw materials,,
+home.about.certsText,Bosh sahifa,"Har bir partiya bilan: spetsifikatsiya, CoA, TDS, MSDS va Halal sertifikati nusxasi.","С каждой партией: спецификация, CoA, TDS, MSDS и копия сертификата Halal.","With every batch: specification, CoA, TDS, MSDS and a copy of the Halal certificate.",,
+home.about.certsTitle,Bosh sahifa,Sertifikatlar va xalqaro\nstandartlar,Сертификаты и международные\nстандарты,Certificates and international\nstandards,,
+home.about.quote,Bosh sahifa,Ta’m — mahsulotning birinchi taassuroti,Вкус — первое впечатление о продукте,Taste is the first impression of a product,,
+home.about.title,Bosh sahifa,Qisqacha\nbiz haqimizda,Коротко\nо нас,About us\nin short,,
+home.about.video,Bosh sahifa,Ishlab chiqarish haqida video,Видео о производстве,Video about production,,
+home.about.whoText,Bosh sahifa,"GFF Uzbekistan — Gulf Flavours & Fragrances FZCO ning O‘zbekistondagi rasmiy va yagona distributori. Dubaydagi zavod 2002-yildan buyon aromatizator, parfyumeriya kompozitsiyalari va oziq-ovqat ingrediyentlarini ishlab chiqaradi.","GFF Uzbekistan — официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO в Узбекистане. Завод в Дубае с 2002 года производит ароматизаторы, парфюмерные композиции и пищевые ингредиенты.","GFF Uzbekistan is the official and exclusive distributor of Gulf Flavours & Fragrances FZCO in Uzbekistan. Since 2002 the Dubai plant has produced flavours, fragrance compositions and food ingredients.",,
+home.about.whoTitle,Bosh sahifa,Kimmiz?,Кто мы?,Who we are,,
+home.about.whyText,Bosh sahifa,Mahsulot Toshkentdagi omborda — chet eldan buyurtma kutmaysiz. Texnologimiz dozirovka va formani retseptingizga moslab beradi.,Продукция на складе в Ташкенте — не нужно ждать поставки из-за рубежа. Технолог подберёт дозировку и форму под вашу рецептуру.,Stock is in Tashkent — no waiting for overseas supply. Our technologist matches dosage and form to your recipe.,,
+home.about.whyTitle,Bosh sahifa,Nega biz?,Почему мы?,Why us,,
+home.box.chip,Bosh sahifa,Namuna qutisi,Коробка образцов,Sample box,,
+home.box.cta,Bosh sahifa,Namuna qutisini yig‘ish,Собрать коробку образцов,Build your sample box,,
+home.box.imgAlt,Bosh sahifa,Vanil qobiqlari — namunaga oid foto,Стручки ванили — фото образцов,Vanilla pods — sample photography,,
+home.box.problem,Bosh sahifa,Muammo,Проблема,The problem,,
+home.box.problemImgAlt,Bosh sahifa,Vanil qobiqlari — namuna podi,Стручки ванили — подставка для образцов,Vanilla pods on a sample pod,,
+home.box.problemText,Bosh sahifa,"Katalogdan tanlab, to‘g‘ridan-to‘g‘ri partiya olish — xavf. Aromatizator sizning retseptingizda boshqacha ochilishi mumkin.",Покупать партию сразу по каталогу — риск. Ароматизатор может раскрыться в вашей рецептуре иначе.,Ordering a full batch straight from the catalogue is a risk. A flavour can behave differently in your recipe.,,
+home.box.solution,Bosh sahifa,Yechim,Решение,The solution,,
+home.box.solutionText,Bosh sahifa,"Katalogdan {max} tagacha mahsulot tanlang. Namunalarni texnik hujjatlar bilan yig‘ib, O‘zbekiston bo‘ylab bepul yetkazamiz.",Выберите до {max} позиций из каталога. Мы соберём образцы с технической документацией и бесплатно доставим по Узбекистану.,Pick up to {max} products from the catalogue. We assemble the samples with technical documents and deliver free across Uzbekistan.,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.box.tile1Text,Bosh sahifa,har bir mahsulotdan — laboratoriya va sinov partiyasi uchun,каждого продукта — для лаборатории и пробной партии,of each product — enough for lab and trial batches,,
+home.box.tile1Title,Bosh sahifa,25–100 g,25–100 г,25–100 g,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+home.box.tile2Text,Bosh sahifa,"Toshkent bo‘ylab kuryer, viloyatlarga — tashuvchi","курьер по Ташкенту, в регионы — транспортной компанией","courier in Tashkent, carrier to the regions",,
+home.box.tile2Title,Bosh sahifa,{days} ish kuni,{days} рабочих дня,{days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.box.tile3Text,Bosh sahifa,"spetsifikatsiya, tavsiya etilgan dozirovka, sertifikat nusxalari","спецификация, рекомендуемая дозировка, копии сертификатов","specification, recommended dosage, certificate copies",,
+home.box.tile3Title,Bosh sahifa,Hujjatlar,Документы,Documents,,
+home.box.tile4Text,Bosh sahifa,"namuna ham, yetkazish ham — hech qanday majburiyatsiz","и образцы, и доставка — без обязательств",samples and delivery — with no obligation,,
+home.box.tile4Title,Bosh sahifa,Bepul,Бесплатно,Free,,
+home.box.title,Bosh sahifa,Partiyadan oldin\nsinab ko‘ring,Протестируйте\nдо покупки партии,Test it before\nyou buy the batch,,
+home.cat.all,Bosh sahifa,To‘liq katalog — {count} pozitsiya,Весь каталог — {count} позиций,Full catalogue — {count} items,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.cat.aroma,Bosh sahifa,Parfyumeriya va R&D uchun yakka molekulalar,Отдельные молекулы для парфюмерии и R&D,Single molecules for perfumery and R&D,,
+home.cat.commodities,Bosh sahifa,"Ommaviy xarid uchun asoslar: PG, glitserin, vanilin","Базы для оптовых закупок: ПГ, глицерин, ванилин","Bulk bases: PG, glycerine, vanillin",,
+home.cat.flavours,Bosh sahifa,"Nonvoyxona, qandolat, sut mahsulotlari va ichimliklar uchun","Для хлебобулочных изделий, кондитерки, молочки и напитков","For bakery, confectionery, dairy and beverages",,
+home.cat.fragrances,Bosh sahifa,"Nafis parfyumeriya, shaxsiy gigiyena va maishiy kimyo uchun","Для парфюмерии, личной гигиены и бытовой химии","For fine fragrance, personal care and home care",,
+home.cat.imgAlt,Bosh sahifa,{name} kategoriyasi fotosi,Фото категории {name},Photo for the {name} category,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.cat.ingredients,Bosh sahifa,"Konservantlar, quyuqlashtirgichlar, kislotalar, bo‘yoqlar","Консерванты, загустители, кислоты, красители","Preservatives, thickeners, acids, colourants",,
+home.cat.lead,Bosh sahifa,Aromatizatordan xomashyogacha,От ароматизатора до сырья,From flavours to raw materials,,
+home.cat.oils,Bosh sahifa,"Tabiiy, bug‘ bilan distillangan moylar",Натуральные масла паровой дистилляции,"Natural, steam-distilled oils",,
+home.cat.text,Bosh sahifa,"Oltita yo‘nalish, har bir pozitsiya uchun texnik hujjat va tavsiya etilgan dozirovka.","Шесть направлений, техническая документация и рекомендуемая дозировка для каждой позиции.","Six product lines, technical documents and recommended dosage for every item.",,
+home.cat.title,Bosh sahifa,Kategoriyalar,Категории,Categories,,
+home.contact.left,Bosh sahifa,KERAKLI\nTA’MNI,НАЙДЁМ\nНУЖНЫЙ,WE WILL FIND,,
+home.contact.right,Bosh sahifa,BIRGA\nTOPAMIZ,ВКУС\nВМЕСТЕ,THE RIGHT TASTE\nTOGETHER,,
+home.contact.toForm,Bosh sahifa,So‘rov formasiga o‘tish,Перейти к форме заявки,Go to the request form,,
+home.contact.warehouse,Bosh sahifa,Toshkentdagi ombor,Склад в Ташкенте,Warehouse in Tashkent,,
+home.contact.warehouseAlt,Bosh sahifa,"GFF Uzbekistan ombori, Toshkent","Склад GFF Uzbekistan, Ташкент","GFF Uzbekistan warehouse, Tashkent",,
+home.form.company,Bosh sahifa,Kompaniya,Компания,Company,,
+home.form.companyPh,Bosh sahifa,Kompaniya nomi,Название компании,Company name,,
+home.form.message,Bosh sahifa,Qanday mahsulot ishlab chiqarasiz?,Что вы производите?,What do you produce?,,
+home.form.messagePh,Bosh sahifa,"Masalan: vanilli muzqaymoq, 2 t/oy","Например: ванильное мороженое, 2 т/мес","e.g. vanilla ice cream, 2 t/month",,
+home.form.name,Bosh sahifa,Ismingiz,Ваше имя,Your name,,
+home.form.namePh,Bosh sahifa,"Masalan, Aziz","Например, Aziz",e.g. Aziz,,
+home.form.phone,Bosh sahifa,Telefon,Телефон,Phone,,
+home.form.submit,Bosh sahifa,So‘rov yuborish,Отправить заявку,Send request,,
+home.form.text,Bosh sahifa,Texnolog ish vaqtida {minutes} daqiqa ichida qo‘ng‘iroq qiladi.,Технолог перезвонит в течение {minutes} минут в рабочее время.,Our technologist calls back within {minutes} minutes during working hours.,vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.form.title,Bosh sahifa,So‘rov qoldiring,Оставьте заявку,Leave a request,,
+home.hero.chip,Bosh sahifa,Gulf Flavours & Fragrances (Dubay) rasmiy distributori,Официальный дистрибьютор Gulf Flavours & Fragrances (Дубай),Official distributor of Gulf Flavours & Fragrances (Dubai),,
+home.hero.ctaCatalog,Bosh sahifa,Katalog — {count} pozitsiya,Каталог — {count} позиций,Catalogue — {count} items,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.hero.ctaSample,Bosh sahifa,Bepul namuna olish,Получить бесплатный образец,Get a free sample,,
+home.hero.monogramAlt,Bosh sahifa,GFF monogrammasi,Монограмма GFF,GFF monogram,,
+home.hero.since,Bosh sahifa,"2002-yildan beri · Jebel Ali, Dubay","С 2002 года · Джебель-Али, Дубай","Since 2002 · Jebel Ali, Dubai",,
+home.hero.text,Bosh sahifa,"Oziq-ovqat aromatizatorlari, parfyumeriya kompozitsiyalari, ingrediyentlar va xomashyo — Toshkentdagi ombordan. Avval bepul namunani sinab ko‘ring, keyin partiya buyurtma qiling.","Пищевые ароматизаторы, парфюмерные композиции, ингредиенты и сырьё — со склада в Ташкенте. Сначала протестируйте бесплатный образец, затем заказывайте партию.","Food flavours, fragrance compositions, ingredients and raw materials — from our Tashkent warehouse. Try a free sample first, then order the batch.",,
+home.hero.title,Bosh sahifa,Ta’m va ifor —\nishlab chiqarishingiz uchun,Вкус и аромат —\nдля вашего производства,Taste and fragrance —\nbuilt for your production,,
+home.hero.toCatalog,Bosh sahifa,Katalogga o‘tish,Перейти в каталог,Go to catalogue,,
+home.ind.question,Bosh sahifa,Qaysi soha\nuchun ishlaysiz?,Для какой отрасли\nвы работаете?,Which industry\ndo you work in?,,
+home.ind.text,Bosh sahifa,"Har bir soha uchun tavsiya etilgan mahsulotlar, dozirovka va texnik yechimlar.","Рекомендуемые продукты, дозировки и технические решения для каждой отрасли.","Recommended products, dosages and technical solutions for every industry.",,
+home.ind.title,Bosh sahifa,Sohalar,Отрасли,Industries,,
+home.ind.toIndustry,Bosh sahifa,Sohaga o‘tish,Перейти к отрасли,Open industry,,
+home.process.1Text,Bosh sahifa,Katalogdan mahsulot tanlang yoki vazifani yozing. Ikki daqiqa vaqt oladi.,Выберите продукт в каталоге или опишите задачу. Это займёт две минуты.,Pick a product in the catalogue or describe the task. It takes two minutes.,,
+home.process.1Title,Bosh sahifa,So‘rov yuborasiz,Отправляете запрос,You send a request,,
+home.process.2Text,Bosh sahifa,"Ish vaqtida {minutes} daqiqa ichida — dozirovka, forma va qadoqni aniqlaymiz.","В рабочее время в течение {minutes} минут — уточним дозировку, форму и упаковку.","Within {minutes} minutes during working hours — we confirm dosage, form and packaging.",vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.process.2Title,Bosh sahifa,Texnolog qo‘ng‘iroq qiladi,Звонит технолог,The technologist calls,,
+home.process.3Text,Bosh sahifa,"{days} ish kunida, texnik hujjatlar bilan. Retseptingizda sinab ko‘rasiz.","За {days} рабочих дня, с технической документацией. Тестируете в своей рецептуре.","In {days} working days, with technical documents. You test them in your recipe.",vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+home.process.3Title,Bosh sahifa,Namuna yetib keladi,Приходят образцы,Samples arrive,,
+home.process.4Text,Bosh sahifa,"Test ma’qul bo‘lsa — narx, shartnoma va muntazam yetkazib berish.","Если тест успешен — цена, договор и регулярные поставки.","If the test passes — price, contract and regular deliveries.",,
+home.process.4Title,Bosh sahifa,Partiya buyurtma qilasiz,Заказываете партию,You order the batch,,
+home.process.arrowAlt,Bosh sahifa,Keyingi qadam,Следующий шаг,Next step,,
+home.process.cap1,Bosh sahifa,so‘rov,запрос,request,,
+home.process.cap2,Bosh sahifa,partiya,партия,batch,,
+home.process.photoAlt,Bosh sahifa,Rezavorlar — jarayon fotosi,Ягоды — фото процесса,Berries — process photography,,
+home.process.title,Bosh sahifa,So‘rovdan partiyagacha,От запроса до партии,From request to batch,,
+home.stat.directions,Bosh sahifa,mahsulot yo‘nalishi,товарных направлений,product lines,,
+home.stat.positions,Bosh sahifa,pozitsiya omborda,позиций на складе,items in stock,,
+home.stat.samples,Bosh sahifa,tagacha bepul namuna,бесплатных образцов,free samples up to,,
+home.stat.since,Bosh sahifa,yildan beri ishlab chiqaradi,год основания завода,year the plant was founded,,
+hero.badge1,Bosh sahifa · Hero,Halol sertifikati,Сертификат Халяль,Halal certified,,
+hero.badge2,Bosh sahifa · Hero,ISO 22000 / HACCP,ISO 22000 / HACCP,ISO 22000 / HACCP,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+hero.badge3,Bosh sahifa · Hero,Namuna 3 kunda,Образцы за 3 дня,Samples in 3 days,,
+hero.badge4,Bosh sahifa · Hero,GMO‘siz,Без ГМО,GMO-free,,
+hero.ctaCatalog,Bosh sahifa · Hero,Katalogni ko‘rish,Смотреть каталог,Browse the catalogue,,
+hero.ctaSample,Bosh sahifa · Hero,Bepul test box olish,Получить бесплатный тест-бокс,Get a free sample box,,
+hero.eyebrow,Bosh sahifa · Hero,O‘zbekistondagi yagona rasmiy distribyutor,Единственный официальный дистрибьютор в Узбекистане,The sole official distributor in Uzbekistan,,
+hero.scrollHint,Bosh sahifa · Hero,Mahsulotlarni ko‘rish uchun pastga suring,"Листайте вниз, чтобы увидеть продукцию",Scroll down to see our products,,
+hero.subtitle,Bosh sahifa · Hero,"Gulf Flavours & Fragrances (Dubay, Jebel Ali) — 2002-yildan beri oziq-ovqat aromatizatorlari, atir kompozitsiyalari va ingredientlar ishlab chiqaruvchisi. 600 dan ortiq tayyor pozitsiya, halol sertifikati va O‘zbekiston bo‘ylab yetkazib berish.","Gulf Flavours & Fragrances (Дубай, Джебель-Али) — производитель пищевых ароматизаторов, парфюмерных композиций и ингредиентов с 2002 года. Более 600 готовых позиций, сертификат Халяль и доставка по всему Узбекистану.","Gulf Flavours & Fragrances (Jebel Ali, Dubai) has been producing food flavours, fragrance compositions and ingredients since 2002. Over 600 stocked items, Halal certified, delivered across Uzbekistan.",,
+hero.titleA,Bosh sahifa · Hero,Ishlab chiqarishingiz uchun,"Вкусы, ароматы","Flavours, fragrances",,
+hero.titleB,Bosh sahifa · Hero,"ta‘m, hid va ingredientlar",и ингредиенты для вашего производства,and ingredients for your production,,
+hero.trustLine,Bosh sahifa · Hero,"Nonvoyxona, konditer, sut, ichimlik, sous va kosmetika ishlab chiqaruvchilari bilan ishlaymiz","Работаем с производителями хлеба, кондитерских изделий, молочной продукции, напитков, соусов и косметики","We work with bakery, confectionery, dairy, beverage, sauce and cosmetics manufacturers",,
+stats.applications,Bosh sahifa · raqamlar,ishlab chiqarish sohasi,отраслей применения,industry applications,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.delivery,Bosh sahifa · raqamlar,kun ichida namuna yetkazish,дня на доставку образца,days to deliver a sample,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.export,Bosh sahifa · raqamlar,eksport davlatlari,стран экспорта,export countries,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.products,Bosh sahifa · raqamlar,tayyor mahsulot pozitsiyasi,готовых позиций,stocked product lines,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.rawMaterials,Bosh sahifa · raqamlar,xom-ashyo bazasi,видов сырья в базе,raw materials in the base,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.regions,Bosh sahifa · raqamlar,O‘zbekiston hududi qamrovi,регионов Узбекистана,regions of Uzbekistan covered,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.samples,Bosh sahifa · raqamlar,bepul namuna (bir boxda),бесплатных образцов в боксе,free samples per box,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+stats.years,Bosh sahifa · raqamlar,yillik tajriba,лет опыта,years of experience,client,Mijoz tasdiqlashi kerak (raqam/manzil/son)
+brand.legal,Brend,Gulf Flavours & Fragrances FZCO,Gulf Flavours & Fragrances FZCO,Gulf Flavours & Fragrances FZCO,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+brand.name,Brend,GFF O‘zbekiston,GFF Узбекистан,GFF Uzbekistan,,
+brand.role,Brend,O‘zbekistondagi rasmiy va yagona distribyutor,Официальный и единственный дистрибьютор в Узбекистане,Official and sole distributor in Uzbekistan,,
+brand.since,Brend,2002-yildan beri,с 2002 года,since 2002,,
+brand.tagline,Brend,"Ta‘m, hid va ingredientlar — ishlab chiqaruvchilar uchun","Вкусы, ароматы и ингредиенты для производителей","Flavours, fragrances and ingredients for manufacturers",,
+card.addedToBox,card,Qutida,В боксе,In the box,,
+card.addToBox,card,Namunaga qo‘shish,Добавить в образцы,Add to samples,,
+card.details,card,Batafsil,Подробнее,Details,,
+card.dosage,card,Doza,Дозировка,Dosage,,
+card.form,card,Shakli,Форма,Form,,
+card.inStock,card,Omborda,В наличии,In stock,,
+card.new,card,Yangi,Новинка,New,,
+card.onOrder,card,Buyurtma asosida,Под заказ,Made to order,,
+card.quickView,card,Tezkor ko‘rinish,Быстрый просмотр,Quick view,,
+card.requestPrice,card,Narx so‘rash,Запросить цену,Request price,,
+card.sku,card,Artikul,Артикул,SKU,,
+card.top,card,Xit,Хит,Best-seller,,
+certs.alcoholFree,certs,Spirtsiz,Без спирта,Alcohol-free,,
+certs.eac,certs,EAC (YEOII),EAC (ЕАЭС),EAC (EAEU),,
+certs.eyebrow,certs,Muvofiqlik,Соответствие,Compliance,,
+certs.haccp,certs,HACCP,HACCP,HACCP,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+certs.halal,certs,Halol,Халяль,Halal,,
+certs.iso,certs,ISO 22000,ISO 22000,ISO 22000,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+certs.nonGmo,certs,GMO‘siz,Без ГМО,GMO-free,,
+certs.racs,certs,RACS,RACS,RACS,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+certs.sgs,certs,SGS auditi,Аудит SGS,SGS audit,,
+certs.subtitle,certs,Barcha mahsulotlar xalqaro va mahalliy me‘yoriy talablarga muvofiq.,Вся продукция соответствует международным и местным нормам.,All products comply with international and local regulations.,,
+certs.title,certs,Sertifikatlar va standartlar,Сертификаты и стандарты,Certificates and standards,,
+cookie.accept,Cookie banneri,Qabul qilish,Принять,Accept,,
+cookie.body,Cookie banneri,Sayt ishlashi uchun zarur cookie’lardan foydalanamiz. Analitika cookie’lari faqat roziligingiz bilan yoqiladi.,Мы используем необходимые cookie для работы сайта. Аналитические cookie включаются только с вашего согласия.,We use essential cookies for the site to work. Analytics cookies are enabled only with your consent.,,
+cookie.decline,Cookie banneri,Faqat zaruriylar,Только необходимые,Essential only,,
+cookie.more,Cookie banneri,Batafsil,Подробнее,Learn more,,
+cookie.settings,Cookie banneri,Sozlamalar,Настройки,Settings,,
+cookie.text,Cookie banneri,Sayt ishlashi va statistika uchun cookie fayllardan foydalanamiz.,Мы используем cookie для работы сайта и сбора статистики.,We use cookies for the site to work and to collect statistics.,,
+cookie.title,Cookie banneri,Cookie,Cookie,Cookies,ru-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+cta.button,CTA bloklari,Ariza qoldirish,Оставить заявку,Send an enquiry,,
+cta.fast,CTA bloklari,Ishchi vaqtda 30 daqiqada javob,Ответ за 30 минут в рабочее время,Response within 30 minutes in business hours,,
+cta.orCall,CTA bloklari,yoki qo‘ng‘iroq qiling,или позвоните,or call us,,
+cta.subtitle,CTA bloklari,Ariza qoldiring — ishchi vaqtda 30 daqiqa ichida texnologimiz bog‘lanadi va bepul namuna yuboramiz.,Оставьте заявку — технолог свяжется в течение 30 минут в рабочее время и отправит бесплатные образцы.,Leave an enquiry — a technologist will call you within 30 minutes during business hours and send free samples.,,
+cta.title,CTA bloklari,Mahsulotingiz uchun to‘g‘ri ta‘mni topamiz,Подберём правильный вкус для вашего продукта,We will find the right flavour for your product,,
+err.companyLong,err,Kompaniya nomi juda uzun (maksimal 120 belgi),Название слишком длинное (максимум 120 символов),Company name is too long (max 120 characters),,
+err.companyShort,err,Kompaniya nomini to‘liq yozing (kamida 2 belgi),Укажите полное название компании (минимум 2 символа),Enter the full company name (min 2 characters),,
+err.consent,err,Davom etish uchun rozilik bering,Для продолжения дайте согласие,Please give consent to continue,,
+err.duplicate,err,Bunday ariza yaqinda yuborilgan. Menejerimiz tez orada bog‘lanadi.,Такая заявка уже была отправлена недавно. Менеджер скоро свяжется.,A similar request was sent recently. Our manager will contact you shortly.,,
+err.email,err,E-mail manzili noto‘g‘ri,Некорректный e-mail,Invalid e-mail address,,
+err.inn,err,STIR 9 ta raqamdan iborat bo‘lishi kerak,ИНН должен содержать 9 цифр,Tax ID must contain 9 digits,,
+err.invalid,err,Kiritilgan qiymat noto‘g‘ri,Некорректное значение,Invalid value,,
+err.message,err,Xabar kamida 10 ta belgidan iborat bo‘lsin,Сообщение должно содержать минимум 10 символов,Message must be at least 10 characters,,
+err.messageLong,err,Xabar juda uzun (maksimal 2000 belgi),Сообщение слишком длинное (максимум 2000 символов),Message is too long (max 2000 characters),,
+err.nameLong,err,Ism juda uzun (maksimal 80 belgi),Имя слишком длинное (максимум 80 символов),Name is too long (max 80 characters),,
+err.nameShort,err,Ism kamida 2 ta belgidan iborat bo‘lsin,Имя должно содержать минимум 2 символа,Name must be at least 2 characters,,
+err.network,err,Tarmoq bilan bog‘lanishda xatolik. Internet aloqasini tekshiring.,Ошибка соединения. Проверьте интернет.,Connection error. Check your internet connection.,,
+err.phone,err,Telefon raqamini to‘g‘ri kiriting: +998 XX XXX XX XX,Укажите телефон в формате +998 XX XXX XX XX,Enter the phone number as +998 XX XXX XX XX,,
+err.phoneShort,err,Raqam to‘liq emas,Номер неполный,The number is incomplete,,
+err.products,err,Kamida bitta mahsulot tanlang,Выберите хотя бы один продукт,Select at least one product,,
+err.productsMax,err,Eng ko‘pi {max} ta mahsulot tanlash mumkin,Можно выбрать не более {max} продуктов,You can select up to {max} products,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+err.rateLimit,err,"Juda ko‘p so‘rov yuborildi. Iltimos, {minutes} daqiqadan so‘ng qayta urinib ko‘ring.",Слишком много запросов. Повторите через {minutes} минут.,Too many requests. Please try again in {minutes} minutes.,vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+err.region,err,Hududni tanlang,Выберите регион,Select a region,,
+err.required,err,Bu maydonni to‘ldiring,Заполните это поле,This field is required,,
+err.server,err,Server xatosi. Birozdan so‘ng qayta urinib ko‘ring yoki bizga qo‘ng‘iroq qiling.,Ошибка сервера. Повторите позже или позвоните нам.,Server error. Try again later or call us.,,
+err.spam,err,So‘rov yuborib bo‘lmadi. Sahifani yangilab qayta urinib ko‘ring.,Не удалось отправить запрос. Обновите страницу и попробуйте снова.,Could not send the request. Refresh the page and try again.,,
+err.tooLong,err,Qiymat juda uzun,Слишком длинное значение,Value is too long,,
+err.unknown,err,"Noma‘lum xatolik. Iltimos, qayta urinib ko‘ring.",Неизвестная ошибка. Попробуйте ещё раз.,Unknown error. Please try again.,,
+error.reset,error,Sahifani yangilash,Обновить страницу,Refresh page,,
+error.support,error,Texnik yordam kodi,Код техподдержки,Support code,,
+error.text,error,Xatolik yuz berdi. Sahifani yangilab ko‘ring yoki biz bilan bog‘laning.,Произошла ошибка. Обновите страницу или свяжитесь с нами.,Something went wrong. Refresh the page or contact us.,,
+error.title,error,Kutilmagan xatolik,Непредвиденная ошибка,Unexpected error,,
+faq.a1,FAQ,"Ha. Test box tarkibi va O‘zbekiston bo‘ylab yetkazib berish mutlaqo bepul. Hech qanday majburiyat yo‘q — sinab ko‘rasiz, ma‘qul bo‘lsa keyin buyurtma berasiz.","Да. Содержимое тест-бокса и доставка по Узбекистану полностью бесплатны. Никаких обязательств — пробуете, и только потом заказываете.","Yes. The sample box contents and delivery across Uzbekistan are completely free, with no obligation — you test first and order afterwards.",,
+faq.a2,FAQ,Aromatizatorlar bo‘yicha minimal hajm — {min} kg. Baza xom-ashyosi va komoditi pozitsiyalari uchun hajm 25 kg dan boshlanadi. Kichik seriyali ishlab chiqarish uchun 1 kg qadoq ham mavjud.,Минимальный объём по ароматизаторам — {min} кг. Для базового сырья и товарных позиций — от 25 кг. Для малосерийного производства есть фасовка 1 кг.,The minimum for flavours is {min} kg. Bulk raw materials and commodities start at 25 kg. A 1 kg pack is available for small-batch production.,vars:{min},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+faq.a3,FAQ,"Toshkent shahrida — 1 ish kuni, hududlarda — 2–4 ish kuni. Omborda bo‘lmagan pozitsiyalar Dubay zavodidan 10–20 kunda keltiriladi.","По Ташкенту — 1 рабочий день, в регионы — 2–4 рабочих дня. Позиции не со склада привозим с завода в Дубае за 10–20 дней.","One working day inside Tashkent, 2–4 working days to the regions. Items not in local stock are shipped from the Dubai plant in 10–20 days.",,
+faq.a4,FAQ,"Ha: muvofiqlik deklaratsiyasi, tahlil sertifikati (CoA), texnik ma‘lumot (TDS), xavfsizlik varaqasi (MSDS), halol va ISO sertifikatlari. Eksport operatsiyalari uchun kelib chiqish sertifikati ham rasmiylashtiriladi.","Да: декларация о соответствии, сертификат анализа (CoA), техническая спецификация (TDS), паспорт безопасности (MSDS), сертификаты Халяль и ISO. Для экспортных операций оформляем сертификат происхождения.","Yes: declaration of conformity, certificate of analysis (CoA), technical data sheet (TDS), material safety data sheet (MSDS), Halal and ISO certificates. Certificates of origin are issued for export operations.",,
+faq.a5,FAQ,Ha. GFF 4000 dan ortiq xom-ashyodan foydalanadi va mijoz talabi bo‘yicha noyob kompozitsiya ishlab chiqadi. Buning uchun mahsulotingiz namunasi va ta‘rifini yuboring — texnologlar bog‘lanadi.,Да. GFF использует более 4000 видов сырья и разрабатывает уникальные композиции под требования клиента. Пришлите образец продукта и описание вкуса — технологи свяжутся с вами.,"Yes. GFF works with more than 4,000 raw materials and develops unique compositions to client requirements. Send a product sample and a flavour brief and our technologists will get in touch.",,
+faq.a6,FAQ,Yuridik shaxslar uchun bank o‘tkazmasi (hisob-faktura asosida). Doimiy mijozlar uchun shartnoma bo‘yicha kechiktirilgan to‘lov mumkin. 100 kg dan yuqori hajmlarda chegirma beriladi.,Для юридических лиц — безналичный расчёт по счёту. Для постоянных клиентов возможна отсрочка платежа по договору. При объёмах свыше 100 кг действует система скидок.,Bank transfer against invoice for legal entities. Deferred payment by contract for regular clients. Volume discounts apply above 100 kg.,,
+faq.a7,FAQ,Oziq-ovqat aromatizatorlarining aksariyati halol sertifikatiga ega va spirtsiz asosda ishlab chiqariladi. Aniq pozitsiya bo‘yicha sertifikatni so‘rovda yuboramiz.,Большинство пищевых ароматизаторов имеет сертификат Халяль и производится на безспиртовой основе. Сертификат по конкретной позиции отправим по запросу.,Most food flavours are Halal certified and produced on an alcohol-free base. We will send the certificate for a specific line on request.,,
+faq.eyebrow,FAQ,Savol-javob,Вопрос-ответ,FAQ,,
+faq.more,FAQ,Boshqa savolingiz bormi?,Остались вопросы?,Have another question?,,
+faq.q1,FAQ,Namunalar haqiqatan ham bepulmi?,Образцы действительно бесплатные?,Are the samples really free?,,
+faq.q2,FAQ,Minimal buyurtma hajmi qancha?,Какой минимальный объём заказа?,What is the minimum order quantity?,,
+faq.q3,FAQ,Yetkazib berish qancha vaqt oladi?,Сколько занимает доставка?,How long does delivery take?,,
+faq.q4,FAQ,Hujjatlar beriladimi?,Предоставляете документы?,Do you provide documentation?,,
+faq.q5,FAQ,Individual ta‘m yaratish mumkinmi?,Можно создать индивидуальный вкус?,Can you create a bespoke flavour?,,
+faq.q6,FAQ,To‘lov shartlari qanday?,Какие условия оплаты?,What are the payment terms?,,
+faq.q7,FAQ,Mahsulotlar halolmi?,Продукция халяльная?,Are the products Halal?,,
+faq.title,FAQ,Ko‘p beriladigan savollar,Частые вопросы,Frequently asked questions,,
+footer.about,Footer,Kompaniya haqida,О компании,About,,
+footer.aboutText,Footer,"GFF O‘zbekiston — Gulf Flavours & Fragrances FZCO (Dubay) kompaniyasining O‘zbekistondagi rasmiy va yagona distribyutori. Oziq-ovqat aromatizatorlari, atir kompozitsiyalari, ingredientlar va baza xom-ashyosi.","GFF Узбекистан — официальный и единственный дистрибьютор Gulf Flavours & Fragrances FZCO (Дубай). Пищевые ароматизаторы, парфюмерные композиции, ингредиенты и базовое сырьё.","GFF Uzbekistan is the official and sole distributor of Gulf Flavours & Fragrances FZCO (Dubai). Food flavours, fragrance compositions, ingredients and bulk raw materials.",,
+footer.catalog,Footer,Katalog,Каталог,Catalogue,,
+footer.catalogPdf,Footer,PDF katalog,Каталог PDF,PDF catalogue,,
+footer.colCatalog,Footer,Katalog,Каталог,Catalogue,,
+footer.colCompany,Footer,Kompaniya,Компания,Company,,
+footer.colContact,Footer,Aloqa,Контакты,Contact,,
+footer.company,Footer,Kompaniya,Компания,Company,,
+footer.contacts,Footer,Aloqa,Контакты,Contacts,,
+footer.disclaimer,Footer,Saytdagi ma‘lumotlar tanishuv xarakteriga ega va ommaviy oferta hisoblanmaydi. Narx va mavjudlikni menejer tasdiqlaydi.,Информация на сайте носит ознакомительный характер и не является публичной офертой. Цену и наличие подтверждает менеджер.,Information on this site is for reference only and does not constitute a public offer. Price and availability are confirmed by a manager.,,
+footer.distributor,Footer,Rasmiy distribyutor,Официальный дистрибьютор,Official distributor,,
+footer.hqLine,Footer,"Bosh ofis: P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA","Головной офис: P.O. Box 18129, Jebel Ali Free Zone, Дубай, ОАЭ","Head office: P.O. Box 18129, Jebel Ali Free Zone, Dubai, UAE",,
+footer.pdfCatalog,Footer,PDF katalog,PDF-каталог,PDF catalogue,,
+footer.privacy,Footer,Maxfiylik siyosati,Политика конфиденциальности,Privacy policy,,
+footer.rights,Footer,Barcha huquqlar himoyalangan.,Все права защищены.,All rights reserved.,,
+footer.rightsLine,Footer,© {year} GFF Uzbekistan,© {year} GFF Uzbekistan,© {year} GFF Uzbekistan,ru-same-as-uz en-same-as-uz vars:{year},Tarjima qilinmagan — ko'rib chiqish shart
+footer.samples,Footer,Bepul namunalar,Бесплатные образцы,Free samples,,
+footer.subscribe,Footer,Yangiliklardan xabardor bo‘ling,Будьте в курсе новинок,Stay up to date,,
+footer.subscribeText,Footer,Yangi mahsulotlar va aksiyalar haqida oyiga bir marta xabar yuboramiz.,Раз в месяц присылаем информацию о новых продуктах и акциях.,Once a month we send news about new products and promotions.,,
+footer.tagline,Footer,Gulf Flavours & Fragrances FZCO (Dubay) ning O‘zbekistondagi rasmiy va yagona distributori.,Официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO (Дубай) в Узбекистане.,Official and exclusive distributor of Gulf Flavours & Fragrances FZCO (Dubai) in Uzbekistan.,,
+footer.terms,Footer,Foydalanish shartlari,Условия использования,Terms of use,,
+footer.toTop,Footer,Yuqoriga,Наверх,Back to top,,
+footer.useful,Footer,Foydali,Полезное,Useful,,
+form.address,Formalar,Yetkazib berish manzili,Адрес доставки,Delivery address,,
+form.addressPh,Formalar,"Ko‘cha, uy, mo‘ljal","Улица, дом, ориентир","Street, building, landmark",,
+form.another,Formalar,Yana bir ariza yuborish,Отправить ещё одну заявку,Send another request,,
+form.budget,Formalar,Byudjet,Бюджет,Budget,,
+form.businessType,Formalar,Biznes turi,Тип бизнеса,Business type,,
+form.businessTypePh,Formalar,Tanlang,Выберите,Select,,
+form.city,Formalar,Shahar / tuman,Город / район,City / district,,
+form.cityPh,Formalar,Chilonzor tumani,Чиланзарский район,Chilonzor district,,
+form.company,Formalar,Kompaniya nomi,Название компании,Company name,,
+form.companyPh,Formalar,Masalan: «Osiyo Non» MChJ,Например: ООО «Азия Нон»,e.g. “Osiyo Non” LLC,,
+form.consent,Formalar,Shaxsiy ma‘lumotlarimni qayta ishlashga roziman,Согласен на обработку персональных данных,I consent to the processing of my personal data,legal,Yurist tasdiqlashi kerak (§15)
+form.consentLink,Formalar,Maxfiylik siyosati,Политика конфиденциальности,Privacy policy,legal,Yurist tasdiqlashi kerak (§15)
+form.consentShort,Formalar,Shaxsiy ma’lumotlarim so‘rovni ko‘rib chiqish uchun ishlatilishiga roziman.,Согласен(на) на обработку персональных данных для рассмотрения заявки.,I agree that my personal data may be processed to review this request.,legal,Yurist tasdiqlashi kerak (§15)
+form.consentText,Formalar,Men «{link}» bilan tanishdim va shaxsiy ma‘lumotlarimni qayta ishlashga rozilik beraman.,Я ознакомлен(а) с «{link}» и даю согласие на обработку персональных данных.,I have read the “{link}” and consent to the processing of my personal data.,vars:{link} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+form.deadline,Formalar,Kerakli sana,Нужная дата,Required by,,
+form.duplicate,Formalar,"Bu ariza allaqachon yuborilgan. Agar javob olmasangiz, bizga qo‘ng‘iroq qiling.",Эта заявка уже отправлена. Если ответа нет — позвоните нам.,"This request has already been sent. If you get no reply, please call us.",,
+form.email,Formalar,E-mail,E-mail,E-mail,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+form.emailPh,Formalar,siz@kompaniya.uz,vy@kompaniya.uz,you@company.uz,,
+form.employees,Formalar,Xodimlar soni,Число сотрудников,Number of employees,,
+form.errCompany,Formalar,Kompaniya nomini kiriting,Введите название компании,Enter your company name,,
+form.errConsent,Formalar,Davom etish uchun rozilik bering,Для продолжения дайте согласие,Please give consent to continue,,
+form.errName,Formalar,Ismni kiriting,Введите имя,Enter your name,,
+form.errPhone,Formalar,Telefon raqamini to‘g‘ri kiriting: +998 XX XXX XX XX,Введите корректный номер: +998 XX XXX XX XX,Enter a valid phone number: +998 XX XXX XX XX,,
+form.errServer,Formalar,Ariza yuborilmadi. Bir ozdan so‘ng urinib ko‘ring yoki bizga qo‘ng‘iroq qiling.,Заявка не отправлена. Попробуйте позже или позвоните нам.,The request was not sent. Try again later or call us.,,
+form.fileAttach,Formalar,"Fayl biriktirish (retseptura, texnik topshiriq)","Прикрепить файл (рецептура, ТЗ)","Attach a file (recipe, specification)",,
+form.fileHint,Formalar,"PDF, DOCX, JPG — 5 MB gacha","PDF, DOCX, JPG — до 5 МБ","PDF, DOCX, JPG — up to 5 MB",,
+form.frequency,Formalar,Buyurtma chastotasi,Частота заказов,Order frequency,,
+form.frequency.monthly,Formalar,Oyiga bir marta,Раз в месяц,Monthly,,
+form.frequency.once,Formalar,Bir martalik,Разовая закупка,One-off,,
+form.frequency.quarterly,Formalar,Chorakda bir marta,Раз в квартал,Quarterly,,
+form.frequency.regular,Formalar,Muntazam (shartnoma),Регулярно (контракт),Regular (contract),,
+form.fullName,Formalar,Ism va familiya,Имя и фамилия,Full name,,
+form.fullNamePh,Formalar,Aziz Karimov,Азиз Каримов,Aziz Karimov,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+form.inn,Formalar,STIR / INN,ИНН / СТИР,Tax ID (INN/STIR),,
+form.innPh,Formalar,9 ta raqam,9 цифр,9 digits,,
+form.interest,Formalar,Nima qiziqtiradi?,Что вас интересует?,What interests you?,,
+form.interest.chemicals,Formalar,Aroma kimyoviy moddalari,Аромахимикаты,Aroma chemicals,,
+form.interest.commodities,Formalar,Baza xom-ashyosi,Базовое сырьё,Bulk raw materials,,
+form.interest.custom,Formalar,Individual retseptura,Индивидуальная рецептура,Bespoke formulation,,
+form.interest.flavours,Formalar,Oziq-ovqat aromatizatorlari,Пищевые ароматизаторы,Food flavours,,
+form.interest.fragrances,Formalar,Atir kompozitsiyalari,Парфюмерные композиции,Fragrance compositions,,
+form.interest.ingredients,Formalar,Oziq-ovqat qo‘shimchalari,Пищевые добавки,Food additives,,
+form.interest.oils,Formalar,Efir moylari,Эфирные масла,Essential oils,,
+form.message,Formalar,Xabar,Сообщение,Message,,
+form.messagePh,Formalar,"Mahsulot, talab, muddat haqida yozing…","Расскажите о продукте, требованиях и сроках…","Tell us about the product, requirements and timing…",,
+form.optional,Formalar,Ixtiyoriy,Необязательно,Optional,,
+form.phone,Formalar,Telefon,Телефон,Phone,,
+form.phonePh,Formalar,+998 90 123 45 67,+998 90 123 45 67,+998 90 123 45 67,,
+form.position,Formalar,Lavozim,Должность,Position,,
+form.positionPh,Formalar,"Texnolog, xarid bo‘limi boshlig‘i…","Технолог, руководитель отдела закупок…","Technologist, head of procurement…",,
+form.preferredContact,Formalar,Qulay aloqa usuli,Удобный способ связи,Preferred contact method,,
+form.preferredContact.email,Formalar,E-mail,E-mail,E-mail,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+form.preferredContact.phone,Formalar,Telefon qo‘ng‘irog‘i,Телефонный звонок,Phone call,,
+form.preferredContact.telegram,Formalar,Telegram,Telegram,Telegram,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+form.products,Formalar,Qaysi mahsulotlar qiziqtiradi?,Какие продукты интересуют?,Which products are you interested in?,,
+form.productsPh,Formalar,"Masalan: vanil, qulupnay, pektin…","Например: ваниль, клубника, пектин…","e.g. vanilla, strawberry, pectin…",,
+form.region,Formalar,Hudud,Регион,Region,,
+form.regionPh,Formalar,Viloyatni tanlang,Выберите область,Select a region,,
+form.required,Formalar,Majburiy maydon,Обязательно,Required,,
+form.secureNote,Formalar,Ma‘lumotlaringiz uchinchi shaxslarga berilmaydi.,Ваши данные не передаются третьим лицам.,Your data is never shared with third parties.,,
+form.step,Formalar,{current} / {total} qadam,Шаг {current} из {total},Step {current} of {total},vars:{current}{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+form.submit,Formalar,Ariza yuborish,Отправить заявку,Send enquiry,,
+form.submitCallback,Formalar,Qo‘ng‘iroq so‘rash,Заказать звонок,Request a call back,,
+form.submitCatalog,Formalar,Katalogni yuborish,Получить каталог,Send me the catalogue,,
+form.submitQuote,Formalar,Narx so‘rash,Запросить цену,Request a quote,,
+form.submitSample,Formalar,Test box so‘rash,Запросить тест-бокс,Request sample box,,
+form.successText,Formalar,Ariza raqami: {ref}. Ishchi vaqtda 30 daqiqa ichida siz bilan bog‘lanamiz.,Номер заявки: {ref}. Свяжемся в течение 30 минут в рабочее время.,Reference: {ref}. We will contact you within 30 minutes during business hours.,vars:{ref},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+form.successTextCallback,Formalar,Raqamingiz qabul qilindi. Ishchi vaqtda 30 daqiqa ichida qo‘ng‘iroq qilamiz.,Номер принят. Перезвоним в течение 30 минут в рабочее время.,Number received. We will call you within 30 minutes during business hours.,,
+form.successTitle,Formalar,Rahmat! Arizangiz qabul qilindi,Спасибо! Заявка принята,Thank you! Your request has been received,,
+form.telegram,Formalar,Telegram (ixtiyoriy),Telegram (необязательно),Telegram (optional),,
+form.telegramPh,Formalar,@username,@username,@username,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+form.volume,Formalar,Taxminiy oylik hajm,Примерный месячный объём,Estimated monthly volume,,
+form.volumeOptions.1,Formalar,10 kg gacha (sinov),До 10 кг (проба),Up to 10 kg (trial),,
+form.volumeOptions.2,Formalar,10–50 kg/oy,10–50 кг/мес,10–50 kg/month,,
+form.volumeOptions.3,Formalar,50–200 kg/oy,50–200 кг/мес,50–200 kg/month,,
+form.volumeOptions.4,Formalar,200–1000 kg/oy,200–1000 кг/мес,200–1000 kg/month,,
+form.volumeOptions.5,Formalar,1000 kg dan yuqori,Более 1000 кг,Over 1000 kg,,
+form.volumePh,Formalar,Masalan: 50 kg/oy,Например: 50 кг/мес,e.g. 50 kg/month,,
+form.website,Formalar,Veb-sayt,Веб-сайт,Website,,
+header.boxAria,Header,Namuna qutisi: {count} ta,Коробка образцов: {count},Sample box: {count},vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+header.closeMenu,Header,Menyuni yopish,Закрыть меню,Close menu,,
+header.freeSample,Header,Bepul namuna,Бесплатные образцы,Free samples,,
+header.langLabel,Header,Til,Язык,Language,,
+header.logoAlt,Header,GFF Uzbekistan — bosh sahifa,GFF Uzbekistan — главная,GFF Uzbekistan — home,,
+header.logoSub,Header,UZBEKISTAN,UZBEKISTAN,UZBEKISTAN,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+header.logoWord,Header,GULF FLAVOURS & FRAGRANCES,GULF FLAVOURS & FRAGRANCES,GULF FLAVOURS & FRAGRANCES,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+header.openMenu,Header,Menyuni ochish,Открыть меню,Open menu,,
+legal.backToSite,Huquqiy,Saytga qaytish,Вернуться на сайт,Back to site,legal,Yurist tasdiqlashi kerak (§15)
+legal.privacyTitle,Huquqiy,Maxfiylik siyosati,Политика конфиденциальности,Privacy policy,legal,Yurist tasdiqlashi kerak (§15)
+legal.privacyUpdated,Huquqiy,Oxirgi yangilanish: {date},Последнее обновление: {date},Last updated: {date},vars:{date} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+legal.termsTitle,Huquqiy,Foydalanish shartlari,Условия использования,Terms of use,legal,Yurist tasdiqlashi kerak (§15)
+catalog.activeCount,Katalog,{count} ta filtr,{count} фильтров,{count} filters,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.activeFilters,Katalog,Faol filtrlar,Активные фильтры,Active filters,,
+catalog.addedSample,Katalog,Qo‘shildi,Добавлено,Added,,
+catalog.addSample,Katalog,+ Namunaga,+ В образцы,+ Add sample,,
+catalog.apply,Katalog,Qo‘llash,Применить,Apply,,
+catalog.askTech,Katalog,Texnologdan so‘rash,Спросить технолога,Ask the technologist,,
+catalog.categoriesTitle,Katalog,Kategoriya bo‘yicha,По категориям,By category,,
+catalog.clearSelection,Katalog,Tanlovni tozalash,Очистить выбор,Clear selection,,
+catalog.col.dose,Katalog,Dozirovka,Дозировка,Dosage,,
+catalog.col.form,Katalog,Shakli,Форма,Form,,
+catalog.col.group,Katalog,Guruh,Группа,Group,,
+catalog.col.product,Katalog,Mahsulot,Продукт,Product,,
+catalog.col.sample,Katalog,Namuna,Образец,Sample,,
+catalog.col.stock,Katalog,Holati,Наличие,Status,,
+catalog.compare,Katalog,Solishtirish,Сравнить,Compare,,
+catalog.didYouMean,Katalog,Balki shuni nazarda tutdingizmi:,"Возможно, вы имели в виду:",Did you mean:,,
+catalog.doseMax,Katalog,Maksimal doza,Максимальная дозировка,Maximum dosage,,
+catalog.doseMaxHint,Katalog,Faqat tavsiya etilgan dozasi {value}% dan oshmaydigan mahsulotlar,Показывать продукты с рекомендуемой дозировкой не выше {value}%,Show products with a recommended dosage up to {value}%,vars:{value},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.empty.cta,Katalog,Narx so‘rash,Запросить цену,Request price,,
+catalog.empty.text,Katalog,"PG, glitserin, vanilin va boshqa asoslar bo‘yicha narx va mavjud hajmni menejer aniqlab beradi.","Цену и доступный объём по ПГ, глицерину, ванилину и другим базам уточнит менеджер.","Your manager will confirm price and available volume for PG, glycerine, vanillin and other bases.",,
+catalog.empty.title,Katalog,Xomashyo — ommaviy xarid uchun,Сырьё — для оптовых закупок,Commodities — for bulk purchase,,
+catalog.emptyHint,Katalog,Boshqa kategoriya yoki filtrlarni tanlang.,Выберите другую категорию или сбросьте фильтры.,Choose another category or reset the filters.,,
+catalog.facet.application,Katalog,Qo‘llanilishi,Применение,Application,,
+catalog.facet.availability,Katalog,Holati,Наличие,Availability,,
+catalog.facet.feature,Katalog,Xususiyat,Свойство,Feature,,
+catalog.facet.form,Katalog,Shakli,Форма,Form,,
+catalog.facet.group,Katalog,Guruh,Группа,Group,,
+catalog.filters,Katalog,Filtrlar,Фильтры,Filters,,
+catalog.filtersApply,Katalog,{count} ta natijani ko‘rsatish,Показать {count},Show {count} results,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.filtersBtn,Katalog,Filtrlar,Фильтры,Filters,,
+catalog.filtersClose,Katalog,Filtrlarni yopish,Закрыть фильтры,Close filters,,
+catalog.groupsTitle,Katalog,Ta‘m guruhlari,Группы вкусов,Flavour groups,,
+catalog.head.text,Katalog,"Aromatizatorlar, parfyumeriya kompozitsiyalari, ingrediyentlar va xomashyo. Har bir pozitsiya Toshkentdagi omborda, texnik hujjatlari bilan.","Ароматизаторы, парфюмерные композиции, ингредиенты и сырьё. Каждая позиция на складе в Ташкенте, с технической документацией.","Flavours, fragrance compositions, ingredients and raw materials. Every item is stocked in Tashkent with its technical documents.",,
+catalog.help.cta,Katalog,Texnologga yozish,Написать технологу,Write to the technologist,,
+catalog.help.text,Katalog,Vazifani yozing — texnolog {raw}+ xomashyo bazasidan mos yechimni topadi yoki maxsus formula taklif qiladi.,Опишите задачу — технолог подберёт решение из базы на {raw}+ видов сырья или предложит индивидуальную формулу.,Describe the task — our technologist will find a match in a {raw}+ raw-material base or propose a custom formula.,vars:{raw},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.help.title,Katalog,Kerakli ta’mni topa olmadingizmi?,Не нашли нужный вкус?,Could not find the right flavour?,,
+catalog.hideFilters,Katalog,Filtrlarni yashirish,Скрыть фильтры,Hide filters,,
+catalog.loadMore,Katalog,Yana ko‘rsatish,Показать ещё,Show more,,
+catalog.newArrivals,Katalog,Yangi mahsulotlar,Новинки,New arrivals,,
+catalog.noResults,Katalog,Bu filtrlar bo‘yicha mahsulot topilmadi,По этим фильтрам продукты не найдены,No products match these filters,,
+catalog.noResults.text,Katalog,Filtrlarni kamaytiring yoki boshqa so‘z bilan qidiring.,Сократите фильтры или попробуйте другой запрос.,Remove some filters or try a different query.,,
+catalog.noResults.title,Katalog,Hech narsa topilmadi,Ничего не найдено,Nothing found,,
+catalog.noResultsCta,Katalog,Individual ta‘m so‘rash,Запросить индивидуальный вкус,Request a bespoke flavour,,
+catalog.noResultsHint,Katalog,"Filtrlarning bir qismini olib tashlab ko‘ring yoki qidiruvni boshqacha yozing. Kerakli ta‘m ro‘yxatda bo‘lmasa ham, biz uni yaratishimiz mumkin.",Попробуйте снять часть фильтров или изменить запрос. Если нужного вкуса нет в списке — мы можем его разработать.,"Try removing some filters or rephrasing your search. If the flavour you need is not listed, we can develop it.",,
+catalog.onlyNew,Katalog,Faqat yangilari,Только новинки,New arrivals only,,
+catalog.onlyTop,Katalog,Faqat xitlar,Только хиты,Best-sellers only,,
+catalog.openProduct,Katalog,Mahsulot sahifasini ochish,Открыть страницу товара,Open the product page,,
+catalog.pageOf,Katalog,{page} / {total} sahifa,Страница {page} из {total},Page {page} of {total},vars:{page}{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.pagination,Katalog,Sahifalar,Страницы,Pages,,
+catalog.pdf,Katalog,PDF katalog,PDF-каталог,PDF catalogue,,
+catalog.pdfUnavailable,Katalog,PDF katalog tayyorlanmoqda,PDF-каталог готовится,PDF catalogue in preparation,,
+catalog.popular,Katalog,Xit savdo,Хиты продаж,Best-sellers,,
+catalog.positionsShort,Katalog,{count} pozitsiya,{count} позиций,{count} items,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.quickLinks,Katalog,Tezkor tanlovlar,Быстрый выбор,Quick picks,,
+catalog.rangeOf,Katalog,{from}–{to} / {total},{from}–{to} из {total},{from}–{to} of {total},vars:{from}{to}{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.removeSample,Katalog,Olib tashlash,Убрать,Remove,,
+catalog.reset,Katalog,Tozalash,Сбросить,Reset,,
+catalog.resetAll,Katalog,Hammasini tozalash,Сбросить всё,Reset all,,
+catalog.resultLine,Katalog,{from}–{to} / {total},{from}–{to} из {total},{from}–{to} of {total},vars:{from}{to}{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.resultsCount,Katalog,{count} ta mahsulot topildi,Найдено {count} продуктов,{count} products found,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.resultsCountZero,Katalog,Hech narsa topilmadi,Ничего не найдено,Nothing found,,
+catalog.sampleBar,Katalog,"Namuna qutisi: {count} / {max} — bepul, {days} ish kunida","Коробка образцов: {count} / {max} — бесплатно, {days} рабочих дня","Sample box: {count} / {max} — free, in {days} working days",vars:{count}{max}{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.searchAria,Katalog,Katalogdan qidirish,Поиск по каталогу,Search the catalogue,,
+catalog.searchPh,Katalog,"Vanil, qulupnay, pektin yoki SKU…","Ваниль, клубника, пектин или SKU…","Vanilla, strawberry, pectin or SKU…",,
+catalog.searchPlaceholder,Katalog,"Nima izlayapsiz? Masalan: vanil, qulupnay, pektin yoki SKU…","Что ищете? Например: ваниль, клубника, пектин или артикул…","What are you looking for? Try: vanilla, strawberry, pectin or a SKU…",,
+catalog.searchPlaceholderShort,Katalog,Qidirish…,Поиск…,Search…,,
+catalog.sheetTitle,Katalog,Filtrlar,Фильтры,Filters,,
+catalog.showFilters,Katalog,Filtrlarni ko‘rsatish,Показать фильтры,Show filters,,
+catalog.showing,Katalog,{from}–{to} / {total},{from}–{to} из {total},{from}–{to} of {total},vars:{from}{to}{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.showMore,Katalog,Yana ko‘rsatish,Показать ещё,Show more,,
+catalog.sort,Katalog,Tartiblash,Сортировка,Sort by,,
+catalog.sort.dosage-asc,Katalog,Doza: kamdan ko‘pga,Дозировка: по возрастанию,Dosage: low to high,,
+catalog.sort.dosage-desc,Katalog,Doza: ko‘pdan kamga,Дозировка: по убыванию,Dosage: high to low,,
+catalog.sort.name-asc,Katalog,Nomi: A → Z,Название: А → Я,Name: A → Z,,
+catalog.sort.name-desc,Katalog,Nomi: Z → A,Название: Я → А,Name: Z → A,,
+catalog.sort.nameAsc,Katalog,Nomi (A–Z),Название (А–Я),Name (A–Z),,
+catalog.sort.nameDesc,Katalog,Nomi (Z–A),Название (Я–А),Name (Z–A),,
+catalog.sort.new,Katalog,Avval yangilari,Сначала новинки,Newest first,,
+catalog.sort.newest,Katalog,Yangi,Новинки,New,,
+catalog.sort.popular,Katalog,Mashhurlik bo‘yicha,По популярности,Most popular,,
+catalog.sort.popularity,Katalog,Ommabop,Популярные,Popular,,
+catalog.sort.sku,Katalog,Artikul bo‘yicha,По артикулу,By SKU,,
+catalog.sortLabel,Katalog,Saralash,Сортировка,Sort,,
+catalog.subtitle,Katalog,"{total} pozitsiya — ta‘m, hid, ingredient va xom-ashyo. Filtrlar orqali keraklisini toping yoki qidiruvdan foydalaning.","{total} позиций — вкусы, ароматы, ингредиенты и сырьё. Найдите нужное через фильтры или поиск.","{total} lines — flavours, fragrances, ingredients and raw materials. Use the filters or search to find what you need.",vars:{total},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+catalog.tabsLabel,Katalog,Kategoriyalar,Категории,Categories,,
+catalog.title,Katalog,Mahsulotlar katalogi,Каталог продукции,Product catalogue,,
+catalog.toBox,Katalog,Qutiga o‘tish,Перейти к коробке,Go to box,,
+catalog.total,Katalog,Jami pozitsiyalar,Всего позиций,Total lines,,
+catalog.viewAll,Katalog,Barchasini ko‘rish,Смотреть все,View all,,
+catalog.viewGrid,Katalog,Kartochka,Карточки,Cards,,
+catalog.viewLabel,Katalog,Ko‘rinish,Вид,View,,
+catalog.viewList,Katalog,Ro‘yxat,Список,List,,
+catalog.viewTable,Katalog,Jadval,Таблица,Table,,
+categories.eyebrow,Kategoriyalar,Yo‘nalishlar,Направления,Categories,,
+categories.positions,Kategoriyalar,{count} pozitsiya,{count} позиций,{count} lines,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+categories.subtitle,Kategoriyalar,Oltita asosiy yo‘nalish — oziq-ovqat aromatizatorlaridan baza xom-ashyosigacha. Har bir pozitsiya bo‘yicha texnik hujjat va namuna beramiz.,Шесть основных направлений — от пищевых ароматизаторов до базового сырья. По каждой позиции предоставляем техническую документацию и образцы.,Six core categories — from food flavours to bulk raw materials. Technical documentation and samples are available for every line.,,
+categories.title,Kategoriyalar,Nima yetkazib beramiz,Что мы поставляем,What we supply,,
+categories.viewAll,Kategoriyalar,Barcha mahsulotlarni ko‘rish,Смотреть все продукты,View all products,,
+plural.days,Ko‘plik shakllari,kun|kun|kun,день|дня|дней,day|days|days,plural:3,
+plural.directions,Ko‘plik shakllari,yo‘nalish|yo‘nalish|yo‘nalish,направление|направления|направлений,line|lines|lines,plural:3,
+plural.files,Ko‘plik shakllari,hujjat|hujjat|hujjat,документ|документа|документов,document|documents|documents,plural:3,
+plural.positions,Ko‘plik shakllari,pozitsiya|pozitsiya|pozitsiya,позиция|позиции|позиций,item|items|items,plural:3,
+plural.products,Ko‘plik shakllari,mahsulot|mahsulot|mahsulot,продукт|продукта|продуктов,product|products|products,plural:3,
+plural.results,Ko‘plik shakllari,natija|natija|natija,результат|результата|результатов,result|results|results,plural:3,
+plural.samples,Ko‘plik shakllari,namuna|namuna|namuna,образец|образца|образцов,sample|samples|samples,plural:3,
+about.adv1Text,Kompaniya,{count} pozitsiya joyida. Chet eldan buyurtma kutish shart emas.,{count} позиций в наличии. Не нужно ждать поставки из-за рубежа.,{count} items on site. No need to wait for overseas supply.,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.adv1Title,Kompaniya,Ombor Toshkentda,Склад в Ташкенте,Warehouse in Tashkent,,
+about.adv2Text,Kompaniya,Dozirovka va formani retseptingizga moslaydi — bepul.,Подберёт дозировку и форму под вашу рецептуру — бесплатно.,Matches dosage and form to your recipe — free of charge.,,
+about.adv2Title,Kompaniya,Texnolog yoningizda,Технолог рядом,A technologist on your side,,
+about.adv3Text,Kompaniya,"Spetsifikatsiya, CoA, TDS, MSDS va Halal — har bir yetkazishda.","Спецификация, CoA, TDS, MSDS и Halal — с каждой поставкой.","Specification, CoA, TDS, MSDS and Halal — with every delivery.",,
+about.adv3Title,Kompaniya,To‘liq hujjatlar,Полный пакет документов,Complete documentation,,
+about.adv4Text,Kompaniya,"{max} tagacha namuna bepul, {days} ish kunida — keyin qaror qilasiz.","До {max} образцов бесплатно, за {days} рабочих дня — потом решайте.",Up to {max} free samples in {days} working days — then you decide.,vars:{max}{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.adv4Title,Kompaniya,Avval namuna,Сначала образец,Sample first,,
+about.cert.haccp,Kompaniya,Xavf tahlili va nazorat nuqtalari,Анализ рисков и критические контрольные точки,Hazard analysis and critical control points,,
+about.cert.halal,Kompaniya,Halol sertifikati,Сертификат халяль,Halal certificate,,
+about.cert.iso,Kompaniya,Oziq-ovqat xavfsizligi tizimi,Система пищевой безопасности,Food safety management system,,
+about.cert.racs,Kompaniya,BAA akkreditatsiyasi,Аккредитация ОАЭ,UAE accreditation,,
+about.cert.sgs,Kompaniya,Mustaqil sinov va tekshiruv,Независимые испытания и инспекция,Independent testing and inspection,,
+about.cert.trakhees,Kompaniya,Dubay erkin zonasi regulyatori,Регулятор свободной зоны Дубая,Dubai free-zone regulator,,
+about.certPending,Kompaniya,Sertifikat nusxasi mijozdan kutilmoqda,Копия сертификата ожидается от клиента,Certificate copy pending from the client,,
+about.certTitle,Kompaniya,Sertifikat,Сертификат,Certificate,,
+about.ctaContact,Kompaniya,Aloqa,Контакты,Contact,,
+about.ctaEnd,Kompaniya,boshlanadi.,начинается.,a sample.,,
+about.ctaLeft,Kompaniya,HAMKORLIK,СОТРУДНИЧЕСТВО,PARTNERSHIP,,
+about.ctaMid,Kompaniya,NAMUNADAN,С ОБРАЗЦА,STARTS WITH,,
+about.ctaPhotoAlt,Kompaniya,Ziravorlar va xomashyo — GFF ombori,Специи и сырьё — склад GFF,Spices and raw materials — the GFF warehouse,,
+about.ctaRight,Kompaniya,NAMUNADAN\nboshlanadi.,НАЧИНАЕТСЯ\nС ОБРАЗЦА.,STARTS WITH\nA SAMPLE.,,
+about.ctaSample,Kompaniya,Bepul namuna olish,Получить бесплатный образец,Get a free sample,,
+about.export,Kompaniya,Geografiya,География,Geography,,
+about.exportText,Kompaniya,"BAA, O‘zbekiston, Qozog‘iston, Rossiya, Saudiya Arabistoni, Pokiston, Shri-Lanka, Quvayt, Iordaniya, Ummon va Afrika davlatlari.","ОАЭ, Узбекистан, Казахстан, Россия, Саудовская Аравия, Пакистан, Шри-Ланка, Кувейт, Иордания, Оман и страны Африки.","UAE, Uzbekistan, Kazakhstan, Russia, Saudi Arabia, Pakistan, Sri Lanka, Kuwait, Jordan, Oman and African markets.",,
+about.heroHq,Kompaniya,"Jebel Ali Free Zone, Dubay","Jebel Ali Free Zone, Дубай","Jebel Ali Free Zone, Dubai",,
+about.heroSince,Kompaniya,2002-yildan beri,С 2002 года,Since 2002,,
+about.heroStock,Kompaniya,Toshkentdagi ombor — {count} pozitsiya joyida,Склад в Ташкенте — {count} позиций в наличии,Tashkent warehouse — {count} items on site,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.heroText,Kompaniya,"GFF Uzbekistan — Gulf Flavours & Fragrances FZCO (Jebel Ali, Dubay) ning rasmiy va yagona distributori. Zavod mahsulotlari — Toshkentdagi omborda.","GFF Uzbekistan — официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO (Джебель-Али, Дубай). Продукция завода — на складе в Ташкенте.","GFF Uzbekistan is the official and exclusive distributor of Gulf Flavours & Fragrances FZCO (Jebel Ali, Dubai). The plant’s products are stocked in Tashkent.",,
+about.heroTitle,Kompaniya,Gulf Flavours\n& Fragrances —\nO‘zbekistonda,Gulf Flavours\n& Fragrances —\nв Узбекистане,Gulf Flavours\n& Fragrances —\nin Uzbekistan,,
+about.heroYears,Kompaniya,{count}+ yil — aromatizator ishlab chiqarishda,{count}+ лет — производство ароматизаторов,{count}+ years of flavour manufacturing,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.heroYearsLabel,Kompaniya,yil — aromatizator ishlab chiqarishda,лет — производство ароматизаторов,years of flavour manufacturing,,
+about.mission,Kompaniya,Missiyamiz,Наша цель,Our mission,,
+about.missionText,Kompaniya,"Mijozlarga tayyor mahsulot sifatini oshirish va ishlab chiqarish xarajatlarini kamaytirishda yordam berish — eng yaqin, eng tez va eng amaliy R&D hamkor bo‘lish.","Помочь клиентам повысить качество готового продукта и сократить производственные издержки — быть ближайшим, самым быстрым и реалистичным R&D-партнёром.","To help clients improve the quality of their finished products and reduce production costs — by being the nearest, fastest and most realistic R&D partner.",,
+about.officeCert,Kompaniya,Distributorlik sertifikati,Сертификат дистрибьютора,Distributorship certificate,,
+about.officeCertPending,Kompaniya,Sertifikat PDF’i mijozdan kutilmoqda,PDF сертификата ожидается от клиента,Certificate PDF pending from the client,,
+about.officeEyebrow,Kompaniya,O‘zbekistondagi ofis,Офис в Узбекистане,Office in Uzbekistan,,
+about.officeText,Kompaniya,"{address}. Ombor, texnolog va logistika — bir joyda.","{address}. Склад, технолог и логистика — в одном месте.","{address}. Warehouse, technologist and logistics — in one place.",vars:{address},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.officeTitle,Kompaniya,Rasmiy va yagona distributor,Официальный и эксклюзивный дистрибьютор,Official and exclusive distributor,,
+about.quality,Kompaniya,Sifat nazorati,Контроль качества,Quality control,,
+about.qualityText,Kompaniya,Mahsulotlar Dubaydagi Jebel Ali erkin iqtisodiy zonasidagi zavodda xalqaro standartlar asosida ishlab chiqariladi. Har bir partiya CoA bilan keladi.,Продукция производится на заводе в свободной экономической зоне Джебель-Али (Дубай) по международным стандартам. Каждая партия поставляется с CoA.,Products are made at the plant in the Jebel Ali Free Zone (Dubai) to international standards. Every batch comes with a CoA.,,
+about.qualityTitle,Kompaniya,Sifat va sertifikatlar,Качество и сертификаты,Quality and certificates,,
+about.rnd,Kompaniya,R&D va texnologiya,R&D и технологии,R&D and technology,,
+about.rndText,Kompaniya,"GFF 4000 dan ortiq xom-ashyodan foydalanadi, ko‘plari zavodning o‘zida ishlab chiqariladi. Bu mijoz talabiga mos noyob va individual kompozitsiyalar yaratish imkonini beradi. Avtomatlashtirilgan sinov tizimi namunalar bir xil aniqlikda tayyorlanishini ta‘minlaydi.","GFF использует более 4000 видов сырья, многие из которых производятся на собственных мощностях. Это позволяет создавать уникальные и индивидуальные композиции под задачи клиента. Автоматизированная система тестирования обеспечивает одинаковую точность приготовления образцов.","GFF works with more than 4,000 raw materials, many produced in-house. This allows unique, highly individual compositions to be created for each client. An automated testing system ensures samples are prepared with identical precision.",,
+about.statFounded,Kompaniya,tashkil topgan,год основания,founded,,
+about.statPositions,Kompaniya,pozitsiya Toshkentda,позиций в Ташкенте,items in Tashkent,,
+about.statRaw,Kompaniya,xomashyo bazasi,база сырья,raw-material base,,
+about.story,Kompaniya,Bizning tarix,Наша история,Our story,,
+about.story1,Kompaniya,"{year}-yilda BAA va Fors ko‘rfazi bozorida aromatizator va ingrediyentlarga talab katta ekanini ko‘rib, GFF tashkil topdi.","В {year} году, видя высокий спрос на ароматизаторы и ингредиенты на рынке ОАЭ и Персидского залива, была основана GFF.",GFF was founded in {year} after seeing strong demand for flavours and ingredients across the UAE and Gulf markets.,vars:{year},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+about.story2,Kompaniya,Maqsad — keng assortimentdagi sifatli aromatizatorlarni oziq-ovqat sanoatining yangi texnologiyalari bilan birga rivojlantirib borish. Kompaniya o‘z ijodiy-texnik jamoasi bilan boshlandi.,Цель — развивать широкий ассортимент качественных ароматизаторов вместе с новыми технологиями пищевой промышленности. Компания начиналась с собственной творческо-технической команды.,The goal: grow a wide range of quality flavours alongside new food-industry technologies. The company started with its own creative and technical team.,,
+about.story3,Kompaniya,"Mahalliy mijozlardan keyin GFF Afrika, Saudiya Arabistoni, Shri-Lanka, Quvayt, Pokiston, Iordaniya va Ummonga eksportga chiqdi. Bugun u ko‘plab oziq-ovqat ishlab chiqaruvchilarining doimiy hamkori.","После местных клиентов GFF вышла на экспорт в Африку, Саудовскую Аравию, Шри-Ланку, Кувейт, Пакистан, Иорданию и Оман. Сегодня компания — постоянный партнёр многих производителей продуктов питания.","After local clients GFF began exporting to Africa, Saudi Arabia, Sri Lanka, Kuwait, Pakistan, Jordan and Oman. Today it is a long-term partner for many food manufacturers.",,
+about.storyAlt,Kompaniya,"GFF Uzbekistan ombori, Toshkent","Склад GFF Uzbekistan, Ташкент","GFF Uzbekistan warehouse, Tashkent",,
+about.storyText,Kompaniya,"GFF 2002-yilda BAA va Fors ko‘rfazi bozorida sifatli aromatizatorlarga bo‘lgan ehtiyojni qondirish maqsadida tashkil etilgan. O‘z ijodiy texnik jamoasi bilan boshlangan kompaniya mahalliy mijozlarni sifatli aromatizator va ingredientlar bilan ta‘minlab, asta-sekin Afrika, Saudiya Arabistoni, Shri-Lanka, Quvayt, Pokiston, Iordaniya va Ummon bozorlariga chiqdi.","GFF была основана в 2002 году, чтобы обеспечить рынок ОАЭ и стран Персидского залива качественными ароматизаторами. Начав с собственной творческой технической команды, компания постепенно вышла на рынки Африки, Саудовской Аравии, Шри-Ланки, Кувейта, Пакистана, Иордании и Омана.","GFF was founded in 2002 to serve the demand for quality flavourings in the UAE and GCC markets. Starting with our own creative technical team, the company gradually expanded into Africa, Saudi Arabia, Sri Lanka, Kuwait, Pakistan, Jordan and Oman.",,
+about.storyTitle,Kompaniya,Bizning tarix,Наша история,Our story,,
+about.subtitle,Kompaniya,"Gulf Flavours & Fragrances — 2002-yildan beri oziq-ovqat aromatizatorlari, atir kompozitsiyalari va ingredientlar ishlab chiqaruvchisi. Zavodlar Dubaydagi Jebel Ali erkin zonasida joylashgan.","Gulf Flavours & Fragrances — производитель пищевых ароматизаторов, парфюмерных композиций и ингредиентов с 2002 года. Заводы расположены в свободной экономической зоне Джебель-Али в Дубае.","Gulf Flavours & Fragrances has been producing food flavours, fragrance compositions and ingredients since 2002. The plants are located in the Jebel Ali Free Zone in Dubai.",,
+about.team,Kompaniya,Jamoa,Команда,Team,,
+about.title,Kompaniya,Kompaniya haqida,О компании,About the company,,
+about.uzText,Kompaniya,"Biz GFF ning O‘zbekistondagi rasmiy va yagona distribyutorimiz. Toshkentdagi ombor, mahalliy texnik yordam va o‘zbek tilidagi hujjatlar bilan ishlaymiz. Maqsadimiz — Dubay sifatini O‘zbekiston ishlab chiqaruvchilari uchun tez va qulay yetkazib berish.","Мы — официальный и единственный дистрибьютор GFF в Узбекистане. Работаем со складом в Ташкенте, местной технической поддержкой и документацией на узбекском языке. Наша цель — быстро и удобно доставить качество Дубая производителям Узбекистана.","We are the official and sole distributor of GFF in Uzbekistan, operating from a warehouse in Tashkent with local technical support and documentation in Uzbek. Our goal is to deliver Dubai quality to Uzbek manufacturers quickly and conveniently.",,
+about.uzTitle,Kompaniya,O‘zbekistondagi vakolatxona,Представительство в Узбекистане,Our office in Uzbekistan,,
+about.value1,Kompaniya,Sifat — har bir partiyada barqarorlik,Качество — стабильность каждой партии,Quality — consistency in every batch,,
+about.value2,Kompaniya,Tezlik — so‘rovdan namunagacha 3 kun,Скорость — 3 дня от запроса до образца,Speed — 3 days from enquiry to sample,,
+about.value3,Kompaniya,Mutaxassislik — texnologik yordam bepul,Экспертиза — технологическая поддержка бесплатно,Expertise — free technical support,,
+about.value4,Kompaniya,Halollik — sertifikatlangan va shaffof ta‘minot,Честность — сертифицированные и прозрачные поставки,"Integrity — certified, transparent supply",,
+about.values,Kompaniya,Qadriyatlarimiz,Наши ценности,Our values,,
+product.addToBox,Mahsulot sahifasi,+ Namunaga qo‘shish,+ В образец,+ Add sample,,
+product.applications,Mahsulot sahifasi,Qo‘llanilishi,Применение,Applications,,
+product.applicationsLead,Mahsulot sahifasi,Bu mahsulot qayerda ishlatiladi,Где применяется этот продукт,Where this product is used,,
+product.askPrice,Mahsulot sahifasi,Narx so‘rash,Запросить цену,Request price,,
+product.askTechnologist,Mahsulot sahifasi,Texnologdan so‘rash,Спросить технолога,Ask a technologist,,
+product.askTechnologistHint,Mahsulot sahifasi,"Doza, retseptura, barqarorlik yoki hujjatlar bo‘yicha savol bering.","Задайте вопрос о дозировке, рецептуре, стабильности или документах.","Ask about dosage, formulation, stability or documentation.",,
+product.availNew,Mahsulot sahifasi,Yangi kelgan,Новое поступление,New arrival,,
+product.backToCatalog,Mahsulot sahifasi,Katalogga qaytish,Вернуться в каталог,Back to catalogue,,
+product.badgeNew,Mahsulot sahifasi,Yangi,Новинка,New,,
+product.badgeTop,Mahsulot sahifasi,Eng ko‘p tanlanadigan,Часто выбирают,Most selected,,
+product.benefits,Mahsulot sahifasi,Afzalliklari,Преимущества,Benefits,,
+product.boxCta,Mahsulot sahifasi,Bir nechta namunani bitta qutida oling — yetkazib berish bepul.,Соберите несколько образцов в одну коробку — доставка бесплатная.,Collect several samples in one box — delivery is free.,,
+product.consult,Mahsulot sahifasi,Texnolog bilan maslahat,Консультация технолога,Consult the technologist,,
+product.copied,Mahsulot sahifasi,Havola nusxalandi,Ссылка скопирована,Link copied,,
+product.country,Mahsulot sahifasi,Ishlab chiqarish davlati,Страна производства,Country of origin,,
+product.countryValue,Mahsulot sahifasi,Birlashgan Arab Amirliklari,Объединённые Арабские Эмираты,United Arab Emirates,,
+product.description,Mahsulot sahifasi,Tavsif,Описание,Description,,
+product.doc.coa,Mahsulot sahifasi,CoA — sifat sertifikati,CoA — сертификат качества,CoA — certificate of analysis,,
+product.doc.coaMeta,Mahsulot sahifasi,Har bir partiya uchun alohida,Отдельно для каждой партии,Issued per batch,,
+product.doc.halal,Mahsulot sahifasi,Halal sertifikati,Сертификат Halal,Halal certificate,,
+product.doc.meta,Mahsulot sahifasi,PDF · UZ / RU / EN,PDF · UZ / RU / EN,PDF · UZ / RU / EN,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+product.doc.msds,Mahsulot sahifasi,MSDS — xavfsizlik varaqasi,MSDS — лист безопасности,MSDS — safety data sheet,,
+product.doc.pdf,Mahsulot sahifasi,PDF,PDF,PDF,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+product.doc.pending,Mahsulot sahifasi,Hujjat so‘rov bo‘yicha yuboriladi,Документ отправляется по запросу,Document sent on request,,
+product.doc.spec,Mahsulot sahifasi,Spetsifikatsiya,Спецификация,Specification,,
+product.doc.tds,Mahsulot sahifasi,TDS — texnik ma’lumot varaqasi,TDS — технический лист,TDS — technical data sheet,,
+product.docCoA,Mahsulot sahifasi,Tahlil sertifikati (CoA),Сертификат анализа (CoA),Certificate of Analysis (CoA),,
+product.docCoASub,Mahsulot sahifasi,Har bir partiya uchun alohida,Отдельно для каждой партии,Issued per batch,,
+product.docDeclaration,Mahsulot sahifasi,Muvofiqlik deklaratsiyasi,Декларация о соответствии,Declaration of conformity,,
+product.docDownloadAria,Mahsulot sahifasi,{doc} hujjatini so‘rash,Запросить документ {doc},Request the {doc} document,vars:{doc},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.docHalal,Mahsulot sahifasi,Halol sertifikati,Сертификат Халяль,Halal certificate,,
+product.docMsds,Mahsulot sahifasi,Xavfsizlik varaqasi (MSDS),Паспорт безопасности (MSDS),Material Safety Data Sheet (MSDS),,
+product.docPdf,Mahsulot sahifasi,PDF,PDF,PDF,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+product.docs,Mahsulot sahifasi,Texnik hujjatlar,Техническая документация,Technical documents,,
+product.docsHint,Mahsulot sahifasi,Hujjatlar so‘rov asosida yuboriladi — quyidagi tugma orqali so‘rang.,Документы высылаются по запросу — используйте кнопку ниже.,Documents are sent on request — use the button below.,,
+product.docsNote,Mahsulot sahifasi,Barcha hujjatlar namuna qutisiga qog‘oz nusxada ham qo‘shiladi.,Все документы также вкладываются в коробку образцов в печатном виде.,All documents are also included in the sample box as printed copies.,,
+product.docSpec,Mahsulot sahifasi,Spetsifikatsiya,Спецификация,Specification,,
+product.docSpecSub,Mahsulot sahifasi,PDF · UZ / RU / EN,PDF · UZ / RU / EN,PDF · UZ / RU / EN,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+product.docsText,Mahsulot sahifasi,Barcha hujjatlar namuna qutisiga ham qog‘oz nusxada qo‘shiladi.,Все документы также добавляются в коробку образцов в печатном виде.,All documents are also added to the sample box in printed form.,,
+product.docTds,Mahsulot sahifasi,Texnik ma‘lumot (TDS),Техническая спецификация (TDS),Technical Data Sheet (TDS),,
+product.documents,Mahsulot sahifasi,Hujjatlar,Документы,Documents,,
+product.dosage,Mahsulot sahifasi,Tavsiya etilgan doza,Рекомендуемая дозировка,Recommended dosage,,
+product.dosageAdvice,Mahsulot sahifasi,Tavsiya etilgan dozirovka {dosage}. Aniq miqdorni texnolog retseptingizga qarab beradi.,Рекомендуемая дозировка {dosage}. Точное количество технолог подберёт под вашу рецептуру.,Recommended dosage {dosage}. Our technologist will fine-tune it for your recipe.,vars:{dosage},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.dosageHint,Mahsulot sahifasi,Aniq doza mahsulot matritsasiga va kerakli intensivlikka bog‘liq. Texnologimiz bepul hisoblab beradi.,Точная дозировка зависит от матрицы продукта и желаемой интенсивности. Наш технолог рассчитает её бесплатно.,The exact dosage depends on your product matrix and desired intensity. Our technologist will calculate it free of charge.,,
+product.dosageLabel,Mahsulot sahifasi,dozirovka,дозировка,dosage,,
+product.dosageRange,Mahsulot sahifasi,{min}–{max}%,{min}–{max}%,{min}–{max}%,ru-same-as-uz en-same-as-uz vars:{min}{max},Tarjima qilinmagan — ko'rib chiqish shart
+product.dosageValue,Mahsulot sahifasi,{min}–{max}%,{min}–{max}%,{min}–{max}%,ru-same-as-uz en-same-as-uz vars:{min}{max},Tarjima qilinmagan — ko'rib chiqish shart
+product.doseAdvice,Mahsulot sahifasi,Tavsiya etilgan dozirovka,Рекомендуемая дозировка,Recommended dosage,,
+product.doseAdviceText,Mahsulot sahifasi,{dose}. Aniq miqdorni texnolog retseptingizga qarab beradi.,{dose}. Точное количество технолог подберёт под вашу рецептуру.,{dose}. The exact amount is set by the technologist for your recipe.,vars:{dose},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.download,Mahsulot sahifasi,Yuklab olish,Скачать,Download,,
+product.features,Mahsulot sahifasi,Xususiyatlar va sertifikatlar,Свойства и сертификаты,Properties and certificates,,
+product.form,Mahsulot sahifasi,Shakli,Форма,Form,,
+product.formLabel,Mahsulot sahifasi,shakli,форма,form,,
+product.galleryAlt,Mahsulot sahifasi,{name} — mahsulot fotosi,{name} — фото продукта,{name} — product photo,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.gram,Mahsulot sahifasi,g,г,g,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+product.inBox,Mahsulot sahifasi,Qutida bor,Уже в коробке,In your box,,
+product.inStock,Mahsulot sahifasi,Toshkent omborida,На складе в Ташкенте,In stock in Tashkent,,
+product.makerLabel,Mahsulot sahifasi,ishlab chiqaruvchi,производитель,manufacturer,,
+product.makerValue,Mahsulot sahifasi,"GFF, Dubay","GFF, Дубай","GFF, Dubai",,
+product.manufacturer,Mahsulot sahifasi,Ishlab chiqaruvchi,Производитель,Manufacturer,,
+product.manufacturerShort,Mahsulot sahifasi,"GFF, Dubay","GFF, Дубай","GFF, Dubai",,
+product.manufacturerValue,Mahsulot sahifasi,"Gulf Flavours & Fragrances FZCO, Jebel Ali, Dubay (BAA)","Gulf Flavours & Fragrances FZCO, Jebel Ali, Дубай (ОАЭ)","Gulf Flavours & Fragrances FZCO, Jebel Ali, Dubai (UAE)",,
+product.moqLabel,Mahsulot sahifasi,Minimal buyurtma,Минимальный заказ,Minimum order,,
+product.moqPending,Mahsulot sahifasi,MOQ mijozdan tasdiqlanishi kutilmoqda,MOQ ожидается подтверждение от клиента,MOQ pending confirmation from the client,,
+product.moqValue,Mahsulot sahifasi,{moq} kg · qadoq: {packs},{moq} кг · упаковка: {packs},{moq} kg · packs: {packs},vars:{moq}{packs},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.noImage,Mahsulot sahifasi,Mahsulot fotosi tayyorlanmoqda,Фото продукта готовится,Product photo in preparation,,
+product.notFound,Mahsulot sahifasi,Mahsulot topilmadi,Продукт не найден,Product not found,,
+product.notFoundHint,Mahsulot sahifasi,Ehtimol u katalogdan olib tashlangan yoki havola noto‘g‘ri.,"Возможно, он удалён из каталога или ссылка неверна.",It may have been removed from the catalogue or the link is incorrect.,,
+product.onOrder,Mahsulot sahifasi,Buyurtma bilan,Под заказ,Made to order,,
+product.pack1,Mahsulot sahifasi,1 kg flakon,Флакон 1 кг,1 kg bottle,,
+product.pack10,Mahsulot sahifasi,10 kg kanistr,Канистра 10 кг,10 kg canister,,
+product.pack5,Mahsulot sahifasi,5 kg chelak,Ведро 5 кг,5 kg pail,,
+product.packaging,Mahsulot sahifasi,Qadoq variantlari,Варианты фасовки,Pack size options,,
+product.packAlt,Mahsulot sahifasi,GFF {pack} qadog‘i,Упаковка GFF {pack},GFF {pack} packaging,vars:{pack},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.packLabel,Mahsulot sahifasi,qadoq,упаковка,packaging,,
+product.packList,Mahsulot sahifasi,{packs} kg,{packs} кг,{packs} kg,en-same-as-uz vars:{packs},Tarjima qilinmagan — ko'rib chiqish shart
+product.priceNote,Mahsulot sahifasi,"Narx hajm, qadoq va shartnoma muddatiga bog‘liq. Aniq hisob-kitobni texnologimiz yuboradi.","Цена зависит от объёма, фасовки и срока контракта. Точный расчёт пришлёт наш технолог.","Price depends on volume, pack size and contract length. Our technologist will send an exact quotation.",,
+product.print,Mahsulot sahifasi,Chop etish,Печать,Print,,
+product.related,Mahsulot sahifasi,Birga tanlanadi,Часто берут вместе,Often chosen together,,
+product.relatedHint,Mahsulot sahifasi,Bir xil guruh va qo‘llash sohasidagi pozitsiyalar,Позиции из той же группы и области применения,Items from the same group and application,,
+product.relatedMeta,Mahsulot sahifasi,{sku} · {group},{sku} · {group},{sku} · {group},ru-same-as-uz en-same-as-uz vars:{sku}{group},Tarjima qilinmagan — ko'rib chiqish shart
+product.requestDocs,Mahsulot sahifasi,Hujjatlarni so‘rash,Запросить документы,Request documents,,
+product.sampleBox,Mahsulot sahifasi,Namuna qutisiga qo‘shish,Добавить в тест-бокс,Add to sample box,,
+product.sampleNote,Mahsulot sahifasi,Namuna bepul · {days} ish kunida · texnik hujjatlar bilan,Образец бесплатно · {days} рабочих дня · с документацией,Sample is free · {days} working days · with technical documents,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.sampleSize,Mahsulot sahifasi,Namuna hajmi,Объём образца,Sample size,,
+product.share,Mahsulot sahifasi,Ulashish,Поделиться,Share,,
+product.shelfLife,Mahsulot sahifasi,Yaroqlilik muddati,Срок годности,Shelf life,,
+product.shelfLifeValue,Mahsulot sahifasi,{months} oy,{months} мес.,{months} months,vars:{months},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.skuLabel,Mahsulot sahifasi,SKU {sku},SKU {sku},SKU {sku},ru-same-as-uz en-same-as-uz vars:{sku},Tarjima qilinmagan — ko'rib chiqish shart
+product.specDose,Mahsulot sahifasi,dozirovka,дозировка,dosage,,
+product.specForm,Mahsulot sahifasi,shakli,форма,form,,
+product.specMaker,Mahsulot sahifasi,ishlab chiqaruvchi,производитель,manufacturer,,
+product.specPack,Mahsulot sahifasi,qadoq,упаковка,packaging,,
+product.specs,Mahsulot sahifasi,Texnik tavsif,Технические характеристики,Technical specifications,,
+product.stickyAdd,Mahsulot sahifasi,+ Namunaga,+ В образцы,+ Add sample,,
+product.stickyBox,Mahsulot sahifasi,Qutiga o‘tish ({count}),К коробке ({count}),Go to box ({count}),vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+product.storage,Mahsulot sahifasi,Saqlash shartlari,Условия хранения,Storage conditions,,
+privacy.draftNote,Maxfiylik,"Matn O‘zbekiston Respublikasining “Shaxsiy ma’lumotlar to‘g‘risida”gi qonuni (ZRU-547, 02.07.2019) asosida tayyorlangan. Ishga tushirishdan oldin yurist tasdiqlashi shart.",Текст подготовлен на основе Закона Республики Узбекистан «О персональных данных» (ЗРУ-547 от 02.07.2019). Перед запуском необходимо согласование с юристом.,"Prepared on the basis of the Law of the Republic of Uzbekistan “On Personal Data” (ZRU-547, 02.07.2019). Must be approved by a lawyer before launch.",legal,Yurist tasdiqlashi kerak (§15)
+privacy.question,Maxfiylik,Ma’lumotlaringiz bo‘yicha savol:,Вопросы о ваших данных:,Questions about your data:,legal,Yurist tasdiqlashi kerak (§15)
+privacy.retention,Maxfiylik,Ma’lumotlar so‘rov yopilgach 12 oy saqlanadi,Данные хранятся 12 месяцев после закрытия заявки,Data is kept for 12 months after the request is closed,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s1Body,Maxfiylik,Ushbu siyosat GFF Uzbekistan saytidan foydalanganda qanday ma’lumotlar yig‘ilishi va ishlatilishini tushuntiradi. {legal}.,"Настоящая политика объясняет, какие данные собираются и как используются при работе с сайтом GFF Uzbekistan. {legal}.",This policy explains what data is collected and how it is used on the GFF Uzbekistan website. {legal}.,vars:{legal} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+privacy.s1Title,Maxfiylik,Umumiy qoidalar,Общие положения,General provisions,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s2Body,Maxfiylik,"So‘rov va namuna formalarida siz kiritgan ma’lumotlar: ism, kompaniya, lavozim, telefon, email, hudud, yetkazish manzili va xabar matni.","Данные, которые вы вводите в формах заявки и образцов: имя, компания, должность, телефон, e-mail, регион, адрес доставки и текст сообщения.","Data you enter in the request and sample forms: name, company, position, phone, email, region, delivery address and message text.",legal,Yurist tasdiqlashi kerak (§15)
+privacy.s2Title,Maxfiylik,Qanday ma’lumot yig‘amiz,Какие данные мы собираем,What data we collect,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s3Body,Maxfiylik,"So‘rovingizni ko‘rib chiqish, texnolog bilan bog‘lanish, namunalarni yetkazib berish va tijorat taklifini tayyorlash.","Обработка заявки, связь с технологом, доставка образцов и подготовка коммерческого предложения.","Handling your request, technologist follow-up, sample delivery and preparing a commercial offer.",legal,Yurist tasdiqlashi kerak (§15)
+privacy.s3Title,Maxfiylik,Ma’lumotdan foydalanish maqsadi,Цели использования данных,Purpose of processing,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s4Body,Maxfiylik,{retention}. Muddat tugagach ma’lumotlar o‘chiriladi yoki anonimlashtiriladi.,{retention}. По истечении срока данные удаляются или обезличиваются.,{retention}. After that period data is deleted or anonymised.,vars:{retention} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+privacy.s4Title,Maxfiylik,Saqlash muddati,Срок хранения,Retention period,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s5Body,Maxfiylik,Ma’lumotlar faqat zarur hollarda beriladi: namunani yetkazuvchi kuryer xizmati va Gulf Flavours & Fragrances FZCO (texnik savollar uchun).,"Данные передаются только при необходимости: курьерской службе, доставляющей образцы, и Gulf Flavours & Fragrances FZCO (для технических вопросов).",Data is shared only when necessary: with the courier delivering samples and with Gulf Flavours & Fragrances FZCO (for technical questions).,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s5Title,Maxfiylik,Uchinchi tomonlar,Третьи стороны,Third parties,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s6Body,Maxfiylik,"Sayt ishlashi va tahlil uchun cookie hamda Google Analytics, Meta Pixel kabi vositalar ishlatiladi. Brauzer sozlamalarida cookie’larni o‘chirishingiz mumkin.","Для работы сайта и аналитики используются cookie, а также Google Analytics и Meta Pixel. Вы можете отключить cookie в настройках браузера.","We use cookies for site operation and analytics, including Google Analytics and Meta Pixel. You can disable cookies in your browser settings.",legal,Yurist tasdiqlashi kerak (§15)
+privacy.s6Title,Maxfiylik,Cookie va analitika,Cookie и аналитика,Cookies and analytics,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s7Body,Maxfiylik,"Ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin. Buning uchun {email} manziliga yozing.","Вы можете запросить просмотр, исправление или удаление своих данных. Для этого напишите на {email}.","You may request access, correction or deletion of your data. Write to {email}.",vars:{email} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+privacy.s7Title,Maxfiylik,Sizning huquqlaringiz,Ваши права,Your rights,legal,Yurist tasdiqlashi kerak (§15)
+privacy.s8Body,Maxfiylik,"{company}, {address}. Telefon: {phone}.","{company}, {address}. Телефон: {phone}.","{company}, {address}. Phone: {phone}.",vars:{company}{address}{phone} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+privacy.s8Title,Maxfiylik,Aloqa,Контакты,Contact,legal,Yurist tasdiqlashi kerak (§15)
+privacy.toc,Maxfiylik,Mundarija,Содержание,Contents,legal,Yurist tasdiqlashi kerak (§15)
+privacy.updated,Maxfiylik,Oxirgi yangilanish: {date},Последнее обновление: {date},Last updated: {date},vars:{date} legal,Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+monogram.alt.bliss,Monogramma,Sitrus mevalari fotosi bilan to‘ldirilgan GFF monogrammasi,"Монограмма GFF, заполненная фотографией цитрусовых",GFF monogram filled with a citrus photograph,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+monogram.alt.delight,Monogramma,Qahva donlari fotosi bilan to‘ldirilgan GFF monogrammasi,"Монограмма GFF, заполненная фотографией кофейных зёрен",GFF monogram filled with a coffee-bean photograph,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+monogram.alt.joy,Monogramma,Rezavorlar fotosi bilan to‘ldirilgan GFF monogrammasi,"Монограмма GFF, заполненная фотографией ягод",GFF monogram filled with a berry photograph,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+samples.addFromCatalog,Namuna qutisi,Katalogdan qo‘shish,Добавить из каталога,Add from catalogue,,
+samples.addPopular,Namuna qutisi,Ommabop namunalar to‘plamini qo‘shish,Добавить популярный набор образцов,Add a popular sample set,,
+samples.backToCatalog,Namuna qutisi,Katalogga qaytish,Вернуться в каталог,Back to catalogue,,
+samples.boxEmpty,Namuna qutisi,Quti hozircha bo‘sh,Коробка пока пуста,The box is empty,,
+samples.boxEmptyHint,Namuna qutisi,Katalogdan mahsulot qo‘shing yoki tayyor to‘plamni tanlang.,Добавьте продукты из каталога или выберите готовый набор.,Add products from the catalogue or pick a ready-made set.,,
+samples.boxEmptyWarn,Namuna qutisi,Qutida hozircha namuna yo‘q,В коробке пока нет образцов,Your box has no samples yet,,
+samples.boxFull,Namuna qutisi,Quti to‘ldi — {max} tagacha mahsulot qo‘shish mumkin. Birortasini olib tashlang yoki arizani hozir yuboring.,Бокс заполнен — можно добавить до {max} продуктов. Уберите один или отправьте заявку сейчас.,"The box is full — you can add up to {max} products. Remove one, or send the request now.",vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.boxFullToast,Namuna qutisi,Qutida {max} ta joy bor,В коробке {max} мест,The box holds {max} items,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.boxTitle,Namuna qutisi,Sizning qutingiz,Ваша коробка,Your box,,
+samples.clear,Namuna qutisi,Qutini tozalash,Очистить бокс,Empty the box,,
+samples.clearConfirm,Namuna qutisi,Qutidagi barcha mahsulotlarni olib tashlaysizmi?,Удалить все продукты из бокса?,Remove all products from the box?,,
+samples.continueBrowsing,Namuna qutisi,Katalogga qaytish,Вернуться в каталог,Back to catalogue,,
+samples.deliveryFree,Namuna qutisi,O‘zbekiston bo‘ylab bepul,Бесплатно по Узбекистану,Free across Uzbekistan,,
+samples.deliveryInfo,Namuna qutisi,Yetkazib berish,Доставка,Delivery,,
+samples.deliveryTime,Namuna qutisi,{days} ish kuni,{days} рабочих дня,{days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.faq1A,Namuna qutisi,"Ha. Namuna ham, O‘zbekiston bo‘ylab yetkazish ham bepul va hech qanday majburiyatsiz.","Да. И образцы, и доставка по Узбекистану бесплатны и без каких-либо обязательств.","Yes. Both the samples and delivery across Uzbekistan are free, with no obligation.",,
+samples.faq1Q,Namuna qutisi,Namunalar haqiqatan bepulmi?,Образцы действительно бесплатные?,Are the samples really free?,,
+samples.faq2A,Namuna qutisi,"{days} ish kuni. Toshkent bo‘ylab kuryer, viloyatlarga tashuvchi kompaniya orqali.","{days} рабочих дня. Курьер по Ташкенту, в регионы — транспортной компанией.","{days} working days. Courier in Tashkent, carrier company to the regions.",vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.faq2Q,Namuna qutisi,Yetkazish qancha vaqt oladi?,Сколько занимает доставка?,How long does delivery take?,,
+samples.faq3A,Namuna qutisi,{moq}. Qadoqlar: {packs}.,{moq}. Упаковки: {packs}.,{moq}. Packs: {packs}.,vars:{moq}{packs},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.faq3Q,Namuna qutisi,Minimal partiya hajmi qancha?,Какой минимальный объём партии?,What is the minimum order quantity?,,
+samples.faq4A,Namuna qutisi,"Spetsifikatsiya, CoA, TDS, MSDS va Halal sertifikati nusxasi.","Спецификация, CoA, TDS, MSDS и копия сертификата Halal.","Specification, CoA, TDS, MSDS and a copy of the Halal certificate.",,
+samples.faq4Q,Namuna qutisi,Qanday hujjatlar beriladi?,Какие документы предоставляются?,Which documents are provided?,,
+samples.faq5A,Namuna qutisi,Ha. Zavod {raw}+ xomashyo bazasi asosida mahsulotingiz uchun alohida formula ishlab chiqadi.,Да. Завод разработает отдельную формулу под ваш продукт на базе {raw}+ видов сырья.,Yes. The plant develops a dedicated formula for your product using a {raw}+ raw-material base.,vars:{raw},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.faq5Q,Namuna qutisi,Maxsus ta’m yaratib berasizmi?,Разработаете индивидуальный вкус?,Can you create a custom flavour?,,
+samples.faqMore,Namuna qutisi,Boshqa savol bormi?,Остались вопросы?,Any other questions?,,
+samples.faqTitle,Namuna qutisi,Ko‘p beriladigan savollar,Частые вопросы,Frequently asked questions,,
+samples.formAddress,Namuna qutisi,Yetkazish manzili,Адрес доставки,Delivery address,,
+samples.formPosition,Namuna qutisi,Lavozim,Должность,Position,,
+samples.formProduce,Namuna qutisi,Nima ishlab chiqarasiz?,Что вы производите?,What do you produce?,,
+samples.formRegion,Namuna qutisi,Hudud,Регион,Region,,
+samples.formText,Namuna qutisi,Maydonlarni to‘ldiring — texnolog ish vaqtida bog‘lanadi va qutini {days} ish kunida yetkazamiz.,"Заполните поля — технолог свяжется в рабочее время, и мы доставим коробку за {days} рабочих дня.",Fill in the fields — our technologist will get in touch during business hours and we deliver the box in {days} business days.,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.goToCatalog,Namuna qutisi,Katalogga o‘tish,Перейти в каталог,Go to catalogue,,
+samples.head.text,Namuna qutisi,"Katalogdan {max} tagacha mahsulot tanlang. Namunalarni texnik hujjatlar bilan yig‘ib, O‘zbekiston bo‘ylab bepul yetkazamiz.",Выберите до {max} позиций из каталога. Мы соберём образцы с технической документацией и бесплатно доставим по Узбекистану.,Pick up to {max} products from the catalogue. We assemble the samples with technical documents and deliver free across Uzbekistan.,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.headText,Namuna qutisi,"Katalogdan {max} tagacha mahsulot tanlang. Namunalarni texnik hujjatlar bilan yig‘ib, O‘zbekiston bo‘ylab bepul yetkazamiz.",Выберите до {max} товаров из каталога. Мы соберём образцы с технической документацией и бесплатно доставим по Узбекистану.,Pick up to {max} products from the catalog. We assemble the samples with technical documents and deliver free across Uzbekistan.,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.inside1,Namuna qutisi,Har bir mahsulotdan 25–100 g/ml namuna,По 25–100 г/мл каждого продукта,25–100 g/ml of each product,,
+samples.inside2,Namuna qutisi,Spetsifikatsiya va tavsiya etilgan doza,Спецификация и рекомендуемая дозировка,Specification and recommended dosage,,
+samples.inside3,Namuna qutisi,Halol va ISO sertifikatlari nusxasi,Копии сертификатов Халяль и ISO,Copies of Halal and ISO certificates,,
+samples.inside4,Namuna qutisi,Texnolog bilan bevosita aloqa,Прямой контакт с технологом,Direct contact with a technologist,,
+samples.itemsCount,Namuna qutisi,{count} ta mahsulot,{count} продуктов,{count} products,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.itemsMax,Namuna qutisi,Eng ko‘pi {max} ta,Максимум {max},Maximum {max},vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.moqValue,Namuna qutisi,Aromatizatorlar bo‘yicha minimal hajm — {kg} kg,Минимальный объём по ароматизаторам — {kg} кг,Minimum order for flavours is {kg} kg,vars:{kg},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.noteLabel,Namuna qutisi,Izoh (ixtiyoriy),Комментарий (необязательно),Comment (optional),,
+samples.notePlaceholder,Namuna qutisi,"Masalan: muzqaymoq uchun, issiqqa chidamli kerak","Например: для мороженого, нужна термостабильность","e.g. for ice cream, needs to be heat stable",,
+samples.orderBox,Namuna qutisi,Qutini buyurtma qilish,Заказать коробку,Order the box,,
+samples.pillDays,Namuna qutisi,{days} ish kuni,{days} рабочих дня,{days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.pillFree,Namuna qutisi,Bepul,Бесплатно,Free,,
+samples.pillItems,Namuna qutisi,{max} tagacha namuna,до {max} образцов,up to {max} samples,vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.pillSize,Namuna qutisi,25–100 g,25–100 г,25–100 g,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+samples.pillSizes,Namuna qutisi,{min}–{max} g,{min}–{max} г,{min}–{max} g,en-same-as-uz vars:{min}{max},Tarjima qilinmagan — ko'rib chiqish shart
+samples.popularPick,Namuna qutisi,Ko‘pincha tanlanadigan,Часто выбирают,Frequently selected,,
+samples.progressLabel,Namuna qutisi,Quti to‘ldirilishi,Заполнение коробки,Box progress,,
+samples.progressLine,Namuna qutisi,Quti to‘ldirilishi: {count} / {max},Заполнение коробки: {count} из {max},Box filled: {count} of {max},vars:{count}{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.qtyLabel,Namuna qutisi,Hajm,Объём,Volume,,
+samples.remove,Namuna qutisi,Olib tashlash,Удалить,Remove,,
+samples.removeItem,Namuna qutisi,{name} ni olib tashlash,Убрать {name},Remove {name},vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.setsAdd,Namuna qutisi,To‘plamni qo‘shish,Добавить набор,Add the set,,
+samples.setsAdded,Namuna qutisi,Qutiga qo‘shildi,Добавлено в коробку,Added to your box,,
+samples.setsPartial,Namuna qutisi,"{added} ta qo‘shildi, {skipped} tasi qutiga sig‘madi","Добавлено {added}, {skipped} не поместились в коробку","{added} added, {skipped} did not fit in the box",vars:{added}{skipped},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.setsText,Namuna qutisi,Sohangiz uchun eng ko‘p tanlanadigan {count} ta namuna — bitta tugma bilan.,{count} самых популярных образцов для вашей отрасли — одной кнопкой.,The {count} most-selected samples for your industry — in one click.,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.setsTitle,Namuna qutisi,Tayyor to‘plamlar,Готовые наборы,Ready-made sets,,
+samples.step1,Namuna qutisi,Mahsulot tanlang,Выберите продукты,Choose products,,
+samples.step1Hint,Namuna qutisi,Katalogdagi «Namunaga qo‘shish» tugmasi orqali,Через кнопку «Добавить в образцы» в каталоге,Via the “Add to samples” button in the catalogue,,
+samples.step2,Namuna qutisi,Ma‘lumotlarni kiriting,Заполните данные,Enter your details,,
+samples.step2Hint,Namuna qutisi,"Kompaniya, aloqa va yetkazib berish manzili","Компания, контакты и адрес доставки","Company, contacts and delivery address",,
+samples.step2Short,Namuna qutisi,Ma’lumot qoldiring,Оставьте данные,Leave your details,,
+samples.step3,Namuna qutisi,Qutini qabul qiling,Получите бокс,Receive your box,,
+samples.step3Hint,Namuna qutisi,"{days} ish kuni ichida, bepul","За {days} рабочих дня, бесплатно","Within {days} working days, free of charge",vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.step3Short,Namuna qutisi,Qutini oling,Получите коробку,Receive the box,,
+samples.submit,Namuna qutisi,Test box so‘rash,Запросить тест-бокс,Request the sample box,,
+samples.submitHint,Namuna qutisi,Yuborilgandan keyin texnolog {minutes} daqiqa ichida bog‘lanadi.,После отправки технолог свяжется в течение {minutes} минут.,"After sending, a technologist will contact you within {minutes} minutes.",vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.subtitle,Namuna qutisi,"Katalogdan {max} tagacha mahsulot tanlang. Biz namunalar to‘plamini yig‘amiz, texnik hujjatlarni qo‘shamiz va O‘zbekiston bo‘ylab bepul yetkazamiz.","Выберите до {max} продуктов из каталога. Мы соберём набор образцов, приложим техническую документацию и бесплатно доставим по Узбекистану.","Choose up to {max} products from the catalogue. We assemble the samples, attach the technical documentation and deliver them free across Uzbekistan.",vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.success,Namuna qutisi,Arizangiz qabul qilindi,Заявка принята,Your request has been received,,
+samples.successNext,Namuna qutisi,Keyin nima bo‘ladi?,Что будет дальше?,What happens next?,,
+samples.successStep1,Namuna qutisi,Texnologimiz qo‘ng‘iroq qiladi va tanlovni aniqlaydi,Технолог позвонит и уточнит выбор,Our technologist calls to confirm your selection,,
+samples.successStep2,Namuna qutisi,Namunalar Dubay yoki Toshkent omboridan yig‘iladi,Образцы соберут со склада в Дубае или Ташкенте,Samples are assembled from Dubai or Tashkent stock,,
+samples.successStep3,Namuna qutisi,Kuryer yoki transport kompaniyasi orqali {days} ish kuni ichida yetkaziladi,Доставим курьером или транспортной компанией за {days} рабочих дня,Delivered by courier or carrier within {days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.successStep4,Namuna qutisi,Sinov natijasi bo‘yicha hisob-faktura va shartnoma tayyorlanadi,По результатам испытаний подготовим счёт и договор,After your trial we prepare an invoice and contract,,
+samples.successText,Namuna qutisi,"{count} ta namuna yig‘ilmoqda. Texnolog ish vaqtida {minutes} daqiqa ichida qo‘ng‘iroq qilib, tafsilotlarni aniqlaydi.",Собираем {count} образцов. Технолог перезвонит в рабочее время в течение {minutes} минут и уточнит детали.,We are assembling {count} samples. The technologist will call within {minutes} minutes during working hours to confirm the details.,vars:{count}{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+samples.successTitle,Namuna qutisi,So‘rov qabul qilindi,Заявка принята,Request received,,
+samples.title,Namuna qutisi,Bepul test box — namunalar to‘plami,Бесплатный тест-бокс — набор образцов,Free sample box,,
+samples.whatsInside,Namuna qutisi,Quti tarkibida,Что в боксе,What is inside,,
+samples.yourBox,Namuna qutisi,Sizning qutingiz,Ваш тест-бокс,Your sample box,,
+box.counter,Namuna qutisi (header),Qutida {count} / {max},В боксе {count} / {max},{count} / {max} in the box,vars:{count}{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+box.cta,Namuna qutisi (header),Test box yig‘ish,Собрать тест-бокс,Build a sample box,,
+box.empty,Namuna qutisi (header),Quti hozircha bo‘sh,Бокс пока пуст,Your box is empty,,
+box.eyebrow,Namuna qutisi (header),Test box,Тест-бокс,Sample box,,
+box.subtitle,Namuna qutisi (header),"Katalogdan {max} tagacha mahsulot tanlang, biz namunalar to‘plamini yig‘amiz va O‘zbekiston bo‘ylab bepul yuboramiz. Bu xato partiyani sotib olishning oldini oladi.","Выберите до {max} продуктов из каталога, мы соберём набор образцов и бесплатно отправим по Узбекистану. Это убережёт от покупки неудачной партии.","Choose up to {max} products from the catalogue; we assemble the samples and ship them free across Uzbekistan. It protects you from buying the wrong batch.",vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+box.title,Namuna qutisi (header),Bepul namuna qutisi — ishlab chiqarishdan oldin sinab ko‘ring,Бесплатный тест-бокс — попробуйте до закупки партии,Free sample box — test before you buy a batch,,
+box.what1.text,Namuna qutisi (header),Laboratoriya sinovi va kichik ishlab chiqarish partiyasi uchun yetarli.,Достаточно для лабораторных испытаний и пробной выработки.,Enough for laboratory trials and a pilot run.,,
+box.what1.title,Namuna qutisi (header),Har bir mahsulotdan 25–100 g/ml,По 25–100 г/мл каждого продукта,25–100 g/ml of each product,,
+box.what2.text,Namuna qutisi (header),"Spetsifikatsiya, tavsiya etilgan doza va qo‘llash sohalari.","Спецификация, рекомендуемая дозировка и области применения.","Specification, recommended dosage and applications.",,
+box.what2.title,Namuna qutisi (header),Texnik hujjatlar,Технические документы,Technical documents,,
+box.what3.text,Namuna qutisi (header),"Toshkent bo‘ylab kuryer, hududlarga transport kompaniyalari orqali.","По Ташкенту курьером, в регионы — транспортными компаниями.","Courier inside Tashkent, carriers to the regions.",,
+box.what3.title,Namuna qutisi (header),Yetkazib berish {days} ish kuni,Доставка за {days} рабочих дня,Delivery in {days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+box.what4.text,Namuna qutisi (header),"Namunalar va yetkazib berish uchun haq olinmaydi, hech qanday majburiyat yo‘q.","Образцы и доставка не оплачиваются, никаких обязательств.","Samples and delivery are free, with no obligation.",,
+box.what4.title,Namuna qutisi (header),Mutlaqo bepul,Полностью бесплатно,Completely free,,
+quote.contractPrice,Narx so‘rash (RFQ),Yillik shartnoma bo‘yicha qat‘iy narx,Фиксированная цена по годовому контракту,Fixed pricing under an annual contract,,
+quote.discountValue,Narx so‘rash (RFQ),{kg} kg dan yuqori → −{pct}%,от {kg} кг → −{pct}%,over {kg} kg → −{pct}%,vars:{kg}{pct},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+quote.docsIncluded,Narx so‘rash (RFQ),Barcha hujjatlar hisob-faktura bilan,Все документы вместе со счётом,All documents supplied with the invoice,,
+quote.fastResponse,Narx so‘rash (RFQ),Ishchi vaqtda 30 daqiqada javob,Ответ за 30 минут в рабочее время,Response within 30 minutes in business hours,,
+quote.messagePh,Narx so‘rash (RFQ),"Mahsulot, hajm (kg/oy) va kerakli muddat…","Продукт, объём (кг/мес.) и требуемый срок…","Product, volume (kg/month) and required date…",,
+quote.minOrderValue,Narx so‘rash (RFQ),Minimal buyurtma — {kg} kg,Минимальный заказ — {kg} кг,Minimum order — {kg} kg,vars:{kg},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+quote.responseValue,Narx so‘rash (RFQ),{minutes} daqiqa · {hours},{minutes} минут · {hours},{minutes} min · {hours},vars:{minutes}{hours},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+quote.submitHint,Narx so‘rash (RFQ),Ishchi vaqtda {minutes} daqiqada javob beramiz,В рабочее время отвечаем за {minutes} минут,We reply within {minutes} minutes during business hours,vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+quote.subtitle,Narx so‘rash (RFQ),"Mahsulot, hajm va muddatni yozing — ishchi vaqtda 30 daqiqa ichida tijorat taklifini yuboramiz. Narx hajm va shartnoma muddatiga bog‘liq.","Укажите продукт, объём и сроки — пришлём коммерческое предложение в течение 30 минут в рабочее время. Цена зависит от объёма и срока контракта.","Tell us the product, volume and timing — we will send a quotation within 30 minutes during business hours. Price depends on volume and contract length.",,
+quote.title,Narx so‘rash (RFQ),Narx so‘rovi (RFQ),Запрос цены (RFQ),Request for quotation (RFQ),,
+quote.volumeDiscount,Narx so‘rash (RFQ),100 kg dan yuqori hajmlarda chegirma,Скидки при объёмах от 100 кг,Discounts on volumes above 100 kg,,
+nav.about,Navigatsiya,Kompaniya,О компании,About,,
+nav.admin,Navigatsiya,Admin panel,Админ-панель,Admin,,
+nav.call,Navigatsiya,Qo‘ng‘iroq qilish,Позвонить,Call us,,
+nav.catalog,Navigatsiya,Katalog,Каталог,Catalogue,,
+nav.contact,Navigatsiya,Aloqa,Контакты,Contact,,
+nav.getSample,Navigatsiya,Bepul namuna,Бесплатные образцы,Free samples,,
+nav.home,Navigatsiya,Bosh sahifa,Главная,Home,,
+nav.industries,Navigatsiya,Sohalar,Отрасли,Industries,,
+nav.privacy,Navigatsiya,Maxfiylik siyosati,Политика конфиденциальности,Privacy policy,,
+nav.quote,Navigatsiya,Narx so‘rash,Запросить цену,Request a quote,,
+nav.samples,Navigatsiya,Namuna qutisi,Тест-бокс,Sample box,,
+nav.samplesShort,Navigatsiya,Namuna olish,Образцы,Samples,,
+nav.terms,Navigatsiya,Foydalanish shartlari,Условия использования,Terms of use,,
+why.1.text,Nega biz,"Biz GFF zavodining O‘zbekistondagi to‘g‘ridan-to‘g‘ri vakolatxonasi. Mahsulot original, hujjatlar to‘liq va kafolatli.","Мы — прямое представительство завода GFF в Узбекистане. Продукция оригинальная, документы полные, гарантия реальная.","We are the direct representative of the GFF plant in Uzbekistan. Original products, complete documentation, real warranty.",,
+why.1.title,Nega biz,Rasmiy yagona distribyutor,Официальный единственный дистрибьютор,Official sole distributor,,
+why.2.text,Nega biz,Tanlagan aromatizatorlaringizdan namunalar to‘plamini yig‘amiz va 3 ish kuni ichida bepul yetkazamiz.,Соберём набор образцов из выбранных вами ароматизаторов и бесплатно доставим за 3 рабочих дня.,We assemble a sample set from the flavours you pick and deliver it free of charge within 3 working days.,,
+why.2.title,Nega biz,Bepul test box,Бесплатный тест-бокс,Free sample box,,
+why.3.text,Nega biz,"Dozani hisoblash, retsepturani optimallashtirish va tannarxni kamaytirish bo‘yicha GFF texnologlari bepul maslahat beradi.","Технологи GFF бесплатно рассчитают дозировку, оптимизируют рецептуру и помогут снизить себестоимость.","GFF technologists calculate your dosage, optimise the recipe and help reduce cost-in-use — free of charge.",,
+why.3.title,Nega biz,Texnologik yordam,Технологическая поддержка,Technical support,,
+why.4.text,Nega biz,Xit pozitsiyalar mahalliy omborda saqlanadi — buyurtmadan keyin kutish haftalab davom etmaydi.,Хитовые позиции хранятся на местном складе — не придётся ждать неделями после заказа.,"Best-sellers are held locally, so you are not waiting weeks after placing an order.",,
+why.4.title,Nega biz,Ombor zaxirasi Toshkentda,Склад в Ташкенте,Stock in Tashkent,,
+why.5.text,Nega biz,"Deklaratsiya, CoA, TDS, MSDS, halol va ISO sertifikatlarini buyurtma bilan birga yuboramiz.","Декларацию, CoA, TDS, MSDS, сертификаты Халяль и ISO отправляем вместе с заказом.","Declaration, CoA, TDS, MSDS, Halal and ISO certificates are sent with every order.",,
+why.5.title,Nega biz,Hujjatlar to‘plami,Полный пакет документов,Complete document set,,
+why.6.text,Nega biz,4000 dan ortiq xom-ashyo bazasi tufayli sizning mahsulotingiz uchun noyob ta‘m yaratish mumkin.,База из более чем 4000 видов сырья позволяет создать уникальный вкус именно для вашего продукта.,"A base of over 4,000 raw materials lets us create a unique flavour for your specific product.",,
+why.6.title,Nega biz,Individual retseptura,Индивидуальная рецептура,Bespoke formulations,,
+why.eyebrow,Nega biz,Afzalliklar,Преимущества,Advantages,,
+why.title,Nega biz,Nega O‘zbekiston ishlab chiqaruvchilari bizni tanlaydi,Почему производители Узбекистана выбирают нас,Why Uzbek manufacturers choose us,,
+notfound.catalog,notfound,Katalog,Каталог,Catalogue,,
+notfound.contact,notfound,Aloqa,Контакты,Contact,,
+notfound.home,notfound,Bosh sahifa,Главная,Home,,
+notfound.text,notfound,Kerakli sahifa mavjud emas yoki ko‘chirilgan. Quyidagi havolalardan foydalaning.,Запрошенная страница не существует или была перемещена. Воспользуйтесь ссылками ниже.,The page you requested does not exist or has been moved. Use the links below.,,
+notfound.title,notfound,Sahifa topilmadi,Страница не найдена,Page not found,,
+og.alt,og,GFF Uzbekistan — Gulf Flavours & Fragrances rasmiy distribyutori,GFF Uzbekistan — официальный дистрибьютор Gulf Flavours & Fragrances,GFF Uzbekistan — official distributor of Gulf Flavours & Fragrances,,
+process.1.text,process,Katalogdan mahsulot tanlaysiz yoki qaysi ta‘m kerakligini yozasiz. 2 daqiqa vaqt ketadi.,"Выбираете продукт в каталоге или пишете, какой вкус нужен. Занимает 2 минуты.",Pick products in the catalogue or tell us which flavour you need. Takes 2 minutes.,,
+process.1.title,process,Ariza qoldirasiz,Вы оставляете заявку,You send an enquiry,,
+process.2.text,process,"Ishchi vaqtda 30 daqiqa ichida qo‘ng‘iroq qilamiz: dozani, qadoqni va narxni aniqlaymiz.","В рабочее время звоним в течение 30 минут: уточняем дозировку, фасовку и цену.","Within 30 minutes during business hours we confirm dosage, pack size and price.",,
+process.2.title,process,Texnolog bog‘lanadi,Связывается технолог,A technologist calls you,,
+process.3.text,process,"Tanlangan namunalar to‘plami bepul, 3 ish kuni ichida O‘zbekiston bo‘ylab yetkaziladi.",Набор образцов бесплатно доставляется по всему Узбекистану за 3 рабочих дня.,The sample set is delivered free across Uzbekistan in 3 working days.,,
+process.3.title,process,Test box keladi,Приезжает тест-бокс,Your sample box arrives,,
+process.4.text,process,"Namuna ma‘qul bo‘lsa — hisob-faktura, shartnoma va muntazam yetkazib berish.","Если образец подошёл — счёт, договор и регулярные поставки.","Once the sample is approved — invoice, contract and regular supply.",,
+process.4.title,process,Sanoat partiyasi,Промышленная партия,Industrial batch,,
+process.eyebrow,process,Qanday ishlaymiz,Как мы работаем,How we work,,
+process.title,process,Arizadan partiyagacha — 4 qadam,От заявки до партии — 4 шага,From enquiry to bulk order — 4 steps,,
+search.clear,Qidiruv,So‘rovni tozalash,Очистить запрос,Clear query,,
+search.emptyText,Qidiruv,Boshqa so‘z bilan qidirib ko‘ring yoki vazifani yozing — texnolog {raw}+ xomashyo bazasidan mos yechim topadi.,Попробуйте другой запрос или опишите задачу — технолог подберёт решение из базы на {raw}+ видов сырья.,Try another query or describe the task — the technologist will find a match in a {raw}+ raw-material base.,vars:{raw},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+search.emptyTitle,Qidiruv,Hech narsa topilmadi,Ничего не найдено,Nothing found,,
+search.fullCatalog,Qidiruv,To‘liq katalog — {count},Весь каталог — {count},Full catalogue — {count},vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+search.headTitle,Qidiruv,Qidiruv,Поиск,Search,,
+search.inputAria,Qidiruv,Qidiruv so‘zi,Поисковый запрос,Search query,,
+search.inputPh,Qidiruv,"Mahsulot, SKU yoki soha nomi…","Продукт, SKU или отрасль…","Product, SKU or industry…",,
+search.popular,Qidiruv,Ko‘p qidiriladi:,Часто ищут:,Popular searches:,,
+search.sampleBox,Qidiruv,Bepul namuna qutisi,Бесплатная коробка образцов,Free sample box,,
+search.summary,Qidiruv,«{q}» bo‘yicha {count} ta natija,«{q}» — {count} результатов,{count} results for “{q}”,vars:{q}{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+search.summaryEmpty,Qidiruv,Qidiruv so‘zini kiriting,Введите поисковый запрос,Enter a search query,,
+search.tabAll,Qidiruv,Hammasi,Все,All,,
+search.tabIndustries,Qidiruv,Sohalar,Отрасли,Industries,,
+search.tabProducts,Qidiruv,Mahsulotlar,Продукты,Products,,
+search.title,Qidiruv,Qidiruv — {q},Поиск — {q},Search — {q},vars:{q},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+applicationBlurb.bakery,Qo‘llanish sohalari matni,"Biskvit, pechenye, krem va to‘ldirgichlar. Issiqqa chidamli — pechda ta’m saqlanadi.","Бисквит, печенье, кремы и начинки. Термостабильно — вкус сохраняется при выпечке.","Sponge, biscuits, creams and fillings. Heat stable — the flavour survives baking.",,
+applicationBlurb.beverages,Qo‘llanish sohalari matni,"Ichimliklar, siroplar va energetiklar — suvda eruvchi variantlar.","Напитки, сиропы и энергетики — водорастворимые варианты.","Drinks, syrups and energy beverages — water-soluble options.",,
+applicationBlurb.canned,Qo‘llanish sohalari matni,"Konserva, marinad va tayyor ovqatlar.","Консервы, маринады и готовые блюда.","Canned foods, marinades and ready meals.",,
+applicationBlurb.chocolate,Qo‘llanish sohalari matni,"Shokolad, praline va glazur — yog‘da eruvchi profillar.","Шоколад, пралине и глазурь — жирорастворимые профили.","Chocolate, praline and coatings — fat-soluble profiles.",,
+applicationBlurb.confectionery,Qo‘llanish sohalari matni,"Konfet, karamel, draje va shokolad to‘ldirgichlari.","Конфеты, карамель, драже и шоколадные начинки.","Sweets, caramel, dragées and chocolate fillings.",,
+applicationBlurb.dairy,Qo‘llanish sohalari matni,"Yogurt, tvorog desertlari va sut kokteyllari.","Йогурты, творожные десерты и молочные коктейли.","Yoghurt, curd desserts and milk shakes.",,
+applicationBlurb.fabric-care,Qo‘llanish sohalari matni,"Kir yuvish kukunlari, gel va yumshatgichlar.","Стиральные порошки, гели и кондиционеры.","Laundry powders, gels and softeners.",,
+applicationBlurb.flavour-base,Qo‘llanish sohalari matni,Aromatizator ishlab chiqarish uchun baza xom-ashyosi.,Базовое сырьё для производства ароматизаторов.,Base raw materials for flavour manufacturing.,,
+applicationBlurb.fragrance-base,Qo‘llanish sohalari matni,Parfumeriya kompozitsiyalari uchun asos va efir moylari.,Основа и эфирные масла для парфюмерных композиций.,Bases and essential oils for fragrance compositions.,,
+applicationBlurb.home-care,Qo‘llanish sohalari matni,Maishiy kimyo va tozalash vositalari.,Бытовая химия и чистящие средства.,Home care and cleaning products.,,
+applicationBlurb.horeca,Qo‘llanish sohalari matni,"Restoran, kafe va кейтерing uchun barqaror profillar.","Рестораны, кафе и кейтеринг — стабильные профили.","Restaurants, cafés and catering — stable profiles.",,
+applicationBlurb.icecream,Qo‘llanish sohalari matni,Plombir va sovuq desertlar — past haroratda barqaror ta’m.,Пломбир и холодные десерты — стабильный вкус при низких температурах.,Ice cream and frozen desserts — stable flavour at low temperatures.,,
+applicationBlurb.margarine,Qo‘llanish sohalari matni,"Margarin, spred va yog‘ aralashmalari.","Маргарин, спреды и жировые смеси.","Margarine, spreads and fat blends.",,
+applicationBlurb.meat,Qo‘llanish sohalari matni,"Kolbasa, delikateslar va yarim tayyor mahsulotlar.","Колбасы, деликатесы и полуфабрикаты.","Sausages, deli meats and ready meals.",,
+applicationBlurb.personal-care,Qo‘llanish sohalari matni,"Krem, loson, shampun va gigiena vositalari.","Кремы, лосьоны, шампуни и средства гигиены.","Creams, lotions, shampoos and hygiene products.",,
+applicationBlurb.pharma,Qo‘llanish sohalari matni,"Dorivor shakllar: sirop, tabletka va pastilkalar.","Лекарственные формы: сиропы, таблетки и пастилки.","Pharmaceutical forms: syrups, tablets and lozenges.",,
+applicationBlurb.sauces,Qo‘llanish sohalari matni,"Souslar, ketchup, mayonez va dressinglar.","Соусы, кетчуп, майонез и заправки.","Sauces, ketchup, mayonnaise and dressings.",,
+applicationBlurb.snacks,Qo‘llanish sohalari matni,"Chips, kraker, sho‘rva aralashmalari va quruq nonushta.","Чипсы, крекеры, снековые смеси и сухие завтраки.","Crisps, crackers, snack seasonings and cereals.",,
+applicationBlurb.supplements,Qo‘llanish sohalari matni,"BAA, sport ovqatlanishi va vitaminli mahsulotlar.","БАДы, спортивное питание и витаминные продукты.","Supplements, sports nutrition and vitamin products.",,
+applicationBlurb.tea-coffee,Qo‘llanish sohalari matni,"Choy, kofe va issiq ichimlik asoslari.","Чай, кофе и основы горячих напитков.","Tea, coffee and hot beverage bases.",,
+applicationBlurb.tobacco,Qo‘llanish sohalari matni,Chekuv mahsulotlari va HTP stiklari.,Табачные изделия и стики для СНТП.,Tobacco products and HTP sticks.,,
+reviews.eyebrow,reviews,Mijozlar,Клиенты,Clients,,
+reviews.title,reviews,Hamkorlar nima deydi,Что говорят партнёры,What our partners say,,
+sampleSet.bakery,sampleSet,Nonvoyxona va qandolat,Хлебобулочные и кондитерка,Bakery & confectionery,,
+sampleSet.chipTitle,sampleSet,To‘plam tarkibi,Состав набора,Set contents,,
+sampleSet.fragrance,sampleSet,Parfyumeriya va gigiyena,Парфюмерия и гигиена,Fragrance & personal care,,
+sampleSet.oils,sampleSet,Efir moylari,Эфирные масла,Essential oils,,
+seo.about.description,SEO (title/description),"GFF Uzbekistan — Gulf Flavours & Fragrances FZCO (Dubay) ning rasmiy va yagona distribyutori. 2002-yildan beri, Toshkentdagi ombor.","GFF Uzbekistan — официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO (Дубай). С 2002 года, склад в Ташкенте.","GFF Uzbekistan is the official and exclusive distributor of Gulf Flavours & Fragrances FZCO (Dubai). Since 2002, warehouse in Tashkent.",,
+seo.about.title,SEO (title/description),Kompaniya haqida,О компании,About the company,,
+seo.catalog.description,SEO (title/description),"Aromatizatorlar, parfyumeriya kompozitsiyalari, ingrediyentlar va xomashyo. Har bir pozitsiya Toshkent omborida, texnik hujjatlari bilan.","Ароматизаторы, парфюмерные композиции, ингредиенты и сырьё со склада в Ташкенте, с технической документацией.","Flavours, fragrances, ingredients and raw materials from our Tashkent warehouse, with technical documents.",,
+seo.catalog.title,SEO (title/description),Katalog — {count} pozitsiya,Каталог — {count} позиций,Catalogue — {count} items,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.contact.description,SEO (title/description),"So‘rov qoldiring — ish vaqtida {minutes} daqiqada javob beramiz: narx, hujjatlar, namuna va hamkorlik.","Оставьте запрос — отвечаем за {minutes} минут в рабочее время: цены, документы, образцы и партнёрство.","Leave a request — we reply within {minutes} minutes during business hours: prices, documents, samples and partnerships.",vars:{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.contact.title,SEO (title/description),Aloqa,Контакты,Contact us,,
+seo.home.description,SEO (title/description),"Gulf Flavours & Fragrances (Dubay) ning rasmiy distribyutori. {count} pozitsiya, Toshkentdagi ombor, bepul namuna qutisi va {raw}+ xomashyo bazasi.","Официальный дистрибьютор Gulf Flavours & Fragrances (Дубай). {count} позиций, склад в Ташкенте, бесплатная коробка образцов и база на {raw}+ видов сырья.","Official distributor of Gulf Flavours & Fragrances (Dubai). {count} items, Tashkent warehouse, free sample box and a {raw}+ raw-material base.",vars:{count}{raw},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.home.title,SEO (title/description),GFF O‘zbekiston — aromatizatorlar va ingrediyentlar,GFF Узбекистан — ароматизаторы и ингредиенты,GFF Uzbekistan — flavours and ingredients,,
+seo.industries.description,SEO (title/description),"Har bir soha uchun tavsiya etilgan mahsulotlar, dozirovka va tayyor namuna to‘plamlari.","Рекомендуемые продукты, дозировки и готовые наборы образцов для каждой отрасли.","Recommended products, dosages and ready-made sample sets for every industry.",,
+seo.industries.title,SEO (title/description),Sohalar — {count} ta yo‘nalish,Отрасли — {count} направлений,Industries — {count} directions,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.industry.description,SEO (title/description),"{name}: {count} tavsiya etilgan pozitsiya, dozirovka, issiqqa chidamli formalar va bepul namuna to‘plami.","{name}: {count} рекомендованных позиций, дозировки, термостабильные формы и бесплатный набор образцов.","{name}: {count} recommended items, dosages, heat-stable forms and a free sample set.",vars:{name}{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.industry.title,SEO (title/description),{name} — yechimlar,{name} — решения,{name} — solutions,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.notfound.description,SEO (title/description),Sahifa ko‘chirilgan yoki manzil xato. Katalogdan qidirib ko‘ring.,Страница перемещена или адрес неверен. Попробуйте поиск по каталогу.,The page moved or the address is wrong. Try the catalogue search.,,
+seo.notfound.title,SEO (title/description),Sahifa topilmadi,Страница не найдена,Page not found,,
+seo.privacy.description,SEO (title/description),"GFF Uzbekistan saytida shaxsiy ma’lumotlarni yig‘ish, saqlash va ishlatish tartibi.","Порядок сбора, хранения и использования персональных данных на сайте GFF Uzbekistan.","How personal data is collected, stored and used on the GFF Uzbekistan website.",,
+seo.privacy.title,SEO (title/description),Maxfiylik siyosati,Политика конфиденциальности,Privacy policy,,
+seo.product.description,SEO (title/description),"{name}: {form}, dozirovka {dose}. Toshkent omborida, bepul namuna.","{name}: {form}, дозировка {dose}. На складе в Ташкенте, бесплатный образец.","{name}: {form}, dosage {dose}. In stock in Tashkent, free sample included.",vars:{name}{form}{dose},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.product.title,SEO (title/description),{name} — {sku},{name} — {sku},{name} — {sku},ru-same-as-uz en-same-as-uz vars:{name}{sku},Tarjima qilinmagan — ko'rib chiqish shart
+seo.quote.description,SEO (title/description),"Ommaviy narxlar e’lon qilinmaydi — hajm va qadoqqa qarab hisoblanadi. {count}+ pozitsiya, ishchi vaqtda {minutes} daqiqada javob.","Публичных цен нет — рассчитываются по объёму и упаковке. Более {count} позиций, ответ за {minutes} минут в рабочее время.","No public prices — calculated by volume and packaging. {count}+ items, reply within {minutes} minutes during business hours.",vars:{count}{minutes},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.quote.title,SEO (title/description),Narx so‘rovi,Запрос цены,Price request,,
+seo.samples.description,SEO (title/description),"Katalogdan {max} tagacha mahsulot tanlang: namunalar bepul, {days} ish kuni ichida, texnik hujjatlar bilan.","Выберите до {max} продуктов из каталога: образцы бесплатно, за {days} рабочих дня, с документацией.","Pick up to {max} products: samples are free, delivered in {days} working days, with technical documents.",vars:{max}{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.samples.title,SEO (title/description),Bepul namuna qutisi — {max} tagacha,Бесплатная коробка образцов — до {max},Free sample box — up to {max},vars:{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.search.description,SEO (title/description),"«{q}» bo‘yicha {count} ta natija: mahsulotlar, SKU, sohalar va ingrediyentlar.","«{q}» — {count} результатов: продукты, SKU, отрасли и ингредиенты.","{count} results for “{q}”: products, SKUs, industries and ingredients.",vars:{q}{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.search.title,SEO (title/description),Qidiruv — {q},Поиск — {q},Search — {q},vars:{q},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+seo.terms.description,SEO (title/description),GFF Uzbekistan saytidan foydalanish shartlari.,Условия использования сайта GFF Uzbekistan.,Terms of use for the GFF Uzbekistan website.,,
+seo.terms.title,SEO (title/description),Foydalanish shartlari,Условия использования,Terms of use,,
+sg.brand,sg,Brend qoidalari,Правила бренда,Brand rules,,
+sg.buttons,sg,Tugmalar,Кнопки,Buttons,,
+sg.colors,sg,Ranglar,Цвета,Colours,,
+sg.components,sg,Komponentlar,Компоненты,Components,,
+sg.devOnly,sg,Faqat dev muhitda ochiladi,Открывается только в dev-окружении,Available in development only,,
+sg.form,sg,Forma (mis fon),Форма (медный фон),Form (copper background),,
+sg.icons,sg,"Ikonkalar · 24px, stroke 1.8–2","Иконки · 24px, stroke 1.8–2","Icons · 24px, stroke 1.8–2",,
+sg.intro,sg,"Ranglar, tipografiya, komponentlar, animatsiya va brend qoidalari — dizayn va kod uchun yagona manba.","Цвета, типографика, компоненты, анимация и правила бренда — единый источник для дизайна и кода.","Colours, typography, components, motion and brand rules — a single source for design and code.",,
+sg.motion,sg,Animatsiya,Анимация,Motion,,
+sg.pills,sg,"Pill, teg, tab","Pill, тег, таб","Pills, tags, tabs",,
+sg.replay,sg,Qayta ko‘rish,Повторить,Replay,,
+sg.shape,sg,"Shakl, joylashuv, breakpoint","Форма, сетка, брейкпоинты","Shape, layout, breakpoints",,
+sg.title,sg,Dizayn tizimi,Дизайн-система,Design system,,
+sg.type,sg,Tipografiya — Urbanist,Типографика — Urbanist,Typography — Urbanist,,
+sg.version,sg,GFF UZBEKISTAN · v2.0 · 2026,GFF UZBEKISTAN · v2.0 · 2026,GFF UZBEKISTAN · v2.0 · 2026,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+slogan.bliss,Slogan (inglizcha qoladi),A sense of Bliss,A sense of Bliss,A sense of Bliss,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+slogan.delight,Slogan (inglizcha qoladi),A sense of Delight,A sense of Delight,A sense of Delight,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+slogan.joy,Slogan (inglizcha qoladi),A sense of Joy,A sense of Joy,A sense of Joy,keep-en,Barcha tillarda inglizcha qoladi (§10.4) — tarjima QILINMAYDI
+industries.cardAlt,Sohalar,{name} sohasi fotosi,Фото отрасли {name},Photo for {name},vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industries.chipLabel,Sohalar,soha,отрасль,industry,,
+industries.directions,Sohalar,{count} ta yo‘nalish,{count} направлений,{count} directions,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industries.eyebrow,Sohalar,Qo‘llash sohalari,Области применения,Applications,,
+industries.head.text,Sohalar,"Oziq-ovqatdan kosmetikagacha — har bir soha uchun tavsiya etilgan mahsulotlar, dozirovka va texnologning yordami.","От продуктов питания до косметики — рекомендуемые продукты, дозировки и помощь технолога для каждой отрасли.","From food to cosmetics — recommended products, dosages and technologist support for every industry.",,
+industries.missing,Sohalar,Sohangiz ro‘yxatda yo‘qmi?,Вашей отрасли нет в списке?,Do not see your industry?,,
+industries.missingText,Sohalar,Texnolog vazifangizga mos yechim topadi.,Технолог подберёт решение под вашу задачу.,Our technologist will find a solution for your task.,,
+industries.openIndustry,Sohalar,{name} sahifasini ochish,Открыть {name},Open {name},vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industries.products,Sohalar,{count} mahsulot,{count} продуктов,{count} products,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industries.question,Sohalar,Qaysi soha uchun ishlaysiz?,Для какой отрасли вы работаете?,Which industry do you work in?,,
+industries.seeProducts,Sohalar,Mahsulotlarni ko‘rish,Смотреть продукты,View products,,
+industries.subtitle,Sohalar,"Har bir tarmoq uchun tavsiya etilgan mahsulotlar, doza va texnologik yechimlar.","Для каждой отрасли — рекомендованные продукты, дозировки и технологические решения.","Recommended products, dosages and technical solutions for every sector.",,
+industries.title,Sohalar,Qaysi tarmoqda ishlaysiz?,В какой отрасли вы работаете?,Which industry are you in?,,
+industries.writeTech,Sohalar,Texnologga yozish,Написать технологу,Write to the technologist,,
+industry.all,Sohalar,Barcha sohalar,Все отрасли,All industries,,
+industry.allIndustries,Sohalar,Barcha tarmoqlar,Все отрасли,All industries,,
+industry.allProductsHint,Sohalar,{name} uchun barcha pozitsiyalar katalogda — filtr orqali tanlang.,Все позиции для направления «{name}» есть в каталоге — выбирайте через фильтры.,All items for {name} are in the catalog — narrow them down with filters.,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industry.askSpecialist,Sohalar,Tarmoq mutaxassisidan so‘rash,Спросить специалиста по отрасли,Ask an industry specialist,,
+industry.challenges,Sohalar,Tarmoq muammolari va bizning yechimimiz,Задачи отрасли и наши решения,Industry challenges and our solutions,,
+industry.dosage,Sohalar,Odatiy doza,Типичная дозировка,Typical dosage,,
+industry.eyebrow,Sohalar,Soha,Отрасль,Industry,,
+industry.form,Sohalar,Tavsiya etilgan shakl,Рекомендуемая форма,Recommended form,,
+industry.getSet,Sohalar,{name} to‘plamini olish,Получить набор «{name}»,Get the {name} set,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industry.heroAlt,Sohalar,{name} sohasiga oid foto,Фото для отрасли {name},Photo for the {name} industry,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industry.notFound,Sohalar,Tarmoq topilmadi,Отрасль не найдена,Industry not found,,
+industry.others,Sohalar,Boshqa sohalar,Другие отрасли,Other industries,,
+industry.productsTitle,Sohalar,Tavsiya etilgan mahsulotlar,Рекомендуемые продукты,Recommended products,,
+industry.recommended,Sohalar,Tavsiya etilgan mahsulotlar,Рекомендованные продукты,Recommended products,,
+industry.setGet,Sohalar,To‘plamni olish,Получить набор,Get the set,,
+industry.setMeta,Sohalar,{count} ta namuna · bepul · {days} ish kunida · hujjatlar bilan,{count} образцов · бесплатно · {days} рабочих дня · с документами,{count} samples · free · {days} working days · with documents,vars:{count}{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industry.setName,Sohalar,{name} to‘plami,Комплект «{name}»,{name} set,vars:{name},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+industry.setTitle,Sohalar,Tayyor to‘plam,Готовый набор,Ready-made set,,
+industry.solution,Sohalar,Yechim,Решение,Solution,,
+industry.solutionPrefix,Sohalar,Tavsiya etilgan:,Рекомендуем:,Recommended:,,
+industry.statPositions,Sohalar,tavsiya etilgan pozitsiya,рекомендованных позиций,recommended items,,
+industry.statSet,Sohalar,namuna to‘plamda,образцов в наборе,samples in the set,,
+industry.talkTech,Sohalar,Texnolog bilan gaplashish,Поговорить с технологом,Talk to the technologist,,
+industry.task,Sohalar,Vazifa,Задача,Task,,
+industry.taskSolution,Sohalar,Vazifa → yechim,Задача → решение,Task → solution,,
+sticky.addToSample,Sticky CTA,+ Namunaga,+ В образцы,+ Add sample,,
+sticky.boxLine,Sticky CTA,{count} / {max} namuna tanlandi,Выбрано {count} из {max} образцов,{count} of {max} samples selected,vars:{count}{max},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+sticky.goToBox,Sticky CTA,Qutiga o‘tish ({count}),К коробке ({count}),Go to box ({count}),vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+sticky.openBox,Sticky CTA,Qutini ochish,Открыть коробку,Open the box,,
+common.all,Umumiy,Barchasi,Все,All,,
+common.back,Umumiy,Orqaga,Назад,Back,,
+common.cancel,Umumiy,Bekor qilish,Отмена,Cancel,,
+common.close,Umumiy,Yopish,Закрыть,Close,,
+common.closeSheet,Umumiy,Yopish,Закрыть,Close,,
+common.copied,Umumiy,Nusxa olindi,Скопировано,Copied,,
+common.copy,Umumiy,Nusxa olish,Копировать,Copy,,
+common.currency,Umumiy,so‘m,сум,UZS,,
+common.days,Umumiy,kun,дн.,days,,
+common.documents,Umumiy,hujjatlar,документы,documents,,
+common.download,Umumiy,Yuklab olish,Скачать,Download,,
+common.error,Umumiy,Xatolik yuz berdi,Произошла ошибка,Something went wrong,,
+common.filtersFor,Umumiy,Filtrlar,Фильтры,Filters,,
+common.free,Umumiy,bepul,бесплатно,free,,
+common.from,Umumiy,dan,от,from,,
+common.g,Umumiy,g,г,g,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+common.items,Umumiy,{count} pozitsiya,{count} позиций,{count} items,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+common.kg,Umumiy,kg,кг,kg,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+common.loading,Umumiy,Yuklanmoqda…,Загрузка…,Loading…,,
+common.menu,Umumiy,Menyu,Меню,Menu,,
+common.ml,Umumiy,ml,мл,ml,en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
+common.more,Umumiy,Batafsil,Подробнее,More,,
+common.next,Umumiy,Keyingi,Далее,Next,,
+common.no,Umumiy,Yo‘q,Нет,No,,
+common.of,Umumiy,/,из,of,,
+common.optional,Umumiy,ixtiyoriy,необязательно,optional,,
+common.page,Umumiy,Sahifa,Страница,Page,,
+common.perPage,Umumiy,sahifada {count},по {count} на странице,{count} per page,vars:{count},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+common.positions,Umumiy,pozitsiya,позиций,items,,
+common.prev,Umumiy,Oldingi,Назад,Previous,,
+common.priceOnRequest,Umumiy,Narx so‘rov bo‘yicha,Цена по запросу,Price on request,,
+common.readMore,Umumiy,Batafsil,Подробнее,Read more,,
+common.required,Umumiy,Majburiy maydon,Обязательное поле,Required field,,
+common.resetFilters,Umumiy,Tozalash,Сбросить,Reset,,
+common.resultOne,Umumiy,natija,результат,result,,
+common.results,Umumiy,natija,результатов,results,,
+common.retry,Umumiy,Qayta urinish,Повторить,Retry,,
+common.search,Umumiy,Qidirish,Поиск,Search,,
+common.selectLanguage,Umumiy,Tilni tanlang,Выбрать язык,Select language,,
+common.send,Umumiy,Yuborish,Отправить,Send,,
+common.sending,Umumiy,Yuborilmoqda…,Отправка…,Sending…,,
+common.sent,Umumiy,Yuborildi,Отправлено,Sent,,
+common.showAll,Umumiy,Barchasi,Все,All,,
+common.showLess,Umumiy,Yashirish,Свернуть,Show less,,
+common.showMore,Umumiy,Ko‘proq ko‘rsatish,Показать ещё,Show more,,
+common.skipToContent,Umumiy,Asosiy mazmunga o‘tish,Перейти к основному содержанию,Skip to main content,,
+common.to,Umumiy,gacha,до,to,,
+common.workDays,Umumiy,{days} ish kuni,{days} рабочих дня,{days} working days,vars:{days},Joy tutgichlarni ({…}) saqlang va tartibini o'zgartirmang
+common.yes,Umumiy,Ha,Да,Yes,,
+widget.callBack,widget,Qo‘ng‘iroq so‘rash,Заказать звонок,Request a call back,,
+widget.openChat,widget,Savol bering,Задать вопрос,Ask a question,,
+widget.sampleBox,widget,Test box,Тест-бокс,Sample box,,
+widget.telegram,widget,Telegram orqali yozish,Написать в Telegram,Message on Telegram,,
+widget.whatsapp,widget,WhatsApp,WhatsApp,WhatsApp,ru-same-as-uz en-same-as-uz,Tarjima qilinmagan — ko'rib chiqish shart
