@@ -1,200 +1,244 @@
 /**
- * NARX SO'RASH (ZAYVKA) SAHIFASI
+ * NARX SO'RASH (RFQ) — §5 (Contact/Samples tuzilmasi asosida)
  * ----------------------------------------------------------------
- * Eng "issiq" lead turi: mijoz aniq hajm va muddatni biladi.
- * Shuning uchun bu sahifada:
- *   - hajm/s chastota/muddat maydonlari (sifat bahosini oshiradi)
- *   - hajm chegirmasi va shartnoma narxi haqida aniq va'da
- *   - javob berish muddati (30 daqiqa) — konversiyani oshiradi
+ * Dizayn paketida alohida "Quote" sahifasi YO'Q — bu mavjud biznes
+ * yo'nalishi (eng "issiq" lead turi: mijoz hajm va muddatni biladi).
+ * Shuning uchun u Contact sahifasi bilan bir xil qurilish bloklari
+ * (PageHead + aside, GffLeadForm, Faq) da yangi dizaynga o'tkazildi;
+ * mantiq va ma'lumot saqlangan (§2).
+ *
+ * Nima saqlangan:
+ *   · lead turi `quote` (§11.1) — shu turi bilan /api/leads ga ketadi
+ *   · va'dalar `siteConfig.business` dan HISOBLANADI (§7.1):
+ *     javob muddati, chegirma ostona/p foizi, min. buyurtma
+ *   · FAQ va JSON-LD (`BreadcrumbList` + `FAQPage`, §13.4)
  */
 
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { makeT, normalizeLocale, type AppLocale, type DictKey } from '@/i18n';
+import { LOCALES, makeT, normalizeLocale, type AppLocale, type DictKey } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, faqLd } from '@/lib/seo';
 import { productCount } from '@/lib/catalog';
-import { Breadcrumb } from '@/components/layout/Breadcrumb';
+import { Clock, FileText, Percent, Truck } from 'lucide-react';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
-import { LeadForm } from '@/components/lead/LeadForm';
-import { Icon, type IconName } from '@/components/ui/Icon';
-import { Stat } from '@/components/ui/Display';
+import { PageHead } from '@/components/ui/PageHead';
+import { Section, SectionHeader } from '@/components/ui/SectionHeader';
+import { Faq } from '@/components/ui/Faq';
+import { CountUp, Reveal } from '@/components/motion';
+import { GffLeadForm } from '@/components/lead/GffLeadForm';
 
-interface PageProps {
+interface Props {
   params: Promise<{ locale: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
+
   return buildMetadata({
     locale,
     title: t('quote.title'),
-    description: `${t('quote.subtitle')} Ishchi vaqtda ${siteConfig.business.responseMinutes} daqiqada javob beramiz. Hajm chegirmasi, shartnoma narxi, to‘liq hujjatlar to‘plami. ${siteConfig.contact.phonePrimary}`,
+    description: t('seo.quote.description', {
+      minutes: siteConfig.business.responseMinutes,
+      count: productCount(),
+    }),
     path: '/quote',
-    keywords: ['aromatizator narxi', 'оптовая цена ароматизаторов', 'ingredientlar narxi Toshkent', 'wholesale flavours price Uzbekistan'],
+    keywords: [
+      'aromatizator narxi',
+      'оптовая цена ароматизаторов',
+      'ingredientlar narxi Toshkent',
+      'wholesale flavours price Uzbekistan',
+    ],
   });
 }
 
-export default async function QuotePage({ params }: PageProps) {
+export default async function QuotePage({ params }: Props) {
   const { locale: raw } = await params;
-  const locale = normalizeLocale(raw) as AppLocale;
+  const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);
 
   const biz = siteConfig.business;
   const crumbs = [
     { label: t('nav.home'), href: `/${locale}` },
-    { label: t('nav.quote'), href: `/${locale}/quote` },
+    { label: t('quote.title') },
   ];
 
-  const promises: { icon: IconName; title: string; text: string }[] = [
-    { icon: 'clock', title: t('quote.fastResponse'), text: `${biz.responseMinutes} min · ${siteConfig.contact.hours}` },
-    { icon: 'trend-up', title: t('quote.volumeDiscount'), text: `${biz.discountThresholdKg} kg+ → −${biz.volumeDiscountPct}%` },
-    { icon: 'invoice', title: t('quote.contractPrice'), text: t('quote.docsIncluded') },
-    { icon: 'truck', title: t('samples.deliveryFree'), text: `${biz.minOrderKg} kg ${locale === 'ru' ? 'мин. заказ' : locale === 'en' ? 'min. order' : 'min. buyurtma'}` },
+  /* ---- va'dalar: SONLAR CONFIG'DAN (§7.1) ---- */
+  const promises = [
+    {
+      Icon: Clock,
+      title: t('quote.fastResponse'),
+      text: t('quote.responseValue', { minutes: biz.responseMinutes, hours: siteConfig.contact.hours }),
+    },
+    {
+      Icon: Percent,
+      title: t('quote.volumeDiscount'),
+      text: t('quote.discountValue', {
+        kg: biz.discountThresholdKg,
+        pct: biz.volumeDiscountPct,
+      }),
+    },
+    {
+      Icon: FileText,
+      title: t('quote.contractPrice'),
+      text: t('quote.docsIncluded'),
+    },
+    {
+      Icon: Truck,
+      title: t('samples.deliveryFree'),
+      text: t('quote.minOrderValue', { kg: biz.minOrderKg }),
+    },
   ];
 
-  const faq = [
-    { q: t('faq.q2'), a: t('faq.a2') },
-    { q: t('faq.q4'), a: t('faq.a4') },
-    { q: t('faq.q6'), a: t('faq.a6') },
-    { q: t('faq.q7'), a: t('faq.a7') },
+  /* ---- nima uchun biz (§15) ---- */
+  const why = [1, 2, 3, 4, 5].map((i) => ({
+    title: t(`why.${i}.title` as DictKey),
+    text: t(`why.${i}.text` as DictKey),
+  }));
+
+  /* ---- FAQ ---- */
+  const faq = [2, 4, 6, 7].map((i) => ({
+    q: t(`faq.q${i}` as DictKey),
+    a: t(`faq.a${i}` as DictKey, i === 2 ? { min: biz.minOrderKg } : undefined),
+  }));
+
+  const stats = [
+    { value: productCount(), suffix: '+', label: t('stats.products') },
+    { value: siteConfig.stats.exportCountries, label: t('stats.export') },
+    { value: siteConfig.stats.uzRegions, label: t('stats.regions') },
+    { value: siteConfig.stats.yearsExperience, suffix: '+', label: t('stats.years') },
   ];
 
   return (
     <>
-      {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden border-b border-cream-200 bg-pine-950 text-white">
-        <div className="pattern-uzbek pointer-events-none absolute inset-0 opacity-[0.08]" aria-hidden />
-        <div className="pointer-events-none absolute -right-32 -top-20 h-96 w-96 rounded-full bg-gold-500/12 blur-3xl" aria-hidden />
-        <div className="container-x relative py-10 lg:py-14">
-          <Breadcrumb items={crumbs} className="[&_a]:text-white/60 [&_a:hover]:text-mint-200 [&_span:last-child]:text-white" />
-          <div className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
-            <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold-500/40 bg-gold-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-gold-400">
-                <Icon name="invoice" size={12} />
-                B2B · {productCount()}+ {locale === 'ru' ? 'позиций' : locale === 'en' ? 'items' : 'pozitsiya'}
-              </span>
-              <h1 className="mt-3 max-w-2xl font-display text-[clamp(1.7rem,4.6vw,2.7rem)] leading-[1.08] font-extrabold tracking-tight text-white">
-                {t('quote.title')}
-              </h1>
-              <p className="mt-3.5 max-w-xl text-[15px] leading-relaxed text-white/70">{t('quote.subtitle')}</p>
-            </div>
+      <JsonLdGroup
+        items={[
+          breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href ?? '/quote' })), locale),
+          faqLd(faq),
+        ]}
+      />
 
-            <div className="grid grid-cols-2 gap-2.5">
-              {promises.map((p) => (
-                <div key={p.title} className="rounded-xl border border-white/12 bg-white/[0.06] p-3.5">
-                  <Icon name={p.icon} size={19} className="text-mint-200" />
-                  <p className="mt-2 text-[13px] leading-snug font-bold text-white">{p.title}</p>
-                  <p className="mt-1 text-[11.5px] leading-snug text-white/60">{p.text}</p>
-                </div>
-              ))}
-            </div>
+      {/* ============ HEAD + VA'DALAR ============ */}
+      <PageHead
+        title={t('quote.title')}
+        text={t('quote.subtitle')}
+        count={t('catalog.positionsShort', { count: productCount() })}
+        crumbs={crumbs}
+        crumbLabel={t('quote.title')}
+        aside={
+          <div className="grid grid-cols-2 gap-3">
+            {promises.map((p, i) => (
+              <Reveal
+                key={p.title}
+                delay={i * 0.06}
+                className="flex flex-col gap-2.5 rounded-card border border-line bg-white px-5 py-5"
+              >
+                <p.Icon size={20} strokeWidth={1.8} className="text-copper-dark" aria-hidden />
+                <span className="text-[14px] font-semibold leading-snug text-ink">{p.title}</span>
+                <span className="text-[13px] leading-snug text-muted">{p.text}</span>
+              </Reveal>
+            ))}
           </div>
-        </div>
-      </section>
+        }
+      />
 
-      {/* ================= FORMA ================= */}
-      <section className="container-x py-9 lg:py-14">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-start">
-          <LeadForm
+      {/* ============ FORMA + "NEGA BIZ" ============ */}
+      <Section className="flex flex-wrap items-start gap-3">
+        <div className="flex min-w-0 flex-[1.6_1_560px] flex-col gap-3">
+          <GffLeadForm
             type="quote"
             locale={locale}
-            title={t('quote.title')}
-            subtitle={t('form.secureNote')}
-            submitLabel={t('form.submitQuote')}
-            nextHref={`/${locale}/catalog`}
-            nextLabel={t('nav.catalog')}
+            variant="contact"
+            defaultType="quote"
+            submitHint={t('quote.submitHint', { minutes: biz.responseMinutes })}
+            successLinks={[
+              { href: `/${locale}/catalog`, label: t('contact.viewCatalog') },
+              { href: `/${locale}/samples`, label: t('nav.getSample') },
+            ]}
+            labels={{
+              title: t('quote.title'),
+              text: t('form.secureNote'),
+              submit: t('form.submitQuote'),
+              typeLabel: t('contact.typeLabel'),
+              types: [],
+              name: t('form.fullName'),
+              namePh: t('form.fullNamePh'),
+              position: t('form.position'),
+              positionPh: t('form.positionPh'),
+              company: t('form.company'),
+              companyPh: t('form.companyPh'),
+              phone: t('form.phone'),
+              email: t('form.email'),
+              industry: t('contact.fIndustry'),
+              message: t('form.message'),
+              messagePh: t('quote.messagePh'),
+              consent: t('form.consentShort'),
+              privacy: t('form.consentLink'),
+              thanks: t('contact.thanks'),
+              thanksText: t.raw('contact.thanksText'),
+              required: t('form.required'),
+              errPhone: t('form.errPhone'),
+              errName: t('form.errName'),
+              errCompany: t('form.errCompany'),
+              errConsent: t('form.errConsent'),
+              errServer: t('form.errServer'),
+            }}
           />
+          {/* yuborishdan keyingi `{type}` va `{minutes}` — shablon klientda to'ldiriladi */}
+        </div>
 
-          {/* Yon panel: nima uchun biz */}
-          <div className="flex flex-col gap-3.5 lg:sticky lg:top-[5.5rem]">
-            <div className="rounded-2xl border border-cream-200 bg-white p-5 shadow-soft">
-              <h2 className="font-display text-[16px] font-extrabold text-pine-900">{t('why.title')}</h2>
-              <ul className="mt-3.5 flex flex-col gap-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-mint-100 text-teal-600" aria-hidden>
-                      <Icon name="check" size={14} strokeWidth={2.6} />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-[13.5px] font-bold leading-snug text-pine-900">
-                        {t(`why.${i}.title` as DictKey)}
-                      </span>
-                      <span className="mt-0.5 block text-[12.5px] leading-snug text-slate-warm-600">
-                        {t(`why.${i}.text` as DictKey)}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="flex min-w-0 flex-1 basis-[320px] flex-col gap-3">
+          <Reveal className="flex flex-col gap-4 rounded-card bg-panel p-[clamp(24px,3vw,32px)]">
+            <h2 className="m-0 text-h4">{t('why.title')}</h2>
+            <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
+              {why.map((w) => (
+                <li key={w.title} className="flex flex-col gap-1">
+                  <span className="text-[14px] font-semibold leading-snug text-ink">{w.title}</span>
+                  <span className="text-[13.5px] leading-snug text-muted">{w.text}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Stat icon="package" value={`${productCount()}+`} label={t('stats.products')} />
-              <Stat icon="globe" value={siteConfig.stats.exportCountries} label={t('stats.export')} />
-              <Stat icon="map-pin" value={siteConfig.stats.uzRegions} label={t('stats.regions')} />
-              <Stat icon="award" value={`${siteConfig.stats.yearsExperience}+`} label={t('stats.years')} />
-            </div>
-
-            <div className="rounded-2xl bg-pine-900 p-5 text-white">
-              <p className="font-display text-[15px] font-bold text-mint-200">{t('cta.orCall')}</p>
-              <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/65">{t('cta.fast')}</p>
-              <div className="mt-3.5 flex flex-col gap-2">
-                <a
-                  href={siteConfig.contact.phonePrimaryHref}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white font-mono text-[14px] font-extrabold text-pine-900 transition hover:bg-mint-200"
-                >
-                  <Icon name="phone" size={16} />
-                  {siteConfig.contact.phonePrimary}
-                </a>
-                <Link
-                  href={`/${locale}/contact`}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/25 text-[13.5px] font-bold text-white transition hover:bg-white/10"
-                >
-                  <Icon name="users" size={16} />
-                  {t('contact.departments')}
-                </Link>
+          <Reveal delay={0.06} className="grid grid-cols-2 gap-3">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="flex flex-col gap-1 rounded-card border border-line bg-white px-5 py-4"
+              >
+                <span className="font-display text-[clamp(26px,2.6vw,36px)] font-light leading-none text-ink">
+                  <CountUp value={s.value} suffix={s.suffix ?? ''} />
+                </span>
+                <span className="text-[13px] leading-snug text-muted">{s.label}</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= FAQ ================= */}
-      <section className="border-t border-cream-200 bg-cream-100/60 py-12 lg:py-16">
-        <div className="container-x grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
-          <div>
-            <span className="eyebrow">{t('faq.eyebrow')}</span>
-            <h2 className="mt-2 font-display text-[clamp(1.3rem,3vw,1.8rem)] font-extrabold tracking-tight text-pine-900">
-              {t('faq.title')}
-            </h2>
-            <p className="mt-3 text-[13.5px] leading-relaxed text-slate-warm-600">{t('faq.more')}</p>
-            <Link
-              href={`/${locale}/contact`}
-              className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl border border-pine-800/20 bg-white px-4 text-[13.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:text-teal-600"
-            >
-              <Icon name="phone" size={16} />
-              {t('nav.contact')}
-            </Link>
-          </div>
-
-          <ul className="flex flex-col gap-2.5">
-            {faq.map((f, i) => (
-              <li key={i} className="rounded-2xl border border-cream-200 bg-white p-5 shadow-soft">
-                <h3 className="flex items-start gap-2.5 font-display text-[15px] font-bold leading-snug text-pine-900">
-                  <Icon name="help" size={17} className="mt-0.5 shrink-0 text-teal-600" />
-                  {f.q}
-                </h3>
-                <p className="mt-2 pl-7 text-[13.5px] leading-relaxed text-slate-warm-700">{f.a}</p>
-              </li>
             ))}
-          </ul>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
-      <JsonLdGroup items={[breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href })), locale), faqLd(faq)]} />
+      {/* ============ FAQ ============ */}
+      <Section gap={false} className="flex flex-wrap items-start gap-8 pb-6">
+        <div className="flex min-w-0 flex-1 basis-[280px] flex-col gap-4">
+          <SectionHeader title={t('faq.title')} rules="top" />
+          <p className="m-0 max-w-[340px] text-body-l text-muted">{t('faq.more')}</p>
+        </div>
+
+        <Faq
+          className="min-w-0 flex-[1.6_1_560px]"
+          title=""
+          items={faq}
+          moreLabel={t('nav.contact')}
+          moreHref={`/${locale}/contact`}
+          firstOpen
+        />
+      </Section>
     </>
   );
 }
