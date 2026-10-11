@@ -1,53 +1,74 @@
 /**
- * FOYDALANISH SHARTLARI
+ * FOYDALANISH SHARTLARI (§5 · design/Privacy.dc.html tuzilmasi)
  * ----------------------------------------------------------------
+ * Matn manbai — `lib/legal.ts` → `TERMS`. Vizual — `LegalPage`
+ * (privacy bilan bir xil, shuning uchun ikki sahifa bir-biriga mos).
+ *
  * Muhim band: sayt ommaviy oferta emas — narx va mavjudlik har bir
- * so'rov bo'yicha tasdiqlanadi. Bu B2B amaliyotida standart, lekin
- * uni ochiq yozish kelgusidagi nizolarni kamaytiradi.
+ * so'rov bo'yicha tasdiqlanadi (B2B amaliyoti, `lib/legal.ts`).
  */
 
 import type { Metadata } from 'next';
-import { makeT, normalizeLocale, type AppLocale } from '@/i18n';
-import { buildMetadata } from '@/lib/seo';
+import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
+import { buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { TERMS } from '@/lib/legal';
-import type { Locale } from '@/lib/taxonomy';
-import { LegalDocView } from '@/components/legal/LegalDocView';
+import { JsonLdGroup } from '@/components/seo/JsonLd';
+import { LegalPage } from '@/components/legal/LegalPage';
 
-interface PageProps {
+interface Props {
   params: Promise<{ locale: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
+
   return buildMetadata({
     locale,
     title: t('legal.termsTitle'),
-    description: `${t('legal.termsTitle')}: katalog maqomi, arizalar, test box shartlari, narx va to'lov, yetkazib berish, javobgarlik. Tahrir ${TERMS.updated}.`,
+    description: t('seo.terms.description'),
     path: '/terms',
     noIndex: true,
   });
 }
 
-export default async function TermsPage({ params }: PageProps) {
+export default async function TermsPage({ params }: Props) {
   const { locale: raw } = await params;
-  const locale = normalizeLocale(raw) as AppLocale;
+  const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);
 
   const crumbs = [
     { label: t('nav.home'), href: `/${locale}` },
-    { label: t('legal.termsTitle'), href: `/${locale}/terms` },
+    { label: t('legal.termsTitle') },
   ];
 
   return (
-    <LegalDocView
-      doc={TERMS}
-      locale={locale as Locale}
-      title={t('legal.termsTitle')}
-      updatedLabel={t('legal.privacyUpdated')}
-      backLabel={t('legal.backToSite')}
-      crumbs={crumbs}
-    />
+    <>
+      <JsonLdGroup
+        items={[breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href ?? '/terms' })), locale)]}
+      />
+
+      <LegalPage
+        doc={TERMS}
+        locale={locale}
+        title={t('legal.termsTitle')}
+        crumbs={crumbs}
+        labels={{
+          toc: t('privacy.toc'),
+          updated: (date) => t('privacy.updated', { date }),
+          question: t('privacy.question'),
+          contactCta: t('nav.contact'),
+          homeCrumb: t('nav.home'),
+          otherDoc: { href: `/${locale}/privacy`, label: t('nav.privacy') },
+        }}
+      />
+    </>
   );
 }

@@ -1,20 +1,27 @@
 'use client';
 
 /**
- * XATO CHEGARASI (error boundary)
+ * XATO CHEGARASI (§14.2, §10.1 — matn lug'atda)
  * ----------------------------------------------------------------
- * Sahifada kutilmagan xato bo'lsa, foydalanuvchi oq ekranni ko'rmaydi:
- *   - xabar + "qayta urinish" tugmasi
- *   - muqobil aloqa kanallari (lead yo'qolmasligi uchun!)
- * Xato tafsilotlari faqat konsolga yoziladi (server log'lariga emas).
+ * Sahifada kutilmagan xato bo'lsa foydalanuvchi oq ekranni ko'rmaydi:
+ * xabar · "qayta urinish" · muqobil aloqa kanallari (lead yo'qolmasin).
+ *
+ * Til: `not-found.tsx` kabi `error.tsx` ga ham `params` KELMAYDI,
+ * shuning uchun lug'at `useI18n()` (layout provider'i) dan olinadi,
+ * zaxira — `usePathname()` ning birinchi segmenti.
+ *
+ * Dizayn: yangi tizim (§4) — panel blok, mis aksent, `.btn` klasslari.
+ * Xato tafsiloti (digest) faqat brauzer konsoliga yoziladi.
  */
 
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ArrowUpRight, Phone, RotateCw } from 'lucide-react';
+import { useI18n } from '@/components/i18n/I18nProvider';
+import { normalizeLocale } from '@/i18n/meta';
 import { siteConfig } from '@/lib/config';
-import { Icon } from '@/components/ui/Icon';
-import { Button } from '@/components/ui/Button';
+import { track } from '@/lib/analytics';
 
 export default function ErrorBoundary({
   error,
@@ -23,72 +30,71 @@ export default function ErrorBoundary({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const i18n = useI18n();
   const pathname = usePathname() ?? '/uz';
-  const locale = pathname.split('/')[1] ?? 'uz';
+  const fromPath = normalizeLocale(pathname.split('/')[1] ?? 'uz');
+  const locale = (i18n.dict && Object.keys(i18n.dict).length ? i18n.locale : fromPath) as typeof fromPath;
+  const t = i18n.t;
 
   useEffect(() => {
-    // Server loglariga tushmaydi, lekin brauzer konsolida qoladi (tuzatish uchun)
     console.error('[page-error]', error?.message, error?.digest);
   }, [error]);
 
-  const L = {
-    uz: {
-      title: 'Sahifa yuklanishida xatolik yuz berdi',
-      text: 'Kutilmagan xato sababli bu bo‘lim ochilmadi. Iltimos, qayta urinib ko‘ring — yoki biz bilan bog‘laning, biz darhol yordam beramiz.',
-      retry: 'Qayta urinish',
-      call: 'Qo‘ng‘iroq qilish',
-      home: 'Bosh sahifa',
-      support: 'Texnik yordam',
-    },
-    ru: {
-      title: 'Произошла ошибка при загрузке страницы',
-      text: 'Этот раздел не открылся из-за непредвиденной ошибки. Пожалуйста, попробуйте ещё раз — или свяжитесь с нами, мы поможем немедленно.',
-      retry: 'Повторить',
-      call: 'Позвонить',
-      home: 'Главная',
-      support: 'Техподдержка',
-    },
-    en: {
-      title: 'Something went wrong while loading this page',
-      text: 'This section failed to render due to an unexpected error. Please try again — or contact us and we will help right away.',
-      retry: 'Try again',
-      call: 'Call us',
-      home: 'Home',
-      support: 'Support',
-    },
-  }[(locale === 'ru' || locale === 'en') ? locale : 'uz'];
-
   return (
-    <div className="container-x py-16">
-      <div className="mx-auto max-w-xl rounded-2xl border border-clay-300/50 bg-clay-100/40 p-7 text-center">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-clay-600 text-white">
-          <Icon name="alert" size={26} />
+    <section className="container-page flex flex-wrap gap-3 py-3">
+      <div
+        data-surface="navy"
+        className="media-frame relative flex min-h-[280px] min-w-0 flex-1 basis-[320px] items-center justify-center overflow-hidden rounded-block bg-navy px-10 py-14"
+      >
+        <span
+          aria-hidden
+          className="font-display text-[clamp(72px,10vw,160px)] font-light leading-none tracking-[-0.05em] text-[#2A2850]"
+        >
+          !
         </span>
-        <h1 className="mt-4 font-display text-[20px] font-extrabold tracking-tight text-pine-900">{L.title}</h1>
-        <p className="mt-2.5 text-[14px] leading-relaxed text-slate-warm-700">{L.text}</p>
+      </div>
+
+      <div className="flex min-w-0 flex-[1.4_1_480px] flex-col justify-center gap-6 rounded-block bg-panel p-[clamp(28px,4vw,56px)]">
+        <h1 className="m-0 text-[clamp(28px,3.6vw,52px)] font-normal leading-[1.05] tracking-[-0.03em]">
+          {t('error.title')}
+        </h1>
+
+        <p className="m-0 max-w-[560px] text-body-l leading-relaxed text-body">{t('error.text')}</p>
 
         {error?.digest ? (
-          <p className="mt-3 font-mono text-[11px] text-slate-warm-500">
-            {L.support}: {error.digest}
+          <p className="m-0 font-mono text-[12px] text-muted">
+            {t('error.support')}: {error.digest}
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
-          <Button variant="primary" size="md" icon="refresh" onClick={reset}>
-            {L.retry}
-          </Button>
-          <Button variant="outline" size="md" icon="phone" onClick={() => (window.location.href = siteConfig.contact.phonePrimaryHref)}>
-            {L.call}
-          </Button>
-          <Link
-            href={`/${locale}`}
-            className="inline-flex h-11 items-center gap-2 rounded-xl px-4 text-[13.5px] font-semibold text-slate-warm-700 transition hover:bg-cream-100 hover:text-pine-900"
+        <div className="flex flex-wrap gap-2.5">
+          <button
+            type="button"
+            onClick={() => {
+              track.cta('error_retry', pathname);
+              reset();
+            }}
+            className="btn btn--accent btn--lg"
           >
-            <Icon name="house" size={16} />
-            {L.home}
+            <RotateCw size={18} aria-hidden />
+            {t('error.reset')}
+          </button>
+
+          <a
+            href={siteConfig.contact.phonePrimaryHref}
+            onClick={() => track.phoneClick('error', siteConfig.contact.phonePrimary)}
+            className="btn btn--primary btn--lg"
+          >
+            <Phone size={18} aria-hidden />
+            {siteConfig.contact.phonePrimary}
+          </a>
+
+          <Link href={`/${locale}`} className="btn btn--outline btn--lg">
+            {t('nf.home')}
+            <ArrowUpRight size={18} aria-hidden />
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
