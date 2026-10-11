@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Namuna qutisi — GFF Uzbekistan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#14132E}a:hover{color:#0B0A3A}
+summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}
+</style>
+</helmet>
+<div style="font-family: 'Urbanist', 'Helvetica Neue', sans-serif; color: #14132E; background: #FFFFFF; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+<dc-import name="Header" active="samples" count="{{count}}" hint-size="100%,88px"></dc-import>
+
+<!-- HEAD -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 16px;">
+<div style="flex: 1.6 1 560px; min-width: 0; background: #F4EEE7; border-radius: 40px; padding: clamp(28px, 4vw, 56px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: clamp(252px, 29.2vw, 420px);">
+<nav aria-label="Breadcrumb" style="display: flex; gap: 10px; font-size: 15px; color: #615E72;">
+<a href="Main.dc.html" style="color: #615E72; text-decoration: none;">Bosh sahifa</a>
+<span aria-hidden="true">/</span>
+<span style="color: #14132E;">Namuna qutisi</span>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 24px;">
+<h1 style="margin: 0; font-size: clamp(42px, 7vw, 116px); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em;">Namuna qutisi</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #4C4A5E; max-width: 560px;">Katalogdan 8 tagacha mahsulot tanlang. Namunalarni texnik hujjatlar bilan yig‘ib, O‘zbekiston bo‘ylab bepul yetkazamiz.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<span style="padding: 9px 16px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 500;">8 tagacha namuna</span>
+<span style="padding: 9px 16px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 500;">25–100 g</span>
+<span style="padding: 9px 16px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 500;">3 ish kuni</span>
+<span style="padding: 9px 16px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 500;">Bepul</span>
+</div>
+</div>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<div style="flex: 1 1 0; min-height: 120px; border-radius: 999px; background: #0B0A3A; color: #FFFFFF; display: flex; align-items: center; gap: 20px; padding: 0 36px;">
+<span style="font-size: 15px; color: #E8C3A3;">01</span>
+<span style="font-size: clamp(26px, 2.4vw, 36px); font-weight: 400; letter-spacing: -0.02em;">Mahsulot tanlang</span>
+</div>
+<div style="flex: 1 1 0; min-height: 120px; border-radius: 999px; background: #F4EEE7; display: flex; align-items: center; gap: 20px; padding: 0 36px;">
+<span style="font-size: 15px; color: #94603E;">02</span>
+<span style="font-size: clamp(26px, 2.4vw, 36px); font-weight: 400; letter-spacing: -0.02em;">Ma’lumot qoldiring</span>
+</div>
+<div style="flex: 1 1 0; min-height: 120px; border-radius: 999px; background: {{accent}}; display: flex; align-items: center; gap: 20px; padding: 0 36px;">
+<span style="font-size: 15px; color: #14132E;">03</span>
+<span style="font-size: clamp(26px, 2.4vw, 36px); font-weight: 400; letter-spacing: -0.02em;">Qutini oling</span>
+</div>
+</div>
+</section>
+
+<!-- BOX + FORM -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+<div style="flex: 1.4 1 560px; min-width: 0; border: 1px solid #ECE4DA; border-radius: 40px; padding: clamp(24px, 3vw, 40px); box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;">
+<h2 style="margin: 0; font-size: clamp(30px, 3vw, 44px); font-weight: 400; letter-spacing: -0.03em;">Sizning qutingiz</h2>
+<span style="font-size: 17px; font-weight: 600;">{{count}} <span style="font-weight: 400; color: #615E72;">/ 8</span></span>
+</div>
+<div style="height: 8px; border-radius: 999px; background: #F4EEE7; overflow: hidden;">
+<div style="{{barStyle}}"></div>
+</div>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="border: 1px dashed #DCD2C7; border-radius: 28px; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;">
+<span style="font-size: 24px; font-weight: 400;">Quti hozircha bo‘sh</span>
+<span style="font-size: 15px; color: #615E72;">Katalogdan mahsulot qo‘shing yoki tayyor to‘plamni tanlang.</span>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="3">
+<div style="background: #F4EEE7; border-radius: 28px; padding: 18px 18px 18px 26px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;">
+<span style="display: flex; flex-direction: column; gap: 4px; min-width: 200px; flex: 1 1 220px;">
+<span style="font-size: 18px; font-weight: 600;">{{it.name}}</span>
+<span style="font-size: 14px; color: #615E72;">{{it.meta}}</span>
+</span>
+<div style="display: flex; align-items: center; gap: 8px;">
+<div role="radiogroup" aria-label="Namuna hajmi" style="display: flex; padding: 4px; border-radius: 999px; background: #FFFFFF;">
+<sc-for list="{{it.sizes}}" as="s" hint-placeholder-count="3">
+<button type="button" role="radio" aria-checked="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{it.remove}}" aria-label="Qutidan olib tashlash" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #DCD2C7; background: #FFFFFF; color: #14132E; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</div>
+</sc-for>
+</div>
+<a href="Catalog.dc.html" style="border: 1.5px dashed #DCD2C7; border-radius: 28px; padding: 22px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-size: 16px; font-weight: 500;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Katalogdan qo‘shish</a>
+</div>
+
+<!-- FORM / THANKS -->
+<div style="flex: 1 1 400px; min-width: 0;">
+<sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+<form style="margin: 0; background: {{accent}}; border-radius: 40px; padding: clamp(24px, 3vw, 40px); box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+<span style="font-size: 30px; font-weight: 400; letter-spacing: -0.02em;">Qutini buyurtma qilish</span>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Kompaniya
+<input type="text" placeholder="Kompaniya nomi" style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+</label>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Ism
+<input type="text" placeholder="Ismingiz" style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+</label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Telefon
+<input type="tel" placeholder="+998" style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+</label>
+</div>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Email <span style="font-weight: 400;">(ixtiyoriy)</span>
+<input type="email" placeholder="name@company.uz" style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+</label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Hudud
+<select style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+<option>Toshkent shahri</option>
+<option>Toshkent viloyati</option>
+<option>Samarqand</option>
+<option>Farg‘ona</option>
+<option>Andijon</option>
+<option>Namangan</option>
+<option>Buxoro</option>
+<option>Qashqadaryo</option>
+<option>Surxondaryo</option>
+<option>Xorazm</option>
+<option>Navoiy</option>
+<option>Jizzax</option>
+<option>Sirdaryo</option>
+<option>Qoraqalpog‘iston</option>
+</select>
+</label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Yetkazish manzili
+<input type="text" placeholder="Ko‘cha, uy, mo‘ljal" style="font-family: inherit; font-size: 16px; height: 52px; padding: 0 20px; border-radius: 999px; border: 0; background: #FFFFFF; color: #14132E;">
+</label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #2A2850;">Nima ishlab chiqarasiz?
+<textarea rows="3" placeholder="Masalan: vanilli biskvit, oyiga 2 tonna" style="font-family: inherit; font-size: 16px; padding: 16px 20px; border-radius: 24px; border: 0; background: #FFFFFF; color: #14132E; resize: vertical;"></textarea>
+</label>
+<label style="display: flex; align-items: flex-start; gap: 12px; font-size: 14px; line-height: 1.45; color: #2A2850;">
+<input type="checkbox" style="width: 18px; height: 18px; margin: 2px 0 0; accent-color: #0B0A3A;">
+Shaxsiy ma’lumotlarim so‘rovni ko‘rib chiqish uchun ishlatilishiga roziman.
+</label>
+<button type="button" onClick="{{send}}" style="margin-top: 4px; font-family: inherit; height: 60px; border-radius: 999px; border: 0; background: #0B0A3A; color: #FFFFFF; font-size: 17px; font-weight: 600; cursor: pointer;">Qutini buyurtma qilish</button>
+<span style="font-size: 14px; color: #2A2850; text-align: center;">Texnolog ish vaqtida 30 daqiqa ichida qo‘ng‘iroq qiladi.</span>
+</form>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<div style="background: #0B0A3A; color: #FFFFFF; border-radius: 40px; padding: clamp(28px, 3vw, 48px); display: flex; flex-direction: column; gap: 24px; min-height: clamp(312px, 36.1vw, 520px); box-sizing: border-box; justify-content: space-between;">
+<img src="assets/monogram-copper.png" alt="" style="height: 96px; width: auto; align-self: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: clamp(36px, 3.4vw, 52px); font-weight: 400; letter-spacing: -0.03em; line-height: 1;">So‘rov qabul qilindi</span>
+<span style="font-size: 17px; line-height: 1.55; color: #CAC8DA;">{{count}} ta namuna yig‘ilmoqda. Texnolog ish vaqtida 30 daqiqa ichida qo‘ng‘iroq qilib, tafsilotlarni aniqlaydi.</span>
+</div>
+<a href="Catalog.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 999px; background: {{accent}}; color: #14132E; text-decoration: none; font-size: 16px; font-weight: 600;">Katalogga qaytish</a>
+</div>
+</sc-if>
+</div>
+</section>
+
+<!-- SETS -->
+<section style="max-width: 1408px; margin: 0 auto; padding: clamp(80px, 9vw, 120px) 16px 0; box-sizing: border-box;">
+<div style="padding: 0 clamp(0px, 3vw, 48px);">
+<div style="border-top: 1px solid #DCD2C7; border-bottom: 1px solid #DCD2C7; padding: 28px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
+<h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 72px); font-weight: 400; line-height: 1; letter-spacing: -0.03em;">Tayyor to‘plamlar</h2>
+<span style="font-size: 16px; color: #615E72; max-width: 360px;">Sohangiz uchun eng ko‘p tanlanadigan 5 ta namuna — bitta tugma bilan.</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding-top: 40px;">
+<sc-for list="{{sets}}" as="st" hint-placeholder-count="3">
+<div style="{{st.cardStyle}}">
+<img src="{{st.img}}" alt="" style="width: 120px; height: 126px; object-fit: contain; display: block;">
+<span style="font-size: 26px; font-weight: 500; letter-spacing: -0.02em;">{{st.title}}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; flex-grow: 1; align-content: flex-start;">
+<sc-for list="{{st.chips}}" as="ch" hint-placeholder-count="5">
+<span style="{{st.chipStyle}}">{{ch}}</span>
+</sc-for>
+</div>
+<button type="button" onClick="{{st.add}}" style="{{st.btnStyle}}">To‘plamni qo‘shish</button>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- FAQ -->
+<section style="max-width: 1408px; margin: 0 auto; padding: clamp(80px, 9vw, 120px) 16px 16px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px 48px;">
+<div style="flex: 1 1 320px; padding: 0 clamp(0px, 3vw, 48px); display: flex; flex-direction: column; gap: 24px;">
+<h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 72px); font-weight: 400; line-height: 1; letter-spacing: -0.03em;">Ko‘p beriladigan savollar</h2>
+<a href="Contact.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 999px; border: 1px solid #14132E; text-decoration: none; font-size: 16px; font-weight: 500;">Boshqa savol bormi?</a>
+</div>
+<div style="flex: 1.6 1 560px; min-width: 0; border-top: 1px solid #DCD2C7;">
+<details open="open" style="border-bottom: 1px solid #DCD2C7; padding: 26px 8px;">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 21px; font-weight: 500;">Namunalar haqiqatan bepulmi?<span aria-hidden="true" style="font-size: 26px; font-weight: 300;">+</span></summary>
+<p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4C4A5E; max-width: 640px;">Ha. Namuna ham, O‘zbekiston bo‘ylab yetkazish ham bepul va hech qanday majburiyatsiz.</p>
+</details>
+<details style="border-bottom: 1px solid #DCD2C7; padding: 26px 8px;">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 21px; font-weight: 500;">Yetkazish qancha vaqt oladi?<span aria-hidden="true" style="font-size: 26px; font-weight: 300;">+</span></summary>
+<p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4C4A5E; max-width: 640px;">3 ish kuni. Toshkent bo‘ylab kuryer, viloyatlarga tashuvchi kompaniya orqali.</p>
+</details>
+<details style="border-bottom: 1px solid #DCD2C7; padding: 26px 8px;">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 21px; font-weight: 500;">Minimal partiya hajmi qancha?<span aria-hidden="true" style="font-size: 26px; font-weight: 300;">+</span></summary>
+<p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4C4A5E; max-width: 640px;">[MINIMAL BUYURTMA HAJMI]. Qadoqlar: 1, 5, 10 va 25 kg.</p>
+</details>
+<details style="border-bottom: 1px solid #DCD2C7; padding: 26px 8px;">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 21px; font-weight: 500;">Qanday hujjatlar beriladi?<span aria-hidden="true" style="font-size: 26px; font-weight: 300;">+</span></summary>
+<p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4C4A5E; max-width: 640px;">Spetsifikatsiya, CoA, TDS, MSDS va Halal sertifikati nusxasi.</p>
+</details>
+<details style="border-bottom: 1px solid #DCD2C7; padding: 26px 8px;">
+<summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 21px; font-weight: 500;">Maxsus ta’m yaratib berasizmi?<span aria-hidden="true" style="font-size: 26px; font-weight: 300;">+</span></summary>
+<p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4C4A5E; max-width: 640px;">Ha. Zavod 4000+ xomashyo bazasi asosida mahsulotingiz uchun alohida formula ishlab chiqadi.</p>
+</details>
+</div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,460px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D6A27C","options":["#D6A27C","#E8C3A3","#C98F68","#F0D6BE"]},"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sent: false,
+      items: [
+        { key: 'GFFD6832', name: 'Vanilla Premium Flavour', meta: 'GFFD6832 · Suyuq', size: '50 g' },
+        { key: 'GFFD9948', name: 'Butter Flavour', meta: 'GFFD9948 · Suyuq', size: '50 g' },
+        { key: 'GFFE2441', name: 'Citric Acid Monohydrate', meta: 'GFFE2441 · Kukun', size: '100 g' }
+      ]
+    };
+  }
+  addMany(list) {
+    const cur = this.state.items.slice();
+    list.forEach((p) => {
+      if (cur.length < 8 && !cur.some((c) => c.key === p.key)) cur.push({ ...p, size: '50 g' });
+    });
+    this.setState({ items: cur });
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#D6A27C';
+    const { items, sent } = this.state;
+    const pill = 'font-family: inherit; height: 36px; padding: 0 14px; border-radius: 999px; border: 0; font-size: 14px; font-weight: 500; cursor: pointer; ';
+    const rows = items.map((it) => ({
+      name: it.name, meta: it.meta,
+      remove: () => this.setState({ items: this.state.items.filter((x) => x.key !== it.key) }),
+      sizes: ['25 g', '50 g', '100 g'].map((label) => ({
+        label, on: label === it.size ? 'true' : 'false',
+        pick: () => this.setState({ items: this.state.items.map((x) => (x.key === it.key ? { ...x, size: label } : x)) }),
+        style: pill + (label === it.size ? 'background: #0B0A3A; color: #FFFFFF;' : 'background: transparent; color: #14132E;')
+      }))
+    }));
+    const mk = (name, sku, form) => ({ key: sku || name, name, meta: (sku ? sku + ' · ' : '') + form });
+    const S = [
+      { title: 'Nonvoyxona va qandolat', img: 'assets/monogram-berries.png', dark: true,
+        list: [mk('Vanilla Premium Flavour', 'GFFD6832', 'Suyuq'), mk('Butter Flavour', 'GFFD9948', 'Suyuq'), mk('Cake Flavour', 'GFFD0802', 'Suyuq'), mk('Caramel Flavour', 'GFFD8962', 'Suyuq'), mk('Chocolate Flavour', 'GFFD1466', 'Suyuq')] },
+      { title: 'Parfyumeriya va gigiyena', img: 'assets/monogram-copper.png', dark: false,
+        list: [mk('Exotic Amber Fragrance', '', 'Parfyumeriya'), mk('Oriental Orchid Fragrance', '', 'Parfyumeriya'), mk('Ocean Rush Fragrance', '', 'Parfyumeriya'), mk('Oud Royal Fragrance', '', 'Parfyumeriya'), mk('Milk Fragrance', '', 'Parfyumeriya')] },
+      { title: 'Efir moylari', img: 'assets/monogram-citrus.png', dark: false,
+        list: [mk('Bergamot Essential Oil', 'GFFE2289', 'Moy asosida'), mk('Sweet Orange Essential Oil', '', 'Efir moyi'), mk('Lemon Essential Oil', '', 'Efir moyi'), mk('Peppermint Essential Oil', '', 'Efir moyi'), mk('Lavender Essential Oil', '', 'Efir moyi')] }
+    ];
+    const sets = S.map((s) => ({
+      title: s.title, img: s.img,
+      chips: s.list.map((p) => p.name.replace(' Flavour', '').replace(' Fragrance', '').replace(' Essential Oil', '')),
+      cardStyle: 'border-radius: 36px; padding: 32px; display: flex; flex-direction: column; gap: 20px; min-height: 380px; box-sizing: border-box; ' + (s.dark ? 'background: #0B0A3A; color: #FFFFFF;' : 'background: #F4EEE7; color: #14132E;'),
+      chipStyle: 'padding: 7px 14px; border-radius: 999px; font-size: 14px; ' + (s.dark ? 'border: 1px solid #4A4878; color: #FFFFFF;' : 'border: 1px solid #DCD2C7;'),
+      btnStyle: 'align-self: flex-start; font-family: inherit; height: 52px; padding: 0 24px; border-radius: 999px; border: 0; font-size: 16px; font-weight: 600; cursor: pointer; ' + (s.dark ? 'background: ' + accent + '; color: #14132E;' : 'background: #0B0A3A; color: #FFFFFF;'),
+      add: () => this.addMany(s.list)
+    }));
+    return {
+      accent, items: rows, sets,
+      count: items.length,
+      isEmpty: items.length === 0,
+      barStyle: 'height: 100%; border-radius: 999px; background: #0B0A3A; width: ' + Math.round(items.length / 8 * 100) + '%;',
+      sent, notSent: !sent,
+      send: () => this.setState({ sent: true })
+    };
+  }
+}
+</script>
+</body>
+</html>
