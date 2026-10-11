@@ -42,39 +42,64 @@ export const siteConfig = {
     since: 2002,
   },
 
+  /**
+   * ALOQA — GFF_CLAUDE_CODE_PROMPT.md §15 dagi qiymatlar.
+   * .env orqali o'zgartirish mumkin, lekin standart qiymatlar mijoz
+   * bergan rasmiy kontaktlar.
+   *
+   * ⚠ E-mail: mijoz bir joyda "info@gulfflovour.uz" deb yozgan, dizayn
+   *   fayllarida esa "info@gulfflavour.uz". Ishga tushirishdan oldin
+   *   TO'G'RI yozilishni tasdiqlash shart (CLAUDE.md → TODO).
+   */
   contact: {
-    phonePrimary: str('NEXT_PUBLIC_PHONE_PRIMARY', '+998712000000'),
-    phoneSecondary: str('NEXT_PUBLIC_PHONE_SECONDARY', '+998901234567'),
-    phonePrimaryHref: `tel:${str('NEXT_PUBLIC_PHONE_PRIMARY', '+998712000000').replace(/[^\d+]/g, '')}`,
-    phoneSecondaryHref: `tel:${str('NEXT_PUBLIC_PHONE_SECONDARY', '+998901234567').replace(/[^\d+]/g, '')}`,
-    email: str('NEXT_PUBLIC_EMAIL', 'info@gff.uz'),
-    salesEmail: str('NEXT_PUBLIC_SALES_EMAIL', 'sales@gff.uz'),
+    phonePrimary: str('NEXT_PUBLIC_PHONE_PRIMARY', '+998 97 570 77 60'),
+    phoneSecondary: str('NEXT_PUBLIC_PHONE_SECONDARY', ''),
+    phonePrimaryHref: `tel:${str('NEXT_PUBLIC_PHONE_PRIMARY', '+998 97 570 77 60').replace(/[^\d+]/g, '')}`,
+    phoneSecondaryHref: `tel:${str('NEXT_PUBLIC_PHONE_SECONDARY', '').replace(/[^\d+]/g, '')}`,
+    email: str('NEXT_PUBLIC_EMAIL', 'info@gulfflavour.uz'),
+    salesEmail: str('NEXT_PUBLIC_SALES_EMAIL', 'info@gulfflavour.uz'),
     address: str(
       'NEXT_PUBLIC_ADDRESS',
-      'Toshkent sh., Mirzo Ulug‘bek tumani, Mustaqillik shoh ko‘chasi 128',
+      'Toshkent, Mirzo Ulug‘bek tumani, Mustaqillik shoh ko‘chasi, 128',
     ),
     addressRu: str(
       'NEXT_PUBLIC_ADDRESS_RU',
-      'г. Ташкент, Мирзо-Улугбекский район, проспект Мустакиллик 128',
+      'Ташкент, Мирзо-Улугбекский район, проспект Мустакиллик, 128',
     ),
     addressEn: str(
       'NEXT_PUBLIC_ADDRESS_EN',
-      '128 Mustaqillik Ave., Mirzo Ulugbek district, Tashkent, Uzbekistan',
+      '128 Mustaqillik Ave., Mirzo Ulugbek district, Tashkent',
     ),
+    /** Ish vaqti alohida qismlarda — formatlash dictionary orqali */
+    hoursWeekFrom: str('NEXT_PUBLIC_HOURS_WEEK_FROM', '09:00'),
+    hoursWeekTo: str('NEXT_PUBLIC_HOURS_WEEK_TO', '18:00'),
+    hoursSatFrom: str('NEXT_PUBLIC_HOURS_SAT_FROM', '10:00'),
+    hoursSatTo: str('NEXT_PUBLIC_HOURS_SAT_TO', '15:00'),
     hours: str('NEXT_PUBLIC_WORK_HOURS', 'Du–Ju 09:00–18:00, Sha 10:00–15:00'),
     hqAddress: 'P.O. Box 18129, Jebel Ali Free Zone, Dubai, United Arab Emirates',
+    hqAddressShort: 'P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA',
     hqPhone: '+97148833923',
+    hqPhoneLabel: '+971 4 883 3923',
     hqEmail: 'enquiry@gff.co.ae',
-    mapsQuery: encodeURIComponent(str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mustaqillik 128')),
+    mapsQuery: encodeURIComponent(
+      str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mirzo Ulugbek district, Mustaqillik 128'),
+    ),
+    mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mirzo Ulugbek district, Mustaqillik 128'),
+    )}`,
     lat: 41.3111,
     lng: 69.3404,
   },
 
   social: {
-    telegram: str('NEXT_PUBLIC_TELEGRAM_CHANNEL'),
-    instagram: str('NEXT_PUBLIC_INSTAGRAM'),
+    telegram: str('NEXT_PUBLIC_TELEGRAM', 'https://t.me/GFF_uzb'),
+    telegramHandle: str('NEXT_PUBLIC_TELEGRAM_HANDLE', '@GFF_uzb'),
+    instagram: str('NEXT_PUBLIC_INSTAGRAM', 'https://instagram.com/gulfflavour.uz'),
+    instagramHandle: str('NEXT_PUBLIC_INSTAGRAM_HANDLE', '@gulfflavour.uz'),
     linkedin: str('NEXT_PUBLIC_LINKEDIN'),
     facebook: str('NEXT_PUBLIC_FACEBOOK'),
+    /** Ota-brend sayti (sameAs, JSON-LD) */
+    parent: str('NEXT_PUBLIC_PARENT_SITE', 'https://gulfflavours.ae'),
   },
 
   business: {
@@ -90,20 +115,35 @@ export const siteConfig = {
   },
 
   stats: {
+    founded: 2002,
     yearsExperience: new Date().getFullYear() - 2002,
+    /** dizayn: "4000+ xomashyo bazasi" */
     rawMaterials: 4000,
     exportCountries: 12,
     uzRegions: 14,
+    /**
+     * ⚠ Soha yo'nalishlari soni BU YERDA saqlanmaydi: dizayn "14" deb
+     * yozgan, ammo haqiqiy katalogda 18 ta yo'nalishda mahsulot bor.
+     * §7.1 — sonlar MA'LUMOTDAN hisoblanadi:
+     * `lib/design.ts → industriesWithData(locale).length`.
+     */
   },
 
   analytics: {
+    /** GTM konteyneri — GA4 va Meta Pixel shu orqali ulanadi (§12) */
+    gtmId: str('NEXT_PUBLIC_GTM_ID'),
     ga4Id: str('NEXT_PUBLIC_GA4_ID'),
     yandexMetrikaId: str('NEXT_PUBLIC_YANDEX_METRIKA_ID'),
     turnstileSiteKey: str('NEXT_PUBLIC_TURNSTILE_SITE_KEY'),
   },
 
-  /** Katalog PDF (agar bo'lmasa — tugma yashiriladi) */
-  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', '/files/GFF-catalog-2026.pdf'),
+  /**
+   * Katalog PDF va ishlab chiqarish videosi (§15 TODO).
+   * Bo'sh yoki fayl mavjud bo'lmasa — tugma UMUMAN ko'rsatilmaydi
+   * (`publicAssetExists` orqali tekshiriladi). O'lik havola yo'q.
+   */
+  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', ''),
+  productionVideo: str('NEXT_PUBLIC_PRODUCTION_VIDEO', ''),
 
   seo: {
     defaultTitle: "GFF O‘zbekiston — oziq-ovqat aromatizatorlari va ingredientlar | Rasmiy distribyutor",
