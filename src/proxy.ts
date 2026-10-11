@@ -23,6 +23,11 @@ function shouldHandle(pathname: string): boolean {
   if (pathname.startsWith('/_next/')) return false;
   if (pathname.startsWith('/favicon')) return false;
   if (PUBLIC_FILE_RE.test(pathname)) return false;
+  /* Dizayn tizimi sahifasi (§10, §16 1-bosqich) — TEXNIK, til qobig'i
+     kerak emas, shuning uchun til prefiksiga yo'naltirilmaydi. Sahifaning
+     o'zi production build'da `notFound()` qaytaradi va `noindex`,
+     ya'ni bu imtiyoz tashqi foydalanuvchiga hech narsa ochmaydi. */
+  if (pathname === '/styleguide' || pathname.startsWith('/styleguide/')) return false;
   return true;
 }
 
@@ -152,4 +157,7 @@ export const config = {
   ],
 };
 
-export { DEFAULT_LOCALE };
+/* `export { … }` bu yerda ISHLATILMAYDI: Next.js proxy faylidagi
+   qayta eksportlarni statik tahlil qila olmaydi va build
+   "Invalid segment configuration export" bilan to'xtaydi.
+   `DEFAULT_LOCALE` kerak bo'lsa — to'g'ridan-to'g'ri `@/i18n` dan olinadi. */
