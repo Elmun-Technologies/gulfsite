@@ -1,559 +1,553 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowDownRight, ArrowRight, Play } from 'lucide-react';
+import type { AppLocale, Translator } from '@/i18n';
+import { siteConfig } from '@/lib/config';
+import { tr, type Locale } from '@/lib/taxonomy';
+import { categoriesWithData, industriesWithData, monogramCopy, publicAssetExists } from '@/lib/design';
+import { CountUp, Reveal, RevealGroup, SplitLines } from '@/components/motion';
+import { ButtonLink, IconButton } from '@/components/ui/Button';
+import { CertGrid, CertPill, Pill } from '@/components/ui/Pill';
+import { MonogramPanel } from '@/components/ui/MonogramPanel';
+import { Section, SectionHeader, SectionInset } from '@/components/ui/SectionHeader';
+import { GffLeadForm } from '@/components/lead/GffLeadForm';
+import { UZ_REGIONS } from '@/lib/taxonomy';
+
 /**
- * BOSH SAHIFA BO'LIMLARI (server komponentlari)
+ * BOSH SAHIFA BO'LIMLARI (§5, design/Main.dc.html)
  * ----------------------------------------------------------------
- * Bosh sahifaning vazifasi — ishonch o'rnatish va zayvkaga olib borish.
- * Tartib ataylab shunday:
- *   1. Kategoriyalar (nima bor) → 2. Nega biz (ishonch) →
- *   3. Test box (past xavf, yuqori konversiya) → 4. Jarayon (aniqlik) →
- *   5. Tarmoqlar (o'zini tanish) → 6. Mahsulotlar (isbot) →
- *   7. Sertifikatlar (xavfsizlik) → 8. FAQ (e'tirozlarni yechish) →
- *   9. Yakuniy CTA (harakat).
+ * 01 Kompaniya · 02 Kategoriyalar · 03 Namuna qutisi ·
+ * 04 Jarayon · 05 Sohalar · 06 Aloqa
+ *
+ * Barcha sonlar MA'LUMOTDAN hisoblanadi (§7.1). Har bo'lim CTA ga olib boradi.
  */
 
-import Link from 'next/link';
-import type { ReactNode } from 'react';
-import { cn } from '@/lib/utils';
-import { siteConfig } from '@/lib/config';
-import { catalogStats, newProducts, popularProducts } from '@/lib/catalog';
-import { APPLICATIONS, CATEGORIES, tr, type Locale } from '@/lib/taxonomy';
-import type { AppLocale, DictKey, Translator } from '@/i18n';
-import { Icon, type IconName } from '@/components/ui/Icon';
-import { Badge, SectionHeading, Stat } from '@/components/ui/Display';
-import { ProductCard } from '@/components/catalog/ProductCard';
+const CERT_NAMES = ['HALAL', 'ISO 22000', 'HACCP', 'SGS', 'RACS', 'TRAKHEES'];
+/** Bosh sahifa industry pill'larining burilish burchaklari (dizayn) */
+const PILL_ROTATE = ['-4deg', '0deg', '0deg', '3deg', '0deg', '0deg', '0deg', '-3deg', '0deg', '4deg', '0deg', '0deg', '-2deg'];
 
-interface SectionProps {
-  locale: Locale;
+/* ============================================================
+   01 · KOMPANIYA
+   ============================================================ */
+
+export function AboutSection({
+  locale,
+  t,
+  tp,
+  productCount,
+}: {
+  locale: AppLocale;
   t: Translator;
-}
-
-/* ============================================================
-   1. KATEGORIYALAR
-   ============================================================ */
-
-export function CategoriesSection({ locale, t }: SectionProps) {
-  const stats = catalogStats(locale);
-  const href = `/${locale}/catalog`;
-
-  return (
-    <section className="container-x py-14 lg:py-20">
-      <SectionHeading
-        eyebrow={t('categories.eyebrow')}
-        title={t('categories.title')}
-        description={t('categories.subtitle')}
-        action={
-          <Link
-            href={href}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-pine-800/20 px-4 text-[13.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:bg-mint-50 hover:text-teal-600"
-          >
-            {t('categories.viewAll')}
-            <Icon name="arrow-right" size={15} />
-          </Link>
-        }
-      />
-
-      <div className="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-        {stats.byCategory.map((c) => (
-          <Link
-            key={c.id}
-            href={`${href}?categories=${c.id}`}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border border-cream-200 bg-white p-5 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-teal-500/35 hover:shadow-lift"
-          >
-            <span
-              className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
-              style={{ backgroundColor: c.color ?? '#0e7c6b' }}
-              aria-hidden
-            />
-            <div className="flex items-start gap-3.5">
-              <span
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-105"
-                style={{ backgroundColor: c.color ?? '#0e7c6b' }}
-                aria-hidden
-              >
-                <Icon name={(c.icon ?? 'tag') as IconName} size={24} />
-              </span>
-              <div className="min-w-0 flex-1">
-                <h3 className="font-display text-[16px] leading-snug font-extrabold tracking-tight text-pine-900 group-hover:text-teal-600">
-                  {c.label}
-                </h3>
-                <p className="mt-1 font-mono text-[12px] font-bold text-slate-warm-500">
-                  {c.count} {t('categories.positions').toLowerCase()}
-                </p>
-              </div>
-              <Icon
-                name="arrow-up-right"
-                size={18}
-                className="shrink-0 text-slate-warm-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-teal-600"
-              />
-            </div>
-            {c.hint ? <p className="mt-3.5 text-[13px] leading-relaxed text-slate-warm-600">{c.hint}</p> : null}
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   2. NEGA BIZ
-   ============================================================ */
-
-const WHY_ICONS: IconName[] = ['badge', 'lab', 'truck', 'certificate', 'users', 'sparkles'];
-
-export function WhySection({ t }: SectionProps) {
-  return (
-    <section className="border-y border-cream-200 bg-cream-100/60 py-14 lg:py-20">
-      <div className="container-x">
-        <SectionHeading align="center" eyebrow={t('why.eyebrow')} title={t('why.title')} />
-
-        <div className="mt-9 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <article
-              key={i}
-              className="group flex flex-col rounded-2xl border border-cream-200 bg-white p-5 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-teal-500/30 hover:shadow-lift"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-teal-600 transition-colors group-hover:bg-teal-600 group-hover:text-white" aria-hidden>
-                <Icon name={WHY_ICONS[i - 1] ?? 'badge'} size={22} />
-              </span>
-              <h3 className="mt-4 font-display text-[15.5px] leading-snug font-bold text-pine-900">
-                {t(`why.${i}.title` as DictKey)}
-              </h3>
-              <p className="mt-2 flex-1 text-[13.5px] leading-relaxed text-slate-warm-600">
-                {t(`why.${i}.text` as DictKey)}
-              </p>
-              <span className="mt-4 flex items-center gap-1.5 text-[12px] font-bold text-teal-600 opacity-0 transition-opacity group-hover:opacity-100">
-                {t('brand.role')}
-                <Icon name="check" size={13} strokeWidth={2.6} />
-              </span>
-            </article>
-          ))}
-        </div>
-
-        {/* Raqamli isbot */}
-        <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat icon="award" value={`${siteConfig.stats.yearsExperience}+`} label={t('stats.years')} hint={`GFF ${siteConfig.brand.since}`} />
-          <Stat icon="flask" value={`${siteConfig.stats.rawMaterials}+`} label={t('stats.rawMaterials')} />
-          <Stat icon="globe" value={siteConfig.stats.exportCountries} label={t('stats.export')} />
-          <Stat icon="map-pin" value={siteConfig.stats.uzRegions} label={t('stats.regions')} hint={t('stats.delivery')} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   3. TEST BOX
-   ============================================================ */
-
-export function TestBoxSection({ locale, t }: SectionProps) {
+  tp: Translator['tp'];
+  productCount: number;
+}) {
   const biz = siteConfig.business;
+  const video = siteConfig.productionVideo && publicAssetExists(siteConfig.productionVideo)
+    ? siteConfig.productionVideo
+    : siteConfig.productionVideo || '';
+
+  const stats = [
+    { key: 'home.stat.positions', value: productCount, plain: false },
+    { key: 'home.stat.directions', value: 6, plain: false },
+    { key: 'home.stat.since', value: siteConfig.stats.founded, plain: true },
+    { key: 'home.stat.samples', value: biz.sampleBoxMaxItems, plain: false },
+  ] as const;
 
   return (
-    <section className="container-x py-14 lg:py-20">
-      <div className="grid items-center gap-8 overflow-hidden rounded-3xl border border-cream-200 bg-white shadow-lift lg:grid-cols-2 lg:gap-0">
-        {/* Rasm */}
-        <div className="relative min-h-[16rem] overflow-hidden lg:min-h-[28rem]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/sample-box.jpg"
-            alt={t('box.title')}
-            className="h-full w-full object-cover"
-            loading="lazy"
-            width={900}
-            height={900}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-pine-950/70 via-pine-950/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-white/25" aria-hidden />
-
-          <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-2 lg:inset-x-auto lg:bottom-6 lg:left-6">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/92 px-3 py-1.5 text-[12px] font-bold text-pine-900 shadow-soft backdrop-blur">
-              <Icon name="check" size={13} className="text-teal-600" strokeWidth={2.8} />
-              {t('samples.deliveryFree')}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/92 px-3 py-1.5 text-[12px] font-bold text-pine-900 shadow-soft backdrop-blur">
-              <Icon name="clock" size={13} className="text-teal-600" />
-              {t('samples.deliveryTime').replace('{days}', String(biz.sampleDeliveryDays))}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500 px-3 py-1.5 text-[12px] font-extrabold text-pine-950 shadow-soft">
-              <Icon name="box" size={13} />
-              {biz.sampleBoxMaxItems} {locale === 'ru' ? 'образцов' : locale === 'en' ? 'samples' : 'namuna'}
-            </span>
-          </div>
-        </div>
-
-        {/* Matn */}
-        <div className="p-6 lg:p-10">
-          <span className="eyebrow">{t('box.eyebrow')}</span>
-          <h2 className="mt-2.5 font-display text-[clamp(1.4rem,3.4vw,2.1rem)] leading-[1.12] font-extrabold tracking-tight text-pine-900">
-            {t('box.title')}
-          </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-slate-warm-600">{t('box.subtitle')}</p>
-
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {[1, 2, 3, 4].map((i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-mint-100 text-teal-600" aria-hidden>
-                  <Icon name="check" size={14} strokeWidth={2.6} />
+    <Section id="kompaniya" bleed className="mt-4 bg-panel pb-4 pt-[clamp(64px,8vw,112px)]">
+      <div className="container-page">
+        <SectionInset className="flex flex-wrap items-start gap-x-12 gap-y-8">
+          <div className="flex flex-1 basis-[320px] flex-col gap-9">
+            <SplitLines
+              as="h2"
+              text={t('home.about.title')}
+              className="m-0 text-[clamp(32px,4.6vw,72px)] font-normal leading-none tracking-[-0.03em]"
+            />
+            {video ? (
+              <a
+                href={video}
+                target={video.startsWith('http') ? '_blank' : undefined}
+                rel={video.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="group inline-flex w-fit items-center gap-3.5 text-[17px] text-body underline underline-offset-4"
+              >
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill border-[1.5px] border-ink text-ink transition-colors group-hover:bg-ink group-hover:text-white">
+                  <Play size={16} fill="currentColor" aria-hidden />
                 </span>
-                <span className="min-w-0">
-                  <span className="block text-[13.5px] font-bold leading-snug text-pine-900">
-                    {t(`box.what${i}.title` as DictKey)}
-                  </span>
-                  <span className="mt-0.5 block text-[12.5px] leading-snug text-slate-warm-600">
-                    {t(`box.what${i}.text` as DictKey)}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-7 flex flex-wrap items-center gap-2.5">
-            <Link
-              href={`/${locale}/samples`}
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-teal-600 px-6 text-[14.5px] font-bold text-white shadow-soft transition hover:bg-pine-800 hover:shadow-lift active:scale-[0.98]"
-            >
-              <Icon name="box" size={18} />
-              {t('box.cta')}
-            </Link>
-            <Link
-              href={`/${locale}/catalog`}
-              className="inline-flex h-12 items-center gap-2 rounded-xl border border-pine-800/20 px-5 text-[14px] font-bold text-pine-800 transition hover:border-teal-500 hover:bg-mint-50 hover:text-teal-600"
-            >
-              <Icon name="grid" size={17} />
-              {t('nav.catalog')}
-            </Link>
+                <span className="underline underline-offset-4">{t('home.about.video')}</span>
+              </a>
+            ) : null}
           </div>
 
-          <p className="mt-4 flex items-center gap-1.5 text-[12.5px] text-slate-warm-500">
-            <Icon name="lock" size={13} className="text-teal-600" />
-            {t('form.secureNote')}
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
+          <Reveal className="flex flex-1 basis-[280px] flex-col gap-3.5">
+            <h3 className="m-0 text-[18px] font-semibold">{t('home.about.whoTitle')}</h3>
+            <p className="m-0 text-body text-body">{t('home.about.whoText')}</p>
+          </Reveal>
 
-/* ============================================================
-   4. JARAYON
-   ============================================================ */
+          <Reveal className="flex flex-1 basis-[280px] flex-col gap-3.5">
+            <h3 className="m-0 text-[18px] font-semibold">{t('home.about.whyTitle')}</h3>
+            <p className="m-0 text-body text-body">{t('home.about.whyText')}</p>
+          </Reveal>
 
-const PROCESS_ICONS: IconName[] = ['search', 'box', 'send', 'truck'];
+          <Reveal y="40%" delay={0.1} className="shrink-0 text-section-num font-light" aria-hidden>
+            01.
+          </Reveal>
+        </SectionInset>
 
-export function ProcessSection({ t }: SectionProps) {
-  return (
-    <section className="border-y border-cream-200 bg-pine-950 py-14 text-white lg:py-20">
-      <div className="container-x">
-        <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-mint-200">
-            <span className="h-px w-5 bg-mint-200/50" />
-            {t('process.eyebrow')}
-          </span>
-          <h2 className="mt-2.5 font-display text-[clamp(1.4rem,3.4vw,2.1rem)] leading-[1.12] font-extrabold tracking-tight text-white">
-            {t('process.title')}
-          </h2>
-        </div>
+        {/* ---- Sertifikatlar bloki ---- */}
+        <Reveal className="mt-[clamp(48px,6vw,80px)] flex flex-wrap items-stretch gap-x-12 gap-y-4 rounded-block bg-white p-4">
+          <div className="media-frame relative min-h-[clamp(252px,29.2vw,420px)] min-w-0 flex-1 basis-[380px] overflow-hidden rounded-media">
+            <Image
+              src="/images/spices.jpg"
+              alt={t('home.about.certsImgAlt')}
+              fill
+              sizes="(max-width: 900px) 100vw, 40vw"
+              className="media-zoom object-cover"
+            />
+            <span className="absolute inset-x-5 bottom-5 rounded-caption bg-white px-[22px] py-[18px] text-[clamp(22px,2.2vw,30px)] font-normal leading-[1.15] tracking-[-0.02em]">
+              {t('home.about.quote')}
+            </span>
+          </div>
 
-        <ol className="mt-9 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <li key={i} className="group relative rounded-2xl border border-white/12 bg-white/[0.05] p-5 transition hover:border-teal-500/40 hover:bg-white/[0.08]">
-              <span className="absolute right-4 top-3 font-display text-[2.5rem] leading-none font-extrabold text-white/[0.07] transition group-hover:text-teal-500/20" aria-hidden>
-                {i}
+          <div className="flex min-w-0 flex-[1.3] basis-[480px] flex-col justify-between gap-8 p-[clamp(8px,2vw,32px)] max-lg:px-[clamp(8px,2vw,32px)] lg:pl-0">
+            <SplitLines
+              as="h3"
+              text={t('home.about.certsTitle')}
+              className="m-0 text-h3 font-normal"
+            />
+            <CertGrid items={CERT_NAMES} />
+            <p className="m-0 text-[16px] text-muted">{t('home.about.certsText')}</p>
+          </div>
+        </Reveal>
+
+        {/* ---- Raqamlar ---- */}
+        <RevealGroup className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
+          {stats.map((s) => (
+            <Reveal
+              key={s.key}
+              className="flex flex-col gap-1.5 rounded-pill bg-white px-10 py-[26px]"
+            >
+              <span className="text-stat-label italic text-muted">{t(s.key)}</span>
+              <span className="self-end text-[40px] font-semibold leading-none tracking-[-0.02em]">
+                <CountUp value={s.value} locale={locale} plain={'plain' in s ? Boolean(s.plain) : false} />
               </span>
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-teal-600 text-white" aria-hidden>
-                <Icon name={PROCESS_ICONS[i - 1] ?? 'send'} size={22} />
-              </span>
-              <h3 className="relative mt-4 font-display text-[15px] leading-snug font-bold text-white">
-                {t(`process.${i}.title` as DictKey)}
-              </h3>
-              <p className="relative mt-2 text-[13px] leading-relaxed text-white/60">
-                {t(`process.${i}.text` as DictKey)}
-              </p>
-            </li>
+            </Reveal>
           ))}
-        </ol>
+        </RevealGroup>
       </div>
-    </section>
+      <span className="sr-only">{tp('plural.positions', productCount)}</span>
+    </Section>
   );
 }
 
 /* ============================================================
-   5. TARMOQLAR
+   02 · KATEGORIYALAR
    ============================================================ */
 
-export function IndustriesSection({ locale, t }: SectionProps) {
-  const apps = APPLICATIONS.slice(0, 12);
-  const href = `/${locale}/catalog`;
+export function CategoriesSection({
+  locale,
+  t,
+  productCount,
+}: {
+  locale: AppLocale;
+  t: Translator;
+  productCount: number;
+}) {
+  const cats = categoriesWithData(locale as Locale);
+  /** Dizayndagi qisqa izohlar (kategoriya hint'i emas — sahifa uchun) */
+  const hints: Record<string, string> = {
+    flavours: t('home.cat.flavours'),
+    fragrances: t('home.cat.fragrances'),
+    'food-ingredients': t('home.cat.ingredients'),
+    'essential-oils': t('home.cat.oils'),
+    'aroma-chemicals': t('home.cat.aroma'),
+    commodities: t('home.cat.commodities'),
+  };
 
   return (
-    <section className="container-x py-14 lg:py-20">
-      <SectionHeading
-        eyebrow={t('industries.eyebrow')}
-        title={t('industries.title')}
-        description={t('industries.subtitle')}
-        action={
-          <Link
-            href={`/${locale}/industries`}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-pine-800/20 px-4 text-[13.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:bg-mint-50 hover:text-teal-600"
-          >
-            {t('industry.allIndustries')}
-            <Icon name="arrow-right" size={15} />
-          </Link>
-        }
-      />
-
-      <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {apps.map((a) => (
-          <li key={a.id}>
-            <Link
-              href={`${href}?applications=${a.id}`}
-              className="group flex h-full flex-col gap-2 rounded-2xl border border-cream-200 bg-white p-4 shadow-soft transition hover:-translate-y-0.5 hover:border-teal-500/35 hover:shadow-lift"
-            >
-              <span className="flex items-center gap-2">
-                <span
-                  className="h-8 w-1 rounded-full transition-all group-hover:w-1.5"
-                  style={{ backgroundColor: a.color ?? '#0e7c6b' }}
-                  aria-hidden
-                />
-                <span className="flex-1 font-display text-[13.5px] leading-snug font-bold text-pine-900 group-hover:text-teal-600">
-                  {tr(a.name, locale, a.id)}
-                </span>
-              </span>
-              {a.hint ? (
-                <span className="line-clamp-2 pl-3 text-[12px] leading-snug text-slate-warm-600">{tr(a.hint, locale, '')}</span>
-              ) : null}
-              <span className="mt-auto inline-flex items-center gap-1 pl-3 text-[11.5px] font-semibold text-slate-warm-500 transition group-hover:text-teal-600">
-                {t('industries.seeProducts')}
-                <Icon name="arrow-right" size={12} />
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-/* ============================================================
-   6. MASHHUR MAHSULOTLAR
-   ============================================================ */
-
-export function PopularProductsSection({ locale, t }: SectionProps) {
-  const popular = popularProducts(6, locale);
-  const fresh = newProducts(3, locale);
-  const href = `/${locale}/catalog`;
-
-  return (
-    <section className="border-y border-cream-200 bg-cream-100/60 py-14 lg:py-20">
-      <div className="container-x">
-        <SectionHeading
-          eyebrow={t('catalog.popular')}
-          title={t('catalog.quickLinks')}
-          description={t('catalog.resultsCount', { count: catalogStats(locale).total })}
-          action={
-            <Link
-              href={href}
-              className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-pine-800 px-4 text-[13.5px] font-bold text-white transition hover:bg-teal-600"
-            >
-              {t('categories.viewAll')}
-              <Icon name="arrow-right" size={15} />
-            </Link>
-          }
+    <Section id="katalog">
+      <SectionInset>
+        <SectionHeader
+          title={t('home.cat.title')}
+          num="02"
+          images={[
+            { src: '/images/berries.jpg', alt: '' },
+            { src: '/images/cat-flavours.jpg', alt: '' },
+          ]}
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {popular.map((c) => (
-            <ProductCard key={c.sku} card={c} locale={locale} hrefBase={`/${locale}/product`} />
-          ))}
-        </div>
-
-        {fresh.length ? (
-          <div className="mt-9">
-            <h3 className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-slate-warm-500">
-              <Icon name="sparkles" size={14} className="text-teal-600" />
-              {t('catalog.newArrivals')}
-            </h3>
-            <div className="mt-3.5 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
-              {fresh.map((c) => (
-                <ProductCard key={c.sku} card={c} locale={locale} hrefBase={`/${locale}/product`} />
-              ))}
-            </div>
+        <div className="flex flex-wrap items-end justify-between gap-6 py-10">
+          <div className="flex max-w-[460px] flex-col gap-2.5">
+            <Reveal as="h3" className="m-0 text-[28px] font-normal tracking-[-0.02em]">
+              {t('home.cat.lead')}
+            </Reveal>
+            <Reveal as="p" delay={0.06} className="m-0 text-body leading-[1.55] text-muted">
+              {t('home.cat.text')}
+            </Reveal>
           </div>
-        ) : null}
-      </div>
-    </section>
+
+          <Reveal delay={0.1}>
+            <ButtonLink href={`/${locale}/catalog`} variant="outline" size="md" arrow>
+              {t('home.cat.all', { count: productCount })}
+            </ButtonLink>
+          </Reveal>
+        </div>
+      </SectionInset>
+
+      <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+        {cats.map((c) => (
+          <Reveal key={c.id}>
+            <Link
+              href={`/${locale}/catalog?categories=${c.id}`}
+              className="group card flex h-full flex-col gap-[22px] p-3 pb-7 no-underline"
+            >
+              <span className="media-frame block aspect-4/3 w-full overflow-hidden rounded-media">
+                <Image
+                  src={c.image}
+                  alt={t('home.cat.imgAlt', { name: c.label })}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="media-zoom object-cover"
+                />
+              </span>
+
+              <span className="flex flex-col gap-2.5 px-4">
+                <span className="text-card-title">{c.label}</span>
+                <span className="text-[16px] leading-[1.5] text-muted">{hints[c.id] ?? c.hint}</span>
+              </span>
+
+              <span className="flex items-center justify-between px-4">
+                <Pill>{t('common.items', { count: c.count })}</Pill>
+                <span className="btn-icon btn-icon--48 btn-icon__arrow-wrap" aria-hidden>
+                  <span className="btn-icon__arrow">
+                    <ArrowRight size={18} strokeWidth={2} />
+                  </span>
+                </span>
+              </span>
+            </Link>
+          </Reveal>
+        ))}
+      </RevealGroup>
+    </Section>
   );
 }
 
 /* ============================================================
-   7. SERTIFIKATLAR
+   03 · NAMUNA QUTISI
    ============================================================ */
 
-export function CertsSection({ t }: SectionProps) {
-  const certs: { key: DictKey; icon: IconName; name: string }[] = [
-    { key: 'certs.halal', icon: 'halal', name: 'HALAL' },
-    { key: 'certs.iso', icon: 'iso', name: 'ISO 22000' },
-    { key: 'certs.haccp', icon: 'shield', name: 'HACCP' },
-    { key: 'certs.sgs', icon: 'certificate', name: 'SGS' },
-    { key: 'certs.racs', icon: 'award', name: 'RACS' },
-    { key: 'certs.eac', icon: 'eac', name: 'EAC' },
-    { key: 'certs.nonGmo', icon: 'gmo', name: 'NON-GMO' },
-    { key: 'certs.alcoholFree', icon: 'no-alcohol', name: 'ALCOHOL FREE' },
+export function SampleBoxSection({
+  locale,
+  t,
+}: {
+  locale: AppLocale;
+  t: Translator;
+}) {
+  const biz = siteConfig.business;
+  const tiles = [
+    { title: t('home.box.tile1Title'), text: t('home.box.tile1Text') },
+    { title: t('home.box.tile2Title', { days: biz.sampleDeliveryDays }), text: t('home.box.tile2Text') },
+    { title: t('home.box.tile3Title'), text: t('home.box.tile3Text') },
+    { title: t('home.box.tile4Title'), text: t('home.box.tile4Text') },
   ];
 
   return (
-    <section className="container-x py-14 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:items-center">
-        <div>
-          <SectionHeading eyebrow={t('certs.eyebrow')} title={t('certs.title')} description={t('certs.subtitle')} />
-          <div className="mt-5 flex flex-wrap gap-2">
-            <Badge tone="mint" size="md" icon="factory">Jebel Ali Free Zone, Dubai</Badge>
-            <Badge tone="cream" size="md" icon="calendar">{siteConfig.brand.since}</Badge>
-          </div>
+    <Section id="namuna">
+      <SectionInset className="flex flex-wrap items-end justify-between gap-6 pb-10">
+        <div className="flex flex-col gap-4">
+          <Reveal as="span" className="w-fit">
+            <Pill className="text-[14px]">{t('home.box.chip')}</Pill>
+          </Reveal>
+          <SplitLines
+            as="h2"
+            text={t('home.box.title')}
+            className="m-0 text-h2 font-normal"
+          />
         </div>
+        <Reveal y="40%" delay={0.1} className="text-section-num font-light" aria-hidden>
+          03.
+        </Reveal>
+      </SectionInset>
 
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {certs.map((c) => (
-            <li
-              key={c.name}
-              className="group flex flex-col items-center gap-2 rounded-2xl border border-cream-200 bg-white p-4 text-center shadow-soft transition hover:-translate-y-0.5 hover:border-teal-500/35 hover:shadow-lift"
-              title={t(c.key)}
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-mint-100 text-teal-600 transition group-hover:bg-teal-600 group-hover:text-white" aria-hidden>
-                <Icon name={c.icon} size={22} />
-              </span>
-              <span className="font-display text-[12px] font-extrabold tracking-tight text-pine-900">{c.name}</span>
-              <span className="text-[11px] leading-snug text-slate-warm-500">{t(c.key)}</span>
-            </li>
+      <div className="flex flex-wrap gap-4">
+        {/* Foto — clip-path bilan ochiladi (§8.3) */}
+        <Reveal
+          clip
+          className="media-frame relative min-h-[clamp(336px,38.9vw,560px)] min-w-0 flex-1 basis-[380px] overflow-hidden rounded-block bg-panel"
+        >
+          <Image
+            src="/images/sample-pod.jpg"
+            alt={t('home.box.problemImgAlt')}
+            fill
+            priority={false}
+            sizes="(max-width: 900px) 100vw, 40vw"
+            className="object-cover"
+          />
+        </Reveal>
+
+        <div className="flex min-w-0 flex-[1.6] basis-[520px] flex-col gap-4">
+          <RevealGroup className="grid flex-grow grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
+            {/* Muammo */}
+            <Reveal className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-slate p-10 text-white">
+              <SplitLines as="span" text={t('home.box.problem')} className="text-[clamp(32px,4vw,60px)] font-normal leading-none tracking-[-0.03em]" />
+              <p className="m-0 text-body leading-[1.6] text-on-navy">{t('home.box.problemText')}</p>
+            </Reveal>
+
+            {/* Yechim */}
+            <Reveal className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-navy p-10 text-white">
+              <SplitLines as="span" text={t('home.box.solution')} className="text-[clamp(32px,4vw,60px)] font-normal leading-none tracking-[-0.03em]" />
+              <div className="flex flex-col gap-6">
+                <p className="m-0 text-body leading-[1.6] text-on-navy-soft">
+                  {t('home.box.solutionText', { max: biz.sampleBoxMaxItems })}
+                </p>
+                <ButtonLink href={`/${locale}/samples`} variant="accent" size="md" arrow className="self-start">
+                  {t('home.box.cta')}
+                </ButtonLink>
+              </div>
+            </Reveal>
+          </RevealGroup>
+
+          <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+            {tiles.map((tile) => (
+              <Reveal key={tile.title} className="flex flex-col gap-2 rounded-media bg-panel px-[26px] py-6">
+                <span className="text-[28px] font-medium leading-none tracking-[-0.02em]">{tile.title}</span>
+                <span className="text-small leading-[1.45] text-muted">{tile.text}</span>
+              </Reveal>
+            ))}
+          </RevealGroup>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ============================================================
+   04 · JARAYON
+   ============================================================ */
+
+export function ProcessSection({ locale, t }: { locale: AppLocale; t: Translator }) {
+  const biz = siteConfig.business;
+  const steps = [
+    { n: '01', title: t('home.process.1Title'), text: t('home.process.1Text') },
+    { n: '02', title: t('home.process.2Title'), text: t('home.process.2Text', { minutes: biz.responseMinutes }) },
+    { n: '03', title: t('home.process.3Title'), text: t('home.process.3Text', { days: biz.sampleDeliveryDays }) },
+    { n: '04', title: t('home.process.4Title'), text: t('home.process.4Text') },
+  ];
+
+  return (
+    <Section>
+      <SectionInset>
+        {/* Kapsulalar */}
+        <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
+          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-navy text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-white">
+            {t('home.process.cap1')}
+          </Reveal>
+
+          <Reveal className="media-frame h-[clamp(120px,14vw,200px)] overflow-hidden rounded-pill">
+            <Image
+              src="/images/berries.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 25vw"
+              className="media-zoom object-cover"
+            />
+          </Reveal>
+
+          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-panel text-ink">
+            <ArrowRight size={72} strokeWidth={3} aria-label={t('home.process.arrowAlt')} />
+          </Reveal>
+
+          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-copper text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-ink">
+            {t('home.process.cap2')}
+          </Reveal>
+        </RevealGroup>
+
+        <SectionHeader title={t('home.process.title')} num="04" className="mt-10" />
+
+        <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-8 pt-10">
+          {steps.map((s) => (
+            <Reveal key={s.n} className="flex flex-col gap-3">
+              <span className="text-[15px] text-muted">{s.n}</span>
+              <span className="text-[24px] font-medium tracking-[-0.01em]">{s.title}</span>
+              <span className="text-[16px] leading-[1.55] text-muted">{s.text}</span>
+            </Reveal>
+          ))}
+        </RevealGroup>
+      </SectionInset>
+    </Section>
+  );
+}
+
+/* ============================================================
+   05 · SOHALAR
+   ============================================================ */
+
+export function IndustriesSection({ locale, t }: { locale: AppLocale; t: Translator }) {
+  const industries = industriesWithData(locale as Locale);
+
+  return (
+    <Section id="sohalar">
+      <div className="flex flex-wrap gap-4">
+        {/* Chap: monogramma + "Sohalar" plitkasi */}
+        <Reveal className="flex min-w-0 flex-1 basis-[380px] flex-col gap-4">
+          <MonogramPanel
+            variant="delight"
+            cycle
+            copy={monogramCopy(t)}
+            className="min-h-[clamp(252px,29.2vw,420px)] flex-grow px-12 pb-12 pt-12"
+          />
+          <Link
+            href={`/${locale}/industries`}
+            className="group flex items-center justify-between gap-4 rounded-block bg-panel px-10 py-7 no-underline"
+          >
+            <span className="text-[clamp(36px,3.6vw,56px)] font-normal leading-none tracking-[-0.03em]">
+              {t('home.ind.title')}
+            </span>
+            <span className="btn-icon__arrow text-ink transition-transform group-hover:rotate-0" aria-hidden>
+              <ArrowDownRight size={56} strokeWidth={2.4} />
+            </span>
+          </Link>
+        </Reveal>
+
+        {/* O'ng: savol + soha pill'lari */}
+        <Reveal
+          delay={0.08}
+          className="flex min-w-0 flex-[1.5] basis-[520px] flex-col gap-10 rounded-block border border-line-soft bg-white p-[clamp(28px,4vw,56px)]"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <SplitLines
+              as="h2"
+              text={t('home.ind.question')}
+              className="m-0 text-[clamp(32px,4.4vw,68px)] font-normal leading-none tracking-[-0.03em]"
+            />
+            <Reveal delay={0.14} as="span" className="max-w-[280px] text-[16px] leading-[1.5] text-muted">
+              {t('home.ind.text')}
+            </Reveal>
+          </div>
+
+          <div className="flex flex-wrap gap-3 py-3">
+            {industries.map((ind, i) => {
+              const rotate = PILL_ROTATE[i % PILL_ROTATE.length] ?? '0deg';
+              const filled = i === 2;
+              const accent = i === 7;
+              return (
+                <Reveal key={ind.id} y={0} sx={0.94} sy={0.94} delay={i * 0.02}>
+                  <Link
+                    href={`/${locale}/industries/${ind.id}`}
+                    aria-label={t('industries.openIndustry', { name: ind.label })}
+                    className="inline-block rounded-pill px-7 py-4 text-[clamp(20px,1.8vw,26px)] font-normal no-underline transition-colors"
+                    style={{
+                      transform: `rotate(${rotate})`,
+                      background: accent ? 'var(--copper)' : filled ? 'var(--navy)' : 'transparent',
+                      color: accent || filled ? (accent ? 'var(--ink)' : '#fff') : 'var(--ink)',
+                      border: accent || filled ? '1.5px solid transparent' : '1.5px solid var(--ink)',
+                    }}
+                  >
+                    {ind.label}
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+/* ============================================================
+   06 · ALOQA
+   ============================================================ */
+
+export function ContactSection({
+  locale,
+  t,
+}: {
+  locale: AppLocale;
+  t: Translator;
+}) {
+  const biz = siteConfig.business;
+  const c = siteConfig.contact;
+
+  return (
+    <Section id="aloqa" className="flex flex-wrap gap-3 pb-4">
+      {/* Ombor fotosi */}
+      <Reveal className="media-frame relative min-h-[clamp(360px,41.7vw,600px)] min-w-0 flex-1 basis-[300px] overflow-hidden rounded-block">
+        <Image
+          src="/images/warehouse.jpg"
+          alt={t('home.contact.warehouseAlt')}
+          fill
+          sizes="(max-width: 900px) 100vw, 33vw"
+          className="media-zoom object-cover"
+        />
+        <span className="absolute bottom-5 left-5 rounded-pill bg-white px-[18px] py-2.5 text-[15px] font-medium">
+          {t('home.contact.warehouse')}
+        </span>
+      </Reveal>
+
+      {/* "Kerakli ta'mni birga topamiz" */}
+      <Reveal
+        delay={0.08}
+        data-surface="ink"
+        className="flex min-h-[clamp(360px,41.7vw,600px)] min-w-0 flex-1 basis-[300px] flex-col justify-between gap-12 rounded-block bg-ink p-[clamp(28px,3vw,44px)] text-white"
+      >
+        <SplitLines
+          as="span"
+          text={t('home.contact.left')}
+          className="text-[clamp(33px,4.4vw,68px)] font-normal leading-none tracking-[-0.03em]"
+        />
+        <IconButton href="#forma" label={t('home.contact.toForm')} size={120} tone="accent" arrow className="self-start" />
+        <SplitLines
+          as="span"
+          text={t('home.contact.right')}
+          delay={0.12}
+          className="self-end text-right text-[clamp(33px,4.4vw,68px)] font-normal leading-none tracking-[-0.03em]"
+        />
+      </Reveal>
+
+      {/* Forma */}
+      <GffLeadForm
+        type="callback"
+        locale={locale}
+        variant="home"
+        className="min-w-0 flex-[1.2] basis-[380px]"
+        labels={{
+          title: t('home.form.title'),
+          text: t('home.form.text', { minutes: biz.responseMinutes }),
+          submit: t('home.form.submit'),
+          name: t('home.form.name'),
+          namePh: t('home.form.namePh'),
+          company: t('home.form.company'),
+          companyPh: t('home.form.companyPh'),
+          phone: t('home.form.phone'),
+          message: t('home.form.message'),
+          messagePh: t('home.form.messagePh'),
+          consent: t('form.consentShort'),
+          privacy: t('footer.privacy'),
+          thanks: t('contact.thanks'),
+          thanksText: t('contact.thanksText', { type: t('contact.type.sample'), minutes: biz.responseMinutes }),
+          errName: t('err.nameShort'),
+          errCompany: t('err.companyShort'),
+          errPhone: t('err.phone'),
+          errConsent: t('err.consent'),
+          errServer: t('err.server'),
+        }}
+        successLinks={[{ href: `/${locale}/catalog`, label: t('contact.viewCatalog') }]}
+      />
+
+      {/* Manzil ma'lumotlari (screen-reader + SEO) */}
+      <div className="sr-only">
+        <address>
+          {c.address} · {c.phonePrimary} · {c.email}
+        </address>
+        <ul>
+          {UZ_REGIONS.map((r) => (
+            <li key={r.id}>{tr(r.name, locale as Locale)}</li>
           ))}
         </ul>
       </div>
-    </section>
+    </Section>
   );
 }
 
-/* ============================================================
-   8. FAQ
-   ============================================================ */
-
-export function FaqSection({ locale, t }: SectionProps) {
-  const items: { q: string; a: string }[] = [1, 2, 3, 4, 5, 6, 7].map((i) => ({
-    q: t(`faq.q${i}` as DictKey),
-    a: t(`faq.a${i}` as DictKey),
-  }));
-
-  return (
-    <section className="border-t border-cream-200 bg-cream-100/60 py-14 lg:py-20">
-      <div className="container-x grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:items-start">
-        <div className="lg:sticky lg:top-[5.5rem]">
-          <SectionHeading eyebrow={t('faq.eyebrow')} title={t('faq.title')} description={t('faq.more')} />
-          <Link
-            href={`/${locale}/contact`}
-            className="mt-5 inline-flex h-11 items-center gap-2 rounded-xl bg-pine-800 px-5 text-[13.5px] font-bold text-white transition hover:bg-teal-600"
-          >
-            <Icon name="phone" size={16} />
-            {t('nav.contact')}
-          </Link>
-        </div>
-
-        <div className="flex flex-col gap-2.5">
-          {items.map((f, i) => (
-            <details
-              key={i}
-              className="group rounded-2xl border border-cream-200 bg-white shadow-soft transition open:border-teal-500/35 open:shadow-lift"
-              open={i === 0}
-            >
-              <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
-                <span className="flex-1 font-display text-[15px] leading-snug font-bold text-pine-900">{f.q}</span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cream-200 bg-cream-50 text-teal-600 transition-transform duration-300 group-open:rotate-45" aria-hidden>
-                  <Icon name="plus" size={14} strokeWidth={2.4} />
-                </span>
-              </summary>
-              <p className="border-t border-cream-200 px-5 py-4 text-[14px] leading-relaxed text-slate-warm-700">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   9. YAKUNIY CTA
-   ============================================================ */
-
-export function FinalCta({ locale, t, children }: SectionProps & { children?: ReactNode }) {
-  return (
-    <section className="relative overflow-hidden bg-pine-900 py-14 text-white lg:py-20">
-      <div className="pattern-uzbek pointer-events-none absolute inset-0 opacity-[0.09]" aria-hidden />
-      <div className="pointer-events-none absolute -left-24 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-teal-500/20 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-gold-500/10 blur-3xl" aria-hidden />
-
-      <div className="container-x relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center">
-        <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold-500/40 bg-gold-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-gold-400">
-            <Icon name="sparkles" size={12} />
-            {t('brand.role')}
-          </span>
-          <h2 className="mt-3 max-w-2xl font-display text-[clamp(1.5rem,4vw,2.4rem)] leading-[1.1] font-extrabold tracking-tight text-white">
-            {t('cta.title')}
-          </h2>
-          <p className="mt-3.5 max-w-xl text-[15px] leading-relaxed text-white/70">{t('cta.subtitle')}</p>
-
-          <div className="mt-7 flex flex-wrap items-center gap-2.5">
-            <Link
-              href={`/${locale}/samples`}
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-teal-500 px-6 text-[14.5px] font-bold text-white transition hover:bg-teal-400 hover:shadow-glow active:scale-[0.98]"
-            >
-              <Icon name="box" size={18} />
-              {t('nav.getSample')}
-            </Link>
-            <Link
-              href={`/${locale}/quote`}
-              className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/25 px-5 text-[14px] font-bold text-white transition hover:bg-white/10"
-            >
-              <Icon name="invoice" size={17} />
-              {t('nav.quote')}
-            </Link>
-            <a
-              href={siteConfig.contact.phonePrimaryHref}
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-white/10 px-5 font-mono text-[14px] font-bold text-white transition hover:bg-white/20"
-            >
-              <Icon name="phone" size={16} />
-              {siteConfig.contact.phonePrimary}
-            </a>
-          </div>
-
-          <p className="mt-4 flex items-center gap-2 text-[12.5px] text-white/55">
-            <Icon name="clock" size={13} className="text-mint-200" />
-            {t('cta.orCall')} · {t('cta.fast')}
-          </p>
-        </div>
-
-        {children ? <div>{children}</div> : null}
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   10. KATEGORIYA LENTASI (marquee) — vizual ritm
-   ============================================================ */
-
-export function CategoryMarquee({ locale }: { locale: Locale }) {
-  const items = CATEGORIES.map((c) => tr(c.name, locale, c.id));
-  const doubled = [...items, ...items];
-
-  return (
-    <div className="overflow-hidden border-y border-cream-200 bg-white py-3" aria-hidden>
-      <div className="animate-marquee flex w-max gap-8">
-        {doubled.map((label, i) => (
-          <span key={i} className={cn('flex items-center gap-3 text-[13px] font-bold whitespace-nowrap text-slate-warm-500')}>
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-500/60" />
-            {label}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export type { AppLocale };
+/** Kichik yordamchi: sertifikat pill'i (About/Footer'da ham ishlatiladi) */
+export { CertPill };
