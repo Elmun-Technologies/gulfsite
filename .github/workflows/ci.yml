@@ -200,10 +200,14 @@ jobs:
           echo "lighthouse CLI: $(node_modules/.bin/lighthouse --version 2>&1 | tail -1)"
           echo "DISPLAY='${DISPLAY:-}' (headless uchun kerak emas)"
 
-      - name: Lighthouse — mobile (Perf ≥ 90 · A11y ≥ 95 · SEO = 100)
+      # Mijoz qarori (2026-10-12): CI'da Perf — HISOBOT, A11y ≥ 95 va SEO = 100
+      # QAT'IY. Shared runner + 4× CPU throttle mobil Perf'ni haqiqiy
+      # qurilmadan past ko'rsatadi; ≥ 90 production deploy'dan keyin
+      # o'lchanadi (docs/LAUNCH_CHECKLIST.md §E3).
+      - name: Lighthouse — mobile (A11y ≥ 95 · SEO = 100 qat'iy · Perf hisobot)
         run: |
           set +e
-          npm run lighthouse -- --ci 2>&1 | tee /tmp/lh-mobile.log
+          npm run lighthouse -- --ci --perf-report-only 2>&1 | tee /tmp/lh-mobile.log
           code=${PIPESTATUS[0]}
           if [ "$code" != "0" ]; then
             # CI log'ini tashqaridan o'qib bo'lmasa, diagnostika ANNOTATION
@@ -220,7 +224,7 @@ jobs:
       - name: Lighthouse — desktop (qo'shimcha ma'lumot)
         if: always()
         continue-on-error: true
-        run: npm run lighthouse -- --ci --desktop --all 2>&1 | tee /tmp/lh-desktop.log
+        run: npm run lighthouse -- --ci --desktop --all --perf-report-only 2>&1 | tee /tmp/lh-desktop.log
 
       - name: Loglarni hisobot papkasiga yig'ish
         if: always()

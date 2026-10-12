@@ -15,6 +15,7 @@
  *   npm run lighthouse -- --all         # 9 ta sahifa
  *   npm run lighthouse -- --desktop     # desktop emulyatsiyasi
  *   npm run lighthouse -- --require     # Chrome topilmasa exit 2 emas, XATO
+ *   npm run lighthouse -- --perf-report-only  # Perf hisobot (A11y/SEO qat'iy)
  *   BASE_URL=https://sayt.uz npm run lighthouse
  *
  * Exit: 0 — mezonlar bajarildi · 1 — biror baho past · 2 — Chrome yo'q (skip)
@@ -34,6 +35,18 @@ const args = process.argv.slice(2);
 const WANT_ALL = args.includes('--all');
 const DESKTOP = args.includes('--desktop');
 const REQUIRE = args.includes('--require');
+/**
+ * `--perf-report-only` — Performance HISOBOT bo'ladi, job'ni yiqmaydi.
+ *
+ * Mijoz qarori (2026-10-12): GitHub Actions'ning shared runner'ida mobil
+ * o'lchov Lighthouse'ning 4× CPU throttle'i + sekin CPU tufayli haqiqiy
+ * qurilmadan ancha past chiqadi (o'sha runner'da DESKTOP 9 sahifaning
+ * barchasida Perf ≥ 90 bo'lgan). Shuning uchun CI'da Perf — raqam uchun
+ * hisobot, qat'iy mezon (Perf ≥ 90 mobil) production deploy'dan keyin
+ * tekshiriladi (docs/LAUNCH_CHECKLIST.md §E3). A11y ≥ 95 va SEO = 100
+ * CI'da QAT'IY qoladi — ular uskunaga bog'liq emas.
+ */
+const PERF_REPORT_ONLY = args.includes('--perf-report-only');
 const CI = args.includes('--ci') || Boolean(process.env.CI);
 
 /** §0 / §14.5 — qabul mezonlari */
@@ -202,11 +215,22 @@ function runLh(args, flags) {
   });
 }
 
-console.log(`Mezonlar (§0/§14.5): Perf ≥ ${BUDGET.performance} · A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}\n`);
+console.log(
+  `Mezonlar (§0/§14.5): Perf ≥ ${BUDGET.performance}${PERF_REPORT_ONLY ? ' (HISOBOT)' : ''} · ` +
+    `A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}\n`,
+);
+if (PERF_REPORT_ONLY) {
+  console.log(
+    `  ℹ Perf hisobot rejimi: raqamlar yoziladi, lekin job'ni yiqmaydi.\n` +
+      `    Qat'iy mezon (Perf ≥ ${BUDGET.performance} mobil) production deploy'dan keyin\n` +
+      `    o'lchanadi — docs/LAUNCH_CHECKLIST.md §E3 (mijoz qarori, 2026-10-12).\n`,
+  );
+}
 
 const results = [];
 let failed = 0;
 const diagLog = [];
+let emuPrinted = false;
 
 try {
   for (const [label, path] of PAGES) {
@@ -237,6 +261,17 @@ try {
     }
 
     const report = JSON.parse(readFileSync(jsonPath, 'utf8'));
+
+    // Emulyatsiya haqiqatan ham mobilmi? (`target-size` kabi auditlar
+    // viewport'ga bog'liq, shuning uchun bu raqamni log'da ko'rish muhim.)
+    if (!emuPrinted) {
+      const cs = report.configSettings ?? {};
+      const emu = `formFactor=${cs.formFactor} · screenEmulation=${JSON.stringify(cs.screenEmulation)} · throttling=${JSON.stringify(cs.throttling)} · UA=${String(report.environment?.hostUserAgent ?? '').slice(0, 60)}`;
+      console.log(`  ℹ ${emu}\n`);
+      diagLog.push(`### Emulyatsiya\n${emu}`);
+      emuPrinted = true;
+    }
+
     if (report.runtimeError) {
       diagLog.push(`--- ${label} ${path} runtimeError --- ${report.runtimeError.code}: ${report.runtimeError.message}`);
     }
@@ -256,19 +291,30 @@ try {
     };
     results.push(row);
 
-    const marks = [];
+    const marks = []; // barcha izohlar (log'ga chiqadi)
+    const blocking = []; // faqat job'ni YIQADIGANLARI
     for (const [cat, min] of Object.entries(BUDGET)) {
       if (row[cat] < min) {
-        marks.push(`${cat} ${row[cat]} < ${min}`);
-        failed += 1;
+        const reportOnly = PERF_REPORT_ONLY && cat === 'performance';
+        if (reportOnly) {
+          marks.push(`${cat} ${row[cat]} < ${min} — CI'da hisobot, ≥${min} production'da tekshiriladi`);
+        } else {
+          marks.push(`${cat} ${row[cat]} < ${min}`);
+          blocking.push(`${cat} ${row[cat]} < ${min}`);
+          failed += 1;
+        }
       }
     }
     for (const [cat, min] of Object.entries(WARN_BUDGET)) {
       if (row[cat] < min) marks.push(`${cat} ${row[cat]} < ${min} (ogohlantirish)`);
     }
-    if (row.runtimeError) marks.push(`runtimeError: ${row.runtimeError}`);
+    if (row.runtimeError) {
+      marks.push(`runtimeError: ${row.runtimeError}`);
+      blocking.push(`runtimeError: ${row.runtimeError}`);
+      failed += 1;
+    }
 
-    const icon = marks.some((m) => !m.includes('ogohlantirish')) ? '✖' : marks.length ? '⚠' : '✓';
+    const icon = blocking.length ? '✖' : marks.length ? '⚠' : '✓';
     console.log(
       `  ${icon} ${label.padEnd(14)} P:${String(row.performance).padStart(3)} A:${String(row.accessibility).padStart(3)} ` +
         `S:${String(row.seo).padStart(3)} BP:${String(row['best-practices']).padStart(3)}  ` +
@@ -289,10 +335,17 @@ try {
           .filter((a) => a && a.score !== null && a.score < 1)
           .map((a) => {
             const items = a.details?.items ?? [];
-            const node = items[0]?.node?.snippet ?? items[0]?.node?.selector?.join(' ') ?? '';
-            return `${a.id}${items.length ? `[${items.length}]` : ''}${node ? ` → ${String(node).slice(0, 100)}` : ''}`;
+            // 3 tagacha element + axe'ning IZOHI (nima uchun yiqilgani:
+            // o'lchammi, oraliqmi, yashirinmi) — snippet'ning o'zi yetarli emas.
+            const brief = items.slice(0, 3).map((it) => {
+              const node = it.node ?? {};
+              const snip = String(node.snippet ?? node.selector?.join(' ') ?? it.source ?? '').replace(/\s+/g, ' ');
+              const why = String(node.explanation ?? it.explanation ?? node.label ?? '').replace(/\s+/g, ' ');
+              return `${snip.slice(0, 95)}${why ? ` ⟨${why.slice(0, 95)}⟩` : ''}`;
+            });
+            return `${a.id}[${items.length}]${brief.length ? `\n        - ${brief.join('\n        - ')}` : ''}`;
           });
-        if (bad.length) lines.push(`      ${cat}: ${bad.join(' · ')}`);
+        if (bad.length) lines.push(`      ${cat}: ${bad.length} ta audit\n${bad.join('\n')}`);
       }
       const opps = Object.values(report.audits ?? {})
         .filter((a) => a.details?.type === 'opportunity' && (a.details.overallSavingsMs ?? 0) > 0)
@@ -325,7 +378,7 @@ writeFileSync(join(OUT_DIR, `diagnostics-${formFactor}.log`), diagLog.join('\n\n
 const md = [
   `# Lighthouse — ${formFactor}`,
   '',
-  `Mezonlar: **Perf ≥ ${BUDGET.performance} · A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}** (§0/§14.5)`,
+  `Mezonlar: **Perf ≥ ${BUDGET.performance}${PERF_REPORT_ONLY ? ' (hisobot — production\'da tekshiriladi)' : ''} · A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}** (§0/§14.5)`,
   '',
   '| Sahifa | Perf | A11y | SEO | BP | LCP | CLS | TBT |',
   '| --- | --- | --- | --- | --- | --- | --- | --- |',
