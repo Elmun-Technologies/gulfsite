@@ -208,7 +208,7 @@ jobs:
           if [ "$code" != "0" ]; then
             # CI log'ini tashqaridan o'qib bo'lmasa, diagnostika ANNOTATION
             # orqali ko'rinadi: gh api repos/<o>/<r>/check-runs/<job>/annotations
-            lh=$(tail -n 55 /tmp/lh-mobile.log | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            lh=$(tail -n 120 /tmp/lh-mobile.log | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
             echo "::error title=Lighthouse mobile — log tail::$lh"
             if [ -f /tmp/server.log ]; then
               sv=$(tail -n 25 /tmp/server.log | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')

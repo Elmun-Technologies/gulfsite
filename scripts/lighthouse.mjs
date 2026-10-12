@@ -275,6 +275,40 @@ try {
         `LCP ${row.lcp} · CLS ${row.cls} · TBT ${row.tbt}` +
         (marks.length ? `\n      ${marks.join(' · ')}` : ''),
     );
+
+    /* ---- Mezon bajarilmasa: ANIQ audit ro'yxati ----
+       Nega kerak: CI log'ini o'qib bo'lmaganda ham annotation orqali
+       "qaysi audit yiqildi, qaysi elementda" ko'rinadi. Taxmin bilan
+       tuzatishdan ko'ra bitta qator ma'lumot arzonroq. */
+    if (marks.length) {
+      const lines = [];
+      for (const cat of ['accessibility', 'seo', 'best-practices']) {
+        const refs = report.categories?.[cat]?.auditRefs ?? [];
+        const bad = refs
+          .map((r) => report.audits?.[r.id])
+          .filter((a) => a && a.score !== null && a.score < 1)
+          .map((a) => {
+            const items = a.details?.items ?? [];
+            const node = items[0]?.node?.snippet ?? items[0]?.node?.selector?.join(' ') ?? '';
+            return `${a.id}${items.length ? `[${items.length}]` : ''}${node ? ` → ${String(node).slice(0, 100)}` : ''}`;
+          });
+        if (bad.length) lines.push(`      ${cat}: ${bad.join(' · ')}`);
+      }
+      const opps = Object.values(report.audits ?? {})
+        .filter((a) => a.details?.type === 'opportunity' && (a.details.overallSavingsMs ?? 0) > 0)
+        .sort((x, y) => y.details.overallSavingsMs - x.details.overallSavingsMs)
+        .slice(0, 6)
+        .map((a) => `${a.id} ≈${Math.round(a.details.overallSavingsMs)}ms`);
+      if (opps.length) lines.push(`      imkoniyatlar: ${opps.join(' · ')}`);
+      const lcpNode =
+        report.audits?.['largest-contentful-paint-element']?.details?.items?.[0]?.items?.[0]?.node?.snippet ?? '';
+      if (lcpNode) lines.push(`      LCP element: ${String(lcpNode).slice(0, 150)}`);
+      const tbt = report.audits?.['total-blocking-time'];
+      const longTasks = report.audits?.['bootup-time']?.details?.items?.[0];
+      if (longTasks) lines.push(`      eng ko'p JS vaqti: ${longTasks.url?.slice(-60)} ≈${Math.round(longTasks.total)}ms`);
+      for (const l of lines) console.log(l);
+      diagLog.push(`### ${label} ${path}\n${lines.join('\n')}`);
+    }
   }
 } catch (err) {
   // Kutilmagan xato bo'lsa ham xulosa va diagnostika YOZILSIN — aks holda
