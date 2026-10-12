@@ -382,7 +382,19 @@ export function CatalogExplorer({
           </aside>
         )}
 
-        <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-4">
+        {/*
+          `role="tabpanel"` + `id` MAJBURIY: `<Tabs>` har bir tab'ga
+          `aria-controls={`panel-${layoutId}`}` qo'yadi. ID DOM'da bo'lmasa
+          axe `aria-valid-attr-value` (Lighthouse A11y og'irligi 10) yiqiladi
+          — bu katalog sahifasida A11y'ni 92 ga tushirgan yagona sabab edi.
+          `aria-labelledby` faol tab'ga bog'laydi (id shakli: `tab-<layoutId>-<value>`).
+        */}
+        <div
+          id="panel-catalog-cat"
+          role="tabpanel"
+          aria-labelledby={`tab-catalog-cat-${activeCategory}`}
+          className="flex min-w-0 flex-[999_1_560px] flex-col gap-4"
+        >
           {/* ---- Namuna qutisi paneli ---- */}
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-pill bg-navy py-3.5 pl-[26px] pr-3.5 text-white">
             <span className="text-[16px]">

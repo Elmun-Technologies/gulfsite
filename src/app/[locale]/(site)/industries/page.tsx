@@ -120,9 +120,10 @@ export default async function IndustriesPage({ params }: Props) {
               delay={Math.min(i, 7) * 0.06}
               className="min-h-[280px]"
             >
+              {/* `aria-label` yo'q — WCAG 2.5.3: nom ko'rinadigan matnni
+                  o'z ichiga olishi kerak (karte raqami + soha nomi + hisob). */}
               <Link
                 href={`/${locale}/industries/${ind.id}`}
-                aria-label={t('industries.openIndustry', { name: ind.label })}
                 className={cn(
                   'flex h-full min-h-[280px] flex-col gap-1 rounded-card p-3 text-ink no-underline',
                   ind.tone === 'navy' && 'bg-navy text-white',

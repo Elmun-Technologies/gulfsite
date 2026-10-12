@@ -432,9 +432,9 @@ export function IndustriesSection({ locale, t }: { locale: AppLocale; t: Transla
               const accent = i === 7;
               return (
                 <Reveal key={ind.id} y={0} sx={0.94} sy={0.94} delay={i * 0.02}>
+                  {/* `aria-label` yo'q — WCAG 2.5.3 (nom ko'rinadigan matndan) */}
                   <Link
                     href={`/${locale}/industries/${ind.id}`}
-                    aria-label={t('industries.openIndustry', { name: ind.label })}
                     className="inline-block rounded-pill px-7 py-4 text-[clamp(20px,1.8vw,26px)] font-normal no-underline transition-colors"
                     style={{
                       transform: `rotate(${rotate})`,

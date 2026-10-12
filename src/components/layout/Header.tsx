@@ -42,7 +42,6 @@ export interface HeaderProps {
   samplesHref: string;
   ctaLabel: string;
   freeLabel: string;
-  logoAlt: string;
   openLabel: string;
   closeLabel: string;
   /** `header.boxAria` shabloni — `{count}` joy tutgichi bilan */
@@ -56,7 +55,6 @@ export function Header({
   samplesHref,
   ctaLabel,
   freeLabel,
-  logoAlt,
   openLabel,
   closeLabel,
   boxAriaTemplate,
@@ -127,7 +125,12 @@ export function Header({
     (pathname === `/${locale}` ? 'home' : 'none');
 
   const logo = (
-    <Link href={`/${locale}`} aria-label={logoAlt} className="flex shrink-0 items-center gap-3 no-underline">
+    /* Nega `aria-label` YO'Q: WCAG 2.5.3 "Label in Name" — ekran o'quvchisi
+       e'lon qiladigan nom ko'rinadigan matnni O'Z ICHIGA olishi shart.
+       `aria-label="GFF Uzbekistan — bosh sahifa"` ko'rinadigan
+       "GULF FLAVOURS & FRAGRANCES UZBEKISTAN" matnini o'z ichiga olmagan
+       edi (axe `label-content-name-mismatch`). Nom endi kontentdan olinadi. */
+    <Link href={`/${locale}`} className="flex shrink-0 items-center gap-3 no-underline">
       <Image
         src="/images/monogram-copper.png"
         alt=""
@@ -135,7 +138,7 @@ export function Header({
         height={523}
         priority
         quality={90}
-        sizes="48px"
+        sizes="(min-width: 1024px) 48px, 40px"
         className={cn('block h-10 w-auto lg:h-12')}
       />
       <span className="flex flex-col gap-[5px]">

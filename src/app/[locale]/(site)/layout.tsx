@@ -45,7 +45,6 @@ export default async function SiteLayout({ children, params }: Props) {
         samplesHref={`/${locale}/samples`}
         ctaLabel={t('nav.samples')}
         freeLabel={t('header.freeSample')}
-        logoAlt={t('header.logoAlt')}
         openLabel={t('header.openMenu')}
         closeLabel={t('header.closeMenu')}
         boxAriaTemplate={dict['header.boxAria']}
