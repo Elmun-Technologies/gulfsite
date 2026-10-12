@@ -474,8 +474,8 @@ export function CatalogExplorer({
           ) : (
             /* ---- KARTOCHKALAR ---- */
             <RevealGroup className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
-              {cards.map((c) => (
-                <Reveal key={c.sku} className="flex min-h-[240px] flex-col gap-[18px] rounded-menu bg-panel p-[26px]">
+              {cards.map((c, i) => (
+                <Reveal key={c.sku} index={i} className="flex min-h-[240px] flex-col gap-[18px] rounded-menu bg-panel p-[26px]">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[13px] tracking-[0.04em] text-muted">{c.sku}</span>
                     <Pill className="text-[13px]">{groupLabels[c.group] ?? c.group}</Pill>

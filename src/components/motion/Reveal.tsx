@@ -21,7 +21,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type CSSProperties,
   type ElementType,
@@ -77,17 +76,15 @@ function px(v: number | string): string {
   return typeof v === 'number' ? `${v}px` : v;
 }
 
-const GroupCtx = createContext<{ next: () => number; step: number } | null>(null);
-
 /**
- * Har bir Reveal o'z indeksini FAQAT birinchi render'da oladi va
- * saqlab qo'yadi — keyingi re-render'lar stagger'ni buzmaydi.
+ * Guruh konteksti faqat `step` ni tashiydi.
+ *
+ * Nega indeks kontekstda emas, PROP'da: avvalgi holatda har bir `<Reveal>`
+ * render paytida `counter.current` ni o'qib, keyin oshirardi — bu ref'ni
+ * render ichida o'zgartirish (react-hooks/refs buzilishi) va StrictMode'da
+ * ikki marta render qilganda tartib barqarorsiz edi.
  */
-function useStableIndex(group: { next: () => number } | null): number {
-  const stored = useRef<number | null>(null);
-  if (group && stored.current === null) stored.current = group.next();
-  return stored.current ?? 0;
-}
+const GroupCtx = createContext<{ step: number } | null>(null);
 
 export interface RevealProps extends Record<string, unknown> {
   children?: ReactNode;
@@ -112,6 +109,11 @@ export interface RevealProps extends Record<string, unknown> {
   /** clip-path: inset(0 0 100% 0) → inset(0), 900ms */
   clip?: boolean;
   id?: string;
+  /**
+   * Stagger indeksi — odatda `RevealGroup` avtomatik beradi.
+   * Aniq kechikish kerak bo'lsa `delay` ishlating.
+   */
+  index?: number;
 }
 
 export function Reveal({
@@ -129,6 +131,7 @@ export function Reveal({
   amount = 0.2,
   once = true,
   clip = false,
+  index = 0,
   ...rest
 }: RevealProps) {
   const hydrated = useHydrated();
@@ -137,7 +140,6 @@ export function Reveal({
 
   const [ref, inView] = useInViewOnce<HTMLElement>({ once, amount });
 
-  const index = useStableIndex(group);
   const autoDelay = group ? Math.min(index, STAGGER_MAX - 1) * group.step : 0;
   const finalDelay = delay ?? autoDelay;
 
@@ -171,6 +173,20 @@ export function Reveal({
 /**
  * Bolalarni ketma-ket (stagger) ochadi.
  * Qadam: 60ms desktop, 40ms mobil (§8.1). Maks. 8 element — qolganlari darhol.
+ *
+ * MUHIM — `index` ni BOLALARNING O'ZI beradi:
+ * ```tsx
+ * <RevealGroup>
+ *   {items.map((it, i) => <Reveal key={it.id} index={i}>…</Reveal>)}
+ * </RevealGroup>
+ * ```
+ * Nega guruh bolalarga `cloneElement` bilan avtomatik `index` qo'ymaydi:
+ * `sections.tsx` kabi SERVER komponentlarda `<Reveal>` bolalari bu yerga
+ * funksiya emas, **client-reference proksi** sifatida yetib keladi — shuning
+ * uchun `child.type === Reveal` solishtiruvi `false` bo'ladi va stagger
+ * jimgina yo'qoladi (delay 0). Indeksni ochiq berish server/klient
+ * chegarasidan qat'i nazar bir xil ishlaydi va SSR HTML'dagi kechikish
+ * birinchi klient render'i bilan mos keladi (gidratsiya nomutanosibligi yo'q).
  */
 export function RevealGroup({
   children,
@@ -188,20 +204,10 @@ export function RevealGroup({
 } & Record<string, unknown>) {
   const reduce = useReducedMotionPref();
   const isMobile = useIsMobile();
-  const hydrated = useHydrated();
-
-  // Hisoblagichni har render'da nollaymiz: bolalar tartibi barqaror.
-  const counter = useRef(-1);
-  counter.current = -1;
 
   const ctx = useMemo(
-    () => ({
-      next: () => (counter.current += 1),
-      step: reduce ? 0 : (step ?? (isMobile ? staggerMobile : STAGGER)),
-    }),
-    // counter ref — barqaror; hydrated mobil aniqlangach qayta hisoblaydi
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [reduce, step, isMobile, hydrated],
+    () => ({ step: reduce ? 0 : (step ?? (isMobile ? staggerMobile : STAGGER)) }),
+    [reduce, step, isMobile],
   );
 
   return (

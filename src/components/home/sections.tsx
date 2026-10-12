@@ -121,9 +121,10 @@ export function AboutSection({
 
         {/* ---- Raqamlar ---- */}
         <RevealGroup className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
-          {stats.map((s) => (
+          {stats.map((s, i) => (
             <Reveal
               key={s.key}
+              index={i}
               className="flex flex-col gap-1.5 rounded-pill bg-white px-10 py-[26px]"
             >
               <span className="text-stat-label italic text-muted">{t(s.key)}</span>
@@ -194,8 +195,8 @@ export function CategoriesSection({
       </SectionInset>
 
       <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-        {cats.map((c) => (
-          <Reveal key={c.id}>
+        {cats.map((c, i) => (
+          <Reveal key={c.id} index={i}>
             <Link
               href={`/${locale}/catalog?categories=${c.id}`}
               className="group card flex h-full flex-col gap-[22px] p-3 pb-7 no-underline"
@@ -287,13 +288,13 @@ export function SampleBoxSection({
         <div className="flex min-w-0 flex-[1.6] basis-[520px] flex-col gap-4">
           <RevealGroup className="grid flex-grow grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
             {/* Muammo */}
-            <Reveal className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-slate p-10 text-white">
+            <Reveal index={0} className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-slate p-10 text-white">
               <SplitLines as="span" text={t('home.box.problem')} className="text-[clamp(32px,4vw,60px)] font-normal leading-none tracking-[-0.03em]" />
               <p className="m-0 text-body leading-[1.6] text-on-navy">{t('home.box.problemText')}</p>
             </Reveal>
 
             {/* Yechim */}
-            <Reveal className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-navy p-10 text-white">
+            <Reveal index={1} className="flex min-h-[300px] flex-col justify-between gap-10 rounded-block bg-navy p-10 text-white">
               <SplitLines as="span" text={t('home.box.solution')} className="text-[clamp(32px,4vw,60px)] font-normal leading-none tracking-[-0.03em]" />
               <div className="flex flex-col gap-6">
                 <p className="m-0 text-body leading-[1.6] text-on-navy-soft">
@@ -307,8 +308,8 @@ export function SampleBoxSection({
           </RevealGroup>
 
           <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
-            {tiles.map((tile) => (
-              <Reveal key={tile.title} className="flex flex-col gap-2 rounded-media bg-panel px-[26px] py-6">
+            {tiles.map((tile, i) => (
+              <Reveal key={tile.title} index={i} className="flex flex-col gap-2 rounded-media bg-panel px-[26px] py-6">
                 <span className="text-[28px] font-medium leading-none tracking-[-0.02em]">{tile.title}</span>
                 <span className="text-small leading-[1.45] text-muted">{tile.text}</span>
               </Reveal>
@@ -338,11 +339,11 @@ export function ProcessSection({ locale, t }: { locale: AppLocale; t: Translator
       <SectionInset>
         {/* Kapsulalar */}
         <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
-          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-navy text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-white">
+          <Reveal index={0} className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-navy text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-white">
             {t('home.process.cap1')}
           </Reveal>
 
-          <Reveal className="media-frame h-[clamp(120px,14vw,200px)] overflow-hidden rounded-pill">
+          <Reveal index={1} className="media-frame h-[clamp(120px,14vw,200px)] overflow-hidden rounded-pill">
             <Image
               src="/images/berries.jpg"
               alt=""
@@ -352,11 +353,11 @@ export function ProcessSection({ locale, t }: { locale: AppLocale; t: Translator
             />
           </Reveal>
 
-          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-panel text-ink">
+          <Reveal index={2} className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-panel text-ink">
             <ArrowRight size={72} strokeWidth={3} aria-label={t('home.process.arrowAlt')} />
           </Reveal>
 
-          <Reveal className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-copper text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-ink">
+          <Reveal index={3} className="flex h-[clamp(120px,14vw,200px)] items-center justify-center rounded-pill bg-copper text-[clamp(33px,4.6vw,72px)] font-normal tracking-[-0.03em] text-ink">
             {t('home.process.cap2')}
           </Reveal>
         </RevealGroup>
@@ -364,8 +365,8 @@ export function ProcessSection({ locale, t }: { locale: AppLocale; t: Translator
         <SectionHeader title={t('home.process.title')} num="04" className="mt-10" />
 
         <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-8 pt-10">
-          {steps.map((s) => (
-            <Reveal key={s.n} className="flex flex-col gap-3">
+          {steps.map((s, i) => (
+            <Reveal key={s.n} index={i} className="flex flex-col gap-3">
               <span className="text-[15px] text-muted">{s.n}</span>
               <span className="text-[24px] font-medium tracking-[-0.01em]">{s.title}</span>
               <span className="text-[16px] leading-[1.55] text-muted">{s.text}</span>
