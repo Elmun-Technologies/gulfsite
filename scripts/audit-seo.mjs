@@ -161,6 +161,17 @@ for (const page of PAGES) {
     continue;
   }
 
+  /* ---- §4 Global CSS (stylesheet ulanganligi) ---- */
+  const stylesheets = links(html, 'stylesheet');
+  if (!stylesheets.length) {
+    fail(where, '<link rel="stylesheet"> yo\'q — globals.css layout\'ga ulanmagan!');
+  } else {
+    for (const tag of stylesheets) {
+      const cssHref = tag.match(/href=["']([^"']+)["']/i)?.[1] ?? '';
+      if (cssHref) await checkImage(cssHref, `${where} [stylesheet]`);
+    }
+  }
+
   /* ---- §13.1 title ---- */
   const title = decode(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? '').trim();
   if (!title) fail(where, '<title> yo\'q');

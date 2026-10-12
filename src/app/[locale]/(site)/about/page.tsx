@@ -120,7 +120,7 @@ export default async function AboutPage({ params }: Props) {
           </div>
         </Reveal>
 
-        <Reveal delay={0.08} sx={24} className="flex min-w-0 flex-1 basis-[400px] flex-col gap-3">
+        <Reveal delay={0.08} y={24} className="flex min-w-0 flex-1 basis-[400px] flex-col gap-3">
           <div
             data-surface="navy"
             className="media-frame relative flex min-h-[clamp(372px,43.1vw,620px)] flex-1 items-center justify-center overflow-hidden rounded-block bg-navy px-10 py-16"
@@ -146,7 +146,7 @@ export default async function AboutPage({ params }: Props) {
               <span className="text-[clamp(30px,3vw,44px)] font-semibold leading-none">{years}+</span>
               <span className="text-[15px] leading-snug text-muted">{t('about.heroYearsLabel')}</span>
             </Reveal>
-            <Reveal delay={0.2} sx={16} className="flex min-w-0 flex-1 basis-[220px] flex-col gap-1 rounded-card bg-navy px-7 py-6 text-white">
+            <Reveal delay={0.2} y={16} className="flex min-w-0 flex-1 basis-[220px] flex-col gap-1 rounded-card bg-navy px-7 py-6 text-white">
               <span className="text-[clamp(30px,3vw,44px)] font-semibold leading-none">{positions}</span>
               <span className="text-[15px] leading-snug text-on-navy">
                 {t('about.heroStock', { count: positions })}
@@ -177,7 +177,7 @@ export default async function AboutPage({ params }: Props) {
               t('about.story2'),
               t('about.story3'),
             ].map((p, i) => (
-              <Reveal key={p.slice(0, 24)} delay={i * 0.06} sx={16}>
+              <Reveal key={p.slice(0, 24)} delay={i * 0.06} y={16}>
                 <p className="m-0 text-body-l leading-relaxed text-body">{p}</p>
               </Reveal>
             ))}
@@ -206,7 +206,7 @@ export default async function AboutPage({ params }: Props) {
             {CERTS.map((c, i) => (
               <Reveal
                 key={c.code}
-                sx={16}
+                y={16}
                 delay={Math.min(i, 7) * 0.06}
                 className="flex flex-col gap-2 rounded-card bg-panel px-6 py-5"
               >
@@ -260,7 +260,7 @@ export default async function AboutPage({ params }: Props) {
             {advantages.map((a, i) => (
               <Reveal
                 key={a.title}
-                sx={16}
+                y={16}
                 delay={Math.min(i, 7) * 0.06}
                 className="flex flex-col gap-2 rounded-card bg-slate px-6 py-5"
               >
@@ -286,7 +286,7 @@ export default async function AboutPage({ params }: Props) {
 
         <Reveal
           delay={0.06}
-          sx={20}
+          y={20}
           className="flex min-h-[360px] min-w-0 flex-1 basis-[300px] flex-col justify-between rounded-block bg-ink p-10 text-white"
         >
           <span className="text-[clamp(32px,4vw,60px)] font-normal leading-none tracking-[-0.03em]">
@@ -299,7 +299,7 @@ export default async function AboutPage({ params }: Props) {
 
         <Reveal
           delay={0.12}
-          sx={20}
+          y={20}
           className="flex min-h-[360px] min-w-0 flex-1 basis-[300px] flex-col justify-between gap-6 rounded-block bg-copper p-10"
         >
           <span className="text-[clamp(36px,3.4vw,52px)] font-normal leading-none tracking-[-0.03em]">

@@ -13,6 +13,7 @@
  */
 
 import type { Metadata, Viewport } from 'next';
+import '@/app/globals.css';
 import { getDictionary, LOCALES, LOCALE_META, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata } from '@/lib/seo';

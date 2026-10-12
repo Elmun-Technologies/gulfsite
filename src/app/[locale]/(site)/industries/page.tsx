@@ -116,7 +116,7 @@ export default async function IndustriesPage({ params }: Props) {
           {industries.map((ind, i) => (
             <Reveal
               key={ind.id}
-              sx={20}
+              y={20}
               delay={Math.min(i, 7) * 0.06}
               className="min-h-[280px]"
             >
@@ -207,7 +207,7 @@ export default async function IndustriesPage({ params }: Props) {
 
         <Reveal
           delay={0.06}
-          sx={20}
+          y={20}
           className="flex min-h-[200px] flex-[0_1_200px] items-center justify-center rounded-pill bg-navy text-copper-light"
         >
           <ArrowRight size={96} strokeWidth={2.4} aria-hidden />
@@ -215,7 +215,7 @@ export default async function IndustriesPage({ params }: Props) {
 
         <Reveal
           delay={0.12}
-          sx={20}
+          y={20}
           className="flex min-h-[200px] flex-[2_1_480px] flex-wrap items-center justify-between gap-4 rounded-pill bg-copper py-6 pl-[clamp(24px,3.3vw,48px)] pr-6"
         >
           <span className="flex flex-col gap-1.5">
