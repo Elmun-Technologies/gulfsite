@@ -6,6 +6,10 @@ import type { NextConfig } from 'next';
  * (cross-origin preview iframe, masalan *.e2b.app) yoki aniq
  * `ALLOW_FRAMING=1` berilganda ommaviy sahifalar iframe'ga ruxsat oladi.
  * Admin har doim himoyalangan.
+ *
+ * DIQQAT: bu BUILD vaqtida hisoblanadi (`headers()` qoidalari build'ga
+ * yoziladi). `ALLOW_FRAMING` ni `next build` paytida bering (Vercel env
+ * yoki Docker `--build-arg`); `docker run -e` bilan keyin berish ta'sir qilmaydi.
  */
 const allowFraming =
   process.env.NODE_ENV !== 'production' || process.env.ALLOW_FRAMING === '1';
