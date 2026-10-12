@@ -64,6 +64,11 @@ export async function generateMetadata({
       },
     },
     other: { 'og:locale': meta.tag },
+    // Google Search Console / Yandex Webmaster egalikni tasdiqlash (env bo'sh bo'lsa teg chiqmaydi)
+    verification: {
+      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+    },
     title: {
       default: siteConfig.seo.defaultTitle,
       template: '%s — GFF Uzbekistan',

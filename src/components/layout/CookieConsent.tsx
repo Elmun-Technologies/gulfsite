@@ -112,7 +112,7 @@ export function CookieBanner({
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: dur.base, ease: ease.out }}
         >
-          <div className="flex min-w-0 flex-1 basis-[280px] flex-col gap-1.5">
+          <div className="flex min-w-0 flex-1 basis-[280px] flex-col gap-1.5 max-tab:basis-auto">
             <span className="text-[15px] font-semibold">{title}</span>
             <p className="m-0 text-[14px] leading-[1.5] text-on-navy">
               {body}{' '}

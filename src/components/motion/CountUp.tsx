@@ -62,6 +62,8 @@ export function CountUp({
       ? value.toLocaleString(LOCALE_TAG[locale] ?? locale, {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals,
+          // `plain` — yil kabi qiymatlar: "2,002" emas, "2002"
+          useGrouping: !plain,
         })
       : new Intl.NumberFormat(LOCALE_TAG[locale] ?? locale, {
           minimumFractionDigits: decimals,

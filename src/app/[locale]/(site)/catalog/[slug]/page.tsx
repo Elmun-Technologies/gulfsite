@@ -268,7 +268,7 @@ export default async function ProductPage({ params }: Props) {
         ) : null}
 
         {/* dozirovka tavsiyasi — navy kapsula */}
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-navy py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] text-white">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-navy py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] max-tab:rounded-card max-tab:p-6 text-white">
           <span className="max-w-[620px] text-body-l">
             {t('product.dosageAdvice', {
               dosage: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
@@ -354,7 +354,7 @@ export default async function ProductPage({ params }: Props) {
             ))}
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px]">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] max-tab:rounded-card max-tab:p-6">
             <span className="text-body-l">{t('product.boxCta')}</span>
             <ButtonLink href={`/${locale}/samples`} variant="outline" size="md" className="shrink-0">
               {t('nav.samples')}

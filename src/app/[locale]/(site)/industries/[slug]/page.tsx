@@ -250,7 +250,7 @@ export default async function IndustryPage({ params }: Props) {
             }}
           />
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px]">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] max-tab:rounded-card max-tab:p-6">
             <span className="text-body-l">{t('industry.allProductsHint', { name })}</span>
             <ButtonLink
               href={`/${locale}/catalog?applications=${slug}`}

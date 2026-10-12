@@ -602,6 +602,18 @@ html[data-motion-ready] [data-reveal-clip][data-in='true'] {
   .btn--lg { height: 56px; padding-inline: 28px; font-size: 17px; font-weight: 600; }
   .btn--xl { height: 60px; padding-inline: 28px; font-size: 17px; font-weight: 600; }
 
+  /* Mobil: uzun yorliqli tugma (masalan "Nonvoyxona va pishiriq to'plamini olish")
+     `nowrap` + qat'iy balandlik tufayli kartadan chiqib, sahifani yon tomonga
+     surardi (390px da +35px). Tor ekranda tugma konteynerdan oshmaydi va matn
+     ikki qatorga o'tadi; balandlik min-height bo'lib qoladi (teginish ≥ 44px). */
+  @media (max-width: 767.98px) {
+    .btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.2; }
+    .btn--sm { height: auto; min-height: 44px; padding-block: 8px; }
+    .btn--md { height: auto; min-height: 52px; padding-block: 10px; }
+    .btn--lg { height: auto; min-height: 56px; padding-block: 12px; }
+    .btn--xl { height: auto; min-height: 60px; padding-block: 12px; }
+  }
+
   /* Variantlar */
   .btn--accent {
     --btn-bg: var(--color-copper);

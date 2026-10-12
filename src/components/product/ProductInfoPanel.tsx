@@ -215,7 +215,7 @@ export function ProductInfoPanel({
                 aria-checked={on}
                 onClick={() => changeSize(s)}
                 className={cn(
-                  'relative h-11 rounded-pill px-5 text-[15px] font-medium transition-colors',
+                  'relative isolate h-11 rounded-pill px-5 text-[15px] font-medium transition-colors',
                   on ? 'text-white' : 'border border-line text-ink hover:border-ink',
                 )}
               >
