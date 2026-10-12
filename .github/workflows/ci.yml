@@ -191,16 +191,43 @@ jobs:
           done
           echo "✖ server tayyor bo'lmadi"; tail -40 /tmp/server.log; exit 1
 
-      - name: Chrome versiyasi
-        run: google-chrome --version || chromium --version || echo "Chrome topilmadi"
+      - name: Chrome va muhit diagnostikasi
+        run: |
+          echo "node $(node -v) · npm $(npm -v)"
+          echo "Chrome kandidatlari:"
+          ls -la /usr/bin/google-chrome* /usr/bin/chromium* /opt/google/chrome/chrome 2>/dev/null || echo "  (hech biri topilmadi)"
+          google-chrome --version 2>/dev/null || chromium --version 2>/dev/null || echo "  ✖ Chrome versiyasini olib bo'lmadi"
+          echo "lighthouse CLI: $(node_modules/.bin/lighthouse --version 2>&1 | tail -1)"
+          echo "DISPLAY='${DISPLAY:-}' (headless uchun kerak emas)"
 
       - name: Lighthouse — mobile (Perf ≥ 90 · A11y ≥ 95 · SEO = 100)
-        run: npm run lighthouse -- --ci
+        run: |
+          set +e
+          npm run lighthouse -- --ci 2>&1 | tee /tmp/lh-mobile.log
+          code=${PIPESTATUS[0]}
+          if [ "$code" != "0" ]; then
+            # CI log'ini tashqaridan o'qib bo'lmasa, diagnostika ANNOTATION
+            # orqali ko'rinadi: gh api repos/<o>/<r>/check-runs/<job>/annotations
+            lh=$(tail -n 55 /tmp/lh-mobile.log | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            echo "::error title=Lighthouse mobile — log tail::$lh"
+            if [ -f /tmp/server.log ]; then
+              sv=$(tail -n 25 /tmp/server.log | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+              echo "::error title=Server log tail::$sv"
+            fi
+          fi
+          exit "$code"
 
       - name: Lighthouse — desktop (qo'shimcha ma'lumot)
         if: always()
         continue-on-error: true
-        run: npm run lighthouse -- --ci --desktop --all
+        run: npm run lighthouse -- --ci --desktop --all 2>&1 | tee /tmp/lh-desktop.log
+
+      - name: Loglarni hisobot papkasiga yig'ish
+        if: always()
+        run: |
+          mkdir -p .lighthouse
+          cp /tmp/lh-mobile.log /tmp/lh-desktop.log /tmp/server.log .lighthouse/ 2>/dev/null || true
+          ls -la .lighthouse/ || true
 
       - name: Hisobotlarni saqlash
         if: always()

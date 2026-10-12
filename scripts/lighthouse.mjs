@@ -144,80 +144,147 @@ mkdirSync(OUT_DIR, { recursive: true });
 const LH_BIN = join(ROOT, 'node_modules', '.bin', 'lighthouse');
 const formFactor = DESKTOP ? 'desktop' : 'mobile';
 
-console.log(`\nLighthouse ${formFactor} · ${BASE} · Chrome: ${CHROME}`);
-console.log(`Mezonlar (§0/§14.5): Perf ≥ ${BUDGET.performance} · A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}\n`);
+/* ---------------- muhit diagnostikasi ----------------
+   CI log'larini o'qish har doim ham mumkin emas (artefakt/log host'lari
+   bloklangan bo'lishi mumkin), shuning uchun muhim ma'lumotni shu yerga
+   ham yozamiz: `.lighthouse/diagnostics.txt` artefakt bilan birga chiqadi. */
 
-const results = [];
-let failed = 0;
+function ver(bin, args) {
+  const r = spawnSync(bin, args, { encoding: 'utf8', timeout: 30_000 });
+  return ((r.stdout ?? '') + (r.stderr ?? '')).trim().split('\n')[0] ?? `exit ${r.status}`;
+}
 
-for (const [label, path] of PAGES) {
-  const url = `${BASE}${path}`;
-  const slug = path.replace(/[^\w]+/g, '-').replace(/^-|-$/g, '') || 'home';
-  const jsonPath = join(OUT_DIR, `${formFactor}-${slug}.json`);
+const DIAG = [
+  `sana            : ${new Date().toISOString()}`,
+  `form-factor     : ${formFactor}${WANT_ALL ? ' (--all)' : ''}`,
+  `BASE            : ${BASE}`,
+  `node            : ${process.version}`,
+  `chrome path     : ${CHROME}`,
+  `chrome --version: ${ver(CHROME, ['--version'])}`,
+  `lighthouse      : ${ver(LH_BIN, ['--version'])}`,
+  `platform        : ${process.platform} ${process.arch}`,
+  `ci              : ${CI ? 'ha' : "yo'q"}`,
+].join('\n');
+console.log(`\n${DIAG}\n`);
+writeFileSync(join(OUT_DIR, 'diagnostics.txt'), DIAG + '\n', 'utf8');
 
-  const lhArgs = [
+/* Nega flag'lar shunday:
+   - `--headless` BERMAYMIZ: Lighthouse'ning chrome-launcher'i sukut bo'yicha
+     headless ishga tushiradi. `--headless=new` ni qo'lda berish yangi Chrome
+     versiyalarida launch'ni buzishi mumkin (CI'da 6 sahifa × ~11s dan keyin
+     hisobot umuman yozilmagan holat shundan bo'lgan).
+   - `--no-sandbox --disable-dev-shm-usage` CI konteynerida MAJBURIY.
+   - desktop uchun FAQAT `--preset=desktop`: uni `--form-factor=desktop` bilan
+     birga berish flag konfliktini beradi (LH darhol xato qaytaradi). */
+const BASE_FLAGS = '--no-sandbox --disable-dev-shm-usage --disable-gpu';
+const RETRY_FLAGS = '--headless --no-sandbox --disable-dev-shm-usage --disable-gpu';
+
+function lhArgsFor(url, jsonPath) {
+  const a = [
     url,
     '--quiet',
     '--output=json',
     `--output-path=${jsonPath}`,
     '--only-categories=performance,accessibility,seo,best-practices',
-    `--form-factor=${formFactor}`,
-    '--screenEmulation.mobile',
     '--throttling-method=simulate',
-    '--max-wait-for-load=60000',
-    `--chrome-flags=--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage`,
+    '--max-wait-for-load=45000',
   ];
-  if (DESKTOP) lhArgs.push('--preset=desktop');
+  if (DESKTOP) a.push('--preset=desktop');
+  else a.push('--form-factor=mobile');
+  return a;
+}
 
-  const run = spawnSync(LH_BIN, lhArgs, {
+function runLh(args, flags) {
+  return spawnSync(LH_BIN, [...args, `--chrome-flags=${flags}`], {
     encoding: 'utf8',
     env: { ...process.env, CHROME_PATH: CHROME },
     timeout: 180_000,
   });
-
-  if (!existsSync(jsonPath)) {
-    console.log(`  ✖ ${label.padEnd(14)} ${path} — hisobot yozilmadi`);
-    if (run.stderr) console.log(`      ${(run.stderr.split('\n').find(Boolean) ?? '').slice(0, 160)}`);
-    failed += 1;
-    results.push({ label, path, error: true });
-    continue;
-  }
-
-  const report = JSON.parse(readFileSync(jsonPath, 'utf8'));
-  const score = (id) => Math.round((report.categories?.[id]?.score ?? 0) * 100);
-  const row = {
-    label,
-    path,
-    performance: score('performance'),
-    accessibility: score('accessibility'),
-    seo: score('seo'),
-    'best-practices': score('best-practices'),
-    lcp: report.audits?.['largest-contentful-paint']?.displayValue ?? '—',
-    cls: report.audits?.['cumulative-layout-shift']?.displayValue ?? '—',
-    tbt: report.audits?.['total-blocking-time']?.displayValue ?? '—',
-    fcp: report.audits?.['first-contentful-paint']?.displayValue ?? '—',
-  };
-  results.push(row);
-
-  const marks = [];
-  for (const [cat, min] of Object.entries(BUDGET)) {
-    if (row[cat] < min) {
-      marks.push(`${cat} ${row[cat]} < ${min}`);
-      failed += 1;
-    }
-  }
-  for (const [cat, min] of Object.entries(WARN_BUDGET)) {
-    if (row[cat] < min) marks.push(`${cat} ${row[cat]} < ${min} (ogohlantirish)`);
-  }
-
-  const icon = marks.some((m) => !m.includes('ogohlantirish')) ? '✖' : marks.length ? '⚠' : '✓';
-  console.log(
-    `  ${icon} ${label.padEnd(14)} P:${String(row.performance).padStart(3)} A:${String(row.accessibility).padStart(3)} ` +
-      `S:${String(row.seo).padStart(3)} BP:${String(row['best-practices']).padStart(3)}  ` +
-      `LCP ${row.lcp} · CLS ${row.cls} · TBT ${row.tbt}` +
-      (marks.length ? `\n      ${marks.join(' · ')}` : ''),
-  );
 }
+
+console.log(`Mezonlar (§0/§14.5): Perf ≥ ${BUDGET.performance} · A11y ≥ ${BUDGET.accessibility} · SEO = ${BUDGET.seo}\n`);
+
+const results = [];
+let failed = 0;
+const diagLog = [];
+
+try {
+  for (const [label, path] of PAGES) {
+    const url = `${BASE}${path}`;
+    const slug = path.replace(/[^\w]+/g, '-').replace(/^-|-$/g, '') || 'home';
+    const jsonPath = join(OUT_DIR, `${formFactor}-${slug}.json`);
+    const args = lhArgsFor(url, jsonPath);
+
+    let run = runLh(args, BASE_FLAGS);
+
+    if (!existsSync(jsonPath)) {
+      // Bir marta boshqa Chrome flag'lari bilan qayta urinish (masalan headless
+      // rejimni launcher topa olmagan bo'lsa) va XATONI TO'LIQ log'lash.
+      const firstOut = [run.stdout ?? '', run.stderr ?? ''].filter(Boolean).join('\n');
+      diagLog.push(`--- ${label} ${path} (1-urinish, exit ${run.status}) ---\n${firstOut.split('\n').slice(-25).join('\n')}`);
+      run = runLh(args, RETRY_FLAGS);
+    }
+
+    if (!existsSync(jsonPath)) {
+      const out = [run.stdout ?? '', run.stderr ?? ''].filter(Boolean).join('\n');
+      diagLog.push(`--- ${label} ${path} (2-urinish, exit ${run.status}) ---\n${out.split('\n').slice(-25).join('\n')}`);
+      const tail = out.split('\n').filter(Boolean).slice(-6);
+      console.log(`  ✖ ${label.padEnd(14)} ${path} — hisobot yozilmadi (exit ${run.status}${run.error ? `, ${run.error.code ?? run.error.message}` : ''})`);
+      for (const l of tail) console.log(`      ${l.slice(0, 190)}`);
+      failed += 1;
+      results.push({ label, path, error: true });
+      continue;
+    }
+
+    const report = JSON.parse(readFileSync(jsonPath, 'utf8'));
+    if (report.runtimeError) {
+      diagLog.push(`--- ${label} ${path} runtimeError --- ${report.runtimeError.code}: ${report.runtimeError.message}`);
+    }
+    const score = (id) => Math.round((report.categories?.[id]?.score ?? 0) * 100);
+    const row = {
+      label,
+      path,
+      performance: score('performance'),
+      accessibility: score('accessibility'),
+      seo: score('seo'),
+      'best-practices': score('best-practices'),
+      lcp: report.audits?.['largest-contentful-paint']?.displayValue ?? '—',
+      cls: report.audits?.['cumulative-layout-shift']?.displayValue ?? '—',
+      tbt: report.audits?.['total-blocking-time']?.displayValue ?? '—',
+      fcp: report.audits?.['first-contentful-paint']?.displayValue ?? '—',
+      runtimeError: report.runtimeError?.code,
+    };
+    results.push(row);
+
+    const marks = [];
+    for (const [cat, min] of Object.entries(BUDGET)) {
+      if (row[cat] < min) {
+        marks.push(`${cat} ${row[cat]} < ${min}`);
+        failed += 1;
+      }
+    }
+    for (const [cat, min] of Object.entries(WARN_BUDGET)) {
+      if (row[cat] < min) marks.push(`${cat} ${row[cat]} < ${min} (ogohlantirish)`);
+    }
+    if (row.runtimeError) marks.push(`runtimeError: ${row.runtimeError}`);
+
+    const icon = marks.some((m) => !m.includes('ogohlantirish')) ? '✖' : marks.length ? '⚠' : '✓';
+    console.log(
+      `  ${icon} ${label.padEnd(14)} P:${String(row.performance).padStart(3)} A:${String(row.accessibility).padStart(3)} ` +
+        `S:${String(row.seo).padStart(3)} BP:${String(row['best-practices']).padStart(3)}  ` +
+        `LCP ${row.lcp} · CLS ${row.cls} · TBT ${row.tbt}` +
+        (marks.length ? `\n      ${marks.join(' · ')}` : ''),
+    );
+  }
+} catch (err) {
+  // Kutilmagan xato bo'lsa ham xulosa va diagnostika YOZILSIN — aks holda
+  // CI'da "nima bo'ldi" ni umuman ko'rib bo'lmaydi.
+  diagLog.push(`--- KUTILMAGAN XATO ---\n${err?.stack ?? err}`);
+  console.error(`\n✖ Kutilmagan xato: ${err?.message ?? err}\n`);
+  failed += 1;
+}
+
+writeFileSync(join(OUT_DIR, `diagnostics-${formFactor}.log`), diagLog.join('\n\n') + '\n', 'utf8');
 
 /* ---------------- markdown xulosa (CI summary uchun) ---------------- */
 
