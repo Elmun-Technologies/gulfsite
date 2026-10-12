@@ -209,6 +209,12 @@ jobs:
           set +e
           npm run lighthouse -- --ci --perf-report-only 2>&1 | tee /tmp/lh-mobile.log
           code=${PIPESTATUS[0]}
+          # Natija jadvalini ANNOTATION sifatida ham chiqaramiz: log'ni ochmasdan
+          # (va API orqali) ko'rinadi — `gh api …/check-runs/<job>/annotations`.
+          if [ -f .lighthouse/summary-mobile.md ]; then
+            sum=$(sed -e 's/%/%25/g' .lighthouse/summary-mobile.md | awk '{printf "%s%%0A", $0}')
+            echo "::notice title=Lighthouse MOBIL natijasi (Perf hisobot, A11y/SEO qat'iy)::$sum"
+          fi
           if [ "$code" != "0" ]; then
             # CI log'ini tashqaridan o'qib bo'lmasa, diagnostika ANNOTATION
             # orqali ko'rinadi: gh api repos/<o>/<r>/check-runs/<job>/annotations
@@ -224,7 +230,13 @@ jobs:
       - name: Lighthouse — desktop (qo'shimcha ma'lumot)
         if: always()
         continue-on-error: true
-        run: npm run lighthouse -- --ci --desktop --all --perf-report-only 2>&1 | tee /tmp/lh-desktop.log
+        run: |
+          set +e
+          npm run lighthouse -- --ci --desktop --all --perf-report-only 2>&1 | tee /tmp/lh-desktop.log
+          if [ -f .lighthouse/summary-desktop.md ]; then
+            sum=$(sed -e 's/%/%25/g' .lighthouse/summary-desktop.md | awk '{printf "%s%%0A", $0}')
+            echo "::notice title=Lighthouse DESKTOP natijasi::$sum"
+          fi
 
       - name: Loglarni hisobot papkasiga yig'ish
         if: always()
