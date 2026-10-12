@@ -351,18 +351,27 @@ eski `@theme` bloki saqlanadi.
 | `npm run env:check` | ⚠️ 4 xato, 6 ogohlantirish | launch'ni to'sadiganlar: domen, lead kanali, admin parol/secret |
 | `npm run lighthouse` (lokal) | ⏭️ skip (exit 2) | sandbox'da Chrome yo'q → CI'da o'lchanadi |
 | `npm run lighthouse` (CI, desktop) | ✅ 9/9 sahifa o'tdi | Perf ≥ 90 · A11y ≥ 95 · SEO 100 |
-| `npm run lighthouse` (CI, mobil) | ⚠️ Perf 56–96 | A11y 97–100 (tuzatishdan keyin) · SEO 100 · CLS 0 — pastdagi izoh |
+| `npm run lighthouse` (CI, mobil) | ⚠️ Perf 55–95 (hisobot) | A11y 96–100 ✅ · SEO 100 ✅ · CLS 0 — pastdagi izoh |
 
 **Lighthouse — CI'da o'lchangan haqiqiy raqamlar (GitHub runner, 2026-10-12):**
 
-| Sahifa | Perf (mobil) | A11y | SEO | BP | LCP | CLS | TBT |
-|---|---|---|---|---|---|---|---|
-| Bosh `/uz` | 56–58 | 97 | 100 | 88 | 4.3–5.2 s | 0 | 990–1160 ms |
-| Katalog | 87–94 | 92 → **97** | 100 | 96 | 2.8–3.5 s | 0 | 160–210 ms |
-| Mahsulot | 87–93 | 96 | 100 | 92 | 2.7–3.6 s | 0 | 190–200 ms |
-| Namunalar | 88 | 97 | 100 | 96 | 3.5 s | 0 | 180–200 ms |
-| Sohalar | 80–85 | 100 | 100 | 92 | 3.8–4.1 s | 0 | 210–310 ms |
-| Aloqa | 92–96 | 96 | 100 | 96 | 2.8–3.4 s | 0 | 50 ms |
+Run `38215922773` (a11y tuzatishlaridan keyin, **ikkala job ham yashil**):
+
+| Sahifa | Perf mobil | Perf desktop | A11y mobil/desktop | SEO | BP | LCP (m/d) | CLS | TBT (m) |
+|---|---|---|---|---|---|---|---|---|
+| Bosh `/uz` | 55 | 99 | 97 / 97 | 100 | 88 | 5.1 s / 0.8 s | 0 | 1210 ms |
+| Katalog | 92 | 100 | **97** / 97 | 100 | 96 / 92 | 2.8 s / 0.7 s | 0 | 220 ms |
+| Mahsulot | 87 | 100 | 96 / 96 | 100 | 92 | 3.6 s / 0.8 s | 0 | 190 ms |
+| Namunalar | 95 | 100 | 97 / 97 | 100 | 96 / 92 | 2.4 s / 0.7 s | 0 | 200 ms |
+| Sohalar | 87 | 100 | 100 / 100 | 100 | 92 | 3.7 s / 0.8 s | 0 | 160 ms |
+| Aloqa | 92 | 100 | 96 / 96 | 100 | 96 / 92 | 3.4 s / 0.7 s | 0 | 50 ms |
+| Kompaniya | — | 98 | — / 100 | 100 | 92 | — / 1.1 s | 0 | 0 ms |
+| RFQ | — | 100 | — / 97 | 100 | 92 | — / 0.7 s | 0 | 0 ms |
+| Soha detali | — | 100 | — / 100 | 100 | 92 | — / 0.8 s | 0 | 0 ms |
+
+Katalog A11y **92 → 97** (pastdagi 3 tuzatish). Run-to-run shovqin: mobil Perf
+±10 (avvalgi run'da bosh sahifa 58, bu run'da 55) — aynan shu sababdan Perf
+CI'da hisobot rejimida.
 
 **Desktop: 9 sahifaning BARCHASI Perf ≥ 90 · A11y ≥ 95 · SEO 100** — o'sha
 runner'da, o'sha build bilan. Farq: mobil o'lchovda Lighthouse 4× CPU throttle
@@ -392,6 +401,11 @@ CI'da QAT'IY — ular ushunaga bog'liq emas.
 **Qoida:** `aria-label` berishdan oldin o'ylang — agar elementda ko'rinadigan
 matn bo'lsa, `aria-label` uni O'Z ICHIGA olishi shart (WCAG 2.5.3). Matn bo'lsa
 `aria-label` umuman kerak emas; u faqat matnsiz (ikonka) tugmalar uchun (§14).
+
+**Hisobot jadvali CI'da `::notice` annotation sifatida ham chiqadi** — log yoki
+artefaktni ochmasdan o'qiladi: `gh api repos/<o>/<r>/check-runs/<job>/annotations`.
+Artefakt (`lighthouse-reports`) `lh-reports/` papkasidan yuklanadi, chunki
+`upload-artifact` yashirin (`.lighthouse/`) papkani glob qilmaydi.
 
 **BP ogohlantirishlari (hozircha qoldi, mezon emas):** `image-aspect-ratio`
 (`fill` + `object-cover` rasmlarda konteyner va rasm proporsiyasi farq qiladi —

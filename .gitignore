@@ -56,3 +56,4 @@ yarn-error.log*
 # Vendored font subsets (generated from node_modules by scripts/copy-fonts.mjs)
 public/fonts/
 .lighthouse/
+lh-reports/
