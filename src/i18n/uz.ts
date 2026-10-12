@@ -1127,7 +1127,7 @@ export const uz = {
   'seo.samples.description': 'Katalogdan {max} tagacha mahsulot tanlang: namunalar bepul, {days} ish kuni ichida, texnik hujjatlar bilan.',
   'seo.industries.title': 'Sohalar uchun aromatizatorlar — {count} soha',
   'seo.industries.description': 'Har bir soha uchun tavsiya etilgan mahsulotlar, dozirovka va tayyor namuna to‘plamlari.',
-  'seo.industry.title': '{name} uchun aromatizatorlar',
+  'seo.industry.title': '{name}: aromatizatorlar',
   'seo.industry.description': '{name}: {count} tavsiya etilgan pozitsiya, dozirovka, issiqqa chidamli formalar va bepul namuna to‘plami.',
   'seo.about.title': 'GFF rasmiy distribyutori O‘zbekistonda',
   'seo.about.description': 'GFF Uzbekistan — Gulf Flavours & Fragrances FZCO (Dubay) ning rasmiy va yagona distribyutori. 2002-yildan beri, Toshkentdagi ombor.',

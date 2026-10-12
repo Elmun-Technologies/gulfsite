@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return buildMetadata({
     locale,
-    title: t('seo.industry.title', { name }),
+    title: industryTitle(name, t('seo.industry.title', { name })),
     description: t('seo.industry.description', { name, count }),
     path: `/industries/${slug}`,
     image: publicAssetExists(APPLICATION_IMAGE[slug] ?? '') ? APPLICATION_IMAGE[slug] : FALLBACK_IMAGE,
@@ -356,4 +356,14 @@ function Stat({ label, value }: { label: string; value: number }) {
       <span className="self-end text-[30px] font-semibold leading-none">{value}</span>
     </div>
   );
+}
+
+/**
+ * Soha title'i: "{name}: aromatizatorlar". Nomning o'zida kalit so'z bo'lsa
+ * ("Production of flavours") takrorlanmaydi; shablon + " — GFF Uzbekistan"
+ * (17) 60 belgidan oshsa ham faqat nom qoladi (§13.1).
+ */
+function industryTitle(name: string, full: string): string {
+  if (/aromatiz|ароматиз|flavour/i.test(name)) return name;
+  return full.length <= 43 ? full : name;
 }
