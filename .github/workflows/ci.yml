@@ -40,9 +40,9 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -123,15 +123,33 @@ jobs:
             http://127.0.0.1:3000/api/leads -H 'Content-Type: application/json' --data @/tmp/ci-lead.json)
           if [ "$code" != "201" ]; then echo "✖ /api/leads → $code"; cat /tmp/ci-lead-res.json; exit 1; fi
           echo "  ✓ /api/leads → 201"
-          # honeypot: website_url to'ldirilsa — rad etilishi kerak
+          # Honeypot: `website_url` to'ldirilsa ariza SAQLANMASLIGI kerak.
+          # MUHIM — honeypot ATAY 200 qaytaradi (`{"ref":"GFF-HONEYPOT",
+          # "suppressed":true}`): botga bloklanganini bildirish mumkin emas,
+          # aks holda u maydonni keyingi safar to'ldirmaydi (§11.2). Shuning
+          # uchun status emas, JAVOB TANASI va do'kon holati tekshiriladi.
           node -e '
             const fs=require("fs");const p=JSON.parse(fs.readFileSync("/tmp/ci-lead.json","utf8"));
             p.website_url="http://spam.example";p.formStartedAt=Date.now()-9000;
             fs.writeFileSync("/tmp/ci-spam.json",JSON.stringify(p));'
-          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:3000/api/leads \
-            -H 'Content-Type: application/json' --data @/tmp/ci-spam.json)
-          echo "  ✓ honeypot → $code (2xx bo'lmasligi kerak)"
-          case "$code" in 2*) echo "✖ honeypot ishlamadi"; exit 1;; esac
+          before=$(cat data/leads/*.jsonl 2>/dev/null | wc -l)
+          code=$(curl -s -o /tmp/ci-spam-res.json -w '%{http_code}' -X POST \
+            http://127.0.0.1:3000/api/leads -H 'Content-Type: application/json' \
+            --data @/tmp/ci-spam.json)
+          echo "  honeypot → HTTP $code"
+          node -e '
+            const fs=require("fs");
+            const r=JSON.parse(fs.readFileSync("/tmp/ci-spam-res.json","utf8"));
+            if (r?.data?.suppressed !== true || r?.data?.ref !== "GFF-HONEYPOT") {
+              console.error("✖ honeypot suppressed javob qaytarmadi:", JSON.stringify(r).slice(0,200));
+              process.exit(1);
+            }
+            console.log("  ✓ honeypot suppressed (bot bloklanganini bilmaydi)");'
+          after=$(cat data/leads/*.jsonl 2>/dev/null | wc -l)
+          if [ "$before" != "$after" ]; then
+            echo "✖ honeypot arizasi do'konga yozilgan ($before → $after qator)"; exit 1
+          fi
+          echo "  ✓ honeypot arizasi saqlanmagan (do'konda $after qator)"
 
       - name: Server log'ida xato bormi
         if: always()
@@ -148,9 +166,9 @@ jobs:
     needs: verify
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -186,7 +204,7 @@ jobs:
 
       - name: Hisobotlarni saqlash
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: .lighthouse/
