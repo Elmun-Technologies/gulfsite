@@ -47,9 +47,8 @@ export const siteConfig = {
    * .env orqali o'zgartirish mumkin, lekin standart qiymatlar mijoz
    * bergan rasmiy kontaktlar.
    *
-   * ⚠ E-mail: mijoz bir joyda "info@gulfflovour.uz" deb yozgan, dizayn
-   *   fayllarida esa "info@gulfflavour.uz". Ishga tushirishdan oldin
-   *   TO'G'RI yozilishni tasdiqlash shart (CLAUDE.md → TODO).
+   * ✔ E-mail tasdiqlandi (mijoz qarori, 2026-10-12): "info@gulfflavour.uz".
+   *   Avvalgi "info@gulfflovour.uz" yozuvi xato bo'lgan — TODO yopildi.
    */
   contact: {
     phonePrimary: str('NEXT_PUBLIC_PHONE_PRIMARY', '+998 97 570 77 60'),
@@ -80,7 +79,12 @@ export const siteConfig = {
     hqAddressShort: 'P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA',
     hqPhone: '+97148833923',
     hqPhoneLabel: '+971 4 883 3923',
-    hqEmail: 'enquiry@gff.co.ae',
+    /**
+     * ⚠ Brief §15 da HQ e-maili BERILMAGAN (faqat manzil va +971 4 883 3923).
+     * Shuning uchun standart qiymat BO'SH — to'qilgan manzil ko'rsatilmaydi.
+     * Mijoz bergach `NEXT_PUBLIC_HQ_EMAIL` orqali yoqiladi.
+     */
+    hqEmail: str('NEXT_PUBLIC_HQ_EMAIL', ''),
     mapsQuery: encodeURIComponent(
       str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mirzo Ulugbek district, Mustaqillik 128'),
     ),
@@ -195,7 +199,12 @@ export const serverConfig = {
     secure: bool('SMTP_SECURE', false),
     user: str('SMTP_USER'),
     password: str('SMTP_PASSWORD'),
-    from: str('SMTP_FROM', 'GFF Uzbekistan <no-reply@gff.uz>'),
+    /**
+     * Yuboruvchi manzili. Standart — tasdiqlangan kontakt e-maili (§15);
+     * to'qilgan domen (no-reply@gff.uz) ISHLATILMAYDI, chunki SPF/DKIM
+     * bo'lmasa xatlar spam'ga tushadi. Real domen bilan almashtiring.
+     */
+    from: str('SMTP_FROM', `GFF Uzbekistan <${str('NEXT_PUBLIC_EMAIL', 'info@gulfflavour.uz')}>`),
     to: str('LEAD_EMAIL_TO')
       .split(',')
       .map((s) => s.trim())
@@ -218,7 +227,8 @@ export const serverConfig = {
     get turnstileEnabled(): boolean {
       return Boolean(this.turnstileSecret && siteConfig.analytics.turnstileSiteKey);
     },
-    rateLimitMax: num('RATE_LIMIT_MAX', 8),
+    /** §11.2: bir IP dan 5 ta so'rov / 10 minut (600 s). */
+    rateLimitMax: num('RATE_LIMIT_MAX', 5),
     rateLimitWindowSec: num('RATE_LIMIT_WINDOW_SECONDS', 600),
     duplicateGuardSec: num('DUPLICATE_GUARD_SECONDS', 120),
   },
