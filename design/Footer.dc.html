@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>GFF Uzbekistan — Footer</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Onest:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="font-family: 'Urbanist', 'Onest', 'Helvetica Neue', sans-serif; color: #14132E; background: #FFFFFF; width: 100%;">
+<footer style="max-width: 1408px; margin: 0 auto; padding: 0 16px 16px; box-sizing: border-box;">
+<div style="background: #F4EEE7; border-radius: 40px; padding: clamp(28px, 4vw, 56px); display: flex; flex-direction: column; gap: 48px;">
+<div style="display: flex; flex-wrap: wrap; gap: 40px 64px; justify-content: space-between;">
+<div style="flex: 1 1 300px; max-width: 420px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<img src="assets/monogram-copper.png" alt="GFF" style="height: 56px; width: auto; display: block;">
+<span style="display: flex; flex-direction: column; gap: 5px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.16em; line-height: 1;">GULF FLAVOURS &amp; FRAGRANCES</span>
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.32em; line-height: 1; color: #94603E;">UZBEKISTAN</span>
+</span>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #615E72;">{{t.tagline}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<span style="padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; font-size: 13px; font-weight: 500;">Halal</span>
+<span style="padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; font-size: 13px; font-weight: 500;">ISO 22000</span>
+<span style="padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; font-size: 13px; font-weight: 500;">HACCP</span>
+<span style="padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; font-size: 13px; font-weight: 500;">SGS</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">{{t.catTitle}}</span>
+<sc-for list="{{t.cats}}" as="c" hint-placeholder-count="6">
+<a href="Catalog.dc.html" style="text-decoration: none; color: #14132E;">{{c}}</a>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">{{t.coTitle}}</span>
+<sc-for list="{{t.co}}" as="c" hint-placeholder-count="5">
+<a href="{{c.href}}" style="text-decoration: none; color: #14132E;">{{c.label}}</a>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px; max-width: 300px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">{{t.contactTitle}}</span>
+<span style="line-height: 1.5;">{{t.address}}</span>
+<a href="tel:+998975707760" style="text-decoration: none; color: #14132E; font-weight: 600;">+998 97 570 77 60</a>
+<a href="mailto:info@gulfflavour.uz" style="text-decoration: none; color: #14132E;">info@gulfflavour.uz</a>
+<span style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;"><a href="https://t.me/GFF_uzb" style="text-decoration: none; padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; color: #14132E; font-size: 14px; font-weight: 500;">Telegram</a><a href="https://instagram.com/gulfflavour.uz" style="text-decoration: none; padding: 7px 14px; border-radius: 999px; border: 1px solid #DCD2C7; color: #14132E; font-size: 14px; font-weight: 500;">Instagram</a></span>
+<span style="color: #615E72;">{{t.hours}}</span>
+</div>
+</div>
+<div style="border-top: 1px solid #DCD2C7; padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: #615E72;">
+<span>© 2026 GFF Uzbekistan</span>
+<span>{{t.hq}}</span>
+<a href="Privacy.dc.html" style="color: #615E72;">{{t.privacy}}</a>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["uz","ru","en"],"default":"uz"},"$preview":{"width":1440,"height":480}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const lang = this.props.lang ?? 'uz';
+    const co = (labels) => labels.map((label, i) => ({ label, href: ['About.dc.html', 'Industries.dc.html', 'Samples.dc.html', 'Contact.dc.html', '#'][i] }));
+    const T = {
+      uz: {
+        tagline: 'Gulf Flavours & Fragrances FZCO (Dubay) ning O‘zbekistondagi rasmiy va yagona distributori.',
+        catTitle: 'KATALOG', coTitle: 'KOMPANIYA', contactTitle: 'ALOQA',
+        cats: ['Oziq-ovqat aromatizatorlari', 'Parfyumeriya kompozitsiyalari', 'Ingrediyentlar va qo‘shimchalar', 'Efir moylari', 'Aroma-kimyoviy moddalar', 'Xomashyo'],
+        co: co(['Biz haqimizda', 'Sohalar', 'Namuna qutisi', 'Aloqa', 'PDF katalog']),
+        address: 'Toshkent, Mirzo Ulug‘bek tumani, Mustaqillik shoh ko‘chasi, 128',
+        hours: 'Du–Ju 09:00–18:00, Sha 10:00–15:00',
+        hq: 'Bosh ofis: P.O. Box 18129, Jebel Ali Free Zone, Dubay, BAA', privacy: 'Maxfiylik siyosati'
+      },
+      ru: {
+        tagline: 'Официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO (Дубай) в Узбекистане.',
+        catTitle: 'КАТАЛОГ', coTitle: 'КОМПАНИЯ', contactTitle: 'КОНТАКТЫ',
+        cats: ['Пищевые ароматизаторы', 'Парфюмерные композиции', 'Ингредиенты и добавки', 'Эфирные масла', 'Ароматические вещества', 'Сырьё'],
+        co: co(['О компании', 'Отрасли', 'Коробка образцов', 'Контакты', 'PDF-каталог']),
+        address: 'Ташкент, Мирзо-Улугбекский район, проспект Мустакиллик, 128',
+        hours: 'Пн–Пт 09:00–18:00, Сб 10:00–15:00',
+        hq: 'Головной офис: P.O. Box 18129, Jebel Ali Free Zone, Дубай, ОАЭ', privacy: 'Политика конфиденциальности'
+      },
+      en: {
+        tagline: 'Official and exclusive distributor of Gulf Flavours & Fragrances FZCO (Dubai) in Uzbekistan.',
+        catTitle: 'CATALOGUE', coTitle: 'COMPANY', contactTitle: 'CONTACT',
+        cats: ['Food flavours', 'Fragrance compositions', 'Ingredients & additives', 'Essential oils', 'Aroma chemicals', 'Commodities'],
+        co: co(['About us', 'Industries', 'Sample box', 'Contact', 'PDF catalogue']),
+        address: 'Tashkent, Mirzo Ulugbek district, 128 Mustaqillik Ave.',
+        hours: 'Mon–Fri 09:00–18:00, Sat 10:00–15:00',
+        hq: 'Head office: P.O. Box 18129, Jebel Ali Free Zone, Dubai, UAE', privacy: 'Privacy policy'
+      }
+    };
+    return { t: T[lang] || T.uz };
+  }
+}
+</script>
+</body>
+</html>

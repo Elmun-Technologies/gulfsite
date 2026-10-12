@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Maxfiylik siyosati — GFF Uzbekistan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#14132E}
+</style>
+</helmet>
+<div style="font-family: 'Urbanist', 'Helvetica Neue', sans-serif; color: #14132E; background: #FFFFFF; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+<dc-import name="Header" active="none" count="0" hint-size="100%,88px"></dc-import>
+
+<section style="max-width: 1408px; margin: 0 auto; padding: 0 16px; box-sizing: border-box;">
+<div style="background: #F4EEE7; border-radius: 40px; padding: clamp(28px, 4vw, 56px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<nav aria-label="Breadcrumb" style="display: flex; gap: 10px; font-size: 15px; color: #615E72;">
+<a href="Main.dc.html" style="color: #615E72; text-decoration: none;">Bosh sahifa</a>
+<span aria-hidden="true">/</span>
+<span style="color: #14132E;">Maxfiylik siyosati</span>
+</nav>
+<h1 style="margin: 0; font-size: clamp(42px, 6vw, 96px); font-weight: 400; line-height: 0.94; letter-spacing: -0.04em;">Maxfiylik siyosati</h1>
+</div>
+<span style="font-size: 15px; color: #615E72;">Oxirgi yangilanish: [SANA]</span>
+</div>
+<div style="margin-top: 12px; border: 1.5px dashed #C98F68; border-radius: 28px; padding: 18px 26px; font-size: 15px; line-height: 1.5; color: #4C4A5E;">Dizayn uchun tuzilma. Yakuniy matnni yurist O‘zbekiston qonunchiligiga muvofiq tasdiqlashi kerak.</div>
+</section>
+
+<section style="max-width: 1408px; margin: 0 auto; padding: 32px 16px 0; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: flex-start;">
+<nav aria-label="Mundarija" style="flex: 1 1 260px; max-width: 320px; border: 1px solid #ECE4DA; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72; padding-bottom: 8px;">MUNDARIJA</span>
+<sc-for list="{{sections}}" as="s" hint-placeholder-count="8">
+<a href="{{s.anchor}}" style="text-decoration: none; padding: 10px 0; font-size: 15px; border-bottom: 1px solid #ECE4DA; display: flex; gap: 12px;"><span style="color: #94603E; font-weight: 600;">{{s.num}}</span>{{s.title}}</a>
+</sc-for>
+</nav>
+<div style="flex: 999 1 560px; min-width: 0; max-width: 820px; display: flex; flex-direction: column;">
+<sc-for list="{{sections}}" as="s" hint-placeholder-count="8">
+<article id="{{s.id}}" style="padding: 32px 0; border-bottom: 1px solid #ECE4DA; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; display: flex; align-items: baseline; gap: 16px; font-size: clamp(24px, 2.4vw, 34px); font-weight: 400; letter-spacing: -0.02em;"><span style="font-size: 0.7em; font-weight: 300; color: #94603E;">{{s.num}}</span>{{s.title}}</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.7; color: #4C4A5E;">{{s.body}}</p>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width: 1408px; margin: 0 auto; padding: 64px 16px 16px; box-sizing: border-box;">
+<div style="background: #0B0A3A; color: #FFFFFF; border-radius: 999px; padding: 18px 18px 18px 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+<span style="font-size: 17px;">Ma’lumotlaringiz bo‘yicha savol: <a href="mailto:info@gulfflavour.uz" style="color: #E8C3A3; text-decoration: none; font-weight: 600;">info@gulfflavour.uz</a></span>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; height: 48px; padding: 0 22px; border-radius: 999px; background: #D6A27C; color: #14132E; text-decoration: none; font-size: 15px; font-weight: 600;">Aloqa</a>
+</div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,460px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const S = [
+      ['Umumiy qoidalar', 'Ushbu siyosat GFF Uzbekistan saytidan foydalanganda qanday ma’lumotlar yig‘ilishi va ishlatilishini tushuntiradi. [Yuridik shaxs nomi, STIR va manzili].'],
+      ['Qanday ma’lumot yig‘amiz', 'So‘rov va namuna formalarida siz kiritgan ma’lumotlar: ism, kompaniya, lavozim, telefon, email, hudud, yetkazish manzili va xabar matni.'],
+      ['Ma’lumotdan foydalanish maqsadi', 'So‘rovingizni ko‘rib chiqish, texnolog bilan bog‘lanish, namunalarni yetkazib berish va tijorat taklifini tayyorlash.'],
+      ['Saqlash muddati', '[Saqlash muddati — yurist tomonidan belgilanadi]. Muddat tugagach ma’lumotlar o‘chiriladi yoki anonimlashtiriladi.'],
+      ['Uchinchi tomonlar', 'Ma’lumotlar faqat zarur hollarda beriladi: namunani yetkazuvchi kuryer xizmati va Gulf Flavours & Fragrances FZCO (texnik savollar uchun). [Ro‘yxatni tasdiqlash kerak].'],
+      ['Cookie va analitika', 'Sayt ishlashi va tahlil uchun cookie hamda Google Analytics, Meta Pixel kabi vositalar ishlatiladi. Brauzer sozlamalarida cookie’larni o‘chirishingiz mumkin.'],
+      ['Sizning huquqlaringiz', 'Ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin. Buning uchun info@gulfflavour.uz manziliga yozing.'],
+      ['Aloqa', 'GFF Uzbekistan, Toshkent, Mirzo Ulug‘bek tumani, Mustaqillik shoh ko‘chasi, 128. Telefon: +998 97 570 77 60.']
+    ];
+    return {
+      sections: S.map(([title, body], i) => ({ title, body, num: String(i + 1).padStart(2, '0'), id: 'p' + (i + 1), anchor: '#p' + (i + 1) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -26,7 +26,11 @@ function entry(path: string, priority: number, changeFrequency: MetadataRoute.Si
     changeFrequency,
     priority,
     alternates: {
-      languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`])) as Record<AppLocale, string>,
+      languages: {
+        ...Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`])),
+        // §13.5 — x-default doim standart tilga (uz) ko'rsatadi
+        'x-default': `${SITE_URL}/uz${path}`,
+      } as Record<AppLocale | 'x-default', string>,
     },
   }));
 }
@@ -60,7 +64,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   /* ---------- Mahsulot sahifalari ---------- */
   const products = allProducts();
   for (const p of products) {
-    out.push(...entry(`/product/${p.slug}`, 0.6, 'monthly'));
+    // KANONIK mahsulot manzili — `/catalog/<slug>`; eski `/product/<slug>`
+    // 301 bilan shu yerga yo'naltirilgan, shuning uchun sitemap'ga TUSHMAYDI
+    // (aks holda Google har bir mahsulot uchun redirect'ni kuzatadi).
+    out.push(...entry(`/catalog/${p.slug}`, 0.6, 'monthly'));
   }
 
   return out;

@@ -15,7 +15,7 @@ import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { useHydrated } from '@/lib/hooks';
 import { Icon, type IconName } from './Icon';
-import { Button, IconButton } from './Button';
+import { Button, IconButton } from './LegacyButton';
 
 /* ============================================================
    TOAST — bildirishnomalar tizimi
@@ -40,15 +40,20 @@ interface ToastCtx {
   success: (title: string, description?: string) => string;
   error: (title: string, description?: string) => string;
   info: (title: string, description?: string) => string;
+  warning: (title: string, description?: string) => string;
 }
 
 const ToastContext = createContext<ToastCtx | null>(null);
 
+/**
+ * Toast ohanglari — YANGI dizayn tizimi (§4.1).
+ * Aksent ranglar yo'q: status uchun faqat --ok va --error.
+ */
 const TONE_STYLES: Record<ToastTone, { bar: string; icon: IconName; iconCls: string }> = {
-  success: { bar: 'bg-teal-500', icon: 'check', iconCls: 'bg-mint-100 text-teal-600' },
-  error: { bar: 'bg-clay-600', icon: 'alert', iconCls: 'bg-clay-300/25 text-clay-600' },
-  warning: { bar: 'bg-gold-500', icon: 'alert', iconCls: 'bg-gold-400/25 text-gold-600' },
-  info: { bar: 'bg-pine-700', icon: 'info', iconCls: 'bg-cream-100 text-pine-700' },
+  success: { bar: 'bg-ok', icon: 'check', iconCls: 'bg-panel text-ok' },
+  error: { bar: 'bg-error', icon: 'alert', iconCls: 'bg-panel text-error' },
+  warning: { bar: 'bg-copper-dark', icon: 'alert', iconCls: 'bg-panel text-copper-dark' },
+  info: { bar: 'bg-navy', icon: 'info', iconCls: 'bg-panel text-navy' },
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -90,6 +95,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       success: (title, description) => push({ tone: 'success', title, description }),
       error: (title, description) => push({ tone: 'error', title, description }),
       info: (title, description) => push({ tone: 'info', title, description }),
+      warning: (title, description) => push({ tone: 'warning', title, description }),
     }),
     [push, dismiss],
   );
@@ -112,6 +118,7 @@ export function useToast(): ToastCtx {
       success: () => '',
       error: () => '',
       info: () => '',
+      warning: () => '',
     };
   }
   return ctx;
@@ -133,21 +140,21 @@ function ToastViewport({ toasts, dismiss }: { toasts: ToastItem[]; dismiss: (id:
         return (
           <div
             key={t.id}
-            className="animate-in-up pointer-events-auto flex w-full max-w-[24rem] items-start gap-3 overflow-hidden rounded-xl border border-cream-200 bg-white/97 shadow-float backdrop-blur-sm"
+            className="pointer-events-auto flex w-full max-w-[24rem] items-start gap-3 overflow-hidden rounded-card border border-line-soft bg-white"
           >
             <span className={cn('w-1 self-stretch', style.bar)} aria-hidden />
-            <span className={cn('mt-3 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg', style.iconCls)}>
+            <span className={cn('mt-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-pill', style.iconCls)}>
               <Icon name={style.icon} size={15} strokeWidth={2.2} />
             </span>
             <div className="min-w-0 flex-1 py-3">
-              <p className="text-[13.5px] font-bold text-pine-900">{t.title}</p>
-              {t.description ? <p className="mt-0.5 text-[12.5px] leading-snug text-slate-warm-600">{t.description}</p> : null}
+              <p className="text-[15px] font-semibold text-ink">{t.title}</p>
+              {t.description ? <p className="mt-1 text-[13.5px] leading-snug text-muted">{t.description}</p> : null}
             </div>
             <button
               type="button"
               onClick={() => dismiss(t.id)}
               aria-label="Yopish"
-              className="mt-2.5 mr-2 rounded p-1 text-slate-warm-500 transition hover:bg-cream-100 hover:text-pine-800"
+              className="mt-2.5 mr-2 rounded-pill p-1.5 text-muted transition hover:bg-panel hover:text-ink"
             >
               <Icon name="close" size={14} strokeWidth={2.2} />
             </button>

@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ['image/avif', 'image/webp'],
+    /** monogram PNG'lari 90 sifatda chiqadi (shaffoflik + ranglar) */
+    qualities: [75, 90],
     remotePatterns: [
       { protocol: 'https', hostname: 'gulfflavours.ae' },
       { protocol: 'https', hostname: 'gulfflavours.ru' },

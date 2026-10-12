@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>GFF Uzbekistan — Katalog</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#14132E}a:hover{color:#0B0A3A}
+</style>
+</helmet>
+<div style="font-family: 'Urbanist', 'Helvetica Neue', sans-serif; color: #14132E; background: #FFFFFF; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+<dc-import name="Header" active="catalog" count="{{addedCount}}" hint-size="100%,88px"></dc-import>
+
+<!-- PAGE HEAD -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 0 16px; box-sizing: border-box;">
+<div style="background: #F4EEE7; border-radius: 40px; padding: clamp(28px, 4vw, 56px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 24px; max-width: 760px;">
+<nav aria-label="Breadcrumb" style="display: flex; gap: 10px; font-size: 15px; color: #615E72;">
+<a href="Main.dc.html" style="color: #615E72; text-decoration: none;">Bosh sahifa</a>
+<span aria-hidden="true">/</span>
+<span style="color: #14132E;">Katalog</span>
+</nav>
+<h1 style="margin: 0; font-size: clamp(42px, 7vw, 120px); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; display: flex; align-items: flex-start; gap: 12px;">Katalog<span style="font-size: 0.24em; font-weight: 500; letter-spacing: 0; padding-top: 0.5em; color: #94603E;">617</span></h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #4C4A5E; max-width: 560px;">Aromatizatorlar, parfyumeriya kompozitsiyalari, ingrediyentlar va xomashyo. Har bir pozitsiya Toshkentdagi omborda, texnik hujjatlari bilan.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px;">
+<a href="#" style="display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 24px; border-radius: 999px; border: 1px solid #14132E; text-decoration: none; font-size: 16px; font-weight: 500;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
+PDF katalog</a>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 999px; background: #0B0A3A; color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 500;">Texnologdan so‘rash</a>
+</div>
+</div>
+</section>
+
+<!-- CATEGORY TABS -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 24px 16px 0; box-sizing: border-box;">
+<div role="tablist" aria-label="Kategoriyalar" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; padding-bottom: 4px;">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="7">
+<button type="button" role="tab" aria-selected="{{c.selected}}" onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}<span style="{{c.countStyle}}">{{c.count}}</span></button>
+</sc-for>
+</div>
+</section>
+
+<!-- TOOLBAR -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 16px 16px 0; box-sizing: border-box;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+<label style="flex: 1 1 420px; min-width: 0; display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 22px; border-radius: 999px; border: 1px solid #DCD2C7; box-sizing: border-box; color: #615E72;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Katalogdan qidirish</span>
+<input type="search" placeholder="Vanil, qulupnay, pektin yoki SKU…" style="flex-grow: 1; min-width: 0; border: 0; outline: none; background: transparent; font-family: inherit; font-size: 16px; color: #14132E;">
+</label>
+<label style="display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 20px; border-radius: 999px; border: 1px solid #DCD2C7; box-sizing: border-box; font-size: 15px; color: #615E72;">Saralash
+<select style="border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #14132E;">
+<option>Ommabop</option>
+<option>Nomi (A–Z)</option>
+<option>Yangi</option>
+</select>
+</label>
+<div role="group" aria-label="Ko‘rinish" style="display: flex; padding: 4px; border-radius: 999px; background: #F4EEE7;">
+<button type="button" aria-pressed="{{isTable}}" onClick="{{showTable}}" style="{{tableBtn}}">Jadval</button>
+<button type="button" aria-pressed="{{isGrid}}" onClick="{{showGrid}}" style="{{gridBtn}}">Kartochka</button>
+</div>
+</div>
+</section>
+
+<!-- BODY -->
+<section style="max-width: 1408px; margin: 0 auto; padding: 24px 16px 0; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+<sc-if value="{{narrow}}" hint-placeholder-val="{{false}}">
+<button type="button" onClick="{{toggleFilters}}" aria-expanded="{{filtersOpenAttr}}" style="flex: 1 1 100%; font-family: inherit; height: 52px; border-radius: 999px; border: 1px solid #14132E; background: #FFFFFF; color: #14132E; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>{{filterLabel}}</button>
+</sc-if>
+<sc-if value="{{showAside}}" hint-placeholder-val="{{true}}">
+<aside aria-label="Filtrlar" style="{{asideStyle}}">
+<div style="border: 1px solid #ECE4DA; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">GURUH</span>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="10">
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; cursor: pointer; min-height: 28px;">
+<input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">
+<span style="flex-grow: 1;">{{g.label}}</span>
+<span style="font-size: 13px; color: #615E72;">{{g.count}}</span>
+</label>
+</sc-for>
+</div>
+<div style="border: 1px solid #ECE4DA; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">SHAKLI</span>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Suyuq</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Kukun</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Moy asosida</label>
+</div>
+<div style="border: 1px solid #ECE4DA; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: #615E72;">XUSUSIYAT</span>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Halal</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">GMO-free</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Spirtsiz</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 28px;"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #0B0A3A; margin: 0;">Issiqqa chidamli</label>
+</div>
+</aside>
+</sc-if>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 14px 14px 26px; border-radius: 999px; background: #0B0A3A; color: #FFFFFF;">
+<span style="font-size: 16px;">Namuna qutisi: <strong style="font-weight: 600; color: #E8C3A3;">{{addedCount}} / 8</strong> — bepul, 3 ish kunida</span>
+<a href="Samples.dc.html" style="display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 20px; border-radius: 999px; background: {{accent}}; color: #14132E; text-decoration: none; font-size: 15px; font-weight: 600;">Qutiga o‘tish
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+</a>
+</div>
+
+<span style="font-size: 15px; color: #615E72; padding: 0 8px;">{{resultLine}}</span>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="border: 1px dashed #DCD2C7; border-radius: 36px; padding: 56px 32px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px;">
+<span style="font-size: 28px; font-weight: 400; letter-spacing: -0.02em;">Xomashyo — ommaviy xarid uchun</span>
+<span style="font-size: 16px; line-height: 1.55; color: #615E72; max-width: 460px;">PG, glitserin, vanilin va boshqa asoslar bo‘yicha narx va mavjud hajmni menejer aniqlab beradi.</span>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 999px; background: #0B0A3A; color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 500;">Narx so‘rash</a>
+</div>
+</sc-if>
+
+<!-- TABLE VIEW -->
+<sc-if value="{{showTableView}}" hint-placeholder-val="{{true}}">
+<div style="border: 1px solid #ECE4DA; border-radius: 28px; overflow-x: auto;">
+<table style="width: 100%; min-width: 920px; border-collapse: collapse; font-size: 15px;">
+<thead>
+<tr style="text-align: left; color: #615E72; font-size: 13px; letter-spacing: 0.08em;">
+<th scope="col" style="padding: 18px 24px; font-weight: 600; border-bottom: 1px solid #ECE4DA;">MAHSULOT</th>
+<th scope="col" style="padding: 18px 12px; font-weight: 600; border-bottom: 1px solid #ECE4DA;">GURUH</th>
+<th scope="col" style="padding: 18px 12px; font-weight: 600; border-bottom: 1px solid #ECE4DA;">SHAKLI</th>
+<th scope="col" style="padding: 18px 12px; font-weight: 600; border-bottom: 1px solid #ECE4DA;">DOZIROVKA</th>
+<th scope="col" style="padding: 18px 12px; font-weight: 600; border-bottom: 1px solid #ECE4DA;">HOLATI</th>
+<th scope="col" style="padding: 18px 24px; font-weight: 600; border-bottom: 1px solid #ECE4DA; text-align: right;">NAMUNA</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+<tr>
+<td style="padding: 16px 24px; border-bottom: 1px solid #ECE4DA;">
+<a href="Product.dc.html" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 17px; font-weight: 600;">{{r.name}}</span>
+<span style="font-size: 13px; color: #615E72; letter-spacing: 0.04em;">{{r.sku}}</span>
+</a>
+</td>
+<td style="padding: 16px 12px; border-bottom: 1px solid #ECE4DA; color: #4C4A5E;">{{r.group}}</td>
+<td style="padding: 16px 12px; border-bottom: 1px solid #ECE4DA; color: #4C4A5E;">{{r.form}}</td>
+<td style="padding: 16px 12px; border-bottom: 1px solid #ECE4DA; font-weight: 500;">{{r.dose}}</td>
+<td style="padding: 16px 12px; border-bottom: 1px solid #ECE4DA;">
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #4C4A5E;"><span style="{{r.dotStyle}}"></span>{{r.stock}}</span>
+</td>
+<td style="padding: 16px 24px; border-bottom: 1px solid #ECE4DA; text-align: right;">
+<button type="button" onClick="{{r.toggle}}" aria-pressed="{{r.added}}" style="{{r.btnStyle}}">{{r.btnLabel}}</button>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-if>
+
+<!-- GRID VIEW -->
+<sc-if value="{{showGridView}}" hint-placeholder-val="{{false}}">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="9">
+<div style="background: #F4EEE7; border-radius: 32px; padding: 26px; display: flex; flex-direction: column; gap: 18px; min-height: 240px; box-sizing: border-box;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+<span style="font-size: 13px; color: #615E72; letter-spacing: 0.04em;">{{r.sku}}</span>
+<span style="padding: 6px 12px; border-radius: 999px; border: 1px solid #DCD2C7; font-size: 13px;">{{r.group}}</span>
+</div>
+<a href="Product.dc.html" style="text-decoration: none; font-size: 22px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; flex-grow: 1;">{{r.name}}</a>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;">
+<span style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #4C4A5E;"><span>{{r.form}}</span><span style="font-weight: 600; color: #14132E;">{{r.dose}}</span></span>
+<button type="button" onClick="{{r.toggle}}" aria-pressed="{{r.added}}" style="{{r.btnStyle}}">{{r.btnLabel}}</button>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- PAGINATION -->
+<nav aria-label="Sahifalar" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 8px 0;">
+<span style="font-size: 15px; color: #615E72;">1–24 / 617</span>
+<div style="display: flex; gap: 6px;">
+<a href="#" aria-current="page" style="width: 44px; height: 44px; border-radius: 999px; background: #0B0A3A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px; font-weight: 500;">1</a>
+<a href="#" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #DCD2C7; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px;">2</a>
+<a href="#" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #DCD2C7; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px;">3</a>
+<span style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #615E72;">…</span>
+<a href="#" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #DCD2C7; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px;">26</a>
+</div>
+<a href="#" style="display: inline-flex; align-items: center; height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid #14132E; text-decoration: none; font-size: 15px; font-weight: 500;">Yana ko‘rsatish</a>
+</nav>
+</div>
+</section>
+
+<!-- HELP STRIP -->
+<section style="max-width: 1408px; margin: 0 auto; padding: clamp(64px, 7vw, 96px) 16px 16px; box-sizing: border-box;">
+<div style="background: #0B0A3A; color: #FFFFFF; border-radius: 40px; padding: clamp(28px, 4vw, 56px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px;">
+<div style="display: flex; align-items: center; gap: 28px; flex: 1 1 520px;">
+<img src="assets/monogram-copper.png" alt="" style="height: 88px; width: auto; display: block;">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: clamp(30px, 3vw, 44px); font-weight: 400; letter-spacing: -0.03em; line-height: 1.05;">Kerakli ta’mni topa olmadingizmi?</span>
+<span style="font-size: 16px; line-height: 1.55; color: #CAC8DA;">Vazifani yozing — texnolog 4000+ xomashyo bazasidan mos yechimni topadi yoki maxsus formula taklif qiladi.</span>
+</div>
+</div>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 28px; border-radius: 999px; background: {{accent}}; color: #14132E; text-decoration: none; font-size: 17px; font-weight: 600;">Texnologga yozish
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+</a>
+</div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,460px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D6A27C","options":["#D6A27C","#E8C3A3","#C98F68","#F0D6BE"]},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { view: 'table', cat: 'all', added: ['GFFD6832', 'GFFD9948'], narrow: false, filtersOpen: false };
+    this.onResize = () => {
+      const n = window.innerWidth < 900;
+      if (n !== this.state.narrow) this.setState(n ? { narrow: true, view: 'grid' } : { narrow: false });
+    };
+  }
+  componentDidMount() { this.onResize(); window.addEventListener('resize', this.onResize); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const accent = this.props.accent ?? '#D6A27C';
+    const { view, cat, added, narrow, filtersOpen } = this.state;
+    const P = [
+      ['GFFD6832', 'Vanilla Premium Flavour', 'flav', 'Shirin va desert', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD6950', 'Apple Flavour', 'flav', 'Meva', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD6068', 'Banana Flavour', 'flav', 'Meva', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD9753', 'BBQ Flavour', 'flav', 'Sho‘r va go‘sht', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD2598', 'Blueberry Flavour', 'flav', 'Rezavor', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD9948', 'Butter Flavour', 'flav', 'Sut', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD0802', 'Cake Flavour', 'flav', 'Nonvoyxona', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD8962', 'Caramel Flavour', 'flav', 'Shirin va desert', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD1466', 'Chocolate Flavour', 'flav', 'Shokolad va kakao', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFD5082', 'Cinnamon Flavour', 'flav', 'O‘t va ziravor', 'Suyuq', '0.05–0.3%', 1],
+      ['GFFF6237', 'Aloe Vera Fragrance', 'frag', 'Shaxsiy gigiyena', 'Moy asosida', '0.3–3%', 1],
+      ['GFFF2497', 'Baby Powder Fragrance', 'frag', 'Shaxsiy gigiyena', 'Moy asosida', '0.3–3%', 1],
+      ['GFFF7793', 'Bakhoor Fragrance', 'frag', 'Sharqona', 'Moy asosida', '0.3–3%', 1],
+      ['GFFE5446', 'Allura Red AC (E129)', 'ingr', 'Bo‘yoqlar', 'Kukun', '0.05–0.25%', 1],
+      ['GFFE3177', 'Ascorbic Acid (Vitamin C)', 'ingr', 'Boyituvchilar', 'Kukun', '0.05–2%', 1],
+      ['GFFE4536', 'Caramel Colour Class IV (E150d)', 'ingr', 'Bo‘yoqlar', 'Suyuq', '0.05–2%', 1],
+      ['GFFE2441', 'Citric Acid Monohydrate', 'ingr', 'Kislotalar', 'Kukun', '0.05–2%', 1],
+      ['GFFE9406', 'Cheese Powder Cheddar', 'ingr', 'Sut asoslari', 'Kukun', '0.05–2%', 1],
+      ['GFFE2289', 'Bergamot Essential Oil', 'oils', 'Sitrus', 'Moy asosida', '0.01–0.2%', 1],
+      ['GFFA2247', 'Ambroxan', 'aroma', 'Yog‘ochsimon', 'Suyuq', '0.01–1%', 0]
+    ];
+    const C = [
+      ['all', 'Hammasi', 617], ['flav', 'Aromatizatorlar', 354], ['frag', 'Parfyumeriya', 64],
+      ['ingr', 'Ingrediyentlar', 95], ['oils', 'Efir moylari', 40], ['aroma', 'Aroma-kimyo', 40], ['raw', 'Xomashyo', 24]
+    ];
+    const tabBase = 'font-family: inherit; flex-shrink: 0; display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 20px; border-radius: 999px; font-size: 16px; font-weight: 500; cursor: pointer; ';
+    const cats = C.map(([id, label, count]) => {
+      const on = id === cat;
+      return {
+        label, count, selected: on ? 'true' : 'false',
+        pick: () => this.setState({ cat: id }),
+        style: tabBase + (on ? 'background: #0B0A3A; color: #FFFFFF; border: 1px solid #0B0A3A;' : 'background: #FFFFFF; color: #14132E; border: 1px solid #DCD2C7;'),
+        countStyle: 'font-size: 13px; font-weight: 600; ' + (on ? 'color: #E8C3A3;' : 'color: #615E72;')
+      };
+    });
+    const list = P.filter((p) => cat === 'all' || p[2] === cat);
+    const btnBase = 'font-family: inherit; height: 44px; padding: 0 18px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; ';
+    const rows = list.map(([sku, name, , group, form, dose, inStock]) => {
+      const isAdded = added.includes(sku);
+      return {
+        sku, name, group, form, dose,
+        stock: inStock ? 'Omborda' : 'Buyurtma asosida',
+        dotStyle: 'width: 8px; height: 8px; border-radius: 999px; background: ' + (inStock ? '#2E8B57;' : '#C98F68;'),
+        added: isAdded ? 'true' : 'false',
+        btnLabel: isAdded ? 'Qo‘shildi ✓' : '+ Namunaga',
+        btnStyle: btnBase + (isAdded ? 'background: #0B0A3A; color: #FFFFFF; border: 1px solid #0B0A3A;' : 'background: #FFFFFF; color: #14132E; border: 1px solid #14132E;'),
+        toggle: () => {
+          const cur = this.state.added;
+          if (cur.includes(sku)) this.setState({ added: cur.filter((s) => s !== sku) });
+          else if (cur.length < 8) this.setState({ added: [...cur, sku] });
+        }
+      };
+    });
+    const total = (C.find((c) => c[0] === cat) || C[0])[2];
+    const vBase = 'font-family: inherit; height: 44px; padding: 0 20px; border-radius: 999px; border: 0; font-size: 15px; font-weight: 500; cursor: pointer; ';
+    const groups = [['Meva', 48], ['O‘t va ziravor', 46], ['Shirin va desert', 37], ['Rezavor', 35], ['Sitrus', 31], ['Gulli', 31], ['Tropik', 28], ['Sho‘r va go‘sht', 22], ['Yalpiz va salqin', 22], ['Sut', 21]].map(([label, count]) => ({ label, count }));
+    return {
+      narrow,
+      showAside: !narrow || filtersOpen,
+      filtersOpenAttr: filtersOpen ? 'true' : 'false',
+      filterLabel: filtersOpen ? 'Filtrlarni yopish' : 'Filtrlar',
+      toggleFilters: () => this.setState({ filtersOpen: !this.state.filtersOpen }),
+      asideStyle: narrow ? 'flex: 1 1 100%; min-width: 0; display: flex; flex-direction: column; gap: 12px;' : 'flex: 1 1 260px; max-width: 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;',
+      accent, cats, rows, groups,
+      addedCount: added.length,
+      isEmpty: rows.length === 0,
+      showTableView: view === 'table' && rows.length > 0,
+      showGridView: view === 'grid' && rows.length > 0,
+      isTable: view === 'table' ? 'true' : 'false',
+      isGrid: view === 'grid' ? 'true' : 'false',
+      tableBtn: vBase + (view === 'table' ? 'background: #FFFFFF; color: #14132E;' : 'background: transparent; color: #615E72;'),
+      gridBtn: vBase + (view === 'grid' ? 'background: #FFFFFF; color: #14132E;' : 'background: transparent; color: #615E72;'),
+      showTable: () => this.setState({ view: 'table' }),
+      showGrid: () => this.setState({ view: 'grid' }),
+      resultLine: rows.length ? ('Ko‘rsatilmoqda: ' + rows.length + ' / ' + total + ' pozitsiya') : ('Xomashyo: ' + total + ' pozitsiya')
+    };
+  }
+}
+</script>
+</body>
+</html>

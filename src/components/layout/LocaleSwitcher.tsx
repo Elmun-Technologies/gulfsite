@@ -1,140 +1,101 @@
 'use client';
 
 /**
- * TIL ALMASHTIRGICH
+ * TIL SWITCH — UZ · RU · EN segmented (§5)
  * ----------------------------------------------------------------
- * Joriy yo'ldagi til prefiksini saqlab qolgan holda boshqa tilga o'tadi.
- * Tanlov cookie'ga yoziladi → keyingi tashrifda avtomatik qo'llanadi (proxy.ts).
+ * · Faol fon `layoutId="lang"` bilan suriladi (320ms, ease.out) (§8.3)
+ * · Joriy sahifaning O'SHA tildagi versiyasiga olib boradi (§10)
+ * · `lang_switch` analytics hodisasi (§12)
  */
 
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { LOCALES, LOCALE_META, type AppLocale } from '@/i18n';
-import { useI18n } from '@/components/i18n/I18nProvider';
-import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion } from 'motion/react';
+import { LOCALES, LOCALE_META, normalizeLocale, type AppLocale } from '@/i18n/meta';
+import { dur, ease } from '@/lib/motion';
 import { track } from '@/lib/analytics';
-import { Icon } from '@/components/ui/Icon';
+import { cn } from '@/lib/utils';
 
-function swapLocale(pathname: string, next: AppLocale): string {
-  const segs = pathname.split('/').filter(Boolean);
-  if (segs.length && (LOCALES as readonly string[]).includes(segs[0])) segs[0] = next;
-  else segs.unshift(next);
-  return `/${segs.join('/')}`;
+/** `/uz/catalog?q=1` → `/ru/catalog?q=1` */
+export function localizePath(pathname: string, from: AppLocale, to: AppLocale, search = ''): string {
+  // 404 sahifasida `usePathname()` Next'ning ICHKI yo'lini qaytaradi
+  // (`/uz/_not-found`) — bu haqiqiy URL emas, shuning uchun til almashtirish
+  // o'lik havola yasardi (`/ru/_not-found` → 404). Bunday holatda o'sha
+  // tilning bosh sahifasiga o'tamiz (§10.8: til almashtirish sahifada qoladi,
+  // lekin sahifa mavjud bo'lmasa — bosh sahifa eng to'g'ri zaxira).
+  const clean = pathname.replace(/\/_not-found\/?$/, '') || `/${from}`;
+  const prefix = `/${from}`;
+  const rest = clean.startsWith(prefix) ? clean.slice(prefix.length) : clean;
+  return `/${to}${rest === '' ? '' : rest}${search}`;
 }
 
 export function LocaleSwitcher({
-  variant = 'dark',
+  locale: localeProp,
+  search,
+  variant = 'header',
   className,
 }: {
-  variant?: 'dark' | 'light';
+  /** berilmasa — joriy yo'ldan aniqlanadi (admin panel uchun qulay) */
+  locale?: AppLocale;
+  /** `useSearchParams()` qiymati — server komponentdan uzatiladi */
+  search?: string;
+  variant?: 'header' | 'menu';
   className?: string;
 }) {
-  const { locale, t } = useI18n();
-  const label = t('common.selectLanguage');
-  const router = useRouter();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const box = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (box.current && !box.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
-    document.addEventListener('mousedown', onDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const go = (next: AppLocale) => {
-    setOpen(false);
-    if (next === locale) return;
-    track.localeChange(locale, next);
-    // Cookie — proxy keyingi safar avtomatik shu tilda ochadi
-    try {
-      // Bu render qiymati emas, DOM'ga yozish (event handler ichida) — xavfsiz.
-      // eslint-disable-next-line react-hooks/immutability
-      document.cookie = `gff_locale=${next}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    } catch {
-      /* ignore */
-    }
-    router.push(swapLocale(pathname ?? '/', next));
-    router.refresh();
-  };
-
-  const current = LOCALE_META[locale];
+  const locale = localeProp ?? normalizeLocale(pathname.split('/')[1]);
 
   return (
-    <div ref={box} className={cn('relative', className)}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-label={label}
-        title={label}
-        className={cn(
-          'inline-flex h-8 items-center gap-1.5 rounded-lg px-2 text-[12.5px] font-semibold transition',
-          variant === 'dark'
-            ? 'text-white/80 hover:bg-white/10 hover:text-white'
-            : 'text-pine-700 hover:bg-cream-100',
-          open && (variant === 'dark' ? 'bg-white/12 text-white' : 'bg-cream-100'),
-        )}
-      >
-        <Icon name="globe" size={14} />
-        <span className="font-mono tracking-wide">{current.shortLabel}</span>
-        <Icon name="chevron-down" size={12} className={cn('transition-transform', open && 'rotate-180')} />
-      </button>
+    <div
+      role="group"
+      aria-label={variant === 'menu' ? undefined : 'Til'}
+      className={cn(
+        'flex shrink-0',
+        variant === 'header' ? 'gap-0 rounded-pill border border-line-warm p-[3px]' : 'gap-2 pt-5',
+        className,
+      )}
+    >
+      {LOCALES.map((l) => {
+        const active = l === locale;
+        const href = localizePath(pathname, locale, l, search ?? '');
+        const meta = LOCALE_META[l];
 
-      {open ? (
-        <div
-          role="listbox"
-          aria-label={label}
-          className={cn(
-            'animate-in-down absolute right-0 top-full z-50 mt-1.5 min-w-[10.5rem] overflow-hidden rounded-xl border p-1 shadow-float',
-            variant === 'dark' ? 'border-white/12 bg-pine-900 text-white' : 'border-cream-200 bg-white',
-          )}
-        >
-          {LOCALES.map((l) => {
-            const meta = LOCALE_META[l];
-            const active = l === locale;
-            return (
-              <button
-                key={l}
-                type="button"
-                role="option"
-                aria-selected={active}
-                onClick={() => go(l)}
+        return (
+          <Link
+            key={l}
+            href={href}
+            lang={meta.htmlLang}
+            hrefLang={meta.lang}
+            aria-current={active ? 'true' : undefined}
+            onClick={() => {
+              if (!active) track.localeChange(locale, l);
+            }}
+            className={cn(
+              'relative inline-flex items-center justify-center rounded-pill font-semibold transition-colors',
+              variant === 'header'
+                ? 'h-[38px] min-w-11 px-2.5 text-[14px]'
+                : 'h-12 flex-1 border text-[15px]',
+              variant === 'menu' && !active && 'border-on-navy-line text-white',
+              variant === 'menu' && active && 'border-transparent',
+              variant === 'header' && !active && 'text-muted hover:text-ink',
+            )}
+          >
+            {active ? (
+              <motion.span
+                layoutId={`lang-${variant}`}
                 className={cn(
-                  'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13px] transition',
-                  variant === 'dark'
-                    ? active
-                      ? 'bg-white/12 font-bold text-white'
-                      : 'text-white/75 hover:bg-white/8 hover:text-white'
-                    : active
-                      ? 'bg-mint-100 font-bold text-teal-600'
-                      : 'text-slate-warm-700 hover:bg-cream-100',
+                  'absolute inset-0 -z-10 rounded-pill',
+                  variant === 'header' ? 'bg-ink' : 'bg-white',
                 )}
-              >
-                <span aria-hidden className="text-base leading-none">
-                  {meta.flag}
-                </span>
-                <span className="flex-1">{meta.nativeName}</span>
-                <span className={cn('font-mono text-[11px]', variant === 'dark' ? 'text-white/50' : 'text-slate-warm-500')}>
-                  {meta.shortLabel}
-                </span>
-                {active ? <Icon name="check" size={13} strokeWidth={2.6} /> : null}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
+                transition={{ duration: dur.base, ease: ease.out }}
+              />
+            ) : null}
+            <span className={cn('relative', variant === 'header' && active && 'text-white', variant === 'menu' && active && 'text-ink')}>
+              {meta.shortLabel}
+            </span>
+          </Link>
+        );
+      })}
     </div>
   );
 }
-
-export default LocaleSwitcher;

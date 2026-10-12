@@ -69,11 +69,13 @@ export const track = {
   /** Telegram/WhatsApp ochildi */
   messengerClick: (channel: string, source: string) => trackEvent('click_messenger', { channel, source }),
 
-  /** Katalog filtri qo'llandi */
-  filterApply: (filters: Record<string, string | number | boolean | undefined>) => trackEvent('catalog_filter', filters),
+  /** Katalog filtri qo'llandi (§12: `catalog_filter`, filtrlar JSON'da) */
+  filterApply: (filters: Record<string, string | number | boolean | undefined>) =>
+    trackEvent('catalog_filter', { filters: JSON.stringify(filters).slice(0, 500) }),
 
-  /** Qidiruv so'rovi */
-  search: (term: string, results: number) => trackEvent('catalog_search', { search_term: term.slice(0, 60), results }),
+  /** Qidiruv so'rovi (§12: `search`) */
+  search: (term: string, results: number) =>
+    trackEvent('search', { query: term.slice(0, 60), results }),
 
   /** Mahsulot sahifasi ko'rildi */
   viewProduct: (sku: string, category: string) => trackEvent('view_item', { item_id: sku, item_category: category }),
@@ -87,8 +89,8 @@ export const track = {
   /** PDF/hujjat so'rovi */
   docRequest: (doc: string, sku?: string) => trackEvent('request_document', { document: doc, item_id: sku }),
 
-  /** Til almashtirildi */
-  localeChange: (from: string, to: string) => trackEvent('change_locale', { from, to }),
+  /** Til almashtirildi (§12: `lang_switch`) */
+  localeChange: (from: string, to: string) => trackEvent('lang_switch', { from, to }),
 
   /** Tashqi havola (gulfflavours.ae va h.k.) */
   outbound: (url: string) => trackEvent('click_outbound', { url: url.slice(0, 120) }),
@@ -99,6 +101,66 @@ export const track = {
   /** Forma xatosi — konversiyani yo'qotish nuqtalarini topish uchun */
   formError: (form: string, field?: string, code?: string) =>
     trackEvent('form_error', { form, field, code }),
+
+  /* ------------------------------------------------------------
+     §12 TALAB QILINGAN dataLayer HODISALARI
+     ------------------------------------------------------------
+     Nomlar brief'dagidek — GTM trigger'lari shu nomlarga bog'lanadi.
+     Eski metodlar yuqorida saqlangan (admin/eski chaqiruvlar uchun).
+     ------------------------------------------------------------ */
+
+  /** Namuna qutisiga qo'shildi */
+  sampleAdd: (sku: string, source: string, size?: number) =>
+    trackEvent('sample_add', { sku, source, size }),
+
+  /** Namuna qutisidan olindi */
+  sampleRemove: (sku: string, source: string) =>
+    trackEvent('sample_remove', { sku, source }),
+
+  /** Namuna hajmi o'zgartirildi (25/50/100 g) */
+  sampleSize: (sku: string, size: number) => trackEvent('sample_size', { sku, size }),
+
+  /** Tayyor to'plam qo'shildi */
+  sampleSetAdd: (setId: string, count: number, source: string) =>
+    trackEvent('sample_set_add', { set_id: setId, count, source }),
+
+  /** Namuna qutisi arizasi yuborildi */
+  sampleSubmit: (count: number, ref?: string) =>
+    trackEvent('sample_submit', { count, lead_ref: ref, value: 2, currency: 'UZS' }),
+
+  /** Har qanday lead formasi yuborildi */
+  leadSubmitEvent: (type: string, ref?: string) =>
+    trackEvent('lead_submit', { lead_type: type, lead_ref: ref, value: 1, currency: 'UZS' }),
+
+  /** Telefon bosildi */
+  phoneClick: (source: string, phone: string) =>
+    trackEvent('phone_click', { source, phone }),
+
+  /** Telegram bosildi */
+  telegramClick: (source: string) => trackEvent('telegram_click', { source }),
+
+  /** Instagram bosildi */
+  instagramClick: (source: string) => trackEvent('instagram_click', { source }),
+
+  /** E-mail bosildi */
+  trackEmail: (source: string) => trackEvent('email_click', { source }),
+
+  /** Hujjat yuklab olindi */
+  docDownload: (doc: string, sku: string) =>
+    trackEvent('doc_download', { document: doc, sku }),
+
+  /** Ko'rinish almashdi: jadval ↔ kartochka */
+  viewToggle: (view: 'table' | 'cards') => trackEvent('catalog_view_toggle', { view }),
+
+  /** Sahifa almashdi (pagination) */
+  pageChange: (page: number) => trackEvent('catalog_page', { page }),
+
+  /** Til almashtirildi (§12 nomi) */
+  langSwitch: (to: string, from: string) => trackEvent('lang_switch', { from, to }),
+
+  /** Mahsulot ko'rinishi almashtirildi (gallery thumbs) */
+  productGallery: (sku: string, index: number) =>
+    trackEvent('product_gallery', { sku, index }),
 };
 
 /** Sahifa ko'rinishi (client navigatsiya uchun) */

@@ -19,12 +19,26 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/api/', '/_next/', '/uz/admin', '/ru/admin', '/en/admin'],
+        disallow: [
+          '/admin',
+          '/api/',
+          '/_next/',
+          '/uz/admin',
+          '/ru/admin',
+          '/en/admin',
+          // Qidiruv natijalari sahifasi `noindex` va past qiymatli —
+          // crawl byudjetini tejash uchun yopamiz (§13)
+          '/uz/search',
+          '/ru/search',
+          '/en/search',
+          // dizayn tizimi (dev-only)
+          '/styleguide',
+        ],
       },
       {
         // Crawl byudjetini tejash: chuqur sahifalashni yopamiz
         userAgent: '*',
-        disallow: ['*?page='],
+        disallow: ['*?page=', '*?q='],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

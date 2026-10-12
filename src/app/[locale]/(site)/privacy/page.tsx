@@ -1,55 +1,75 @@
 /**
- * MAXFIYLİK SIYOSATI
+ * MAXFIYLIK SIYOSATI (§5, design/Privacy.dc.html · §11.5, §15)
  * ----------------------------------------------------------------
- * B2B mijozlar (ayniqsa yirik ishlab chiqaruvchilar) zayvka yuborishdan
- * oldin ma'lumotlar qanday qayta ishlanishini tekshiradi. Shuning uchun
- * bu sahifa ancha batafsil: bo'limlar, ankorlar, jadval va chop etish.
+ * Matn manbai — `lib/legal.ts` → `PRIVACY` (uch tilda, ankorli
+ * bo'limlar). Vizual — `LegalPage` (yangi dizayn).
  *
- * Matn `src/lib/legal.ts` da — u uch tilda va config'dan qiymat oladi.
+ * ⚠ Matn O'zbekiston qonunchiligiga (ZRU-547) muvofiqlashtirilgan
+ *   bo'lsa-da, ishga tushirishdan oldin yurist tasdiqlashi shart
+ *   (§15) — bu sahifada ochiq yozilgan.
  */
 
 import type { Metadata } from 'next';
-import { makeT, normalizeLocale, type AppLocale } from '@/i18n';
-import { buildMetadata } from '@/lib/seo';
+import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
+import { buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { PRIVACY } from '@/lib/legal';
-import type { Locale } from '@/lib/taxonomy';
-import { LegalDocView } from '@/components/legal/LegalDocView';
+import { JsonLdGroup } from '@/components/seo/JsonLd';
+import { LegalPage } from '@/components/legal/LegalPage';
 
-interface PageProps {
+interface Props {
   params: Promise<{ locale: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
+
   return buildMetadata({
     locale,
-    title: t('legal.privacyTitle'),
-    description: `${t('legal.privacyTitle')}: ${t('legal.privacyUpdated')} ${PRIVACY.updated}. Shaxsiy ma'lumotlarni qayta ishlash, saqlash muddatlari va sizning huquqlaringiz.`,
+    title: t('seo.privacy.title'),
+    description: t('seo.privacy.description'),
     path: '/privacy',
-    noIndex: true,
   });
 }
 
-export default async function PrivacyPage({ params }: PageProps) {
+export default async function PrivacyPage({ params }: Props) {
   const { locale: raw } = await params;
-  const locale = normalizeLocale(raw) as AppLocale;
+  const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);
 
   const crumbs = [
     { label: t('nav.home'), href: `/${locale}` },
-    { label: t('legal.privacyTitle'), href: `/${locale}/privacy` },
+    { label: t('nav.privacy') },
   ];
 
   return (
-    <LegalDocView
-      doc={PRIVACY}
-      locale={locale as Locale}
-      title={t('legal.privacyTitle')}
-      updatedLabel={t('legal.privacyUpdated')}
-      backLabel={t('legal.backToSite')}
-      crumbs={crumbs}
-    />
+    <>
+      <JsonLdGroup
+        items={[breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href ?? '/privacy' })), locale)]}
+      />
+
+      <LegalPage
+        doc={PRIVACY}
+        locale={locale}
+        title={t('nav.privacy')}
+        crumbs={crumbs}
+        labels={{
+          toc: t('privacy.toc'),
+          updated: (date) => t('privacy.updated', { date }),
+          question: t('privacy.question'),
+          contactCta: t('nav.contact'),
+          homeCrumb: t('nav.home'),
+          draftNote: t('privacy.draftNote'),
+          otherDoc: { href: `/${locale}/terms`, label: t('nav.terms') },
+        }}
+      />
+    </>
   );
 }

@@ -21,7 +21,7 @@ import { useI18n } from '@/components/i18n/I18nProvider';
 import type { DictKey } from '@/i18n';
 import { useToast } from '@/components/ui/Overlay';
 import { Icon } from '@/components/ui/Icon';
-import { Spinner } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/LegacyButton';
 import { cn } from '@/lib/utils';
 import { LEAD_STATUSES, tr, type Locale } from '@/lib/taxonomy';
 import type { LeadStatusId } from '@/lib/types';

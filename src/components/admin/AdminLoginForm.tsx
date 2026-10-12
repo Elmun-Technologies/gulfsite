@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/components/i18n/I18nProvider';
 import { Icon } from '@/components/ui/Icon';
-import { Spinner } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/LegacyButton';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config';
 

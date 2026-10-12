@@ -16,6 +16,22 @@ export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
+/**
+ * Matnni SO'Z CHEGARASIDA qisqartirish (§13.1/§13.2).
+ * ----------------------------------------------------------------
+ * Nega `.slice(0, 155)` emas: qattiq kesish so'z o'rtasida tugaydi
+ * ("…sut mahsul") va Google snippet'ida xunuk ko'rinadi. Bundan tashqari
+ * HTML entitilar (`&` → `&amp;`) atribut uzunligini oshiradi, shuning
+ * uchun chegarada bir necha belgi zaxira qoldiriladi.
+ */
+export function clipText(text: string, max: number): string {
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > max * 0.6 ? lastSpace : max).replace(/[\s,.\-–—]+$/, '')}…`;
+}
+
 export function localizedPath(locale: AppLocale, path = ''): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
   const suffix = clean === '/' ? '' : clean.replace(/\/$/, '');
@@ -41,9 +57,13 @@ export function buildMetadata(opts: BuildMetadataOptions): Metadata {
 
   const alternates: Metadata['alternates'] = {
     canonical: url,
-    languages: Object.fromEntries(
-      (['uz', 'ru', 'en'] as AppLocale[]).map((l) => [l, absoluteUrl(localizedPath(l, path))]),
-    ),
+    languages: {
+      ...Object.fromEntries(
+        (['uz', 'ru', 'en'] as AppLocale[]).map((l) => [l, absoluteUrl(localizedPath(l, path))]),
+      ),
+      // §13.5 — til aniqlanmagan foydalanuvchi uchun standart variant
+      'x-default': absoluteUrl(localizedPath('uz', path)),
+    },
   };
 
   return {
@@ -197,7 +217,9 @@ export function productLd(product: CatalogProduct, locale: AppLocale, categoryNa
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    '@id': `${SITE_URL}/${locale}/product/${product.slug}#product`,
+    // KANONIK manzil — `/catalog/<slug>` (eski `/product/<slug>` 308 bilan
+    // shu yerga yo'naltirilgan), shuning uchun JSON-LD `@id` ham shu URL
+    '@id': `${SITE_URL}/${locale}/catalog/${product.slug}#product`,
     name: tr(product.name, locale),
     description,
     sku: product.sku,

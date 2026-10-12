@@ -1,337 +1,285 @@
 'use client';
 
 /**
- * TEST BOX MUHARRIRI
+ * NAMUNA QUTISI MUHARRIRI (§5, design/Samples.dc.html · BOX)
  * ----------------------------------------------------------------
- * /samples sahifasidagi tanlangan mahsulotlar ro'yxati.
- * Har bir element uchun: miqdor (g/ml), izoh, o'chirish.
- * Hammasi localStorage'da — sahifa yangilansa ham saqlanadi.
+ * Chap ustun: "Sizning qutingiz" + hisoblagich + progress bar (navy) +
+ * element qatorlari (nom · meta · 25/50/100 g radiogroup · o'chirish) +
+ * "Katalogdan qo'shish" (dashed) + "Qutini buyurtma qilish".
  *
- * Bo'sh holatda: katalogdan tanlashga undash + taylov to'plamlar
- * ("tez boshlash" uchun 4–6 ta mashhur pozitsiya).
+ * Holat BITTA store'da (`SampleBoxProvider`) — header, katalog paneli,
+ * mahsulot sahifasi va bu muharrir bir xil qutini ko'radi (§7.2).
+ * 9-element qo'shilganda toast: "Qutida {max} ta joy bor".
  */
 
+import { useCallback } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { siteConfig } from '@/lib/config';
-import type { Locale, Trilingual } from '@/lib/taxonomy';
-import { useSampleBox } from './SampleBoxProvider';
-import { useI18n } from '@/components/i18n/I18nProvider';
-import { useToast } from '@/components/ui/Overlay';
+import { AnimatePresence, motion } from 'motion/react';
+import { Plus, Trash2, X } from 'lucide-react';
+import type { SampleItem } from '@/lib/types';
+import type { Locale } from '@/lib/taxonomy';
+import { tr } from '@/lib/taxonomy';
+import { dur, ease } from '@/lib/motion';
+import { fillVars } from '@/i18n/translator';
+import { useSampleBox } from '@/components/sample/SampleBoxProvider';
 import { track } from '@/lib/analytics';
-import { Icon } from '@/components/ui/Icon';
-import { Button, ButtonLink, IconButton } from '@/components/ui/Button';
-import { Badge, EmptyState, ProgressBar } from '@/components/ui/Display';
+import { cn } from '@/lib/utils';
 
-export interface QuickSet {
-  id: string;
-  label: string;
-  hint: string;
-  items: { sku: string; slug: string; name: Trilingual }[];
+export const SAMPLE_QTY_OPTIONS = [25, 50, 100] as const;
+
+export interface SampleBoxLabels {
+  title: string;
+  /** `{count}` / `{max}` — progress bar uchun aria */
+  progressLabel: string;
+  emptyTitle: string;
+  emptyHint: string;
+  addFromCatalog: string;
+  orderBox: string;
+  removeItem: string;
+  sizeLabel: string;
+  gram: string;
+  fullTpl: string;
+  clear: string;
+  clearConfirm: string;
+  noteLabel: string;
+  notePlaceholder: string;
 }
 
-interface Props {
+export function SampleBoxEditor({
+  locale,
+  labels,
+  catalogHref,
+  formHref,
+  metaBySku,
+  className,
+}: {
   locale: Locale;
+  labels: SampleBoxLabels;
   catalogHref: string;
-  productHrefBase: string;
-  /** Server tayyorlagan "tez to'plamlar" */
-  quickSets: QuickSet[];
-}
+  /** "Qutini buyurtma qilish" — formaga o'tadi */
+  formHref: string;
+  /** element meta qatori: `SKU · forma` (server ma'lumotdan yig'adi) */
+  metaBySku: Record<string, string>;
+  className?: string;
+}) {
+  const box = useSampleBox();
+  const pct = Math.round((box.count / box.max) * 100);
 
-/** So'rov formasiga o'tish (forma shu sahifada, pastda joylashgan) */
-function goToForm() {
-  const el = document.getElementById('sample-request');
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setTimeout(() => el.querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true }), 550);
-}
+  const setQty = useCallback(
+    (sku: string, qty: number) => {
+      box.setQty(sku, qty);
+      track.sampleSize(sku, qty);
+    },
+    [box],
+  );
 
-const QTY_PRESETS = [25, 50, 100, 250, 500];
+  const remove = useCallback(
+    (sku: string) => {
+      box.remove(sku);
+      track.sampleRemove(sku, 'box');
+    },
+    [box],
+  );
 
-export function SampleBoxEditor({ locale, catalogHref, productHrefBase, quickSets }: Props) {
-  const { t } = useI18n();
-  const toast = useToast();
-  const { items, count, max, full, remove, setQty, setNote, clear, addMany } = useSampleBox();
-  const [confirmClear, setConfirmClear] = useState(false);
-  const [justAddedSet, setJustAddedSet] = useState<string | null>(null);
-
-  const applySet = (setId: string) => {
-    const setItem = quickSets.find((s) => s.id === setId);
-    if (!setItem) return;
-    const res = addMany(setItem.items.map((i) => ({ sku: i.sku, slug: i.slug, name: i.name })));
-    setJustAddedSet(setId);
-    setTimeout(() => setJustAddedSet(null), 1800);
-    if (res.added > 0) {
-      toast.success(t('card.addedToBox'), `${setItem.label}: +${res.added}`);
-      track.addToBox(`set:${setId}`);
-    }
-    if (res.skipped > 0) {
-      toast.info(t('samples.itemsMax', { max }), `−${res.skipped}`);
-    }
-  };
-
-  const totalGrams = items.reduce((s, i) => s + (i.unit === 'kg' ? i.qty * 1000 : i.qty), 0);
+  const clear = useCallback(() => {
+    if (!window.confirm(labels.clearConfirm)) return;
+    box.clear();
+    track.clearBox(box.count);
+  }, [box, labels.clearConfirm]);
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* ---- Sarlavha + hisoblagich ---- */}
-      <div className="rounded-2xl border border-cream-200 bg-white p-4 shadow-soft">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-teal-600" aria-hidden>
-            <Icon name="box" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="font-display text-[16px] font-extrabold tracking-tight text-pine-900">{t('samples.yourBox')}</h2>
-            <p className="mt-0.5 text-[12.5px] text-slate-warm-600">
-              {t('samples.itemsCount', { count })} · {t('samples.itemsMax', { max })}
-            </p>
-          </div>
-          {count > 0 ? (
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                icon="trash"
-                onClick={() => {
-                  if (confirmClear) {
-                    track.clearBox(count);
-                    clear();
-                    setConfirmClear(false);
-                    toast.info(t('samples.clear'));
-                  } else {
-                    setConfirmClear(true);
-                    setTimeout(() => setConfirmClear(false), 3500);
-                  }
-                }}
-                className={cn(confirmClear && 'border-clay-400 bg-clay-100 text-clay-600')}
-              >
-                {confirmClear ? t('samples.clearConfirm') : t('samples.clear')}
-              </Button>
-            </div>
-          ) : null}
-        </div>
-
-        <div className="mt-3.5">
-          <ProgressBar value={count} max={max} tone={full ? 'gold' : 'teal'} />
-          <p className="mt-1.5 text-[11.5px] text-slate-warm-500">
-            {full ? t('samples.boxFull') : t('samples.step1Hint')}
-            {totalGrams > 0 ? ` · ~${totalGrams >= 1000 ? `${(totalGrams / 1000).toFixed(1)} kg` : `${totalGrams} g`}` : ''}
-          </p>
-        </div>
-      </div>
-
-      {/* ---- Elementlar ---- */}
-      {count === 0 ? (
-        <>
-          <EmptyState
-            icon="box"
-            title={t('samples.boxEmpty')}
-            description={t('samples.boxEmptyHint')}
-            action={
-              <>
-                <ButtonLink href={catalogHref} variant="primary" size="md" icon="grid">
-                  {t('samples.goToCatalog')}
-                </ButtonLink>
-                <Button variant="outline" size="md" icon="invoice" onClick={goToForm}>
-                  {t('nav.quote')}
-                </Button>
-              </>
-            }
-          />
-
-          {/* Tayyor to'plamlar — tanlashni osonlashtiradi */}
-          {quickSets.length ? (
-            <div>
-              <h3 className="text-[12px] font-bold uppercase tracking-[0.12em] text-slate-warm-500">
-                {t('samples.popularPick')}
-              </h3>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                {quickSets.map((s) => (
-                  <div key={s.id} className="flex flex-col rounded-2xl border border-cream-200 bg-white p-4 shadow-soft">
-                    <div className="flex items-start gap-2">
-                      <div className="min-w-0 flex-1">
-                        <p className="font-display text-[14px] font-bold text-pine-900">{s.label}</p>
-                        <p className="mt-1 text-[12.5px] leading-snug text-slate-warm-600">{s.hint}</p>
-                      </div>
-                      <Badge tone="cream" size="xs">{s.items.length}</Badge>
-                    </div>
-                    <ul className="mt-2.5 flex flex-wrap gap-1">
-                      {s.items.slice(0, 6).map((i) => (
-                        <li key={i.sku}>
-                          <Link
-                            href={`${productHrefBase}/${i.slug}`}
-                            className="inline-block rounded bg-cream-100 px-1.5 py-0.5 text-[11px] font-medium text-slate-warm-700 transition hover:bg-mint-100 hover:text-teal-600"
-                          >
-                            {i.name[locale] || i.name.en || i.sku}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                    <Button
-                      variant={justAddedSet === s.id ? 'secondary' : 'outline'}
-                      size="sm"
-                      icon={justAddedSet === s.id ? 'check' : 'plus'}
-                      className="mt-3.5"
-                      onClick={() => applySet(s.id)}
-                    >
-                      {justAddedSet === s.id ? t('card.addedToBox') : t('samples.addPopular')}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <ul className="flex flex-col gap-2.5">
-          {items.map((item, idx) => (
-            <li
-              key={item.sku}
-              className="animate-fade-up rounded-2xl border border-cream-200 bg-white p-3.5 shadow-soft transition hover:border-teal-500/30"
-              style={{ animationDelay: `${Math.min(idx * 40, 240)}ms` }}
-            >
-              <div className="flex items-start gap-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cream-100 font-mono text-[12px] font-bold text-slate-warm-600">
-                  {idx + 1}
-                </span>
-
-                <div className="min-w-0 flex-1">
-                  <Link
-                    href={`${productHrefBase}/${item.slug}`}
-                    className="font-display text-[14.5px] leading-snug font-bold text-pine-900 transition hover:text-teal-600"
-                  >
-                    <span className="line-clamp-2">{(item.name[locale] || item.name.en || item.sku) as string}</span>
-                  </Link>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-mono text-[11px] text-slate-warm-500">
-                    <span>{item.sku}</span>
-                    {item.slug ? (
-                      <Link href={`${productHrefBase}/${item.slug}`} className="text-teal-600 hover:underline">
-                        {t('card.details')}
-                      </Link>
-                    ) : null}
-                  </p>
-                </div>
-
-                <IconButton
-                  icon="trash"
-                  label={`${t('samples.remove')}: ${item.name[locale] || item.name.en || item.sku}`}
-                  size="sm"
-                  tone="danger"
-                  onClick={() => {
-                    remove(item.sku);
-                    toast.info(t('samples.remove'), item.sku);
-                  }}
-                />
-              </div>
-
-              {/* Miqdor */}
-              <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-cream-200 pt-3">
-                <span className="text-[12px] font-semibold text-slate-warm-600">{t('samples.qtyLabel')}</span>
-                <div className="flex items-center gap-1">
-                  <IconButton
-                    icon="minus"
-                    label="−"
-                    size="sm"
-                    onClick={() => setQty(item.sku, Math.max(1, item.qty - (item.qty > 100 ? 50 : 10)))}
-                  />
-                  <div className="relative">
-                    <input
-                      type="number"
-                      min={1}
-                      max={5000}
-                      step={item.qty >= 100 ? 50 : 5}
-                      value={item.qty}
-                      onChange={(e) => setQty(item.sku, Number(e.target.value))}
-                      aria-label={`${t('samples.qtyLabel')} — ${item.sku}`}
-                      className="h-8 w-[4.5rem] rounded-lg border border-cream-300 bg-white pr-7 text-center font-mono text-[13px] font-bold text-pine-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                    />
-                    <span className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-slate-warm-500">
-                      {item.unit}
-                    </span>
-                  </div>
-                  <IconButton
-                    icon="plus"
-                    label="+"
-                    size="sm"
-                    onClick={() => setQty(item.sku, item.qty + (item.qty >= 100 ? 50 : 10))}
-                  />
-                </div>
-
-                <div className="flex flex-wrap gap-1">
-                  {QTY_PRESETS.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      onClick={() => setQty(item.sku, q)}
-                      className={cn(
-                        'rounded-full border px-2 py-0.5 font-mono text-[11px] font-semibold transition',
-                        item.qty === q
-                          ? 'border-teal-600 bg-teal-600 text-white'
-                          : 'border-cream-300 text-slate-warm-600 hover:border-teal-500/50 hover:text-teal-600',
-                      )}
-                    >
-                      {q}
-                      {item.unit}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Izoh */}
-              <div className="mt-2.5">
-                <label htmlFor={`note-${item.sku}`} className="text-[12px] font-semibold text-slate-warm-600">
-                  {t('samples.noteLabel')}
-                </label>
-                <textarea
-                  id={`note-${item.sku}`}
-                  rows={2}
-                  maxLength={300}
-                  value={item.note ?? ''}
-                  placeholder={t('samples.notePlaceholder')}
-                  onChange={(e) => setNote(item.sku, e.target.value)}
-                  className="mt-1 w-full resize-y rounded-lg border border-cream-300 bg-white px-3 py-2 text-[13px] text-ink placeholder:text-slate-warm-500/70 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+    <div
+      className={cn(
+        'flex min-w-0 flex-[1.4_1_560px] flex-col gap-6 rounded-block border border-line-soft p-[clamp(24px,3vw,40px)]',
+        className,
       )}
-
-      {/* ---- Yetkazib berish ma'lumoti ---- */}
-      <div className="rounded-2xl border border-teal-500/25 bg-mint-50 p-4">
-        <div className="flex items-start gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-600 text-white" aria-hidden>
-            <Icon name="truck" size={18} />
+    >
+      {/* ---- sarlavha + hisoblagich + progress ---- */}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="m-0 text-[clamp(30px,3vw,44px)] font-normal tracking-[-0.03em]">{labels.title}</h2>
+          <span className="text-[17px] font-semibold">
+            {box.count} <span className="font-normal text-muted">/ {box.max}</span>
           </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-[13.5px] font-bold text-pine-900">
-              {t('samples.deliveryFree')} · {t('samples.deliveryTime').replace('{days}', String(siteConfig.business.sampleDeliveryDays))}
-            </p>
-            <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
-              {[t('samples.inside1'), t('samples.inside2'), t('samples.inside3'), t('samples.inside4')].map((x, i) => (
-                <li key={i} className="flex items-start gap-1.5 text-[12.5px] leading-snug text-slate-warm-700">
-                  <Icon name="check" size={13} strokeWidth={2.6} className="mt-0.5 shrink-0 text-teal-600" />
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </div>
+        </div>
+
+        <div
+          className="h-2 overflow-hidden rounded-pill bg-panel"
+          role="progressbar"
+          aria-valuenow={box.count}
+          aria-valuemin={0}
+          aria-valuemax={box.max}
+          aria-label={fillVars(labels.progressLabel, { count: box.count, max: box.max })}
+        >
+          <motion.div
+            className="h-full rounded-pill bg-navy"
+            initial={false}
+            animate={{ width: `${pct}%` }}
+            transition={{ duration: dur.base, ease: ease.out }}
+          />
         </div>
       </div>
 
-      {count > 0 ? (
-        <div className="flex flex-wrap gap-2">
-          <ButtonLink href={catalogHref} variant="outline" size="md" icon="plus" className="flex-1">
-            {t('samples.continueBrowsing')}
-          </ButtonLink>
-          <Button variant="primary" size="lg" icon="send" onClick={goToForm} className="flex-[1.4]">
-            {t('samples.submit')}
-          </Button>
-        </div>
+      {/* ---- bo'sh holat ---- */}
+      <AnimatePresence initial={false}>
+        {box.count === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: dur.base, ease: ease.out }}
+            className="flex flex-col items-center gap-3.5 rounded-media border border-dashed border-line px-6 py-12 text-center"
+          >
+            <span className="text-h5 font-normal">{labels.emptyTitle}</span>
+            <span className="max-w-[420px] text-[15px] leading-snug text-muted">{labels.emptyHint}</span>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      {/* ---- elementlar ---- */}
+      {box.items.length ? (
+        <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+          <AnimatePresence initial={false}>
+            {box.items.map((it) => (
+              <SampleItemRow
+                key={it.sku}
+                item={it}
+                locale={locale}
+                labels={labels}
+                meta={metaBySku[it.sku] ?? it.sku}
+                onQty={setQty}
+                onRemove={remove}
+                onNote={box.setNote}
+              />
+            ))}
+          </AnimatePresence>
+        </ul>
       ) : null}
+
+      {/* ---- amallar ---- */}
+      <div className="flex flex-col gap-3">
+        <Link
+          href={catalogHref}
+          className="flex items-center justify-center gap-2.5 rounded-media border-[1.5px] border-dashed border-line px-5 py-[22px] text-[16px] font-medium text-ink no-underline transition-colors hover:border-ink"
+        >
+          <Plus size={18} strokeWidth={2} aria-hidden />
+          {labels.addFromCatalog}
+        </Link>
+
+        <div className="flex flex-wrap gap-3">
+          <a href={formHref} className="btn btn--accent btn--lg flex-1" data-ga="cta_sample_box_submit">
+            {labels.orderBox}
+          </a>
+          {box.count ? (
+            <button type="button" onClick={clear} className="btn btn--ghost btn--lg">
+              <Trash2 size={16} strokeWidth={1.8} aria-hidden />
+              {labels.clear}
+            </button>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }
 
-export default SampleBoxEditor;
+/* ---------------- element qatori ---------------- */
+
+function SampleItemRow({
+  item,
+  meta,
+  locale,
+  labels,
+  onQty,
+  onRemove,
+  onNote,
+}: {
+  item: SampleItem;
+  meta: string;
+  locale: Locale;
+  labels: SampleBoxLabels;
+  onQty: (sku: string, qty: number) => void;
+  onRemove: (sku: string) => void;
+  onNote: (sku: string, note: string) => void;
+}) {
+  return (
+    <motion.li
+      layout
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: -16 }}
+      transition={{ duration: dur.base, ease: ease.out }}
+      className="flex flex-wrap items-center justify-between gap-3.5 rounded-media bg-panel py-[18px] pl-[26px] pr-[18px]"
+    >
+      <span className="flex min-w-0 flex-[1_1_220px] flex-col gap-1">
+        <span className="truncate text-[18px] font-semibold">{tr(item.name, locale)}</span>
+        <span className="text-[14px] text-muted">{meta}</span>
+      </span>
+
+      <span className="flex items-center gap-2">
+        {/* namuna hajmi — radiogroup (§7.2) */}
+        <span
+          role="radiogroup"
+          aria-label={labels.sizeLabel}
+          className="flex gap-0.5 rounded-pill bg-white p-1"
+        >
+          {SAMPLE_QTY_OPTIONS.map((q) => {
+            const on = item.qty === q;
+            return (
+              <button
+                key={q}
+                type="button"
+                role="radio"
+                aria-checked={on}
+                onClick={() => onQty(item.sku, q)}
+                className={cn(
+                  'relative h-9 rounded-pill px-3.5 text-[14px] font-medium transition-colors',
+                  on ? 'text-white' : 'text-ink hover:text-copper-dark',
+                )}
+              >
+                {on ? (
+                  <motion.span
+                    layoutId={`qty-${item.sku}`}
+                    className="absolute inset-0 rounded-pill bg-navy"
+                    transition={{ duration: dur.base, ease: ease.out }}
+                  />
+                ) : null}
+                <span className="relative">
+                  {q} {labels.gram}
+                </span>
+              </button>
+            );
+          })}
+        </span>
+
+        <button
+          type="button"
+          onClick={() => onRemove(item.sku)}
+          aria-label={fillVars(labels.removeItem, { name: tr(item.name, locale) })}
+          className="btn-icon btn-icon--44 btn-icon--outline shrink-0"
+        >
+          <X size={16} strokeWidth={2} aria-hidden />
+        </button>
+      </span>
+
+      {/* izoh — ixtiyoriy, texnologga yordam beradi */}
+      <label className="flex w-full flex-col gap-1.5">
+        <span className="label">{labels.noteLabel}</span>
+        <input
+          type="text"
+          value={item.note ?? ''}
+          maxLength={300}
+          placeholder={labels.notePlaceholder}
+          onChange={(e) => onNote(item.sku, e.target.value)}
+          className="field-input h-11"
+        />
+      </label>
+    </motion.li>
+  );
+}
+
+/** Bitta element allaqachon qutidami (to'plam tugmasi uchun) */
+export function setAddedState(items: SampleItem[], skus: string[]): boolean {
+  return skus.length > 0 && skus.every((s) => items.some((i) => i.sku === s));
+}
+

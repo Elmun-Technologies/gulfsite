@@ -1,217 +1,235 @@
 /**
- * TARMOQLAR (INDUSTRIES) — RO'YXAT
+ * SOHALAR — RO'YXAT (§5, design/Industries.dc.html)
  * ----------------------------------------------------------------
- * Har bir ishlab chiqarish sohasi uchun alohida "yechim" sahifasi.
- * B2B mijoz o'z tarmog'ini tanlab, o'ziga tegishli muammolar,
- * doza tavsiyalari va mahsulotlarni ko'radi — bu konversiyani
- * sezilarli oshiradi, chunki mijoz "bu mening holatim" deydi.
+ * HERO — panel (breadcrumb · H1 · matn) + navy monogramma paneli
+ *          ("A sense of Bliss" — slogan tarjima qilinmaydi, §10.4)
+ * GRID — "Qaysi soha uchun ishlaysiz?" + yo'nalishlar soni (MA'LUMOTDAN)
+ *          va 14 ta kartochka: 0N · rasm (agar bor bo'lsa) · nom · chip'lar
+ * CTA  — 3 ta kapsula: "soha" · navy strelka · mis "Sohangiz yo'qmi?"
+ *
+ * Kartochka ohanglari (navy / copper / panel) `lib/design.ts →
+ * industryTone()` dan; chip'lar esa har soha uchun MA'LUMOTDAN eng ko'p
+ * uchraydigan guruhlar (`industryChips()`), hardcode emas (§7.1).
  */
 
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
-import { siteConfig } from '@/lib/config';
-import { buildMetadata, breadcrumbLd, collectionPageLd, linkListLd } from '@/lib/seo';
-import { applicationCounts, catalogStats } from '@/lib/catalog';
-import { APPLICATIONS, tr, type Locale } from '@/lib/taxonomy';
-import { formatUzPhone } from '@/lib/utils';
-import { Breadcrumb } from '@/components/layout/Breadcrumb';
+import { buildMetadata, breadcrumbLd, linkListLd } from '@/lib/seo';
+import { industriesWithData, monogramCopy, publicAssetExists } from '@/lib/design';
+import type { Locale } from '@/lib/taxonomy';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
-import { Icon, type IconName } from '@/components/ui/Icon';
-import { Stat } from '@/components/ui/Display';
-import { LeadForm } from '@/components/lead/LeadForm';
+import { PageHead } from '@/components/ui/PageHead';
+import { Section, SectionHeader } from '@/components/ui/SectionHeader';
+import { MonogramPanel } from '@/components/ui/MonogramPanel';
+import { ButtonLink } from '@/components/ui/Button';
+import { Reveal } from '@/components/motion';
+import { cn } from '@/lib/utils';
 
-interface PageProps {
+interface Props {
   params: Promise<{ locale: string }>;
 }
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
+  const count = industriesWithData(locale as Locale).length;
+
   return buildMetadata({
     locale,
-    title: t('industries.title'),
-    description: t('industries.subtitle'),
+    title: t('seo.industries.title', { count }),
+    description: t('seo.industries.description'),
     path: '/industries',
-    keywords: [
-      'aromatizator tarmoqlar bo\'yicha',
-      'oziq-ovqat ishlab chiqarish uchun ingredientlar',
-      'отраслевые решения ароматизаторы Узбекистан',
-    ],
+    image: '/images/industries.jpg',
   });
 }
 
-export default async function IndustriesPage({ params }: PageProps) {
+export default async function IndustriesPage({ params }: Props) {
   const { locale: raw } = await params;
-  const locale = normalizeLocale(raw) as AppLocale;
+  const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);
 
-  const counts = applicationCounts();
-  const stats = catalogStats(L);
-  const base = `/${locale}/industries`;
-
-  const crumbs = [
-    { label: t('nav.home'), href: `/${locale}` },
-    { label: t('nav.industries'), href: base },
-  ];
-
-  const ldItems = APPLICATIONS.filter((a) => (counts[a.id] ?? 0) > 0).map((a) => ({
-    path: `${base}/${a.id}`,
-    name: tr(a.name, L, a.id),
-  }));
+  // Faqat haqiqatan mahsuloti bor yo'nalishlar (§7.1 — son ma'lumotdan)
+  const industries = industriesWithData(L);
 
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden border-b border-cream-200 bg-pine-950 text-white">
-        <div className="pattern-uzbek pointer-events-none absolute inset-0 opacity-[0.08]" aria-hidden />
-        <div className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-teal-500/20 blur-3xl" aria-hidden />
-        <div className="container-x relative py-10 lg:py-14">
-          <Breadcrumb items={crumbs} className="[&_a]:text-white/60 [&_a:hover]:text-mint-200 [&_span:last-child]:text-white" />
-
-          <div className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
-            <div>
-              <span className="eyebrow text-mint-200/80">{t('industries.eyebrow')}</span>
-              <h1 className="mt-2.5 max-w-3xl font-display text-[clamp(1.8rem,5vw,3rem)] leading-[1.06] font-extrabold tracking-tight">
-                {t('industries.title')}
-              </h1>
-              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70">{t('industries.subtitle')}</p>
-            </div>
-
-            <dl className="grid grid-cols-2 gap-3">
-              {[
-                { v: String(APPLICATIONS.length), k: t('stats.applications') },
-                { v: `${stats.total}+`, k: t('stats.products') },
-                { v: `${siteConfig.stats.yearsExperience}+`, k: t('stats.years') },
-                { v: `${siteConfig.business.responseMinutes} ${locale === 'ru' ? 'мин' : 'min'}`, k: t('cta.fast') },
-              ].map((s, i) => (
-                <div key={i} className="rounded-xl border border-white/12 bg-white/[0.06] p-3.5">
-                  <dt className="font-display text-[1.4rem] leading-none font-extrabold text-white tabular-nums">{s.v}</dt>
-                  <dd className="mt-1.5 text-[11px] leading-snug text-white/55">{s.k}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ TARMOQLAR RO'YXATI ============ */}
-      <section className="container-x py-10 lg:py-14">
-        <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {APPLICATIONS.map((a) => {
-            const count = counts[a.id] ?? 0;
-            const disabled = count === 0;
-            const inner = (
-              <>
-                <span
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-105"
-                  style={{ backgroundColor: a.color ?? '#0e7c6b' }}
-                  aria-hidden
-                >
-                  <Icon name={(a.icon ?? 'factory') as IconName} size={24} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h2 className="font-display text-[15.5px] leading-snug font-extrabold tracking-tight text-pine-900 group-hover:text-teal-600">
-                    {tr(a.name, L, a.id)}
-                  </h2>
-                  <p className="mt-1 font-mono text-[11.5px] font-bold text-slate-warm-500">
-                    {count} {t('industries.products')}
-                  </p>
-                </div>
-                <Icon
-                  name={disabled ? 'lock' : 'arrow-up-right'}
-                  size={18}
-                  className="shrink-0 text-slate-warm-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-teal-600"
-                />
-                {a.hint ? (
-                  <p className="mt-3.5 line-clamp-2 text-[12.5px] leading-snug text-slate-warm-600">
-                    {tr(a.hint, L, '')}
-                  </p>
-                ) : null}
-              </>
-            );
-
-            return (
-              <li key={a.id}>
-                {disabled ? (
-                  <span className="flex h-full cursor-not-allowed flex-col gap-3 rounded-2xl border border-dashed border-cream-200 bg-cream-50 p-5 opacity-70">
-                    {inner}
-                  </span>
-                ) : (
-                  <Link
-                    href={`${base}/${a.id}`}
-                    className="group flex h-full flex-col gap-3 rounded-2xl border border-cream-200 bg-white p-5 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-teal-500/35 hover:shadow-lift"
-                  >
-                    {inner}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-
-      {/* ============ ISHONCH + CTA ============ */}
-      <section className="border-y border-cream-200 bg-cream-100/60 py-12 lg:py-16">
-        <div className="container-x grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start">
-          <div>
-            <span className="eyebrow">{t('why.eyebrow')}</span>
-            <h2 className="mt-2.5 max-w-xl font-display text-[clamp(1.35rem,3.2vw,2rem)] leading-[1.12] font-extrabold tracking-tight text-pine-900">
-              {t('industry.askSpecialist')}
-            </h2>
-            <p className="mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-warm-600">
-              {t('contact.subtitle')}
-            </p>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <Stat icon="clock" value={`${siteConfig.business.responseMinutes} ${locale === 'ru' ? 'мин' : 'min'}`} label={t('cta.fast')} />
-              <Stat icon="truck" value={`${siteConfig.business.sampleDeliveryDays} ${locale === 'ru' ? 'дн' : locale === 'en' ? 'days' : 'kun'}`} label={t('samples.deliveryInfo')} hint={t('samples.deliveryFree')} />
-              <Stat icon="box" value={String(siteConfig.business.sampleBoxMaxItems)} label={t('stats.samples')} />
-              <Stat icon="map-pin" value={String(siteConfig.stats.uzRegions)} label={t('stats.regions')} hint={t('stats.delivery')} />
-            </div>
-
-            <div className="mt-7 flex flex-wrap items-center gap-2.5">
-              <Link
-                href={`/${locale}/samples`}
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-teal-600 px-6 text-[14.5px] font-bold text-white shadow-soft transition hover:bg-pine-800 hover:shadow-lift active:scale-[0.98]"
-              >
-                <Icon name="box" size={18} />
-                {t('nav.getSample')}
-              </Link>
-              <a
-                href={siteConfig.contact.phonePrimaryHref}
-                className="inline-flex h-12 items-center gap-2 rounded-xl border border-pine-800/20 px-5 font-mono text-[14px] font-bold text-pine-800 transition hover:border-teal-500 hover:bg-mint-50 hover:text-teal-600"
-              >
-                <Icon name="phone" size={17} />
-                {formatUzPhone(siteConfig.contact.phonePrimary)}
-              </a>
-            </div>
-          </div>
-
-          <LeadForm
-            type="quote"
-            locale={locale}
-            compact
-            title={t('industry.askSpecialist')}
-            subtitle={t('form.secureNote')}
-            submitLabel={t('form.submitQuote')}
-          />
-        </div>
-      </section>
-
       <JsonLdGroup
         items={[
-          breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href })), locale),
-          collectionPageLd(locale, t('industries.title'), t('industries.subtitle'), '/industries', []),
-          linkListLd(ldItems, locale, t('industries.title')),
+          breadcrumbLd(
+            [
+              { name: t('nav.home'), path: '/' },
+              { name: t('nav.industries'), path: '/industries' },
+            ],
+            locale,
+          ),
+          linkListLd(
+            industries.map((i) => ({ path: `/industries/${i.id}`, name: i.label })),
+            locale,
+            t('nav.industries'),
+          ),
         ]}
       />
+
+      {/* ============ HERO ============ */}
+      <PageHead
+        title={t('nav.industries')}
+        text={t('industries.head.text')}
+        crumbs={[{ label: t('nav.home'), href: `/${locale}` }, { label: t('nav.industries') }]}
+        crumbLabel={t('nav.industries')}
+        aside={
+          <MonogramPanel
+            variant="bliss"
+            cycle={false}
+            copy={monogramCopy(t)}
+            minHeight="clamp(312px, 36.1vw, 520px)"
+            className="px-10 pb-24 pt-16"
+          />
+        }
+        className="[&>div:first-child]:min-h-[clamp(312px,36.1vw,520px)]"
+      />
+
+      {/* ============ GRID ============ */}
+      <Section gap={false} className="pt-[clamp(64px,7vw,96px)]">
+        <SectionHeader
+          title={t('industries.question')}
+          rules="none"
+          className="pb-8"
+          aside={
+            <span className="text-[16px] text-muted">
+              {t('industries.directions', { count: industries.length })}
+            </span>
+          }
+        />
+
+        <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
+          {industries.map((ind, i) => (
+            <Reveal
+              key={ind.id}
+              sx={20}
+              delay={Math.min(i, 7) * 0.06}
+              className="min-h-[280px]"
+            >
+              {/* `aria-label` yo'q — WCAG 2.5.3: nom ko'rinadigan matnni
+                  o'z ichiga olishi kerak (karte raqami + soha nomi + hisob). */}
+              <Link
+                href={`/${locale}/industries/${ind.id}`}
+                className={cn(
+                  'flex h-full min-h-[280px] flex-col gap-1 rounded-card p-3 text-ink no-underline',
+                  ind.tone === 'navy' && 'bg-navy text-white',
+                  ind.tone === 'copper' && 'bg-copper text-ink',
+                  ind.tone === 'panel' && 'bg-panel',
+                )}
+              >
+                {ind.image && publicAssetExists(ind.image) ? (
+                  <span className="media-frame relative block aspect-16/9 overflow-hidden rounded-[26px]">
+                    <Image
+                      src={ind.image}
+                      alt={t('industries.cardAlt', { name: ind.label })}
+                      fill
+                      sizes="(max-width: 700px) 100vw, 31vw"
+                      className="media-zoom object-cover"
+                    />
+                  </span>
+                ) : null}
+
+                <span className="flex flex-grow flex-col justify-between gap-4 px-4 py-[18px] pb-4">
+                  <span className="flex items-start justify-between gap-3">
+                    <span
+                      className={cn(
+                        'font-display text-[40px] font-light leading-none tracking-[-0.04em]',
+                        ind.tone === 'navy' && 'text-copper-light',
+                        ind.tone === 'copper' && 'text-ink',
+                        ind.tone === 'panel' && 'text-copper-dark',
+                      )}
+                    >
+                      {ind.num}
+                    </span>
+                    <span
+                      className={cn(
+                        'btn-icon btn-icon--44 shrink-0',
+                        ind.tone === 'navy' ? 'btn-icon--white' : 'btn-icon--navy',
+                      )}
+                    >
+                      <ArrowUpRight size={18} strokeWidth={2} aria-hidden />
+                    </span>
+                  </span>
+
+                  <span className="text-[clamp(21px,1.8vw,26px)] font-medium leading-[1.15] tracking-[-0.02em]">
+                    {ind.label}
+                  </span>
+
+                  <span className="flex flex-wrap gap-1.5">
+                    {ind.chips.map((c) => (
+                      <span
+                        key={c}
+                        className={cn(
+                          'rounded-pill border px-3 py-1.5 text-[13px]',
+                          ind.tone === 'navy' && 'border-[#4A4878] text-white',
+                          ind.tone === 'copper' && 'border-copper-dark text-ink',
+                          ind.tone === 'panel' && 'border-line text-ink',
+                        )}
+                      >
+                        {c}
+                      </span>
+                    ))}
+                    <span
+                      className={cn(
+                        'rounded-pill border px-3 py-1.5 text-[13px]',
+                        ind.tone === 'navy' ? 'border-[#4A4878] text-copper-light' : 'border-line text-muted',
+                      )}
+                    >
+                      {t('industries.products', { count: ind.count })}
+                    </span>
+                  </span>
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* ============ CTA — 3 ta kapsula ============ */}
+      <Section gap={false} className="flex flex-wrap gap-3 pb-4 pt-[clamp(64px,7vw,96px)]">
+        <Reveal className="flex min-h-[200px] flex-[1_1_260px] items-center justify-center rounded-pill bg-panel text-[clamp(32px,4vw,64px)] font-normal tracking-[-0.03em]">
+          {t('industries.chipLabel')}
+        </Reveal>
+
+        <Reveal
+          delay={0.06}
+          sx={20}
+          className="flex min-h-[200px] flex-[0_1_200px] items-center justify-center rounded-pill bg-navy text-copper-light"
+        >
+          <ArrowRight size={96} strokeWidth={2.4} aria-hidden />
+        </Reveal>
+
+        <Reveal
+          delay={0.12}
+          sx={20}
+          className="flex min-h-[200px] flex-[2_1_480px] flex-wrap items-center justify-between gap-4 rounded-pill bg-copper py-6 pl-[clamp(24px,3.3vw,48px)] pr-6"
+        >
+          <span className="flex flex-col gap-1.5">
+            <span className="text-[clamp(24px,2.4vw,36px)] font-normal leading-tight tracking-[-0.025em]">
+              {t('industries.missing')}
+            </span>
+            <span className="text-body-l text-ink">{t('industries.missingText')}</span>
+          </span>
+          <ButtonLink href={`/${locale}/contact`} variant="primary" size="lg" className="shrink-0">
+            {t('industries.writeTech')}
+            <ArrowUpRight size={18} aria-hidden />
+          </ButtonLink>
+        </Reveal>
+      </Section>
     </>
   );
 }
