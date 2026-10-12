@@ -200,7 +200,7 @@ export default async function SearchPage({ params, searchParams }: Props) {
                 {products.map((c, i) => (
                   <Reveal
                     key={c.sku}
-                    sx={12}
+                    y={12}
                     delay={Math.min(i, 7) * 0.04}
                     className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-media bg-panel py-[18px] pl-[28px] pr-[18px]"
                   >
@@ -286,7 +286,7 @@ export default async function SearchPage({ params, searchParams }: Props) {
 
         <Reveal
           delay={0.06}
-          sx={20}
+          y={20}
           className="flex min-h-[140px] flex-1 basis-[300px] items-center justify-between gap-4 rounded-block bg-copper px-[clamp(24px,3vw,40px)]"
         >
           <span className="text-[clamp(22px,2.2vw,32px)] font-normal tracking-[-0.02em]">

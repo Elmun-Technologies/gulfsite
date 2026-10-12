@@ -236,7 +236,7 @@ export default async function ProductPage({ params }: Props) {
             </ul>
           </Reveal>
 
-          <Reveal sx={16} className="flex flex-col gap-4 rounded-card border border-line p-[clamp(20px,2.4vw,32px)]">
+          <Reveal y={16} className="flex flex-col gap-4 rounded-card border border-line p-[clamp(20px,2.4vw,32px)]">
             <span className="label">{t('product.storage')}</span>
             <p className="m-0 text-body-l text-body">{storage}</p>
             <span className="label mt-1">{t('product.shelfLife')}</span>
@@ -254,7 +254,7 @@ export default async function ProductPage({ params }: Props) {
         {apps.length ? (
           <div className="grid gap-3 pt-[clamp(24px,3.1vw,40px)] [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
             {apps.slice(0, 6).map((a) => (
-              <Reveal key={a.id} sx={20} className="flex flex-col gap-5 rounded-card bg-panel p-3 pb-7">
+              <Reveal key={a.id} y={20} className="flex flex-col gap-5 rounded-card bg-panel p-3 pb-7">
                 <div className="media-frame relative aspect-16/10 overflow-hidden rounded-media">
                   <AppImage id={a.id} alt={a.label} />
                 </div>
@@ -331,7 +331,7 @@ export default async function ProductPage({ params }: Props) {
             {related.map((c, i) => (
               <Reveal
                 key={c.sku}
-                sx={20}
+                y={20}
                 delay={i * 0.06}
                 className="flex min-h-[220px] flex-col gap-8 rounded-card bg-panel p-[26px]"
               >

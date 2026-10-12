@@ -120,7 +120,7 @@ export function PageHead({
       </Reveal>
 
       {aside ? (
-        <Reveal delay={0.1} sx={24} className="flex min-w-0 flex-[1_1_360px] flex-col gap-3">
+        <Reveal delay={0.1} y={24} className="flex min-w-0 flex-[1_1_360px] flex-col gap-3">
           {aside}
         </Reveal>
       ) : null}

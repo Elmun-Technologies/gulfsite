@@ -108,7 +108,7 @@ export function LegalPage({
             <Reveal
               key={s.id}
               as="section"
-              sx={12}
+              y={12}
               id={s.id}
               className="scroll-mt-28 border-t border-line py-7 first:border-t-0"
             >

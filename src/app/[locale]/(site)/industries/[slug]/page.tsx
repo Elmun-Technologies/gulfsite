@@ -158,7 +158,7 @@ export default async function IndustryPage({ params }: Props) {
 
         <Reveal
           delay={0.08}
-          sx={24}
+          y={24}
           className="flex min-w-0 flex-[1.1_1_520px] flex-col justify-between gap-10 rounded-block bg-panel p-[clamp(28px,4vw,56px)]"
         >
           <Breadcrumbs
@@ -213,7 +213,7 @@ export default async function IndustryPage({ params }: Props) {
               </Reveal>
 
               <Reveal
-                sx={16}
+                y={16}
                 className="flex flex-col gap-3.5 rounded-card bg-navy p-[clamp(24px,2.5vw,32px)] px-[clamp(24px,2.5vw,36px)] text-white"
               >
                 <span className="text-[14px] text-copper-light">{t('industry.solution')}</span>

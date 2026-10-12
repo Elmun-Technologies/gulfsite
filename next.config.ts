@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: ['*.e2b.app'],
   /**
    * Docker deploy uchun o'z-o'zi yetarli server (`server.js`).
    * `next start` ham ishlashda davom etadi — standalone qo'shimcha artefakt.
@@ -31,10 +32,13 @@ const nextConfig: NextConfig = {
         source: '/:path*',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
         ],
+      },
+      {
+        source: '/:locale/admin/:path*',
+        headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }],
       },
       {
         source: '/api/:path*',

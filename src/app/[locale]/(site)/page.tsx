@@ -15,6 +15,7 @@
 import type { Metadata } from 'next';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
+import { PACKAGING } from '@/lib/taxonomy';
 import { buildMetadata, faqLd, homeLd } from '@/lib/seo';
 import { productCount } from '@/lib/catalog';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
@@ -64,10 +65,27 @@ export default async function HomePage({ params }: PageProps) {
   const t = makeT(locale);
   const count = productCount();
 
-  const faqItems = [1, 2, 3, 4, 5].map((i) => ({
-    q: t(`samples.faq${i}Q` as never),
-    a: t(`samples.faq${i}A` as never),
-  }));
+  const biz = siteConfig.business;
+  const packs = PACKAGING.filter((p) => [1, 5, 10, 25].includes(p.kg))
+    .map((p) => p.kg)
+    .join(', ');
+
+  const faqItems = [
+    { q: t('samples.faq1Q'), a: t('samples.faq1A') },
+    { q: t('samples.faq2Q'), a: t('samples.faq2A', { days: biz.sampleDeliveryDays }) },
+    {
+      q: t('samples.faq3Q'),
+      a: t('samples.faq3A', {
+        moq: t('samples.moqValue', { kg: biz.minOrderKg }),
+        packs: `${packs} kg`,
+      }),
+    },
+    { q: t('samples.faq4Q'), a: t('samples.faq4A') },
+    {
+      q: t('samples.faq5Q'),
+      a: t('samples.faq5A', { raw: siteConfig.stats.rawMaterials }),
+    },
+  ];
 
   return (
     <>
