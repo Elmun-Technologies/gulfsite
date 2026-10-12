@@ -215,7 +215,7 @@ Launch uchun aniq nima kerak: **`docs/LAUNCH_CHECKLIST.md`**.
 | `npm run audit:seo` | Title ≤60 / desc ≤155 (entitilar dekodlab), canonical, hreflang + `x-default`, JSON-LD `@type`, **og:image 200**, `<html lang>`, bitta `<h1>`, barcha `<img>` da `alt`, matnsiz `<button>` da `aria-label`, `{placeholder}` yo'q, soft-404 yo'q (§13/§14) | ✔ |
 | `npm run audit:links` | Sitemap'dagi **barcha URL** 200mi, ichki havolalar, o'lik anker, `href="#"`, `tel:`/`mailto:` formati, tashqi havolada `rel="noopener"`, barcha rasm va og:image yuklanadimi | ✔ |
 | `npm run env:check` | Launch tayyorligi (§15 etalon nazorati bilan) | ✔ (hisobot) |
-| `npm run lighthouse` | Perf ≥90 / A11y ≥95 / SEO 100 (§0/§14.5). Chrome talab qiladi — CI'da bajariladi | ✔ |
+| `npm run lighthouse` | §0/§14.5 mezonlari. Chrome talab qiladi → CI'da bajariladi. CI'da **A11y ≥95 va SEO 100 qat'iy**, Perf esa hisobot (ulashilgan runner + 4× CPU throttle mobil Perf'ni haqiqiy qurilmadan past ko'rsatadi); **Perf ≥90 production'da o'lchanadi** (`docs/LAUNCH_CHECKLIST.md` §E3) | ✔ |
 | `npm run i18n:export` | RU/EN review CSV'larini qayta yaratadi (`docs/`) | — |
 
 Barchasi `.github/workflows/ci.yml` da har push/PR'da ishlaydi: build →

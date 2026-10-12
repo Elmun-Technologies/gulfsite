@@ -349,7 +349,56 @@ eski `@theme` bloki saqlanadi.
 | `npm run audit:links` | ✅ 0 xato, 0 ogohlantirish | sitemap 1935 URL + 18 sahifa: 242 URL, havola/anker/rasm/og:image |
 | `POST /api/leads` | ✅ 201 (`GFF-2026-285-0001`) | zod + antispam; `notified: telegram/email/webhook = "sozlanmagan"` — env yo'q |
 | `npm run env:check` | ⚠️ 4 xato, 6 ogohlantirish | launch'ni to'sadiganlar: domen, lead kanali, admin parol/secret |
-| `npm run lighthouse` | ⏭️ skip (exit 2) | sandbox'da Chrome yo'q → CI'da o'lchanadi |
+| `npm run lighthouse` (lokal) | ⏭️ skip (exit 2) | sandbox'da Chrome yo'q → CI'da o'lchanadi |
+| `npm run lighthouse` (CI, desktop) | ✅ 9/9 sahifa o'tdi | Perf ≥ 90 · A11y ≥ 95 · SEO 100 |
+| `npm run lighthouse` (CI, mobil) | ⚠️ Perf 56–96 | A11y 97–100 (tuzatishdan keyin) · SEO 100 · CLS 0 — pastdagi izoh |
+
+**Lighthouse — CI'da o'lchangan haqiqiy raqamlar (GitHub runner, 2026-10-12):**
+
+| Sahifa | Perf (mobil) | A11y | SEO | BP | LCP | CLS | TBT |
+|---|---|---|---|---|---|---|---|
+| Bosh `/uz` | 56–58 | 97 | 100 | 88 | 4.3–5.2 s | 0 | 990–1160 ms |
+| Katalog | 87–94 | 92 → **97** | 100 | 96 | 2.8–3.5 s | 0 | 160–210 ms |
+| Mahsulot | 87–93 | 96 | 100 | 92 | 2.7–3.6 s | 0 | 190–200 ms |
+| Namunalar | 88 | 97 | 100 | 96 | 3.5 s | 0 | 180–200 ms |
+| Sohalar | 80–85 | 100 | 100 | 92 | 3.8–4.1 s | 0 | 210–310 ms |
+| Aloqa | 92–96 | 96 | 100 | 96 | 2.8–3.4 s | 0 | 50 ms |
+
+**Desktop: 9 sahifaning BARCHASI Perf ≥ 90 · A11y ≥ 95 · SEO 100** — o'sha
+runner'da, o'sha build bilan. Farq: mobil o'lchovda Lighthouse 4× CPU throttle
++ Moto G emulyatsiyasini qo'llaydi, runner'ning ulashilgan CPU'si esa haqiqiy
+telefondan sekin. Shuning uchun **mijoz qarori bilan CI'da Perf — HISOBOT**
+(`--perf-report-only`), qat'iy mezon (Perf ≥ 90 mobil) production deploy'dan
+keyin o'lchanadi (`docs/LAUNCH_CHECKLIST.md` §E3). A11y ≥ 95 va SEO = 100
+CI'da QAT'IY — ular ushunaga bog'liq emas.
+
+**A11y tuzatishlari (Lighthouse topgan, 2026-10-12):**
+
+1. `aria-valid-attr-value` (og'irlik 10) — `<Tabs>` har bir tab'ga
+   `aria-controls="panel-catalog-cat"` berardi, lekin DOM'da bunday ID yo'q
+   edi → katalog A11y 92. Yechim: natijalar konteyneriga
+   `id="panel-catalog-cat" role="tabpanel" aria-labelledby="tab-catalog-cat-<faol>"`.
+   (Xuddi shu sababdan `Header` burger tugmasi uchun `<div id="gff-mobile-menu">`
+   DOIM render qilinadi — yangi `aria-controls` qo'shayotganda ID'ning DOM'da
+   borligini tekshiring.)
+2. `target-size` (og'irlik 7, WCAG 2.5.8: min 24px) — `.foot-link` balandligi
+   ~22px edi. Yechim: `padding-block: 11px; margin-block: -11px` (teginish
+   maydoni 44px — §9 talabi, vizual ritm o'zgarmaydi) va `::after { bottom: 9px }`.
+3. `label-content-name-mismatch` (WCAG 2.5.3, Lighthouse'da og'irligi 0, lekin
+   nutq bilan boshqaruvchi foydalanuvchilar uchun real muammo) — header logotipi
+   va soha kartalarining `aria-label`'i ko'rinadigan matnni o'z ichiga olmasdi.
+   Yechim: `aria-label` olib tashlandi, nom kontentdan olinadi.
+
+**Qoida:** `aria-label` berishdan oldin o'ylang — agar elementda ko'rinadigan
+matn bo'lsa, `aria-label` uni O'Z ICHIGA olishi shart (WCAG 2.5.3). Matn bo'lsa
+`aria-label` umuman kerak emas; u faqat matnsiz (ikonka) tugmalar uchun (§14).
+
+**BP ogohlantirishlari (hozircha qoldi, mezon emas):** `image-aspect-ratio`
+(`fill` + `object-cover` rasmlarda konteyner va rasm proporsiyasi farq qiladi —
+Lighthouse buni "cho'zilgan" deb hisoblaydi, garchi `object-cover` qirqsa ham)
+va `image-size-responsive` (logotip 498×523 manbadan 40px'da ko'rsatiladi;
+`sizes` aniqlashtirildi). Bosh sahifada `unused-javascript ≈380–450ms` —
+bu motion kutubxonasining narxi (mijoz qarori: to'liq motion saqlanadi, §14.5).
 
 **`npm run audit:links` topgan va TUZATILGAN 3 ta real bug (2026-10-12):**
 
@@ -516,6 +565,14 @@ shu qiymatni beradi).
     eng "issiq" lead turi; Contact bloklari bilan qurildi, mantiq saqlandi.
 12. **Huquqiy matnlar `lib/legal.ts` dan** — i18n'dagi `privacy.s1..s8` kalitlari
     endi ishlatilmaydi (ikkita manba xavfini yo'qotish uchun).
+13. **CI'da Lighthouse Perf — hisobot, to'suvchi emas** (mijoz qarori,
+    2026-10-12). Sabab: GitHub Actions'ning ulashilgan runner'ida mobil o'lchov
+    4× CPU throttle bilan haqiqiy qurilmadan ancha past chiqadi (bosh sahifa
+    56–58, TBT ~1 s), garchi DESKTOP o'lchov o'sha runner'da 9/9 sahifada
+    Perf ≥ 90 bo'lgan. A11y ≥ 95 va SEO = 100 CI'da QAT'IY qoldi. §0/§14.5
+    mezoni (Perf ≥ 90 mobil) yo'qolmadi — u production deploy'dan keyin
+    o'lchanadi: `BASE_URL=https://<domen> npm run lighthouse`
+    (`docs/LAUNCH_CHECKLIST.md` §E3).
 
 ---
 

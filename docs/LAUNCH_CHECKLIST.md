@@ -158,8 +158,15 @@ npm start                     # 0.0.0.0:3000, .next/standalone
 
 ```bash
 # 1. Lighthouse (§0 mezonlari: Perf ≥ 90 mobile · A11y ≥ 95 · SEO 100)
+#    MUHIM: bu qadam MAJBURIY — CI'da Perf faqat HISOBOT (ulashilgan runner
+#    + 4× CPU throttle mobil Perf'ni haqiqiy qurilmadan past ko'rsatadi:
+#    CI'da bosh sahifa 56–58, desktop esa 9/9 sahifada ≥ 90). A11y va SEO
+#    CI'da ham qat'iy tekshiriladi, Perf ≥ 90 esa SHU YERDA tasdiqlanadi.
 BASE_URL=https://<domen> npm run lighthouse          # Chrome kerak
 BASE_URL=https://<domen> npm run lighthouse -- --all
+#    Perf < 90 bo'lsa: real tarmoqda (4G) va boshqa qurilmada qayta o'lchang,
+#    hisobotdagi "imkoniyatlar" (unused-javascript, LCP element) ro'yxatini
+#    ko'ring va CDN/kesh sozlamalarini tekshiring.
 
 # 2. Auditlar (production domenida)
 BASE_URL=https://<domen> npm run audit:seo
