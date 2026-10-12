@@ -18,7 +18,13 @@
     "test:i18n": "node scripts/check-placeholders.mjs --static",
     "audit:seo": "node scripts/audit-seo.mjs",
     "i18n:export": "node scripts/export-translations.mjs",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "env:check": "node scripts/check-env.mjs",
+    "env:report": "node scripts/check-env.mjs --report",
+    "audit:links": "node scripts/audit-links.mjs",
+    "audit:links:quick": "node scripts/audit-links.mjs --quick",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "lighthouse:all": "node scripts/lighthouse.mjs --all"
   },
   "dependencies": {
     "@fontsource-variable/onest": "^5.3.1",
@@ -39,6 +45,7 @@
     "@types/react-dom": "19.2.5",
     "eslint": "^9.39.5",
     "eslint-config-next": "16.3.4",
+    "lighthouse": "^13.5.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3"
   },
