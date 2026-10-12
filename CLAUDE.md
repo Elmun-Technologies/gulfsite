@@ -369,9 +369,11 @@ Run `38215922773` (a11y tuzatishlaridan keyin, **ikkala job ham yashil**):
 | RFQ | — | 100 | — / 97 | 100 | 92 | — / 0.7 s | 0 | 0 ms |
 | Soha detali | — | 100 | — / 100 | 100 | 92 | — / 0.8 s | 0 | 0 ms |
 
-Katalog A11y **92 → 97** (pastdagi 3 tuzatish). Run-to-run shovqin: mobil Perf
-±10 (avvalgi run'da bosh sahifa 58, bu run'da 55) — aynan shu sababdan Perf
-CI'da hisobot rejimida.
+Katalog A11y **92 → 97** (pastdagi 3 tuzatish). Keyingi run (`fe7e317`, ham
+yashil) mobil Perf: bosh 65 · katalog 92 · mahsulot 94 · namunalar 91 · sohalar
+89 · aloqa 92; A11y/SEO bir xil. Run-to-run shovqin ±10 (bosh sahifa 55/56/58/65)
+— aynan shu sababdan Perf CI'da hisobot rejimida va qat'iy mezon production'da
+tekshiriladi.
 
 **Desktop: 9 sahifaning BARCHASI Perf ≥ 90 · A11y ≥ 95 · SEO 100** — o'sha
 runner'da, o'sha build bilan. Farq: mobil o'lchovda Lighthouse 4× CPU throttle
