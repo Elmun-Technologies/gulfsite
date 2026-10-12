@@ -36,8 +36,18 @@ npm run test:i18n      # xuddi shu, lekin offline (--static, serversiz)
 npm run assets:design  # design/assets → public/images (optimallashtirish bilan)
 npm run catalog:build  # manba JSON'lar → src/data/catalog.json
 npm run audit:seo      # SEO/A11y auditi (ISHLAYOTGAN server kerak; BASE_URL=… mumkin)
+npm run audit:links    # o'lik havola/asset auditi (sitemap + 18 sahifa, server kerak)
+npm run env:check      # launch tayyorligi (§15 etalon nazorati bilan)
+npm run lighthouse     # Perf/A11y/SEO o'lchovi (Chrome kerak — CI'da bajariladi)
 npm run i18n:export    # RU/EN review CSV'larini yangilash (docs/*.csv)
 ```
+
+**CI:** `.github/workflows/ci.yml` har push/PR'da bularning hammasini bajaradi
+— typecheck, lint, placeholder testi (offline + RENDER), `env:check --report`,
+build, server, `audit:seo`, `audit:links`, HTTP semantikasi (307/308/404),
+lead API (201 + honeypot), server log'i va **Lighthouse** (mobile: Perf ≥ 90 ·
+A11y ≥ 95 · SEO 100; desktop qo'shimcha). GitHub runner'larida Chrome bor,
+sandbox'da yo'q — shuning uchun Lighthouse CI'da o'lchanadi.
 
 **MUHIM diagnostika:**
 
@@ -119,7 +129,7 @@ ichidan `notFound()` chaqirilganda ishlaydi. Ikkalasi bir xil vizualni
 
 ---
 
-## 4. Üch kritik qoida (buzilsa sayt "jim" buziladi)
+## 4. Kritik qoidalar (buzilsa sayt "jim" buziladi)
 
 ### 4.1 Placeholder bug'i — ILDIZ SABAB va yechim
 
@@ -195,6 +205,48 @@ manzillar bu xatoni chaqirmaydi.
 **Tekshirilgan (production build, 3 til):** birinchi sahifada yuklanadigan
 17 ta JS chunk'ining hech birida lug'at matni yo'q. Diskdagi lug'atli
 chunk'lar — SSG RSC payload'lari, birinchi paint'da JS sifatida yuklanmaydi.
+
+### 4.5 Stagger indeksi — SERVER komponentda `child.type === Reveal` ISHLAMAYDI
+
+`home/sections.tsx` — **server** komponent. U `<RevealGroup>` (klient
+komponent) ichiga `<Reveal>` bolalarini berganda, bolalar bu yerga funksiya
+emas, **client-reference proksi** sifatida yetib keladi. Shuning uchun guruh
+ichida `child.type === Reveal` solishtiruvi `false` bo'ladi va
+`cloneElement(child, { index })` hech narsa qilmaydi — stagger **jim** yo'qoladi
+(barcha `--reveal-delay: 0s`). Build ham, test ham, konsol ham xato bermaydi;
+faqat animatsiya "yopishib" qoladi.
+
+**Qoida: stagger indeksini doim OCHIQ prop qilib bering** —
+`{items.map((it, i) => <Reveal key={it.id} index={i}>…</Reveal>)}`.
+`RevealGroup` faqat `step` kontekstini beradi (60ms desktop / 40ms mobil,
+maks. 8 — §8.1).
+
+Tekshirish (SSR HTML'da ko'rinadi, brauzer kerak emas):
+
+```bash
+curl -s localhost:3000/uz | grep -o -- '--reveal-delay:[0-9.]*s' | head
+# kutilgan: 0s, 0.06s, 0.12s, 0.18s … (bir xil qiymat takrorlanaversa — stagger yo'q)
+```
+
+### 4.6 react-hooks v6 (React Compiler) qoidalari — CI lint'ni talab qiladi
+
+`.github/workflows/ci.yml` dagi `verify` job'i `eslint .` ni ishga tushiradi,
+shuning uchun lint **0 muammo** bo'lishi shart. Qoidani o'chirmang
+(`eslint-disable` ishlatilmaydi) — shaklni o'zgartiring:
+
+| Xato | Noto'g'ri shakl | To'g'ri shakl |
+| --- | --- | --- |
+| `set-state-in-effect` | `useEffect(() => setMounted(true))` | `useSyncExternalStore` (`useHydrated`, `CookieConsent`) |
+| `set-state-in-effect` | prop o'zgarsa effect ichida `setState` | "adjust state during render": `prevValue` state + shartli `setState` (`Header`, `SearchInput`) |
+| `refs` | render ichida `ref.current` ni o'qish/yozish | effect yoki handler ichida; render'da kerak bo'lsa — **derivatsiya** (`useInViewOnce`'dagi `noObserver`) |
+| `purity` | `useRef(Date.now())` | `useRef(0)` + mount effect'ida `Date.now()` (`GffLeadForm`) |
+| `immutability` | funksiyani e'lon qilishdan oldin ishlatish | `useCallback` ni effect'dan OLDIN e'lon qilish (`Analytics.loadGtm`) |
+
+Ikkita xato shakl **o'zimiz** qayta takrorlamasligimiz uchun: (a) `Children.map`
+callback'i ichida tashqi `let` hisoblagichni oshirish → "Cannot reassign
+variable after render completes"; (b) render paytidagi "adjust state" bloki
+ichida ref yozish → "Cannot access refs during render" (u yerda faqat
+`setState` mumkin).
 
 ---
 
@@ -284,15 +336,44 @@ eski `@theme` bloki saqlanadi.
 
 | Ko'rsatkich | Qiymat | Izoh |
 |---|---|---|
-| `npm run build` | ✅ 3805 statik sahifa | 617 mahsulot × 3 til + qolganlari |
+| `npm run build` | ✅ 3804 statik sahifa | 617 mahsulot × 3 til + qolganlari |
 | `npm test` (placeholder) | ✅ toza | 1055 kalit × 3 til, 736 chaqiruv, 12 route |
 | `tsc --noEmit` | ✅ xato yo'q | strict |
+| `npm run lint` | ✅ 0 muammo | react-hooks v6 (React Compiler) qoidalari ham — CI shu yerdan o'tadi (§4.6) |
 | Birinchi sahifa JS | ⚠️ **~293 KB gzip** | maqsad < 180 KB — pastda tahlil |
 | HTML (gzip, /uz) | ~43 KB | RSC payload + bir til lug'ati |
 | 404 (production) | ✅ 404 + brend ko'rinishi | noma'lum slug, til, `/uz/…` — barchasi |
 | `/product/<slug>` | ✅ 308 → `/catalog/<slug>` | doimiy, kanonik URL |
 | `/styleguide` (production) | ✅ 404 | dev-only (§10) |
 | `npm run audit:seo` | ✅ 0 xato, 0 ogohlantirish | 17 sahifa × 3 til + 5 ta 404 holati |
+| `npm run audit:links` | ✅ 0 xato, 0 ogohlantirish | sitemap 1935 URL + 18 sahifa: 242 URL, havola/anker/rasm/og:image |
+| `POST /api/leads` | ✅ 201 (`GFF-2026-285-0001`) | zod + antispam; `notified: telegram/email/webhook = "sozlanmagan"` — env yo'q |
+| `npm run env:check` | ⚠️ 4 xato, 6 ogohlantirish | launch'ni to'sadiganlar: domen, lead kanali, admin parol/secret |
+| `npm run lighthouse` | ⏭️ skip (exit 2) | sandbox'da Chrome yo'q → CI'da o'lchanadi |
+
+**`npm run audit:links` topgan va TUZATILGAN 3 ta real bug (2026-10-12):**
+
+1. **O'lik anker `#forma`** — bosh sahifadagi "formaga o'tish" tugmasi
+   (`home/sections.tsx`) `href="#forma"` edi, lekin hech qaysi elementda
+   `id="forma"` yo'q edi → tugma bosilganda hech narsa bo'lmasdi.
+   Yechim: `GffLeadForm` ga ixtiyoriy `id` prop qo'shildi va
+   `ContactSection` da `id="forma"` berildi (`scroll-padding-top: 6.5rem`
+   globals.css'da allaqachon bor, shuning uchun sticky header yopib qolmaydi).
+2. **404 sahifasida til switcher o'lik havola yasardi** — ildiz 404'da
+   `usePathname()` Next'ning ICHKI yo'lini qaytaradi (`/uz/_not-found`),
+   shuning uchun `localizePath()` `/ru/_not-found` va `/en/_not-found`
+   havolalarini yasardi (ikkalasi ham 404). Yechim: `localizePath()`
+   `/_not-found` quyrug'ini kesadi → til almashtirish o'sha tilning bosh
+   sahifasiga o'tadi (§10.8 mantiqiga mos zaxira).
+3. **Audit skriptining o'zi** — `?page=2` kabi nisbiy (faqat query) havolalarni
+   "kutilmagan format" deb ogohlantirardi; endi `new URL(href, url)` bilan
+   mutlaq yo'lga aylantirilib tekshiriladi.
+
+**Qoida:** havola/asset yo'lini hech qachon "ishlayapti" deb taxmin qilmang —
+`npm run audit:links` sitemap'dagi HAR bir URL'ni va sahifadagi har bir
+`href`/`src` ni tekshiradi. Bo'sh kontent (PDF/video/foto) uchun tugma
+UMUMAN render qilinmasligi kerak (`publicAssetExists`), aks holda saytga
+o'lik havola chiqib qoladi.
 
 **`npm run audit:seo` nima tekshiradi** (Lighthouse sandbox'da ishlamaydi —
 Chrome yo'q, shuning uchun uning SEO/A11y qoidalari skriptda):
@@ -340,6 +421,11 @@ shu qiymatni beradi).
 
 ### 9.1 Mijozdan kerak (§15 — joy tutgich bilan qoldirilgan)
 
+> Aniq qaysi o'zgaruvchi/fayl kerakligi va qanday tekshirilishi:
+> **`docs/LAUNCH_CHECKLIST.md`** (A — to'sadiganlar, B — "jim" bo'ladiganlar,
+> C — kontent fayllari, D — sign-off, E — deploy va deploy'dan keyingi
+> tekshiruvlar). Holatni bir buyruqda ko'rish: `npm run env:check`.
+
 - [ ] **MOQ / minimal buyurtma** — hozir `siteConfig.business.minOrderKg = 5`
       (taxmin). Tasdiqlash kerak.
 - [ ] **Distribyutorlik sertifikati PDF** — footer/hujjatlar bloki uchun.
@@ -356,6 +442,23 @@ shu qiymatni beradi).
 
 ### 9.2 Texnik
 
+- [x] **Rate limit brief'ga qaytarildi (2026-10-12)** — §11.2 "bir IP dan
+      5 ta so'rov / 10 minut" deydi, `config.ts` da standart **8** edi.
+      Endi `rateLimitMax` standarti 5. `npm run env:check` bu qiymat
+      o'zgarsa XATO beradi (shuningdek `.env.example` dagi kontaktlar
+      §15 etalonidan farq qilsa — to'qilgan telefon/e-mail saytda
+      ko'rinib qolmasligi uchun).
+- [x] **To'qilgan qiymatlar tozalandi (2026-10-12)** — `.env.example` da
+      `+998712000000`, `info@gff.uz`, `t.me/gffuzbekistan` kabi O'YLAB
+      TOPILGAN kontaktlar bor edi (brief §15 va `config.ts` standartlariga
+      zid): kimdir nusxa olib deploy qilsa, sayt noto'g'ri raqam/e-mail
+      ko'rsatardi. Fayl §15 qiymatlari bilan qayta yozildi, o'lik kalit
+      (`NEXT_PUBLIC_TELEGRAM_CHANNEL`) olib tashlandi, 23 ta
+      hujjatlanmagan kalit qo'shildi. `config.ts` dagi `hqEmail`
+      (`enquiry@gff.co.ae`) brief'da YO'Q edi → `NEXT_PUBLIC_HQ_EMAIL`
+      orqali beriladigan BO'SH standartga almashtirildi; `SMTP_FROM`
+      standarti to'qilgan `no-reply@gff.uz` o'rniga tasdiqlangan
+      `info@gulfflavour.uz` dan quriladi.
 - [x] **JS byudjeti bo'yicha qaror qabul qilindi (2026-10-12)** — mijoz
       hozirgi **293 KB gzip** ni qabul qildi: motion to'liq saqlanadi (§3.3
       buzilmaydi), hech qanday qisqartirish kiritilmaydi. §14.5 ning

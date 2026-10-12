@@ -191,16 +191,44 @@ To‘liq ro‘yxat va izohlar: **`.env.example`**. Asosiylari:
 | Biznes | `SAMPLE_BOX_MAX_ITEMS`, `SAMPLE_DELIVERY_DAYS`, `MIN_ORDER_KG`, `DISCOUNT_THRESHOLD_KG`, `RESPONSE_MINUTES`, `VOLUME_DISCOUNT_PCT` |
 | Bildirishnoma | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SMTP_*`, `LEAD_WEBHOOK_URL` |
 | Xavfsizlik | `ADMIN_PASSWORD`, `ADMIN_SECRET`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` |
-| SEO | `YANDEX_VERIFICATION`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_YANDEX_METRIKA_ID` |
+| Analitika | `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_YANDEX_METRIKA_ID` |
+| Kontent | `NEXT_PUBLIC_CATALOG_PDF`, `NEXT_PUBLIC_PRODUCTION_VIDEO`, `NEXT_PUBLIC_HQ_EMAIL` |
+
+**Tekshirish:** `npm run env:check` — launch'ni to'sadigan bandlarni (domen,
+ariza kanali, admin paroli) **xato**, funksiya "jim" bo'lib qoladiganlarini
+(analitika, Turnstile, PDF, video, MOQ) **ogohlantirish** qilib chiqaradi.
+Shuningdek `.env` dagi kontakt qiymatlarini brief §15 etaloni bilan solishtiradi —
+to'qilgan telefon yoki e-mail kiritilsa, darhol xato beradi.
+
+Launch uchun aniq nima kerak: **`docs/LAUNCH_CHECKLIST.md`**.
+
+---
+
+## 6a. Sifat nazorati (barcha tekshiruvlar)
+
+| Buyruq | Nima qiladi | CI |
+| --- | --- | --- |
+| `npm run typecheck` | TypeScript strict (§3.1) | ✔ |
+| `npm run lint` | ESLint | ✔ |
+| `npm test` | Placeholder nazorati, 3 qatlam: lug'at → kod chaqiruvlari → **render HTML** (§10.5). `REQUIRE_SERVER=1` bilan 3-qatlam majburiy | ✔ |
+| `npm run test:i18n` | Xuddi shu, offline (serversiz) | ✔ |
+| `npm run audit:seo` | Title ≤60 / desc ≤155 (entitilar dekodlab), canonical, hreflang + `x-default`, JSON-LD `@type`, **og:image 200**, `<html lang>`, bitta `<h1>`, barcha `<img>` da `alt`, matnsiz `<button>` da `aria-label`, `{placeholder}` yo'q, soft-404 yo'q (§13/§14) | ✔ |
+| `npm run audit:links` | Sitemap'dagi **barcha URL** 200mi, ichki havolalar, o'lik anker, `href="#"`, `tel:`/`mailto:` formati, tashqi havolada `rel="noopener"`, barcha rasm va og:image yuklanadimi | ✔ |
+| `npm run env:check` | Launch tayyorligi (§15 etalon nazorati bilan) | ✔ (hisobot) |
+| `npm run lighthouse` | Perf ≥90 / A11y ≥95 / SEO 100 (§0/§14.5). Chrome talab qiladi — CI'da bajariladi | ✔ |
+| `npm run i18n:export` | RU/EN review CSV'larini qayta yaratadi (`docs/`) | — |
+
+Barchasi `.github/workflows/ci.yml` da har push/PR'da ishlaydi: build →
+server → testlar → auditlar → HTTP semantikasi → lead API → Lighthouse.
 
 ---
 
 ## 7. SEO
 
 - **3 til, hreflang + canonical** har sahifada; til `proxy.ts` da cookie/Accept-Language bo‘yicha aniqlanadi va cookie’da eslab qolinadi.
-- **SSG:** bosh, katalog emas (dinamik), lekin 617 mahsulot × 3 til va 19 tarmoq sahifasi build vaqtida prerender qilinadi (≈550 statik sahifa).
+- **SSG:** o'lchangan — **3804 statik sahifa** (617 mahsulot × 3 til + katalog/soha/xizmat sahifalari); `/styleguide` production'da dinamik va yopiq (404).
 - **JSON-LD:** Organization, LocalBusiness, WebSite (+SearchAction), BreadcrumbList, CollectionPage, ItemList, Product, FAQPage, AboutPage.
-- **sitemap.xml** (≈2100 URL, har birida `xhtml:alternate`), **robots.txt** (`/admin`, `/api/`, chuqur sahifalash yopiq), **manifest.webmanifest**.
+- **sitemap.xml** (o'lchangan: **1935 URL**, har birida `xhtml:alternate`), **robots.txt** (`/admin`, `/api/`, chuqur sahifalash yopiq), **manifest.webmanifest**.
 - Meta: OG/Twitter kartalari, tilga mos title/description, `noIndex` faqat xizmat sahifalarida.
 
 ---
@@ -213,7 +241,7 @@ To‘liq ro‘yxat va izohlar: **`.env.example`**. Asosiylari:
 docker build -t gff-uz .
 docker run -d -p 3000:3000 \
   --name gff-uz \
-  -e NEXT_PUBLIC_SITE_URL=https://gff.uz \
+  -e NEXT_PUBLIC_SITE_URL=https://<sizning-domen> \
   -e ADMIN_PASSWORD=... -e ADMIN_SECRET=... \
   -e TELEGRAM_BOT_TOKEN=... -e TELEGRAM_CHAT_ID=... \
   -v gff-leads:/app/data/leads \
@@ -226,12 +254,23 @@ Image `output: 'standalone'` asosida (~kichik), root emas (`gff` foydalanuvchisi
 
 Fayl yozuv serverless’da vaqtincha, shuning uchun `.env` da `STORAGE_DRIVER=memory` qoldirmang — buning o‘rniga `LEAD_WEBHOOK_URL` yoki Telegram kanalini sozlang (leadlar darhol tashqariga uzatiladi), yoki VPS/Docker tanlang.
 
+### Deploy'dan keyin majburiy tekshiruv
+
+```bash
+BASE_URL=https://<domen> npm run lighthouse     # Perf ≥90 · A11y ≥95 · SEO 100
+BASE_URL=https://<domen> npm run audit:seo
+BASE_URL=https://<domen> npm run audit:links
+npm run env:check                               # launch tayyorligi
+```
+
+To'liq ro'yxat va HTTP semantikasi tekshiruvlari: `docs/LAUNCH_CHECKLIST.md` §E3.
+
 ### Reverse proxy (nginx) misoli
 
 ```nginx
 server {
   listen 443 ssl http2;
-  server_name gff.uz www.gff.uz;
+  server_name <sizning-domen> www.<sizning-domen>;
   location / { proxy_pass http://127.0.0.1:3000; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; }
 }
 ```
