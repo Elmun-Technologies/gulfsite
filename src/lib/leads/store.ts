@@ -292,9 +292,14 @@ export function getLeadByRef(ref: string): LeadRecord | null {
    Yaratish
    ------------------------------------------------------------ */
 
+/**
+ * `durable: false` — lead faqat jarayon xotirasida qoldi (memory drayveri
+ * yoki read-only FS, masalan Vercel). Bunday holatda lead faqat
+ * bildirishnoma kanali orqali yetib boradi — chaqiruvchi buni tekshiradi.
+ */
 export function createLead(
   input: Omit<LeadRecord, 'id' | 'ref' | 'createdAt' | 'updatedAt' | 'status' | 'history'>,
-): LeadRecord {
+): { lead: LeadRecord; durable: boolean } {
   const now = new Date().toISOString();
   const { ref } = nextRef();
 
@@ -312,17 +317,18 @@ export function createLead(
   const mk = monthKey(new Date(now));
   if (DRIVER === 'memory') {
     MEM.unshift(record);
-    return record;
+    return { lead: record, durable: false };
   }
 
   ensureDir();
   try {
     appendFileSync(fileFor(mk), `${JSON.stringify(record)}\n`, 'utf8');
+    return { lead: record, durable: true };
   } catch (err) {
     console.error('[lead-store] yozishda xato:', sanitizeLog(String(err)));
     MEM.unshift(record); // zaxira — hech bo'lmaganda jarayon xotirasida saqlansin
+    return { lead: record, durable: false };
   }
-  return record;
 }
 
 /* ------------------------------------------------------------

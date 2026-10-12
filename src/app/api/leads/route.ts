@@ -177,8 +177,9 @@ export async function POST(req: NextRequest) {
 
   /* ---- 10. SAQLASH ---- */
   let lead: LeadRecord;
+  let durable: boolean;
   try {
-    lead = createLead({
+    ({ lead, durable } = createLead({
       type: data.type,
       contact: {
         fullName: data.contact.fullName,
@@ -229,7 +230,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       notifications: {},
-    });
+    }));
   } catch (err) {
     console.error('[api/leads] saqlashda xato:', sanitizeLog(String(err)));
     return NextResponse.json(
@@ -256,6 +257,22 @@ export async function POST(req: NextRequest) {
     // Hech bir kanal ishlamadi — lead saqlangan, ammo menejer bilmaydi.
     console.warn(
       `[api/leads] OGOHLANTIRISH: ${lead.ref} saqlandi, lekin hech qanday bildirishnoma kanali ishlamadi.`,
+    );
+  }
+
+  /* ---- 11b. Lead YO'QOLMASIN ----
+     Diskka yozilmagan (Vercel: read-only FS / memory drayveri) VA hech bir
+     kanal yetkazmagan bo'lsa — lead faqat o'chib ketadigan xotirada qoldi.
+     Foydalanuvchiga soxta "Rahmat" ko'rsatish o'rniga 503 qaytaramiz:
+     forma xato matnini (qo'ng'iroq qiling) ko'rsatadi, mijoz yo'qolmaydi. */
+  if (!durable && !anyNotified) {
+    console.error(
+      `[api/leads] XATO: ${lead.ref} diskka yozilmadi va hech bir kanal sozlanmagan/ishlamadi — ` +
+        'TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID (yoki SMTP / LEAD_WEBHOOK_URL) ni sozlang.',
+    );
+    return NextResponse.json(
+      { ok: false, error: { code: 'delivery_failed', message: t('err.server') } },
+      { status: 503, headers: { 'Cache-Control': 'no-store, max-age=0' } },
     );
   }
 
