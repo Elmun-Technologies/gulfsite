@@ -506,6 +506,7 @@ export function ContactSection({
 
       {/* Forma */}
       <GffLeadForm
+        id="forma"
         type="callback"
         locale={locale}
         variant="home"

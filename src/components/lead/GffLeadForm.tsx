@@ -87,6 +87,12 @@ export interface LeadFormProps {
   variant?: 'home' | 'contact' | 'samples';
   labels: LeadLabels;
   className?: string;
+  /**
+   * Anker uchun `id` — masalan bosh sahifadagi `href="#forma"` tugmasi.
+   * `scroll-padding-top` globals.css'da bor, shuning uchun sticky header
+   * formani yopib qolmaydi.
+   */
+  id?: string;
   /** namunalar formasi — qutidagi mahsulotlar */
   products?: { sku: string; slug?: string; name?: Record<string, string>; qty?: number; unit?: 'g' | 'ml' | 'kg' }[];
   /** mahsulot sahifasidan */
@@ -131,6 +137,7 @@ export function GffLeadForm({
   locale,
   variant = 'home',
   labels,
+  id,
   className,
   products,
   productSku,
@@ -315,6 +322,7 @@ export function GffLeadForm({
 
   return (
     <form
+      id={id}
       onSubmit={submit}
       noValidate
       className={cn(

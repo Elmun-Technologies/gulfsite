@@ -18,8 +18,14 @@ import { cn } from '@/lib/utils';
 
 /** `/uz/catalog?q=1` → `/ru/catalog?q=1` */
 export function localizePath(pathname: string, from: AppLocale, to: AppLocale, search = ''): string {
+  // 404 sahifasida `usePathname()` Next'ning ICHKI yo'lini qaytaradi
+  // (`/uz/_not-found`) — bu haqiqiy URL emas, shuning uchun til almashtirish
+  // o'lik havola yasardi (`/ru/_not-found` → 404). Bunday holatda o'sha
+  // tilning bosh sahifasiga o'tamiz (§10.8: til almashtirish sahifada qoladi,
+  // lekin sahifa mavjud bo'lmasa — bosh sahifa eng to'g'ri zaxira).
+  const clean = pathname.replace(/\/_not-found\/?$/, '') || `/${from}`;
   const prefix = `/${from}`;
-  const rest = pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname;
+  const rest = clean.startsWith(prefix) ? clean.slice(prefix.length) : clean;
   return `/${to}${rest === '' ? '' : rest}${search}`;
 }
 
