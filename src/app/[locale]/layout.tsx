@@ -64,6 +64,11 @@ export async function generateMetadata({
       },
     },
     other: { 'og:locale': meta.tag },
+    // Google Search Console / Yandex Webmaster egalikni tasdiqlash (env bo'sh bo'lsa teg chiqmaydi)
+    verification: {
+      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+    },
     title: {
       default: siteConfig.seo.defaultTitle,
       template: '%s — GFF Uzbekistan',
@@ -105,7 +110,6 @@ export default async function RootLayout({
         {locale === 'ru' ? (
           <link rel="preload" as="font" type="font/woff2" href="/fonts/onest-cyrillic.woff2" crossOrigin="anonymous" />
         ) : null}
-        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
       </head>
 
       <body className="bg-white text-ink antialiased">

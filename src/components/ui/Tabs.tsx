@@ -97,7 +97,7 @@ export function Tabs({
             onClick={() => onChange(item.id)}
             style={{ flexShrink: 0 }}
             className={cn(
-              'relative inline-flex shrink-0 items-center gap-2.5 rounded-pill border text-[16px] font-medium transition-colors',
+              'relative isolate inline-flex shrink-0 items-center gap-2.5 rounded-pill border text-[16px] font-medium transition-colors',
               compact ? 'h-11 px-4 text-[15px]' : 'h-12 px-5',
               selected ? 'border-transparent text-white' : 'border-line text-ink hover:border-ink',
             )}
@@ -175,7 +175,7 @@ export function Segmented<T extends string>({
             aria-checked={selected}
             onClick={() => onChange(opt.id)}
             className={cn(
-              'relative inline-flex h-11 items-center justify-center gap-2 rounded-pill px-4 text-[15px] font-medium transition-colors',
+              'relative isolate inline-flex h-11 items-center justify-center gap-2 rounded-pill px-4 text-[15px] font-medium transition-colors',
               selected ? 'text-ink' : 'text-muted hover:text-ink',
             )}
           >

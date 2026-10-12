@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return buildMetadata({
     locale,
-    title: t('seo.industry.title', { name }),
+    title: industryTitle(name, t('seo.industry.title', { name })),
     description: t('seo.industry.description', { name, count }),
     path: `/industries/${slug}`,
     image: publicAssetExists(APPLICATION_IMAGE[slug] ?? '') ? APPLICATION_IMAGE[slug] : FALLBACK_IMAGE,
@@ -250,7 +250,7 @@ export default async function IndustryPage({ params }: Props) {
             }}
           />
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px]">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-panel py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] max-tab:rounded-card max-tab:p-6">
             <span className="text-body-l">{t('industry.allProductsHint', { name })}</span>
             <ButtonLink
               href={`/${locale}/catalog?applications=${slug}`}
@@ -356,4 +356,14 @@ function Stat({ label, value }: { label: string; value: number }) {
       <span className="self-end text-[30px] font-semibold leading-none">{value}</span>
     </div>
   );
+}
+
+/**
+ * Soha title'i: "{name}: aromatizatorlar". Nomning o'zida kalit so'z bo'lsa
+ * ("Production of flavours") takrorlanmaydi; shablon + " — GFF Uzbekistan"
+ * (17) 60 belgidan oshsa ham faqat nom qoladi (§13.1).
+ */
+function industryTitle(name: string, full: string): string {
+  if (/aromatiz|ароматиз|flavour/i.test(name)) return name;
+  return full.length <= 43 ? full : name;
 }

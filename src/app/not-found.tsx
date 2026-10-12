@@ -53,7 +53,6 @@ export default function RootNotFound() {
           }}
         />
         <link rel="preload" as="font" type="font/woff2" href="/fonts/urbanist-latin.woff2" crossOrigin="anonymous" />
-        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
       </head>
 
       <body className="bg-white text-ink antialiased">

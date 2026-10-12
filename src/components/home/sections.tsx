@@ -48,7 +48,8 @@ export function AboutSection({
 
   const stats = [
     { key: 'home.stat.positions', value: productCount, plain: false },
-    { key: 'home.stat.directions', value: 6, plain: false },
+    // §7.1 — qo'lda yozilgan raqam emas: ma'lumotli kategoriyalar soni
+    { key: 'home.stat.directions', value: categoriesWithData(locale as Locale).length, plain: false },
     { key: 'home.stat.since', value: siteConfig.stats.founded, plain: true },
     { key: 'home.stat.samples', value: biz.sampleBoxMaxItems, plain: false },
   ] as const;

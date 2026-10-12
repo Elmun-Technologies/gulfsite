@@ -24,7 +24,8 @@
     "audit:links": "node scripts/audit-links.mjs",
     "audit:links:quick": "node scripts/audit-links.mjs --quick",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "lighthouse:all": "node scripts/lighthouse.mjs --all"
+    "lighthouse:all": "node scripts/lighthouse.mjs --all",
+    "icons": "node scripts/build-icons.mjs"
   },
   "dependencies": {
     "@fontsource-variable/onest": "^5.3.1",

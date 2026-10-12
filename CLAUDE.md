@@ -248,6 +248,30 @@ variable after render completes"; (b) render paytidagi "adjust state" bloki
 ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 `setState` mumkin).
 
+### 4.7 Mobil tuzoqlar (2026-10-12, 390px skrinshot auditida topilgan)
+
+- **`layoutId` fon + `-z-10`**: tugma stacking context yaratmasa, `-z-10` fon
+  ota panel (`bg-panel`) ORQASIGA tushadi — tanlangan holat ko'rinmaydi
+  (namuna o'lchami 50 g). Qoida: bunday tugmaga doim `isolate`.
+- **`flex-col` + `basis-[Npx]`**: ustun yo'nalishida `basis` BALANDLIKKA
+  aylanadi (CookieConsent ichi bo'sh 390px edi) → `max-tab:basis-auto`.
+- **`.btn` mobilda o'raladi** (globals.css, <768px): `nowrap` + qat'iy balandlik
+  uzun CTA'ni kartadan chiqarib sahifani yon tomonga surardi.
+- **Ko'p qatorli matnli kapsula** (`rounded-pill`) mobilda matnni kesadi →
+  `max-tab:rounded-card max-tab:p-6`.
+- **Skrinshot auditida "bo'sh joy"** ko'pincha reveal/lazy-rasm artefakti:
+  sahifani sekin skroll qiling (300px / 250ms), keyin xulosa qiling.
+
+### 4.8 SEO: ikonkalar va robots
+
+- Ikonkalar `npm run icons` (scripts/build-icons.mjs) bilan monogram-copper.png
+  dan yaratiladi: `src/app/{favicon.ico,icon.png,apple-icon.png}` (Next o'zi
+  `<link>` qo'yadi) + `public/icons/*` (manifest, Organization.logo).
+- `robots.txt` da `/_next/` YOPILMAYDI (Googlebot render uchun CSS/JS kerak).
+- Title ≤ 60 (shablon " — GFF Uzbekistan" = 17 belgi); soha title'i
+  `industryTitle()` bilan qisqaradi. `GOOGLE_SITE_VERIFICATION` /
+  `YANDEX_VERIFICATION` env → meta teglar.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)

@@ -71,7 +71,7 @@ export function LocaleSwitcher({
               if (!active) track.localeChange(locale, l);
             }}
             className={cn(
-              'relative inline-flex items-center justify-center rounded-pill font-semibold transition-colors',
+              'relative isolate inline-flex items-center justify-center rounded-pill font-semibold transition-colors',
               variant === 'header'
                 ? 'h-[38px] min-w-11 px-2.5 text-[14px]'
                 : 'h-12 flex-1 border text-[15px]',

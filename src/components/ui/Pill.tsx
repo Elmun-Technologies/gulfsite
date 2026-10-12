@@ -76,14 +76,15 @@ export function CertGrid({ items, className }: { items: string[]; className?: st
   return (
     <div
       className={cn(
-        'grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] border-t border-l border-line-soft',
+        // Mobil: 2 ustun (minmax 130) — 1 ustunda 6×104px bo'sh joy egallardi
+        'grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] border-t border-l border-line-soft',
         className,
       )}
     >
       {items.map((c) => (
         <div
           key={c}
-          className="flex h-[104px] items-center justify-center border-r border-b border-line-soft text-[22px] font-semibold tracking-[0.02em]"
+          className="flex h-[104px] items-center justify-center border-r border-b border-line-soft text-[22px] font-semibold tracking-[0.02em] max-tab:h-[72px] max-tab:text-[17px]"
         >
           {c}
         </div>

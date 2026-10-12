@@ -154,7 +154,7 @@ export const siteConfig = {
     titleTemplate: '%s — GFF O‘zbekiston',
     defaultDescription:
       'Gulf Flavours & Fragrances ning O‘zbekistondagi rasmiy va yagona distribyutori. 600+ oziq-ovqat aromatizatorlari, atir kompozitsiyalari, ingredientlar. Bepul test box, halol sertifikati, Toshkentdagi ombor.',
-    ogImage: '/images/hero-lab.jpg',
+    ogImage: '/images/og-home.jpg', // 1200×630 — buildMetadata shu o'lchamni e'lon qiladi
     twitterHandle: str('NEXT_PUBLIC_TWITTER_HANDLE'),
     keywords: [
       'aromatizatorlar', 'oziq-ovqat aromatizatorlari', 'пищевые ароматизаторы',
