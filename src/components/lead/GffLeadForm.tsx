@@ -153,7 +153,16 @@ export function GffLeadForm({
   thanksVars,
 }: LeadFormProps) {
   const toast = useToast();
-  const startedAt = useRef(Date.now());
+  /**
+   * Forma ochilgan vaqt — min fill 3s nazorati uchun (§11.2).
+   * `useRef(Date.now())` render paytida impure funksiya chaqirardi
+   * (react-hooks/purity): har re-render'da yangi qiymat olishi mumkin.
+   * Shuning uchun 0 bilan boshlanadi va mount effect'ida o'rnatiladi.
+   */
+  const startedAt = useRef(0);
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
 
   const [fullName, setFullName] = useState('');
   const [position, setPosition] = useState('');
@@ -237,7 +246,7 @@ export function GffLeadForm({
         utm: readUtm(),
       },
       website_url: honeypot,
-      formStartedAt: startedAt.current,
+      formStartedAt: startedAt.current || Date.now(),
     };
 
     try {

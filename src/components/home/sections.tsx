@@ -325,7 +325,7 @@ export function SampleBoxSection({
    04 · JARAYON
    ============================================================ */
 
-export function ProcessSection({ locale, t }: { locale: AppLocale; t: Translator }) {
+export function ProcessSection({ t }: { t: Translator }) {
   const biz = siteConfig.business;
   const steps = [
     { n: '01', title: t('home.process.1Title'), text: t('home.process.1Text') },

@@ -47,11 +47,6 @@ export function CountUp({
     if (plain || reduce || !hydrated || !inView || done.current) return;
     done.current = true;
 
-    const fmt = new Intl.NumberFormat(LOCALE_TAG[locale] ?? locale, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
-
     const controls = animate(0, value, {
       duration: dur.count,
       ease: ease.out,

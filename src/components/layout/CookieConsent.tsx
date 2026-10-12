@@ -9,7 +9,7 @@
  * · Roziliksiz sayt ishlashda davom etadi (faqat zaruriy cookie)
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
 import { dur, ease } from '@/lib/motion';
@@ -30,6 +30,35 @@ function read(): ConsentValue {
 
 export function getConsent(): ConsentValue {
   return read();
+}
+
+/**
+ * Rozilik — TASHQI store (localStorage + `gff:consent` hodisasi).
+ * `useSyncExternalStore` ishlatiladi, chunki effect ichida `setState`
+ * kaskad render qiladi (react-hooks/set-state-in-effect) va SSR'da
+ * banner ko'rinib qolishi mumkin edi.
+ *
+ * Snapshot qiymatlari: 'all' | 'necessary' | 'none' (rozilik yo'q) |
+ * 'ssr' (server — banner render qilinmaydi).
+ */
+type ConsentSnapshot = 'all' | 'necessary' | 'none' | 'ssr';
+
+function subscribe(onChange: () => void): () => void {
+  if (typeof window === 'undefined') return () => {};
+  window.addEventListener('gff:consent', onChange);
+  window.addEventListener('storage', onChange);
+  return () => {
+    window.removeEventListener('gff:consent', onChange);
+    window.removeEventListener('storage', onChange);
+  };
+}
+
+function getSnapshot(): ConsentSnapshot {
+  return read() ?? 'none';
+}
+
+function getServerSnapshot(): ConsentSnapshot {
+  return 'ssr';
 }
 
 export function setConsent(value: Exclude<ConsentValue, null>) {
@@ -60,20 +89,15 @@ export function CookieBanner({
   moreLabel: string;
   privacyHref: string;
 }) {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const consent = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const open = consent === 'none';
 
-  useEffect(() => {
-    setMounted(true);
-    if (read() === null) setOpen(true);
-  }, []);
-
+  /** setConsent localStorage'ga yozadi va hodisa tarqatadi → store yangilanadi */
   const choose = useCallback((v: 'all' | 'necessary') => {
     setConsent(v);
-    setOpen(false);
   }, []);
 
-  if (!mounted) return null;
+  if (consent === 'ssr') return null;
 
   return (
     <AnimatePresence>

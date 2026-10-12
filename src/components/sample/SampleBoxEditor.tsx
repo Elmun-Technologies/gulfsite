@@ -22,7 +22,6 @@ import { tr } from '@/lib/taxonomy';
 import { dur, ease } from '@/lib/motion';
 import { fillVars } from '@/i18n/translator';
 import { useSampleBox } from '@/components/sample/SampleBoxProvider';
-import { useToast } from '@/components/ui/Overlay';
 import { track } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
@@ -64,7 +63,6 @@ export function SampleBoxEditor({
   className?: string;
 }) {
   const box = useSampleBox();
-  const toast = useToast();
   const pct = Math.round((box.count / box.max) * 100);
 
   const setQty = useCallback(

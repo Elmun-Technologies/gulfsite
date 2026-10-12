@@ -24,7 +24,6 @@ import { Section, SectionHeader } from '@/components/ui/SectionHeader';
 import { Faq } from '@/components/ui/Faq';
 import { SampleBoxEditor } from '@/components/sample/SampleBoxEditor';
 import { SampleSets, type SetPayload } from '@/components/sample/SampleSets';
-import { GffLeadForm } from '@/components/lead/GffLeadForm';
 import { SamplesFormBridge } from '@/components/sample/SamplesFormBridge';
 
 interface Props {
@@ -234,7 +233,6 @@ export default async function SamplesPage({ params }: Props) {
 
         <SampleSets
           sets={sets}
-          locale={L}
           labels={{
             add: t('samples.setsAdd'),
             added: t('samples.setsAdded'),

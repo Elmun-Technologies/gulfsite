@@ -12,7 +12,7 @@
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
-import { LOCALES, DEFAULT_LOCALE, isLocale, localeFromAcceptLanguage } from '@/i18n';
+import { LOCALES, isLocale, localeFromAcceptLanguage } from '@/i18n';
 import { AUTH_COOKIE, isAdminConfigured, verifySessionToken } from '@/lib/auth';
 
 const PUBLIC_FILE_RE = /\.(?:ico|png|jpe?g|gif|webp|avif|svg|txt|xml|json|webmanifest|pdf|woff2?|ttf|otf|css|js|map|mp4|webp)$/i;

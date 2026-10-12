@@ -83,7 +83,6 @@ function assertFilled(key: string, out: string): string {
   if (!left) return out;
 
   if (isDev) {
-    // eslint-disable-next-line no-console
     console.error(
       `[i18n] "${key}" — to'ldirilmagan joy tutgich: ${left.join(', ')}.\n` +
         `  t('${key}', { … }) ko'rinishida chaqiring; .replace() ishlatmang.`,
@@ -102,7 +101,6 @@ export function translatorFrom<K extends string = string>(
     if (out === undefined && fallback) out = fallback[key as string];
     if (out === undefined) {
       if (isDev) {
-        // eslint-disable-next-line no-console
         console.error(`[i18n] "${String(key)}" kaliti lug'atda yo'q.`);
       }
       return String(key);

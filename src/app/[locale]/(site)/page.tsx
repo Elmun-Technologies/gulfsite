@@ -75,7 +75,7 @@ export default async function HomePage({ params }: PageProps) {
       <AboutSection locale={locale} t={t} tp={t.tp} productCount={count} />
       <CategoriesSection locale={locale} t={t} productCount={count} />
       <SampleBoxSection locale={locale} t={t} />
-      <ProcessSection locale={locale} t={t} />
+      <ProcessSection t={t} />
       <IndustriesSection locale={locale} t={t} />
       <ContactSection locale={locale} t={t} />
 

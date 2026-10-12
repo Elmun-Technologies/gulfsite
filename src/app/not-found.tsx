@@ -21,7 +21,6 @@
 
 import type { Metadata } from 'next';
 import { getDictionary, makeT, type AppLocale } from '@/i18n';
-import { siteConfig } from '@/lib/config';
 import { buildNav } from '@/lib/nav';
 import { NotFoundContent, notFoundLabels } from '@/components/layout/NotFoundContent';
 import { I18nProvider } from '@/components/i18n/I18nProvider';

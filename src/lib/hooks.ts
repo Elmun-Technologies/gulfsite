@@ -71,15 +71,22 @@ export function useInViewOnce<T extends Element>(
   const { once = true, amount = 0.2, rootMargin = '0px' } = options;
   const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
+  const hydrated = useHydrated();
+
+  /**
+   * Observer bo'lmasa (eski brauzer) — kontent KO'RINADIGAN bo'lishi kerak
+   * (§8.7). Buni effect ichida `setInView(true)` qilish o'rniga RENDER'DA
+   * hisoblaymiz: react-hooks/set-state-in-effect kaskad render qiladi.
+   * `hydrated` sharti gidratsiya mos kelmasligining oldini oladi — serverda
+   * va birinchi klient render'ida `false`, shuning uchun SSR HTML o'zgarmaydi.
+   */
+  const noObserver = hydrated && typeof IntersectionObserver === 'undefined';
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    if (typeof IntersectionObserver === 'undefined') {
-      setInView(true);
-      return;
-    }
+    if (typeof IntersectionObserver === 'undefined') return;
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -100,5 +107,5 @@ export function useInViewOnce<T extends Element>(
     return () => io.disconnect();
   }, [once, amount, rootMargin]);
 
-  return [ref, inView];
+  return [ref, noObserver ? true : inView];
 }

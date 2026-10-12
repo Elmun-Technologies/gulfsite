@@ -36,12 +36,10 @@ export interface SetPayload {
 
 export function SampleSets({
   sets,
-  locale,
   labels,
   className,
 }: {
   sets: SetPayload[];
-  locale: Locale;
   labels: {
     add: string;
     added: string;

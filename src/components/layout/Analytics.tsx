@@ -11,7 +11,7 @@
  * · `consent` hodisasi GTM'ga yuboriladi ( Consent Mode )
  */
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import Script from 'next/script';
 import { CONSENT_KEY, getConsent } from './CookieConsent';
 
@@ -23,6 +23,22 @@ declare global {
 }
 
 export function Analytics({ gtmId, siteUrl }: { gtmId: string; siteUrl: string }) {
+  /**
+   * GTM konteynerini yuklash. `useCallback` bilan effect'dan AVVAL e'lon
+   * qilinadi: aks holda effect ichidagi chaqiruv "accessed before it is
+   * declared" bo'lardi (react-hooks/immutability) va qiymat vaqt o'tishi
+   * bilan yangilanmasdi.
+   */
+  const loadGtm = useCallback(() => {
+    if (!gtmId || typeof document === 'undefined') return;
+    if (document.getElementById('gff-gtm')) return;
+    const s = document.createElement('script');
+    s.id = 'gff-gtm';
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
+    document.head.appendChild(s);
+  }, [gtmId]);
+
   /* dataLayer har doim tayyor — GTM yuklanmasa ham hodisalar yo'qolmaydi */
   useEffect(() => {
     window.dataLayer = window.dataLayer ?? [];
@@ -53,17 +69,7 @@ export function Analytics({ gtmId, siteUrl }: { gtmId: string; siteUrl: string }
     if (grant) loadGtm();
 
     return () => window.removeEventListener('gff:consent', onConsent);
-  }, [gtmId, siteUrl]);
-
-  const loadGtm = () => {
-    if (!gtmId || typeof document === 'undefined') return;
-    if (document.getElementById('gff-gtm')) return;
-    const s = document.createElement('script');
-    s.id = 'gff-gtm';
-    s.async = true;
-    s.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
-    document.head.appendChild(s);
-  };
+  }, [gtmId, siteUrl, loadGtm]);
 
   if (!gtmId) return null;
 

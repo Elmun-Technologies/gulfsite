@@ -126,7 +126,7 @@ export function CatalogExplorer({
     const mq = window.matchMedia('(max-width: 899px)');
     const apply = () => {
       setNarrow(mq.matches);
-      setView((v) => {
+      setView((_v) => {
         const stored = window.localStorage.getItem(VIEW_KEY) as View | null;
         if (stored) return stored;
         return mq.matches ? 'cards' : 'table';

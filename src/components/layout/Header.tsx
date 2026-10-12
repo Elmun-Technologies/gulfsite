@@ -67,7 +67,6 @@ export function Header({
 
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [narrow, setNarrow] = useState(false);
   const [open, setOpen] = useState(false);
   const [pulse, setPulse] = useState(0);
 
@@ -89,10 +88,8 @@ export function Header({
     };
 
     const onResize = () => {
-      const n = window.innerWidth < NARROW;
-      setNarrow(n);
       // kengayganda menyu ochiq qolmasin
-      if (!n) setOpen(false);
+      if (window.innerWidth >= NARROW) setOpen(false);
     };
 
     onScroll();
@@ -114,7 +111,17 @@ export function Header({
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
-  useEffect(() => close(), [pathname, close]);
+
+  /**
+   * Yo'l o'zgarganda mobil menyuni yopish. Effect ichida `setState`
+   * (react-hooks/set-state-in-effect) o'rniga React'ning "render paytida
+   * moslashtirish" patterni — natija bir xil, kaskad render yo'q.
+   */
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (pathname !== prevPath) {
+    setPrevPath(pathname);
+    setOpen(false);
+  }
 
   const active = nav.find((n) => n.href !== `/${locale}` && pathname.startsWith(n.href))?.id ??
     (pathname === `/${locale}` ? 'home' : 'none');

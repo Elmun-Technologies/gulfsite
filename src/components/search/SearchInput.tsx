@@ -50,8 +50,23 @@ export function SearchInput({
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tracked = useRef(initialQuery);
 
-  // Boshqa joydan (masalan header) kelganda maydonni yangilash
-  useEffect(() => setValue(initialQuery), [initialQuery]);
+  /**
+   * Boshqa joydan (masalan header) kelganda maydonni yangilash.
+   * Effect ichida `setState` (react-hooks/set-state-in-effect) o'rniga
+   * React'ning "render paytida moslashtirish" patterni — natija bir xil,
+   * kaskad render yo'q.
+   */
+  const [prevQuery, setPrevQuery] = useState(initialQuery);
+  if (initialQuery !== prevQuery) {
+    setPrevQuery(initialQuery);
+    setValue(initialQuery);
+  }
+
+  // Analytics-dedupe ref'ini RENDER ichida yozib bo'lmaydi
+  // (react-hooks/refs) — effect ichida yangilanadi.
+  useEffect(() => {
+    tracked.current = initialQuery;
+  }, [initialQuery]);
 
   const push = useCallback(
     (q: string, immediate = false) => {
@@ -94,7 +109,7 @@ export function SearchInput({
       track.search(q, resultsCount);
       push(q, true);
     },
-    [push],
+    [push, resultsCount],
   );
 
   const clear = useCallback(() => {
