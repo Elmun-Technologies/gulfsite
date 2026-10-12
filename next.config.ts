@@ -1,5 +1,15 @@
 import type { NextConfig } from 'next';
 
+/**
+ * Clickjacking himoyasi: production'da BARCHA sahifalar `SAMEORIGIN`
+ * (lead formalari bor — /contact, /samples, /quote). Faqat dev serverda
+ * (cross-origin preview iframe, masalan *.e2b.app) yoki aniq
+ * `ALLOW_FRAMING=1` berilganda ommaviy sahifalar iframe'ga ruxsat oladi.
+ * Admin har doim himoyalangan.
+ */
+const allowFraming =
+  process.env.NODE_ENV !== 'production' || process.env.ALLOW_FRAMING === '1';
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ['*.e2b.app'],
@@ -36,6 +46,9 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
         ],
       },
+      ...(allowFraming
+        ? []
+        : [{ source: '/:path*', headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }] }]),
       {
         source: '/:locale/admin/:path*',
         headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }],
