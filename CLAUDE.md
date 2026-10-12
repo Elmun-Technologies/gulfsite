@@ -304,6 +304,13 @@ Faqat `transform`/`opacity`. **Reveallar CSS orqali** (`[data-reveal]` +
   (5/10 min) + min 3 s to'ldirish + ixtiyoriy Turnstile → Telegram bot →
   `data/leads/*.json`. **Diqqat:** `type: 'sample'` uchun kamida 1 mahsulot
   talab qilinadi — quti bo'sh bo'lsa `SamplesFormBridge` yuborishni bloklaydi.
+- **Vercel'da lead yetkazish (2026-10-12):** Vercel FS read-only → `createLead`
+  diskka yoza olmaydi va lead faqat jarayon xotirasida qoladi (`durable: false`).
+  Shuning uchun Vercel'da **kamida bitta kanal SHART** (tavsiya: `TELEGRAM_BOT_TOKEN`
+  + `TELEGRAM_CHAT_ID`). Kanal ham ishlamasa API **503 `delivery_failed`** qaytaradi —
+  forma "qo'ng'iroq qiling" xatosini ko'rsatadi, soxta "Rahmat" chiqmaydi
+  (avval lead jim yo'qolardi). Admin panel/leads ro'yxati Vercel'da ishlamaydi —
+  uning uchun VPS/Docker (`data/leads` volume) yoki webhook → CRM.
 
 **Admin panel (`/[locale]/admin`) ESKI dizayn tokenlarida qoldirildi** — brief
 12 ta marketing sahifasini talab qiladi, panel ichki tizim (§6 izohi). Shu
