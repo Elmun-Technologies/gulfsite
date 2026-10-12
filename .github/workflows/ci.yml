@@ -1,0 +1,194 @@
+name: CI
+
+# Nima uchun CI kerak:
+#   Brief §0/§14.5 mezonlari (Lighthouse Perf ≥ 90 mobile · A11y ≥ 95 · SEO 100)
+#   va §10.5 talabi (render qilingan HTML'da `{placeholder}` bo'lsa — test
+#   YIQILADI) faqat HAQIQIY build + server ustida tekshirilishi mumkin.
+#   GitHub runner'larida Chrome o'rnatilgan, shuning uchun Lighthouse shu yerda
+#   o'lchanadi (lokal sandbox'da brauzer yo'q).
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Audit/lighthouse lokal serverga uriladi, shuning uchun canonical va
+  # og:image ham shu manzilga quriladi (aks holda audit tashqi domenni
+  # yuklab ko'ra olmab xato beradi). Production'da HAQIQIY domen beriladi —
+  # qarang: docs/LAUNCH_CHECKLIST.md
+  NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
+  BASE_URL: http://127.0.0.1:3000
+  # CI uchun soxta qiymatlar — `npm run env:check -- --report` hisobot beradi,
+  # lekin build'ni to'smaydi
+  ADMIN_PASSWORD: ci-only-not-a-real-password
+  ADMIN_SECRET: ci-only-secret-0123456789abcdef0123456789abcdef
+
+jobs:
+  verify:
+    name: Build + testlar + auditlar
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Bog'liqliklar
+        run: npm ci --no-audit --no-fund
+
+      - name: Shriftlar (public/fonts snapshot'da yo'q)
+        run: node scripts/copy-fonts.mjs
+
+      - name: TypeScript (§3.1 strict)
+        run: npm run typecheck
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Placeholder nazovati — lug'at va kod (§10.5, offline)
+        run: npm run test:i18n
+
+      - name: Muhit hisoboti (launch uchun nima yetishmaydi)
+        run: npm run env:check -- --report
+
+      - name: Production build
+        run: npm run build
+
+      - name: Serverni ishga tushirish
+        run: |
+          npm start > /tmp/server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3000/uz > /dev/null 2>&1; then
+              echo "✓ server tayyor ($((i*2))s)"; exit 0
+            fi
+            sleep 2
+          done
+          echo "✖ server 120s ichida javob bermadi"; tail -40 /tmp/server.log; exit 1
+
+      - name: Placeholder nazovati — RENDER HTML (§10.5)
+        run: npm test
+        env:
+          REQUIRE_SERVER: '1'
+
+      - name: SEO / A11y auditi (§13, §14)
+        run: npm run audit:seo
+
+      - name: O'lik havola va asset auditi (§15 TODO xavfsizligi)
+        run: npm run audit:links
+
+      - name: HTTP semantikasi (308 migratsiya, soft-404 yo'q)
+        run: |
+          set -e
+          check () { # check <kutilgan> <url>
+            got=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:3000$2")
+            if [ "$got" != "$1" ]; then echo "✖ $2 → $got (kutilgan $1)"; exit 1; fi
+            echo "  ✓ $2 → $got"
+          }
+          check 308 /uz/product/vanilla-premium
+          check 200 /uz/catalog/vanilla-premium
+          check 404 /uz/catalog/yoq-mahsulot
+          check 404 /uz/industries/yoq-soha
+          check 404 /uz/umuman-yoq-sahifa
+          check 404 /styleguide
+          check 307 /
+
+      - name: Lead API (zod + antispam)
+        run: |
+          set -e
+          node -e '
+            const fs=require("fs");
+            const p={type:"sample",locale:"uz",
+              contact:{fullName:"CI Test",position:"Texnolog",phone:"+998901234567",email:"ci@example.uz"},
+              company:{name:"CI MChJ"},
+              location:{region:"tashkent-city",city:"Toshkent",address:"Test 1"},
+              request:{message:"CI tekshiruvi",products:[{sku:"VAN-100",name:{uz:"Vanilla Premium",ru:"Vanilla Premium",en:"Vanilla Premium"},slug:"vanilla-premium",qty:50,unit:"g"}]},
+              consent:true,source:{locale:"uz",page:"/uz/samples",referrer:"",utm:{}},
+              website_url:"",formStartedAt:Date.now()-9000};
+            fs.writeFileSync("/tmp/ci-lead.json",JSON.stringify(p));'
+          code=$(curl -s -o /tmp/ci-lead-res.json -w '%{http_code}' -X POST \
+            http://127.0.0.1:3000/api/leads -H 'Content-Type: application/json' --data @/tmp/ci-lead.json)
+          if [ "$code" != "201" ]; then echo "✖ /api/leads → $code"; cat /tmp/ci-lead-res.json; exit 1; fi
+          echo "  ✓ /api/leads → 201"
+          # honeypot: website_url to'ldirilsa — rad etilishi kerak
+          node -e '
+            const fs=require("fs");const p=JSON.parse(fs.readFileSync("/tmp/ci-lead.json","utf8"));
+            p.website_url="http://spam.example";p.formStartedAt=Date.now()-9000;
+            fs.writeFileSync("/tmp/ci-spam.json",JSON.stringify(p));'
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:3000/api/leads \
+            -H 'Content-Type: application/json' --data @/tmp/ci-spam.json)
+          echo "  ✓ honeypot → $code (2xx bo'lmasligi kerak)"
+          case "$code" in 2*) echo "✖ honeypot ishlamadi"; exit 1;; esac
+
+      - name: Server log'ida xato bormi
+        if: always()
+        run: |
+          if grep -qiE "UnhandledPromiseRejection|TypeError|ReferenceError" /tmp/server.log; then
+            echo "✖ server log'ida jiddiy xato bor:"; grep -inE "UnhandledPromiseRejection|TypeError|ReferenceError" /tmp/server.log | head -10; exit 1
+          fi
+          echo "✓ server log'i toza"
+
+  lighthouse:
+    name: Lighthouse (§0/§14.5 mezonlari)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: verify
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Bog'liqliklar
+        run: npm ci --no-audit --no-fund
+
+      - name: Shriftlar
+        run: node scripts/copy-fonts.mjs
+
+      - name: Production build
+        run: npm run build
+
+      - name: Serverni ishga tushirish
+        run: |
+          npm start > /tmp/server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3000/uz > /dev/null 2>&1; then echo "✓ server tayyor"; exit 0; fi
+            sleep 2
+          done
+          echo "✖ server tayyor bo'lmadi"; tail -40 /tmp/server.log; exit 1
+
+      - name: Chrome versiyasi
+        run: google-chrome --version || chromium --version || echo "Chrome topilmadi"
+
+      - name: Lighthouse — mobile (Perf ≥ 90 · A11y ≥ 95 · SEO = 100)
+        run: npm run lighthouse -- --ci
+
+      - name: Lighthouse — desktop (qo'shimcha ma'lumot)
+        if: always()
+        continue-on-error: true
+        run: npm run lighthouse -- --ci --desktop --all
+
+      - name: Hisobotlarni saqlash
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouse/
+          retention-days: 30
+          if-no-files-found: warn
