@@ -241,15 +241,20 @@ jobs:
       - name: Loglarni hisobot papkasiga yig'ish
         if: always()
         run: |
-          mkdir -p .lighthouse
+          mkdir -p .lighthouse lh-reports
           cp /tmp/lh-mobile.log /tmp/lh-desktop.log /tmp/server.log .lighthouse/ 2>/dev/null || true
-          ls -la .lighthouse/ || true
+          # actions/upload-artifact yashirin (nuqta bilan boshlanadigan) papkani
+          # glob qilmaydi: "No files were found with the provided path: .lighthouse/".
+          # Shuning uchun hisobotlar ko'rinadigan papkaga nusxalanadi.
+          cp -R .lighthouse/. lh-reports/ 2>/dev/null || true
+          echo "--- .lighthouse/ ---"; ls -la .lighthouse/ || true
+          echo "--- lh-reports/ (artefakt) ---"; ls -la lh-reports/ || true
 
       - name: Hisobotlarni saqlash
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
-          path: .lighthouse/
+          path: lh-reports/
           retention-days: 30
           if-no-files-found: warn
