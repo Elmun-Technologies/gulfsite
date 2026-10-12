@@ -112,7 +112,8 @@ export function organizationLd(locale: AppLocale) {
     name: SITE.brand.distributor,
     alternateName: [SITE.brand.full, 'GFF', 'GFF Uzbekistan'],
     url: SITE_URL,
-    logo: absoluteUrl('/logo.svg'),
+    // Google logo talabi: ≥112×112, kvadratga yaqin, crawl qilinadigan rastr
+    logo: absoluteUrl('/icons/icon-512.png'),
     image: absoluteUrl(SITE.seo.ogImage),
     description:
       locale === 'ru'
@@ -245,7 +246,7 @@ export function productLd(product: CatalogProduct, locale: AppLocale, categoryNa
     ],
     offers: {
       '@type': 'Offer',
-      url: absoluteUrl(localizedPath(locale, `/product/${product.slug}`)),
+      url: absoluteUrl(localizedPath(locale, `/catalog/${product.slug}`)),
       priceCurrency: 'UZS',
       availability: product.availability === 'in-stock' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
       priceSpecification: {
@@ -282,7 +283,7 @@ export function itemListLd(products: LdItem[], locale: AppLocale, name: string) 
     itemListElement: products.slice(0, 100).map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: absoluteUrl(localizedPath(locale, `/product/${p.slug}`)),
+      url: absoluteUrl(localizedPath(locale, `/catalog/${p.slug}`)),
       name: tr(p.name, locale),
     })),
   };

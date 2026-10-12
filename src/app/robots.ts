@@ -19,10 +19,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
+        // `/_next/` YOPILMAYDI: Googlebot sahifani render qilish uchun
+        // `/_next/static` dagi CSS/JS ni yuklashi shart — yopilsa sahifa
+        // "stilsiz/bo'sh" indekslanadi va mobil-moslik bahosi tushadi.
         disallow: [
           '/admin',
           '/api/',
-          '/_next/',
           '/uz/admin',
           '/ru/admin',
           '/en/admin',
@@ -33,12 +35,12 @@ export default function robots(): MetadataRoute.Robots {
           '/en/search',
           // dizayn tizimi (dev-only)
           '/styleguide',
+          // Crawl byudjetini tejash: chuqur sahifalash va qidiruv parametrlari.
+          // BITTA `*` guruhida — ikkita bir xil user-agent guruhini ba'zi
+          // crawler'lar (Yandex'dan tashqari) birlashtirmaydi, faqat birinchisini oladi.
+          '/*?page=',
+          '/*?q=',
         ],
-      },
-      {
-        // Crawl byudjetini tejash: chuqur sahifalashni yopamiz
-        userAgent: '*',
-        disallow: ['*?page=', '*?q='],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

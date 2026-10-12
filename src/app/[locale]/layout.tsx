@@ -105,7 +105,6 @@ export default async function RootLayout({
         {locale === 'ru' ? (
           <link rel="preload" as="font" type="font/woff2" href="/fonts/onest-cyrillic.woff2" crossOrigin="anonymous" />
         ) : null}
-        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
       </head>
 
       <body className="bg-white text-ink antialiased">

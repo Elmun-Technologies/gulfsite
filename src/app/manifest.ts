@@ -18,23 +18,16 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: '/',
     display: 'minimal-ui',
     orientation: 'portrait-primary',
-    background_color: '#fdfbf7',
-    theme_color: '#0d5449',
+    // §4.2 palitrasi: navy fon (ikonka foni bilan bir xil — splash'da chok yo'q)
+    background_color: '#0B0A3A',
+    theme_color: '#0B0A3A',
     lang: 'uz',
     categories: ['business', 'food', 'shopping'],
     icons: [
-      {
-        src: '/favicon.svg',
-        sizes: 'any',
-        type: 'image/svg+xml',
-        purpose: 'any',
-      },
-      {
-        src: '/images/apple-touch-icon.png',
-        sizes: '180x180',
-        type: 'image/png',
-        purpose: 'any',
-      },
+      // `npm run icons` yaratadi (scripts/build-icons.mjs)
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     shortcuts: [
       { name: 'Katalog', url: `${SITE_URL}/uz/catalog` },
