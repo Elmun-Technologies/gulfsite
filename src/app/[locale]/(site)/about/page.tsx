@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
-import { aboutLd, buildMetadata, breadcrumbLd, organizationLd } from '@/lib/seo';
+import { aboutLd, buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { productCount } from '@/lib/catalog';
 import { monogramCopy, publicAssetExists } from '@/lib/design';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
@@ -90,7 +90,6 @@ export default async function AboutPage({ params }: Props) {
     <>
       <JsonLdGroup
         items={[
-          organizationLd(locale),
           aboutLd(locale),
           breadcrumbLd(
             [

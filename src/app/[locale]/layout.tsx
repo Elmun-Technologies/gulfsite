@@ -51,7 +51,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
-  const meta = LOCALE_META[locale];
 
   return {
     ...buildMetadata({ locale, title: siteConfig.seo.defaultTitle, description: siteConfig.seo.defaultDescription, path: '' }),
@@ -63,7 +62,6 @@ export async function generateMetadata({
         'x-default': `${siteConfig.url}/uz`,
       },
     },
-    other: { 'og:locale': meta.tag },
     // Google Search Console / Yandex Webmaster egalikni tasdiqlash (env bo'sh bo'lsa teg chiqmaydi)
     verification: {
       ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),

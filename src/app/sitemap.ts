@@ -44,7 +44,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   /* ---------- Huquqiy sahifalar (past ustuvorlik) ---------- */
-  for (const p of ['/privacy', '/terms']) {
+  // `/terms` — noindex (terms/page.tsx), shuning uchun sitemap'ga kirmaydi
+  for (const p of ['/privacy']) {
     out.push(...entry(p, 0.2, 'yearly'));
   }
 

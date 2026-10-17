@@ -81,7 +81,8 @@ export function buildMetadata(opts: BuildMetadataOptions): Metadata {
       // Next.js OpenGraph turi faqat 'website'|'article' ni qabul qiladi;
       // mahsulot sahifalari uchun schema.org Product JSON-LD ishlatiladi.
       type: type === 'article' ? 'article' : 'website',
-      locale: meta.lang.replace('-', '_'),
+      // og:locale formati `uz_UZ` (meta.lang `uz-Latn-UZ` → replace `uz_Latn-UZ` beradi)
+      locale: meta.tag,
       url,
       siteName: SITE.name,
       title,
@@ -249,27 +250,8 @@ export function productLd(product: CatalogProduct, locale: AppLocale, categoryNa
       { '@type': 'PropertyValue', name: 'Shelf life', value: `${product.shelfLifeMonths} months` },
       ...product.features.map((f) => ({ '@type': 'PropertyValue' as const, name: 'Feature', value: f })),
     ],
-    offers: {
-      '@type': 'Offer',
-      url: absoluteUrl(localizedPath(locale, `/catalog/${product.slug}`)),
-      priceCurrency: 'UZS',
-      availability: product.availability === 'in-stock' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        description:
-          locale === 'ru'
-            ? 'Цена по запросу — зависит от объёма и фасовки'
-            : locale === 'en'
-              ? 'Price on request — depends on volume and pack size'
-              : 'Narx so‘rov bo‘yicha — hajm va qadoqga bog‘liq',
-      },
-      seller: { '@id': `${SITE_URL}/#organization` },
-      eligibleQuantity: {
-        '@type': 'QuantitativeValue',
-        minValue: SITE.business.minOrderKg,
-        unitCode: 'KGM',
-      },
-    },
+    // `offers` yo'q: narx e'lon qilinmaydi (B2B), Offer esa `price` siz Google'da
+    // "Missing field 'price'" xatosi beradi. Product offers'siz ham to'g'ri.
   };
 }
 
@@ -315,33 +297,9 @@ export function aboutLd(locale: AppLocale) {
     url: absoluteUrl(localizedPath(locale, '/about')),
     inLanguage: LOCALE_META[locale].htmlLang,
     about: { '@id': `${SITE_URL}/#organization` },
-    mainEntity: {
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#organization`,
-      name: SITE.brand.full,
-      alternateName: SITE.brand.distributor,
-      url: 'https://gulfflavours.ae',
-      email: SITE.contact.email,
-      telephone: SITE.contact.phonePrimary,
-      foundingDate: String(SITE.brand.since),
-      areaServed: { '@type': 'Country', name: 'Uzbekistan' },
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: SITE.contact.address,
-        addressLocality: 'Tashkent',
-        addressCountry: 'UZ',
-      },
-      contactPoint: [
-        {
-          '@type': 'ContactPoint',
-          telephone: SITE.contact.phonePrimary,
-          contactType: 'sales',
-          email: SITE.contact.salesEmail,
-          areaServed: 'UZ',
-          availableLanguage: ['uz', 'ru', 'en'],
-        },
-      ],
-    },
+    // Organization tugunining O'ZI layout'da bitta marta chiqadi — bu yerda
+    // faqat havola (bir xil @id ostida ikki xil name/url/manzil bo'lmasin).
+    mainEntity: { '@id': `${SITE_URL}/#organization` },
   };
 }
 
@@ -397,7 +355,8 @@ export function collectionPageLd(locale: AppLocale, title: string, description: 
 
 /** Bosh sahifa uchun barcha JSON-LD bloklari */
 export function homeLd(locale: AppLocale) {
-  return [organizationLd(locale), localBusinessLd(), websiteLd(locale)];
+  // organizationLd — layout'da (har sahifada bir marta), bu yerda takrorlanmaydi
+  return [localBusinessLd(), websiteLd(locale)];
 }
 
 export { APPLICATIONS };

@@ -126,6 +126,14 @@ export function scoreMatch(
         if (s.includes(token)) best = Math.max(best, 8);
       }
     }
+    // Rus/o'zbek qo'shimchalari: "выпечки" → "vypechk" ("выпечка" ga mos).
+    // To'liq token topilmasa, 5+ belgili tokenning oxirgi harfisiz o'zagi
+    // pastroq ball bilan sinab ko'riladi.
+    if (best === 0 && token.length >= 5) {
+      const stem = token.slice(0, -1);
+      if (primaryKeys.some((p) => p.includes(stem))) best = 12;
+      else if (secondaryKeys.some((s) => s.includes(stem))) best = 6;
+    }
     if (best === 0) return { score: 0, matched: false };
     total += best;
   }
