@@ -31,9 +31,9 @@ export function SessionCard({ session: s, locale, copy: c }: { session: SessionS
   ].sort((a, b) => a.ts - b.ts);
 
   return (
-    <article className={cn('rounded-[20px] border bg-white p-4', s.converted ? 'border-copper' : 'border-line-soft')}>
+    <article className={cn('rounded-[16px] border bg-white p-4', s.converted ? 'border-copper' : 'border-line-soft')}>
       <header className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-muted">
-        <span className="font-bold text-ink tabular-nums">{time(s.start, locale)}</span>
+        <span className="font-semibold text-ink tabular-nums">{time(s.start, locale)}</span>
         <span>{c.devices[s.dev] ?? s.dev} · {s.os} · {s.br}</span>
         {s.country ? <span>{s.country}</span> : null}
         <span>
@@ -45,7 +45,7 @@ export function SessionCard({ session: s, locale, copy: c }: { session: SessionS
           {c.session.duration}: {fmtDuration(s.durationSec)} · {s.pages.length} {c.session.pagesN}
         </span>
         {s.converted ? (
-          <span className="rounded-full bg-navy px-2 py-0.5 text-[11px] font-bold text-white">{c.session.converted}</span>
+          <span className="rounded-full bg-navy px-2 py-0.5 text-[11px] font-semibold text-white">{c.session.converted}</span>
         ) : null}
         <span className="ml-auto font-mono text-[10.5px] text-muted/70">{s.vid.slice(0, 8)}</span>
       </header>

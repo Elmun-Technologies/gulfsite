@@ -202,6 +202,8 @@ export const leadInputSchema = z
     formStartedAt: z.coerce.number().int().positive().optional(),
     /** Cloudflare Turnstile tokeni */
     turnstileToken: z.string().max(2000).optional().or(z.literal('')),
+    /** Telegram Mini App `initData` (serverda bot tokeni bilan imzosi tekshiriladi) */
+    tgInitData: z.string().max(4096).optional().or(z.literal('')),
   })
   .superRefine((data, ctx) => {
     // Kompaniya nomi: qo'ng'iroq so'rovidan tashqari barcha turlarda majburiy

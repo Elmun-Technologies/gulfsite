@@ -6,7 +6,8 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { adminGuard } from '@/lib/admin-api';
-import { getContent, saveContent } from '@/lib/content';
+import { effectiveIntegrations, getContent, saveContent } from '@/lib/content';
+import { notifyFrontend } from '@/lib/frontend-sync';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,29 +32,9 @@ export async function PUT(req: Request) {
     // kontakt (footer) va logotip/video (bosh sahifa, kompaniya) — butun sayt
     revalidatePath('/', 'layout');
     await notifyFrontend();
-    return NextResponse.json({ ok: true, data });
+    return NextResponse.json({ ok: true, data, effective: effectiveIntegrations(data.integrations) });
   } catch (err) {
     console.error('[admin/content] saqlanmadi:', String(err).slice(0, 200));
     return NextResponse.json({ ok: false, error: { code: 'save_failed' } }, { status: 500 });
-  }
-}
-
-/**
- * Sayt alohida joyda (Vercel) bo'lsa — uni ham yangilash.
- * FRONTEND_URL + REVALIDATE_SECRET (ikkala tomonda bir xil) kerak.
- */
-async function notifyFrontend() {
-  const url = (process.env.FRONTEND_URL ?? '').trim().replace(/\/+$/, '');
-  const secret = (process.env.REVALIDATE_SECRET ?? '').trim();
-  if (!url || !secret) return;
-  try {
-    const res = await fetch(`${url}/api/revalidate`, {
-      method: 'POST',
-      headers: { 'x-revalidate-secret': secret },
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) console.error('[admin/content] sayt yangilanmadi:', res.status);
-  } catch (err) {
-    console.error('[admin/content] sayt yangilanmadi:', String(err).slice(0, 200));
   }
 }

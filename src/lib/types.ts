@@ -4,13 +4,16 @@ import type { Locale, Trilingual } from './taxonomy';
    KATALOG TIPLARI
    ============================================================ */
 
-export type CategoryId =
+export type BuiltinCategoryId =
   | 'flavours'
   | 'fragrances'
   | 'food-ingredients'
   | 'essential-oils'
   | 'aroma-chemicals'
   | 'commodities';
+
+/** Asosiy 6 ta + admin qo'shgan kategoriyalar (`string & {}` — avtoto'ldirish saqlanadi) */
+export type CategoryId = BuiltinCategoryId | (string & {});
 
 export type FormId =
   | 'liquid'
@@ -45,6 +48,12 @@ export interface CatalogProduct {
   copyVariant: number;
   tags: string[];
   order: number;
+  /** Admin paneldan yozilgan tavsif (bo'lsa shablon o'rniga ishlatiladi) */
+  description?: Trilingual;
+  /** Admin yuklagan rasm (`/api/media/<xesh>.webp`) */
+  image?: string;
+  /** Saytda ko'rsatilmaydi (admin panelda ko'rinadi) */
+  hidden?: boolean;
 }
 
 export interface CatalogFile {
@@ -75,6 +84,8 @@ export interface ProductCard {
   color: string;
   /** Tayyor, tilga moslashtirilgan qisqa tavsif (toCard locale ni oladi) */
   blurb: string;
+  /** Admin yuklagan mahsulot rasmi (bo'lmasa guruh/kategoriya rasmi) */
+  image?: string;
 }
 
 /* ============================================================
@@ -219,6 +230,16 @@ export interface LeadRecord {
     /** o'z analitikamiz: admin panelda arizaning tashrif yo'li */
     visitorId?: string;
     sessionId?: string;
+    /** qayerdan keldi: sayt yoki Telegram Mini App */
+    channel?: 'web' | 'telegram';
+  };
+
+  /** Telegram Mini App orqali kelgan bo'lsa — imzosi tekshirilgan foydalanuvchi */
+  telegram?: {
+    id: number;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
   };
 
   consent: boolean;

@@ -15,6 +15,9 @@ import { ANALYTICS_DIR, DATA_DIR } from '@/lib/data-dir';
 import { availableDays } from '@/lib/analytics-store';
 import { getStats } from '@/lib/leads/store';
 import { AdminCard, PageTitle } from '@/components/admin/AdminUi';
+import { TelegramBotCard } from '@/components/admin/TelegramBotCard';
+import { botStatus, miniAppUrl } from '@/lib/telegram';
+import { effectiveIntegrations, getContent } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -44,7 +47,7 @@ function Check({ ok, label, hint }: { ok: boolean; label: string; hint?: string 
         <span className="text-ink">{label}</span>
         {hint ? <span className="block text-[12px] text-muted">{hint}</span> : null}
       </span>
-      <span className={cn('shrink-0 text-[11.5px] font-bold', ok ? 'text-copper-dark' : 'text-error')}>{ok ? 'OK' : '—'}</span>
+      <span className={cn('shrink-0 text-[11.5px] font-semibold', ok ? 'text-copper-dark' : 'text-error')}>{ok ? 'OK' : '—'}</span>
     </li>
   );
 }
@@ -58,6 +61,8 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
   const ch = notificationChannels();
   const days = availableDays();
   const env = (k: string) => Boolean((process.env[k] ?? '').trim());
+  const bot = await botStatus();
+  const integ = effectiveIntegrations(getContent().integrations);
 
   return (
     <div className="flex flex-col gap-4">
@@ -87,6 +92,8 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
           </ul>
         </AdminCard>
 
+        <TelegramBotCard initial={bot} shopUrl={miniAppUrl(locale)} locale={locale} />
+
         <AdminCard title={c.settings.security}>
           <ul>
             <Check ok={serverConfig.admin.isConfigured} label="ADMIN_PASSWORD + ADMIN_SECRET" />
@@ -98,9 +105,10 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
         <AdminCard title={c.settings.checks}>
           <ul>
             <Check ok={!/localhost|127\.0\.0\.1/.test(siteConfig.url)} label={`NEXT_PUBLIC_SITE_URL: ${siteConfig.url}`} />
-            <Check ok={env('NEXT_PUBLIC_GTM_ID')} label="Google Tag Manager (ixtiyoriy)" />
-            <Check ok={env('GOOGLE_SITE_VERIFICATION')} label="Google Search Console" />
-            <Check ok={env('YANDEX_VERIFICATION')} label="Yandex Webmaster" />
+            <Check ok={Boolean(integ.googleVerification)} label="Google Search Console" hint="Admin → Integratsiyalar" />
+            <Check ok={Boolean(integ.yandexVerification)} label="Yandex Webmaster" />
+            <Check ok={Boolean(integ.bingVerification)} label="Bing Webmaster" />
+            <Check ok={Boolean(integ.yandexMetrikaId || integ.ga4Id || integ.gtmId)} label="Yandex Metrika / GA4 / GTM" />
           </ul>
         </AdminCard>
 
@@ -113,11 +121,11 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
           <div className="mt-3 flex flex-wrap gap-2">
             {/* fayl yuklash — API endpoint, sahifa emas */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/api/admin/leads/export?format=csv" className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark">
+            <a href="/api/admin/leads/export?format=csv" className="inline-flex h-10 items-center rounded-[12px] border border-line bg-white px-4 text-[13px] font-semibold text-slate hover:border-copper hover:text-copper-dark">
               {c.settings.exportLeads}
             </a>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/api/admin/analytics/export?days=30" className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark">
+            <a href="/api/admin/analytics/export?days=30" className="inline-flex h-10 items-center rounded-[12px] border border-line bg-white px-4 text-[13px] font-semibold text-slate hover:border-copper hover:text-copper-dark">
               {c.settings.exportAnalytics}
             </a>
           </div>

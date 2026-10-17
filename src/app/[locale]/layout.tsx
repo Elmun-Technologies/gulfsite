@@ -23,6 +23,8 @@ import { ToastProvider } from '@/components/ui/Overlay';
 import { Analytics } from '@/components/layout/Analytics';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { organizationLd } from '@/lib/seo';
+import { ensureCatalog } from '@/lib/catalog-live';
+import { effectiveIntegrations, loadContent } from '@/lib/content';
 
 /**
  * `dynamicParams` bu yerda ISHLATILMAYDI: Next.js segment konfiguratsiyasi
@@ -32,7 +34,8 @@ import { organizationLd } from '@/lib/seo';
  * `src/proxy.ts` da (u standart tilga yo'naltiradi) va sahifalardagi
  * `dynamicParams = false` da.
  */
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
@@ -49,8 +52,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
+  const integ = effectiveIntegrations((await loadContent()).integrations);
 
   return {
     ...buildMetadata({ locale, title: siteConfig.seo.defaultTitle, description: siteConfig.seo.defaultDescription, path: '' }),
@@ -64,10 +69,14 @@ export async function generateMetadata({
         'x-default': `${siteConfig.url}/uz`,
       },
     },
-    // Google Search Console / Yandex Webmaster egalikni tasdiqlash (env bo'sh bo'lsa teg chiqmaydi)
+    // Search Console / Yandex / Bing / Facebook egalik tasdig'i — admin → Integratsiyalar (zaxira: env)
     verification: {
-      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
-      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+      ...(integ.googleVerification ? { google: integ.googleVerification } : {}),
+      ...(integ.yandexVerification ? { yandex: integ.yandexVerification } : {}),
+      other: {
+        ...(integ.bingVerification ? { 'msvalidate.01': integ.bingVerification } : {}),
+        ...(integ.facebookVerification ? { 'facebook-domain-verification': integ.facebookVerification } : {}),
+      },
     },
     title: {
       default: siteConfig.seo.defaultTitle,
@@ -83,11 +92,12 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const dict = getDictionary(locale);
   const meta = LOCALE_META[locale];
-  const gtmId = siteConfig.analytics.gtmId;
+  const integ = effectiveIntegrations((await loadContent()).integrations);
 
   return (
     <html lang={meta.htmlLang} dir={meta.dir} suppressHydrationWarning>
@@ -118,7 +128,20 @@ export default async function RootLayout({
           <SampleBoxProvider>
             <ToastProvider>
               {children}
-              <Analytics gtmId={gtmId} siteUrl={siteConfig.url} />
+              <Analytics
+                siteUrl={siteConfig.url}
+                ids={{
+                  gtm: integ.gtmId,
+                  ga4: integ.ga4Id,
+                  metrika: integ.yandexMetrikaId,
+                  metaPixel: integ.metaPixelId,
+                  tiktok: integ.tiktokPixelId,
+                }}
+              />
+              {/* admin → Integratsiyalar → qo'shimcha kod (boshqa xizmatlar); SSR HTML'da — skriptlar ishga tushadi */}
+              {integ.customCode ? (
+                <div hidden data-gff-custom-code dangerouslySetInnerHTML={{ __html: integ.customCode }} />
+              ) : null}
               <JsonLdGroup items={[organizationLd(locale)]} />
             </ToastProvider>
           </SampleBoxProvider>

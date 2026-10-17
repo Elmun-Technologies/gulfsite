@@ -1,7 +1,7 @@
 /**
  * POST /api/revalidate — admin kontentni saqlaganda backend (fly) shu yerni
  * chaqiradi (Vercel'dagi sayt). Sarlavha: `x-revalidate-secret: <REVALIDATE_SECRET>`.
- * Kontent tegi va barcha sahifalar qayta yaratiladi.
+ * Kontent va katalog teglari hamda barcha sahifalar qayta yaratiladi.
  */
 
 import { timingSafeEqual } from 'node:crypto';
@@ -24,6 +24,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: { code: 'unauthorized' } }, { status: 401 });
   }
   revalidateTag('site-content', { expire: 0 });
+  revalidateTag('catalog', { expire: 0 });
   revalidatePath('/', 'layout');
   return NextResponse.json({ ok: true, revalidated: true });
 }

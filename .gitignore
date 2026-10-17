@@ -47,6 +47,7 @@ yarn-error.log*
 /data/leads
 /data/analytics
 /data/content
+/data/catalog
 /data/*.jsonl
 !/data/source/*.tsv
 !/data/source/*.json

@@ -98,7 +98,7 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
     <div className="flex flex-col gap-4">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-[clamp(1.6rem,3vw,2.2rem)] font-normal tracking-[-0.02em] text-ink">
+          <h1 className="text-[clamp(1.5rem,2.6vw,2rem)] font-semibold tracking-[-0.02em] text-ink">
             {t('admin.leads.title')}
           </h1>
           <p className="mt-1 text-[13px] text-muted">
@@ -110,17 +110,17 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
       <LeadsFilterBar locale={L} total={result.total} />
 
       {/* ================= JADVAL ================= */}
-      <section className="overflow-hidden rounded-[20px] border border-line-soft bg-white">
+      <section className="overflow-hidden admin-card">
         {result.items.length === 0 ? (
           <div className="px-4 py-14 text-center">
-            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[20px] bg-panel text-muted" aria-hidden>
+            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[12px] bg-panel text-muted" aria-hidden>
               <Icon name="search" size={22} />
             </span>
-            <p className="mt-3.5 text-[14px] font-bold text-ink">{t('admin.leads.noResults')}</p>
+            <p className="mt-3.5 text-[14px] font-semibold text-ink">{t('admin.leads.noResults')}</p>
             <p className="mx-auto mt-1 max-w-sm text-[12.5px] text-muted">{t('admin.leads.noResultsHint')}</p>
             <Link
               href={basePath}
-              className="mt-4 inline-flex h-10 items-center gap-2 rounded-[20px] bg-navy px-4 text-[13px] font-bold text-white transition hover:bg-ink"
+              className="mt-4 inline-flex h-10 items-center gap-2 rounded-[12px] bg-navy px-4 text-[13px] font-semibold text-white transition hover:bg-ink"
             >
               <Icon name="refresh" size={15} />
               {t('catalog.resetAll')}
@@ -135,7 +135,7 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
                     <th
                       key={k}
                       scope="col"
-                      className="px-3 py-2.5 text-[10.5px] font-bold uppercase tracking-[0.1em] whitespace-nowrap text-muted"
+                      className="px-3 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap text-muted"
                     >
                       {t(`admin.leads.columns.${k}` as 'admin.leads.columns.ref')}
                     </th>
@@ -150,12 +150,15 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
                       <td className="px-3 py-3">
                         <Link
                           href={`/${locale}/admin/leads/${l.id}`}
-                          className="font-mono text-[11.5px] font-bold text-copper-dark transition hover:text-ink hover:underline"
+                          className="font-mono text-[11.5px] font-semibold text-copper-dark transition hover:text-ink hover:underline"
                         >
                           {l.ref}
                         </Link>
-                        <span className="mt-1 block">
+                        <span className="mt-1 flex flex-wrap items-center gap-1">
                           <LeadQuality lead={l} locale={L} />
+                          {l.source.channel === 'telegram' ? (
+                            <span className="rounded-full bg-[#229ED9] px-1.5 py-0.5 text-[10.5px] font-semibold text-white">TG</span>
+                          ) : null}
                         </span>
                       </td>
                       <td className="px-3 py-3 font-mono text-[11.5px] whitespace-nowrap text-muted">
@@ -165,7 +168,7 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
                         {tr(LEAD_TYPES[l.type as keyof typeof LEAD_TYPES]?.name, L, l.type)}
                       </td>
                       <td className="px-3 py-3">
-                        <span className="block max-w-[13rem] truncate text-[12.5px] font-bold text-ink">
+                        <span className="block max-w-[13rem] truncate text-[12.5px] font-semibold text-ink">
                           {l.contact.fullName}
                         </span>
                         <a
@@ -197,7 +200,7 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
                       </td>
                       <td className="px-3 py-3">
                         {products.length ? (
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-panel px-2 py-0.5 font-mono text-[11px] font-bold text-copper-dark">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-panel px-2 py-0.5 font-mono text-[11px] font-semibold text-copper-dark">
                             <Icon name="box" size={12} />
                             {products.length}
                           </span>
@@ -225,8 +228,8 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
             aria-disabled={result.page <= 1}
             className={
               result.page <= 1
-                ? 'pointer-events-none inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line-soft bg-white px-3 text-[12.5px] font-bold text-muted/70'
-                : 'inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line bg-white px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark'
+                ? 'pointer-events-none inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line-soft bg-white px-3 text-[12.5px] font-semibold text-muted/70'
+                : 'inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line bg-white px-3 text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark'
             }
           >
             <Icon name="chevron-left" size={14} />
@@ -245,8 +248,8 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
                   aria-current={p === result.page ? 'page' : undefined}
                   className={
                     p === result.page
-                      ? 'inline-flex h-9 min-w-9 items-center justify-center rounded-[14px] bg-navy px-3 font-mono text-[12.5px] font-bold text-white'
-                      : 'inline-flex h-9 min-w-9 items-center justify-center rounded-[14px] border border-line bg-white px-3 font-mono text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark'
+                      ? 'inline-flex h-9 min-w-9 items-center justify-center rounded-[10px] bg-navy px-3 font-mono text-[12.5px] font-semibold text-white'
+                      : 'inline-flex h-9 min-w-9 items-center justify-center rounded-[10px] border border-line bg-white px-3 font-mono text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark'
                   }
                 >
                   {p}
@@ -259,8 +262,8 @@ export default async function AdminLeadsPage({ params, searchParams }: PageProps
             aria-disabled={result.page >= result.totalPages}
             className={
               result.page >= result.totalPages
-                ? 'pointer-events-none inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line-soft bg-white px-3 text-[12.5px] font-bold text-muted/70'
-                : 'inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line bg-white px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark'
+                ? 'pointer-events-none inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line-soft bg-white px-3 text-[12.5px] font-semibold text-muted/70'
+                : 'inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line bg-white px-3 text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark'
             }
           >
             {t('common.next')}

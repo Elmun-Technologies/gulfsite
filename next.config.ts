@@ -63,9 +63,29 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
         ],
       },
+      // Telegram Mini App (/uz|ru|en/tg) Telegram Desktop/Web'da iframe ichida ochiladi —
+      // u yerda X-Frame-Options yo'q, o'rniga faqat Telegram domenlariga ruxsat (CSP)
       ...(allowFraming
         ? []
-        : [{ source: '/:path*', headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }] }]),
+        : [{ source: '/((?!(?:uz|ru|en)/tg(?:/|$)).*)', headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }] }]),
+      {
+        source: '/:locale(uz|ru|en)/tg/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org https://telegram.org",
+          },
+        ],
+      },
+      {
+        source: '/:locale(uz|ru|en)/tg',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org https://telegram.org",
+          },
+        ],
+      },
       {
         source: '/:locale/admin/:path*',
         headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }],

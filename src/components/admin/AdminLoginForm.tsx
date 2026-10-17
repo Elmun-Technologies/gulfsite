@@ -92,7 +92,7 @@ function LoginFormInner({ locale }: { locale: string }) {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-3.5" noValidate>
       <label className="flex flex-col gap-1.5" htmlFor="admin-password">
-        <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-muted">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-muted">
           {t('admin.password')}
         </span>
         <span className="relative flex items-center">
@@ -114,7 +114,7 @@ function LoginFormInner({ locale }: { locale: string }) {
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'admin-login-error' : undefined}
             className={cn(
-              'h-12 w-full rounded-[20px] border bg-white pr-12 pl-10 font-mono text-[14px] text-ink transition',
+              'h-12 w-full rounded-[16px] border bg-white pr-12 pl-10 font-mono text-[14px] text-ink transition',
               'placeholder:font-sans placeholder:text-muted',
               'focus:outline-none focus:ring-4',
               error
@@ -126,7 +126,7 @@ function LoginFormInner({ locale }: { locale: string }) {
             type="button"
             onClick={() => setShow((s) => !s)}
             aria-label={show ? t('common.close') : t('common.more')}
-            className="absolute right-2 flex h-9 w-9 items-center justify-center rounded-[14px] text-muted transition hover:bg-panel hover:text-ink"
+            className="absolute right-2 flex h-9 w-9 items-center justify-center rounded-[10px] text-muted transition hover:bg-panel hover:text-ink"
           >
             <Icon name={show ? 'eye' : 'lock'} size={16} />
           </button>
@@ -137,7 +137,7 @@ function LoginFormInner({ locale }: { locale: string }) {
         <p
           id="admin-login-error"
           role="alert"
-          className="flex items-start gap-2 rounded-[20px] border border-error/30 bg-error/5 px-3.5 py-2.5 text-[12.5px] leading-snug font-semibold text-error"
+          className="flex items-start gap-2 rounded-[12px] border border-error/30 bg-error/5 px-3.5 py-2.5 text-[12.5px] leading-snug font-semibold text-error"
         >
           <Icon name="alert" size={15} className="mt-px shrink-0" />
           <span>
@@ -155,7 +155,7 @@ function LoginFormInner({ locale }: { locale: string }) {
         type="submit"
         disabled={busy || retryIn > 0 || !password}
         className={cn(
-          'inline-flex h-12 items-center justify-center gap-2 rounded-[20px] px-5 text-[14.5px] font-bold text-white transition',
+          'inline-flex h-12 items-center justify-center gap-2 rounded-[12px] px-5 text-[14.5px] font-semibold text-white transition',
           'bg-navy hover:bg-ink active:scale-[0.99]',
           'disabled:cursor-not-allowed disabled:opacity-50',
         )}

@@ -51,7 +51,7 @@ export function LeadQuality({ lead, locale }: { lead: LeadRecord; locale: Locale
           style={{ width: `${score}%` }}
         />
       </span>
-      <span className="font-mono text-[10.5px] font-bold text-muted tabular-nums">{score}</span>
+      <span className="font-mono text-[10.5px] font-semibold text-muted tabular-nums">{score}</span>
     </span>
   );
 }
@@ -73,7 +73,7 @@ export function LeadStatusBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border font-bold whitespace-nowrap',
+        'inline-flex items-center gap-1.5 rounded-full border font-semibold whitespace-nowrap',
         size === 'sm' ? 'px-2 py-0.5 text-[10.5px]' : 'px-2.5 py-1 text-[11.5px]',
       )}
       style={{
@@ -118,7 +118,7 @@ export function SpamScoreBadge({ score }: { score: number }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11.5px] font-bold tabular-nums',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11.5px] font-semibold tabular-nums',
         danger
           ? 'border-error/40 bg-error/50/10 text-error'
           : warn

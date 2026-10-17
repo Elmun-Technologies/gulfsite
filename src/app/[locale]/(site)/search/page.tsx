@@ -38,6 +38,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/motion';
 import { SearchInput } from '@/components/search/SearchInput';
 import { AddSampleButton } from '@/components/catalog/AddSampleButton';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 const PRODUCT_LIMIT = 30;
 
@@ -46,13 +47,21 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export const dynamicParams = false;
+/**
+ * `true`: `false` bo'lganda admin saqlagan paytdagi revalidatsiyadan keyin
+ * (revalidatePath / ISR) sahifa qayta yaratilmay `NoFallbackError` → 404
+ * bo'lib qolardi (standalone, 2026-10-17 tekshirilgan). Noma'lum slug uchun
+ * haqiqiy 404 — `proxy.ts` da (`catalogPathMissing`).
+ */
+export const dynamicParams = true;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -74,6 +83,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 }
 
 export default async function SearchPage({ params, searchParams }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;

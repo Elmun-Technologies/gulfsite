@@ -27,9 +27,11 @@ import { I18nProvider } from '@/components/i18n/I18nProvider';
 import { SampleBoxProvider } from '@/components/sample/SampleBoxProvider';
 import { ToastProvider } from '@/components/ui/Overlay';
 import { Header } from '@/components/layout/Header';
+import { LocaleHomeOnly } from '@/components/layout/LocaleSwitcher';
 import { Footer } from '@/components/layout/Footer';
 import { CookieBanner } from '@/components/layout/CookieConsent';
 import '@/app/globals.css';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const metadata: Metadata = {
   title: '404',
@@ -38,7 +40,8 @@ export const metadata: Metadata = {
 
 const LOCALE: AppLocale = 'uz';
 
-export default function RootNotFound() {
+export default async function RootNotFound() {
+  await ensureCatalog();
   const t = makeT(LOCALE);
   const dict = getDictionary(LOCALE);
 
@@ -64,6 +67,7 @@ export default function RootNotFound() {
                   {t('common.skipToContent')}
                 </a>
 
+                <LocaleHomeOnly>
                 <Header
                   locale={LOCALE}
                   nav={buildNav(LOCALE, t)}
@@ -74,6 +78,7 @@ export default function RootNotFound() {
                   closeLabel={t('header.closeMenu')}
                   boxAriaTemplate={dict['header.boxAria']}
                 />
+                </LocaleHomeOnly>
 
                 <main id="main" className="flex-1">
                   <NotFoundContent locale={LOCALE} labels={notFoundLabels(t)} />

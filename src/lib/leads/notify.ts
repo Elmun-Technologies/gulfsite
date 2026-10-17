@@ -113,6 +113,10 @@ function buildTelegramText(lead: LeadRecord): string {
   }
 
   L.push('🌍 <b>Manba</b>');
+  if (lead.source.channel === 'telegram') {
+    const who = lead.telegram?.username ? `@${lead.telegram.username}` : `id ${lead.telegram?.id ?? '—'}`;
+    L.push(`   📲 Telegram do‘kon (Mini App) · ${escapeHtml(who)}`);
+  }
   L.push(`   ${escapeHtml(lead.source.locale)} · ${escapeHtml(lead.source.page)}`);
   if (lead.source.referrer) L.push(`   ref: ${escapeHtml(lead.source.referrer.slice(0, 120))}`);
   if (lead.source.utm && Object.keys(lead.source.utm).length) {

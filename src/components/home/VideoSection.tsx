@@ -25,11 +25,15 @@ export async function VideoSection({ t, limit }: { t: Translator; limit?: number
               embed: v.parsed.embed,
               href: v.parsed.href,
               thumb: v.parsed.thumb,
+              file: v.parsed.file,
             }))}
             labels={{
               play: t('video.play'),
               openYoutube: t('video.openYoutube'),
               openInstagram: t('video.openInstagram'),
+              openVk: t('video.openVk'),
+              openLinkedin: t('video.openLinkedin'),
+              openFile: t('video.openFile'),
             }}
           />
         </div>

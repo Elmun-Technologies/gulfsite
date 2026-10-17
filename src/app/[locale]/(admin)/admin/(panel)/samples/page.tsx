@@ -19,6 +19,7 @@ import { formatDateTime } from '@/lib/utils';
 import { AdminCard, Kpi, PageTitle, PeriodPicker } from '@/components/admin/AdminUi';
 import { BarList } from '@/components/admin/charts';
 import { LeadStatusBadge } from '@/components/admin/LeadBits';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,7 @@ interface PageProps {
 }
 
 export default async function AdminSamplesPage({ params, searchParams }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
@@ -92,7 +94,7 @@ export default async function AdminSamplesPage({ params, searchParams }: PagePro
             {r.latest.map((l) => (
               <li key={l.id} className="flex flex-wrap items-start gap-x-4 gap-y-2 py-3">
                 <div className="min-w-[200px] flex-1">
-                  <Link href={`/${locale}/admin/leads/${l.id}`} className="font-bold text-ink hover:text-copper-dark">
+                  <Link href={`/${locale}/admin/leads/${l.id}`} className="font-semibold text-ink hover:text-copper-dark">
                     {l.contact.fullName} · {l.company.name || '—'}
                   </Link>
                   <span className="block text-[12px] tabular-nums text-muted">

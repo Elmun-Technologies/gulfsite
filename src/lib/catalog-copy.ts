@@ -246,16 +246,21 @@ export function productBlurb(
   applications: string[],
   locale: Locale,
 ): string {
-  const tpl = BLURBS[category][locale];
+  const tpl = (BLURBS[category] ?? BLURBS.flavours)[locale];
   return tpl.replace(/\{apps\}/g, joinApps(applications, locale, 2));
 }
 
 export function storageText(category: CategoryId, locale: Locale): string {
-  return STORAGE[category][locale];
+  return (STORAGE[category] ?? STORAGE.flavours)[locale];
 }
 
 export function applicationLabel(id: string, locale: Locale): string {
   return APP_LABEL[id]?.[locale] ?? id;
+}
+
+/** Afzalliklar — admin qo'shgan kategoriya uchun aromatizator matni zaxira */
+export function benefitsFor(category: CategoryId, locale: Locale): string[] {
+  return (BENEFITS[category] ?? BENEFITS.flavours)[locale];
 }
 
 /** Batafsil sahifa uchun „afzalliklar“ bloki — kategoriya bo'yicha */

@@ -174,9 +174,12 @@ bo'lgan shell bilan 200 sifatida keshlanadi (`x-nextjs-cache: HIT`).
 Dev rejimida bu 404 ko'rinadi — **shuning uchun 404 holatlarini faqat
 production build'da tekshirish kerak.**
 
-Qoida: barcha slug'lari `generateStaticParams` da bor bo'lgan segmentlarda
-`dynamicParams = false` (router darajasida 404). Hozir shunday:
-`catalog/[slug]`, `product/[slug]`, `industries/[slug]`.
+~~Qoida: `dynamicParams = false`~~ — **BEKOR QILINDI (2026-10-17)**: `false` bo'lgan
+statik sahifa revalidatsiyadan keyin (admin saqlaganda `revalidatePath`, ISR) qayta
+yaratilmay `NoFallbackError` → **404** bo'lib qolardi (about, samples, privacy… —
+standalone'da takrorlangan). Endi hamma joyda `dynamicParams = true`, noma'lum slug
+uchun haqiqiy 404 `proxy.ts` → `catalogPathMissing()` da (mahsulot, eski `/product`,
+kategoriya, guruh, soha, `/tg/p`). Tekshirish: admin'da kontentni saqlang → `/uz/about` 200.
 
 Tekshirish:
 ```bash
@@ -349,6 +352,54 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   provayderi + MX yozuvlari kerak (fly/Vercel pochta bermaydi) — keyin `NEXT_PUBLIC_EMAIL`.
 - **Admin** endi sayt tokenlarida (navy/copper/panel, monogramma, soyasiz) — §6 dagi
   "eski tokenlar" izohi tarixiy; `globals.css` dagi eski `@theme` bloki qolgan klasslar uchun.
+
+### 4.13 Admin'dan katalog, Telegram do'kon, admin dizayni (2026-10-17, 2-qism)
+
+- **Katalog tuzatmalari** (`lib/catalog-overrides.ts` sof, `lib/catalog-live.ts` server):
+  `catalog.json` O'ZGARMAYDI — admin o'zgarishlari `<DATA_DIR>/catalog/overrides.json`
+  (`products` yamoqlari, `added` yangi mahsulotlar, `categories`, `groups`; har saqlashda
+  `catalog/history/` ga zaxira, oxirgi 20 ta). Vercel'da `BACKEND_URL/api/catalog/overrides`
+  (ISR 60 s + `catalog` tegi; admin saqlaganda `notifyFrontend()` darhol yangilaydi).
+- **QOIDA: katalogga tegadigan har sahifa/route boshida `await ensureCatalog()`** — aks holda
+  asos ro'yxat ko'rinadi (yangi/yashirin mahsulot farqi jim yo'qoladi). `lib/catalog.ts`
+  funksiyalari sinxron qoldi; ro'yxat `__replaceProducts()` bilan almashtiriladi,
+  taksonomiya massivlari JOYIDA (`splice`) yangilanadi, `byId()` keshi o'zi qayta quriladi.
+- **Mahsulot sahifasi `dynamicParams = true`** (admin qo'shgan mahsulot build'siz ochiladi).
+  Soft-404 bo'lmasligi uchun ro'yxat sahifasi va `loading.tsx` `catalog/(list)/` ichida —
+  `[slug]` ustida loading chegarasi YO'Q. Yangi loading.tsx qo'shayotganda shuni buzmang
+  (`curl …/uz/catalog/yoq` → 404 bo'lishi shart). Guruh landingi ham `true`.
+- **MUHIM: sahifa ichidagi `notFound()` bu loyihada brend 404 ni CHIZMAYDI** — status 404,
+  lekin HTML `<html id="__next_error__">` (header/footer yo'q; `[locale]/not-found.tsx`
+  boundary ishlamaydi — admin'dagi noma'lum ariza ham shunday). Shuning uchun dinamik
+  mahsulot/guruh slug'lari `proxy.ts` → `catalogPathMissing()` da tekshiriladi va mavjud
+  bo'lmagan yo'lga rewrite qilinadi (router 404 → ildiz `not-found.tsx`, to'liq qobiq).
+  Yangi dinamik ommaviy segment qo'shsangiz — shu ro'yxatga qo'shing.
+- **Yangi kategoriya** landing sahifasiga ega emas (`catseo.*` matni yo'q) — havolalar
+  `categoryHref()/groupHref()` orqali katalog filtriga ketadi. Kod `BENEFITS/STORAGE/BLURBS`
+  uchun aromatizator matnini zaxira qiladi.
+- **Admin → Mahsulotlar** (`components/admin/CatalogManager.tsx`, `/api/admin/catalog`):
+  qidiruv/filtr, tahrirlash (3 til nom/tavsif, guruh, shakl, doza, qadoq, belgilar), rasm
+  (`/api/admin/media` `kind=product` → 1600 px WebP), yashirish, yangi mahsulot, guruh/kategoriya.
+- **Telegram do'kon (Mini App)**: `/[locale]/tg` (`(tg)` route guruhi, sayt qobig'isiz,
+  noindex). Katalog `/api/catalog` dan, quti — saytdagi `SampleBoxProvider`. Ariza fly'dagi
+  `/api/leads` ga `tgInitData` bilan — server imzoni bot tokeni bilan tekshiradi
+  (`lib/telegram.ts verifyInitData`), arizaga `telegram` va `source.channel='telegram'`
+  yoziladi, mijozga botda tasdiq ketadi. Bot webhook: `/api/telegram/webhook` (sirli sarlavha,
+  shaxsiy chat: /start → "Do'konni ochish"; mijoz matni oxirgi arizasiga izoh + guruhga).
+  Admin → Sozlamalar → **"Botni sozlash"** (webhook + menyu tugmasi + /start). Ariza
+  sahifasida — mijozga bot orqali javob. `/tg` sahifalarida X-Frame-Options YO'Q, o'rniga
+  CSP `frame-ancestors` faqat Telegram (Desktop/Web iframe'da ochadi).
+- **Video**: YouTube, Instagram, **VK Video** (`video_ext.php`), to'g'ridan-to'g'ri `.mp4`
+  (`<video>`, birinchi kadr muqova). Boshqa manba qo'shsangiz — `parseVideo()` + ContentEditor.
+- **Integratsiyalar** (admin → Integratsiyalar, `SiteContent.integrations`): Google/Yandex/
+  Bing/Facebook tasdiq meta-teglari (`[locale]/layout` metadata), GTM, GA4, Yandex Metrika,
+  Meta Pixel, TikTok Pixel (`components/layout/Analytics.tsx` — faqat cookie roziligidan keyin,
+  admin'da emas), qo'shimcha kod. Butun `<meta>`/`<script>` joylashtirilsa ham ID ajratiladi
+  (`sanitizeIntegrations`). Bo'sh maydon → env zaxirasi (`effectiveIntegrations`).
+  `saveContent()` endi joriy kontent ustiga qo'yadi (bo'limlar bir-birini o'chirmaydi).
+- **Admin dizayni**: `.admin-ui` (globals.css) sayt tokenlarini panel ichida qayta belgilaydi
+  (indigo aksent, slate matn, tizim shrifti, `.admin-card`). Marketing sahifalari ta'sirlanmaydi;
+  admin klasslarini o'zgartirmasdan rang almashtirish shu blokda.
 
 ---
 

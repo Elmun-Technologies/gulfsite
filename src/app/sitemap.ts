@@ -18,6 +18,7 @@ import { SITE_URL } from '@/lib/config';
 import { allProducts, applicationCounts } from '@/lib/catalog';
 import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
 import { industryIds } from '@/lib/industry-copy';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 /** Bitta mantiqiy sahifa uchun 3 tilli yozuv */
 function entry(path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'], lastmod?: Date) {
@@ -36,7 +37,8 @@ function entry(path: string, priority: number, changeFrequency: MetadataRoute.Si
   }));
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  await ensureCatalog();
   const out: MetadataRoute.Sitemap = [];
 
   /* ---------- Asosiy sahifalar ---------- */

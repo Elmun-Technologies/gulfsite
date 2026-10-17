@@ -16,13 +16,13 @@
 import type { ReactNode } from 'react';
 import { getDictionary, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { buildNav } from '@/lib/nav';
-import { siteConfig } from '@/lib/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CookieBanner } from '@/components/layout/CookieConsent';
 import { MessengerFab } from '@/components/layout/MessengerFab';
 import { SiteTracker } from '@/components/layout/SiteTracker';
 import { contactPeople } from '@/lib/content';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 /**
  * ISR: kontakt/logotip/video admin paneldan o'zgaradi. Saqlashda
@@ -37,6 +37,7 @@ interface Props {
 }
 
 export default async function SiteLayout({ children, params }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -94,8 +95,6 @@ export default async function SiteLayout({ children, params }: Props) {
         privacyHref={`/${locale}/privacy`}
       />
 
-      {/* Eski GA/Yandex identifikatorlari .env'da qolgan bo'lishi mumkin */}
-      <span className="hidden" aria-hidden data-gtm={siteConfig.analytics.gtmId || undefined} />
     </div>
   );
 }

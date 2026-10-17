@@ -9,11 +9,13 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { suggest } from '@/lib/catalog';
 import { checkRateLimit, clientIp } from '@/lib/leads/antispam';
 import { normalizeLocale } from '@/i18n';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
+  await ensureCatalog();
   const ip = clientIp(req.headers);
   const limit = checkRateLimit(`suggest:${ip}`);
   if (!limit.allowed) {

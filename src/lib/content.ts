@@ -26,7 +26,7 @@ export interface ClientLogo {
   visible: boolean;
 }
 
-export type VideoSource = 'youtube' | 'instagram';
+export type VideoSource = 'youtube' | 'instagram' | 'vk' | 'linkedin' | 'file';
 
 export interface VideoItem {
   id: string;
@@ -35,10 +35,36 @@ export interface VideoItem {
   visible: boolean;
 }
 
+/**
+ * Analitika va SEO vositalari — admin → Integratsiyalar. Kod yozmasdan
+ * identifikatorni kiritish kifoya; sayt o'zi to'g'ri joyga qo'yadi.
+ * Bo'sh maydon — env (NEXT_PUBLIC_*) qiymati ishlatiladi.
+ */
+export interface Integrations {
+  /** <meta name="google-site-verification"> */
+  googleVerification: string;
+  /** <meta name="yandex-verification"> */
+  yandexVerification: string;
+  /** <meta name="msvalidate.01"> — Bing Webmaster */
+  bingVerification: string;
+  /** <meta name="facebook-domain-verification"> */
+  facebookVerification: string;
+  gtmId: string;
+  ga4Id: string;
+  yandexMetrikaId: string;
+  metaPixelId: string;
+  tiktokPixelId: string;
+  /** Boshqa xizmatlar uchun qo'shimcha HTML/skript (sayt sahifalariga qo'shiladi) */
+  customCode: string;
+}
+
 export interface SiteContent {
   people: ContactPerson[];
   clients: ClientLogo[];
   videos: VideoItem[];
+  integrations: Integrations;
+  /** standart videolar bir marta qo'shildi (keyin admin o'chirsa — qaytib chiqmaydi) */
+  videosSeeded: boolean;
   updatedAt: string | null;
 }
 
@@ -70,12 +96,94 @@ const DEFAULT_CLIENTS: ClientLogo[] = [
   { id: 'asi-prime', name: 'ASI Prime', logo: '/images/clients/asi-prime.webp', visible: true },
 ];
 
+/** Mijoz bergan videolar (2026-10-17): GFF reel, VK, LinkedIn, Instagram */
+const DEFAULT_VIDEOS: VideoItem[] = [
+  { id: 'gff-reel', url: 'https://gulfflavours.ae/images/gff-reel.mp4', title: 'Gulf Flavours & Fragrances', visible: true },
+  { id: 'vk-880883776-456239018', url: 'https://vkvideo.ru/video880883776_456239018', title: '', visible: true },
+  {
+    id: 'li-7386667042013220865',
+    url: 'https://www.linkedin.com/posts/gulf-flavours-and-fragrances_gulfflavoursandfragrances-20yearsofexcellence-activity-7386667042013220865-vg31',
+    title: 'GFF — 20 years of excellence',
+    visible: true,
+  },
+  { id: 'ig-DQeCjPfk9Mg', url: 'https://www.instagram.com/reel/DQeCjPfk9Mg/', title: '', visible: true },
+  { id: 'ig-DQLyCNkk4Ti', url: 'https://www.instagram.com/reel/DQLyCNkk4Ti/', title: '', visible: true },
+  { id: 'ig-DCTQ7NZvMRC', url: 'https://www.instagram.com/reel/DCTQ7NZvMRC/', title: '', visible: true },
+  { id: 'ig-DCJJVmRIbV9', url: 'https://www.instagram.com/reel/DCJJVmRIbV9/', title: '', visible: true },
+];
+
+const env = (k: string) => (process.env[k] ?? '').trim();
+
+/** Bo'sh integratsiyalar — env qiymatlari zaxira sifatida `effectiveIntegrations()` da */
+export const EMPTY_INTEGRATIONS: Integrations = {
+  googleVerification: '',
+  yandexVerification: '',
+  bingVerification: '',
+  facebookVerification: '',
+  gtmId: '',
+  ga4Id: '',
+  yandexMetrikaId: '',
+  metaPixelId: '',
+  tiktokPixelId: '',
+  customCode: '',
+};
+
 export const DEFAULT_CONTENT: SiteContent = {
   people: DEFAULT_PEOPLE,
   clients: DEFAULT_CLIENTS,
-  videos: [],
+  videos: DEFAULT_VIDEOS,
+  integrations: EMPTY_INTEGRATIONS,
+  videosSeeded: true,
   updatedAt: null,
 };
+
+/* ------------------------------------------------------------
+   Integratsiyalar: tekshiruv
+   ------------------------------------------------------------
+   Admin ko'pincha butun <meta …> tegini yoki skript parchasini
+   joylashtiradi — kerakli identifikatorni o'zimiz ajratib olamiz. */
+
+function pick(raw: unknown, re: RegExp, max = 200): string {
+  const s = typeof raw === 'string' ? raw.trim().slice(0, 4000) : '';
+  if (!s) return '';
+  const content = /content\s*=\s*["']([^"']+)["']/i.exec(s)?.[1] ?? s;
+  const m = re.exec(content);
+  return m ? (m[1] ?? m[0]).slice(0, max) : '';
+}
+
+export function sanitizeIntegrations(raw: unknown): Integrations {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+  const token = /^[\w\-=+/.]{4,200}$/;
+  return {
+    googleVerification: pick(r.googleVerification, token),
+    yandexVerification: pick(r.yandexVerification, token),
+    bingVerification: pick(r.bingVerification, token),
+    facebookVerification: pick(r.facebookVerification, token),
+    gtmId: pick(r.gtmId, /GTM-[A-Z0-9]{4,12}/i).toUpperCase(),
+    ga4Id: pick(r.ga4Id, /G-[A-Z0-9]{4,16}/i).toUpperCase(),
+    // Metrika: raqam yoki ym(12345678, …) / mc.yandex.ru/watch/12345678
+    yandexMetrikaId: pick(r.yandexMetrikaId, /(?:ym\(|watch\/)?(\d{5,12})/),
+    metaPixelId: pick(r.metaPixelId, /(?:init['",\s]+|id=)?(\d{10,20})/),
+    tiktokPixelId: pick(r.tiktokPixelId, /(?:load\(['"])?([A-Z0-9]{15,30})/i).toUpperCase(),
+    customCode: typeof r.customCode === 'string' ? r.customCode.slice(0, 20000) : '',
+  };
+}
+
+/** Saytda ishlatiladigan qiymatlar: admin kiritgani, bo'lmasa env */
+export function effectiveIntegrations(i: Integrations): Integrations {
+  return {
+    googleVerification: i.googleVerification || env('GOOGLE_SITE_VERIFICATION'),
+    yandexVerification: i.yandexVerification || env('YANDEX_VERIFICATION'),
+    bingVerification: i.bingVerification || env('BING_SITE_VERIFICATION'),
+    facebookVerification: i.facebookVerification || env('FACEBOOK_DOMAIN_VERIFICATION'),
+    gtmId: i.gtmId || env('NEXT_PUBLIC_GTM_ID'),
+    ga4Id: i.ga4Id || env('NEXT_PUBLIC_GA4_ID'),
+    yandexMetrikaId: i.yandexMetrikaId || env('NEXT_PUBLIC_YANDEX_METRIKA_ID'),
+    metaPixelId: i.metaPixelId || env('NEXT_PUBLIC_META_PIXEL_ID'),
+    tiktokPixelId: i.tiktokPixelId || env('NEXT_PUBLIC_TIKTOK_PIXEL_ID'),
+    customCode: i.customCode,
+  };
+}
 
 /* ------------------------------------------------------------
    O'qish / yozish
@@ -135,7 +243,14 @@ export function sanitizeContent(raw: unknown): SiteContent {
     .filter((v) => parseVideo(v.url) !== null)
     .slice(0, 24);
 
-  return { people, clients, videos, updatedAt: str(r.updatedAt, 40) || null };
+  return {
+    people,
+    clients,
+    videos,
+    integrations: sanitizeIntegrations(r.integrations),
+    videosSeeded: r.videosSeeded === true,
+    updatedAt: str(r.updatedAt, 40) || null,
+  };
 }
 
 export function getContent(): SiteContent {
@@ -143,7 +258,7 @@ export function getContent(): SiteContent {
     if (!existsSync(FILE)) return DEFAULT_CONTENT;
     const { mtimeMs } = statSync(FILE);
     if (cache && cache.mtimeMs === mtimeMs) return cache.data;
-    const data = sanitizeContent(JSON.parse(readFileSync(FILE, 'utf8')));
+    const data = withSeededVideos(sanitizeContent(JSON.parse(readFileSync(FILE, 'utf8'))));
     cache = { mtimeMs, data };
     return data;
   } catch (err) {
@@ -152,8 +267,24 @@ export function getContent(): SiteContent {
   }
 }
 
+/** Fayl standart videolar qo'shilishidan oldin saqlangan bo'lsa — ularni bir marta qo'shamiz */
+function withSeededVideos(data: SiteContent): SiteContent {
+  if (data.videosSeeded) return data;
+  const have = new Set(data.videos.map((v) => v.url));
+  return { ...data, videos: [...data.videos, ...DEFAULT_VIDEOS.filter((v) => !have.has(v.url))].slice(0, 24), videosSeeded: true };
+}
+
+/**
+ * Saqlash. Kelgan obyekt joriy kontent ustiga qo'yiladi — Kontent va
+ * Integratsiyalar sahifalari faqat o'z bo'limini yuborsa ham boshqasi o'chmaydi.
+ */
 export function saveContent(next: unknown): SiteContent {
-  const data = { ...sanitizeContent(next), updatedAt: new Date().toISOString() };
+  const patch = (next && typeof next === 'object' ? next : {}) as Record<string, unknown>;
+  const data = {
+    ...sanitizeContent({ ...getContent(), ...patch }),
+    videosSeeded: true,
+    updatedAt: new Date().toISOString(),
+  };
   mkdirSync(CONTENT_DIR, { recursive: true });
   const tmp = `${FILE}.tmp`;
   writeFileSync(tmp, JSON.stringify(data, null, 2), 'utf8');
@@ -225,8 +356,10 @@ export interface ParsedVideo {
   embed: string;
   /** asl sahifa (yangi oynada ochish uchun) */
   href: string;
-  /** muqova rasmi (YouTube'da bor, Instagram'da yo'q) */
+  /** muqova rasmi (YouTube'da bor, Instagram/VK'da yo'q) */
   thumb?: string;
+  /** to'g'ridan-to'g'ri video fayl (.mp4/.webm) — iframe emas, <video> */
+  file?: string;
 }
 
 export function parseVideo(url: string): ParsedVideo | null {
@@ -263,6 +396,37 @@ export function parseVideo(url: string): ParsedVideo | null {
       embed: `https://www.instagram.com/${kind}/${m[2]}/embed`,
       href: `https://www.instagram.com/${kind}/${m[2]}/`,
     };
+  }
+
+  // VK Video: vkvideo.ru/video-123_456, vk.com/video123_456, ?z=video123_456
+  if (host === 'vkvideo.ru' || host === 'vk.com' || host === 'vk.ru') {
+    const m = `${u.pathname}${u.search}`.match(/video(-?\d+)_(\d+)/);
+    if (!m) return null;
+    const [, oid, vid] = m;
+    return {
+      source: 'vk',
+      id: `${oid}_${vid}`,
+      embed: `https://vkvideo.ru/video_ext.php?oid=${oid}&id=${vid}&hd=2&autoplay=1`,
+      href: `https://vkvideo.ru/video${oid}_${vid}`,
+    };
+  }
+
+  // LinkedIn post: /posts/…-activity-<id>-… yoki /feed/update/urn:li:activity:<id>
+  if (host === 'linkedin.com') {
+    const id = (u.pathname.match(/activity[-:](\d{15,22})/) ?? [])[1];
+    if (!id) return null;
+    return {
+      source: 'linkedin',
+      id,
+      embed: `https://www.linkedin.com/embed/feed/update/urn:li:activity:${id}`,
+      href: `https://www.linkedin.com/feed/update/urn:li:activity:${id}/`,
+    };
+  }
+
+  // To'g'ridan-to'g'ri fayl (masalan gulfflavours.ae/images/gff-reel.mp4) — faqat https
+  if (u.protocol === 'https:' && /\.(mp4|webm|mov)$/i.test(u.pathname)) {
+    const file = `${u.origin}${u.pathname}`;
+    return { source: 'file', id: file.slice(-40), embed: file, href: file, file };
   }
 
   return null;

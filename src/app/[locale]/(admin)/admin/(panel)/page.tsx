@@ -1,30 +1,32 @@
 /**
- * ADMIN — BOSHQARUV PANELI
+ * ADMIN — BOSHQARUV PANELI (dashboard)
  * ----------------------------------------------------------------
- * Bitta maqsad: savdo bo'limi ochishi bilan "bugun nima qilish kerak"
- * degan savolga javob olishi.
- *   - yuqorida: bugun / 7 kun / ko'rilmagan / yopilgan / spam
- *   - keyin: turlar, holatlar va hududlar taqsimoti
- *   - 14 kunlik dinamika (bar chart)
- *   - eng ko'p so'ralgan mahsulotlar (nima sotilishini ko'rsatadi)
- *   - so'nggi arizalar jadvali — bir bosishda ochiladi
- *
- * Ma'lumot `getStats()` dan to'g'ridan-to'g'ri olinadi (API chaqiruvi
- * yo'q) — panel server komponent, shuning uchun tez va xavfsiz.
+ * Savdo bo'limi ochishi bilan "bugun nima qilish kerak" degan savolga javob:
+ *   1. asosiy ko'rsatkichlar — o'zgarish foizi va 14 kunlik mini-grafik bilan
+ *   2. 30 kunlik dinamika: tashriflar + arizalar bitta grafikda
+ *   3. konversiya voronkasi va trafik manbalari
+ *   4. so'nggi arizalar (bir bosishda ochiladi) va eng ko'p so'ralgan mahsulotlar
+ *   5. tur / holat / hudud taqsimoti
+ * Hamma ma'lumot server tomonida (getStats + o'z analitikamiz) — API chaqiruvi yo'q.
  */
 
-import { adminCopy } from '@/lib/admin-copy';
-import { buildReport, realtime, shiftDay, todayKey } from '@/lib/analytics-store';
-import { requireAdmin } from '@/lib/guard';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import type { ReactNode } from 'react';
 import { makeT, normalizeLocale } from '@/i18n';
+import { adminCopy } from '@/lib/admin-copy';
+import { shortDay } from '@/lib/admin-period';
+import { buildReport, realtime, shiftDay, todayKey } from '@/lib/analytics-store';
+import { productCount } from '@/lib/catalog';
+import { ensureCatalog } from '@/lib/catalog-live';
+import { requireAdmin } from '@/lib/guard';
 import { getStats, listLeads } from '@/lib/leads/store';
 import { LEAD_STATUSES, LEAD_TYPES, UZ_REGIONS, tr, type Locale } from '@/lib/taxonomy';
-import { productCount } from '@/lib/catalog';
-import { formatDate, formatDateTime } from '@/lib/utils';
+import { cn, formatDate, timeAgo } from '@/lib/utils';
 import { Icon, type IconName } from '@/components/ui/Icon';
-import { LeadStatusBadge, LeadQuality } from '@/components/admin/LeadBits';
+import { LeadStatusBadge } from '@/components/admin/LeadBits';
+import { DualChart } from '@/components/admin/charts';
+import { pctDelta } from '@/components/admin/AdminUi';
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -32,369 +34,419 @@ interface PageProps {
 
 export const dynamic = 'force-dynamic';
 
+const WORDS = {
+  uz: {
+    hello: 'Xush kelibsiz',
+    visitors7: 'Tashrif buyuruvchilar · 7 kun',
+    leads7: 'Arizalar · 7 kun',
+    conv7: 'Konversiya · 7 kun',
+    unseen: 'Ko‘rilmagan arizalar',
+    liveNow: 'hozir saytda',
+    openLeads: 'Ko‘rib chiqish',
+    traffic30: 'Trafik va arizalar — 30 kun',
+    visitors: 'Tashriflar',
+    leads: 'Arizalar',
+    vsPrev: 'oldingi 7 kunga nisbatan',
+    noData: 'Hozircha ma’lumot yo‘q',
+    all: 'Hammasi',
+    products: 'mahsulot',
+    viaTg: 'Telegram',
+  },
+  ru: {
+    hello: 'Добро пожаловать',
+    visitors7: 'Посетители · 7 дней',
+    leads7: 'Заявки · 7 дней',
+    conv7: 'Конверсия · 7 дней',
+    unseen: 'Непросмотренные заявки',
+    liveNow: 'сейчас на сайте',
+    openLeads: 'Посмотреть',
+    traffic30: 'Трафик и заявки — 30 дней',
+    visitors: 'Посетители',
+    leads: 'Заявки',
+    vsPrev: 'к предыдущим 7 дням',
+    noData: 'Пока нет данных',
+    all: 'Все',
+    products: 'товаров',
+    viaTg: 'Telegram',
+  },
+  en: {
+    hello: 'Welcome back',
+    visitors7: 'Visitors · 7 days',
+    leads7: 'Leads · 7 days',
+    conv7: 'Conversion · 7 days',
+    unseen: 'Unreviewed leads',
+    liveNow: 'on site now',
+    openLeads: 'Review',
+    traffic30: 'Traffic & leads — 30 days',
+    visitors: 'Visitors',
+    leads: 'Leads',
+    vsPrev: 'vs previous 7 days',
+    noData: 'No data yet',
+    all: 'All',
+    products: 'products',
+    viaTg: 'Telegram',
+  },
+};
+
 export default async function AdminDashboardPage({ params }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
   if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);
+  const ac = adminCopy(locale);
+  const w = WORDS[L] ?? WORDS.uz;
 
   const stats = getStats();
-  const recent = listLeads({ page: 1, pageSize: 8, sort: 'newest' });
-  const products = productCount();
-
-  const cards: { label: string; value: number; icon: IconName; tone: string; href?: string }[] = [
-    { label: t('admin.stats.today'), value: stats.today, icon: 'clock', tone: 'teal' },
-    { label: t('admin.stats.week'), value: stats.last7, icon: 'chart', tone: 'pine' },
-    { label: t('admin.stats.new'), value: stats.unseen, icon: 'sparkles', tone: 'gold', href: `/${locale}/admin/leads?status=new` },
-    { label: t('admin.stats.won'), value: stats.won, icon: 'award', tone: 'green', href: `/${locale}/admin/leads?status=won` },
-    { label: t('admin.stats.total'), value: stats.total, icon: 'users', tone: 'slate', href: `/${locale}/admin/leads` },
-    { label: 'Spam', value: stats.spam, icon: 'alert', tone: 'clay', href: `/${locale}/admin/leads?status=spam` },
-  ];
-
-  const toneClass: Record<string, string> = {
-    teal: 'bg-panel text-copper-dark',
-    pine: 'bg-navy/10 text-slate',
-    gold: 'bg-copper/20 text-copper-dark',
-    green: 'bg-ok/10 text-copper-dark',
-    slate: 'bg-line-soft text-body',
-    clay: 'bg-error/10 text-error',
-  };
-
-  // Taqsimotlar: tur / holat / hudud
-  const maxType = Math.max(1, ...Object.values(stats.byType));
-  const maxStatus = Math.max(1, ...Object.values(stats.byStatus));
-  const maxRegion = Math.max(1, ...Object.values(stats.byRegion));
-
-  const byTypeRows = Object.entries(stats.byType).sort((a, b) => b[1] - a[1]);
-  const byStatusRows = Object.entries(stats.byStatus).sort((a, b) => b[1] - a[1]);
-  const byRegionRows = Object.entries(stats.byRegion)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-
-  const timelineMax = Math.max(1, ...stats.timeline.map((d) => d.count));
-
-  // o'z analitikamiz — qisqa ko'rinish (to'liq hisobot: /admin/analytics)
-  const ac = adminCopy(locale);
+  const recent = listLeads({ page: 1, pageSize: 7, sort: 'newest' });
   const today = todayKey();
-  const traffic7 = buildReport(shiftDay(today, -6), today, { sessionsLimit: 0 });
-  const trafficToday = traffic7.series[traffic7.series.length - 1];
+  const r30 = buildReport(shiftDay(today, -29), today, { sessionsLimit: 0 });
+  const r7 = buildReport(shiftDay(today, -6), today, { sessionsLimit: 0 });
   const live = realtime(5);
 
+  const series = r30.series;
+  const last14 = series.slice(-14);
+  const leadsPrev7 = stats.timeline.slice(0, 7).reduce((n, d) => n + d.count, 0);
+  const leadsLast7 = stats.timeline.slice(-7).reduce((n, d) => n + d.count, 0);
+  const prevRate = r7.previous.visitors ? Math.round((r7.previous.conversions / r7.previous.visitors) * 1000) / 10 : 0;
+
+  const funnel = r30.funnel;
+  const funnelTop = Math.max(1, funnel[0]?.value ?? 0);
+  const sourcesTotal = Math.max(1, r30.sources.reduce((n, s) => n + s.value, 0));
+
+  const byType = Object.entries(stats.byType).sort((a, b) => b[1] - a[1]);
+  const byStatus = Object.entries(stats.byStatus).sort((a, b) => b[1] - a[1]);
+  const byRegion = Object.entries(stats.byRegion).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       {/* ================= SARLAVHA ================= */}
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-[clamp(1.6rem,3vw,2.2rem)] font-normal tracking-[-0.02em] text-ink">
-            {t('admin.dashboard')}
-          </h1>
-          <p className="mt-1 text-[13px] text-muted">
-            {formatDate(new Date().toISOString(), locale)} · {products} {t('admin.products').toLowerCase()}
+          <p className="text-[13px] text-muted">
+            {formatDate(new Date().toISOString(), locale)} · {productCount()} {w.products}
           </p>
+          <h1 className="mt-1 text-[clamp(1.5rem,2.6vw,2rem)] font-semibold tracking-[-0.02em] text-ink">{w.hello}</h1>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {/* CSV eksport — bu API endpoint (sahifa emas), shuning uchun oddiy <a> */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                    <a
-            href="/api/admin/leads/export?format=csv"
-            className="inline-flex h-10 items-center gap-2 rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate transition hover:border-copper hover:text-copper-dark"
-          >
-            <Icon name="download" size={16} />
-            {t('admin.leads.export')}
-          </a>
-          <Link
-            href={`/${locale}/admin/leads`}
-            className="inline-flex h-10 items-center gap-2 rounded-[20px] bg-navy px-4 text-[13px] font-bold text-white transition hover:bg-ink"
-          >
-            <Icon name="users" size={16} />
-            {t('admin.leads')}
-          </Link>
-        </div>
+        <Link
+          href={`/${locale}/admin/leads`}
+          className="inline-flex h-10 items-center gap-2 rounded-[10px] bg-navy px-4 text-[14px] font-medium text-white transition hover:bg-copper-dark"
+        >
+          <Icon name="invoice" size={16} />
+          {t('admin.leads')}
+        </Link>
       </header>
 
-      {/* ================= SAYT TRAFIGI ================= */}
-      <Link
-        href={`/${locale}/admin/analytics`}
-        className="grid grid-cols-2 gap-3 rounded-[20px] border border-line-soft bg-white p-3.5 transition hover:border-copper md:grid-cols-5"
-      >
-        {[
-          { label: ac.realtime.title, value: live.active },
-          { label: `${ac.kpi.visitors} · ${ac.period.today}`, value: trafficToday?.visitors ?? 0 },
-          { label: `${ac.kpi.visitors} · ${ac.period['7d']}`, value: traffic7.totals.visitors },
-          { label: `${ac.kpi.pageviews} · ${ac.period['7d']}`, value: traffic7.totals.pageviews },
-          { label: `${ac.kpi.conversionRate} · ${ac.period['7d']}`, value: `${traffic7.totals.conversionRate}%` },
-        ].map((k) => (
-          <span key={k.label} className="flex flex-col">
-            <span className="text-[11.5px] text-muted">{k.label}</span>
-            <span className="mt-1 font-display text-[1.4rem] font-semibold leading-none text-ink tabular-nums">{k.value}</span>
+      {/* ================= ASOSIY KO'RSATKICHLAR ================= */}
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard
+          label={w.visitors7}
+          value={r7.totals.visitors}
+          delta={pctDelta(r7.totals.visitors, r7.previous.visitors)}
+          hint={w.vsPrev}
+          spark={last14.map((d) => d.visitors)}
+          href={`/${locale}/admin/analytics`}
+        />
+        <StatCard
+          label={w.leads7}
+          value={leadsLast7}
+          delta={pctDelta(leadsLast7, leadsPrev7)}
+          hint={w.vsPrev}
+          spark={stats.timeline.map((d) => d.count)}
+          tone="ok"
+          href={`/${locale}/admin/leads`}
+        />
+        <StatCard
+          label={w.conv7}
+          value={`${r7.totals.conversionRate}%`}
+          delta={prevRate ? pctDelta(r7.totals.conversionRate, prevRate) : null}
+          hint={w.vsPrev}
+          spark={last14.map((d) => (d.visitors ? d.conversions / d.visitors : 0))}
+        />
+        <Link
+          href={`/${locale}/admin/leads?status=new`}
+          className={cn(
+            'admin-card flex flex-col justify-between gap-4 p-5 transition hover:border-copper',
+            stats.unseen ? 'border-copper/40 bg-copper/5' : '',
+          )}
+        >
+          <span className="text-[13px] text-muted">{w.unseen}</span>
+          <span className="flex items-end justify-between gap-3">
+            <span className="text-[34px] font-semibold leading-none tracking-[-0.02em] text-ink tabular-nums">{stats.unseen}</span>
+            <span className="inline-flex items-center gap-1 text-[13px] font-medium text-copper-dark">
+              {w.openLeads}
+              <Icon name="arrow-right" size={14} />
+            </span>
           </span>
-        ))}
-      </Link>
-
-      {/* ================= RAQAMLAR ================= */}
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-        {cards.map((c) => {
-          const inner = (
-            <>
-              <span className={`flex h-9 w-9 items-center justify-center rounded-[14px] ${toneClass[c.tone] ?? toneClass.slate}`} aria-hidden>
-                <Icon name={c.icon} size={18} />
-              </span>
-              <span className="mt-2.5 block font-display text-[1.7rem] leading-none font-semibold tracking-tight text-ink tabular-nums">
-                {c.value}
-              </span>
-              <span className="mt-1.5 block text-[11.5px] leading-snug text-muted">{c.label}</span>
-            </>
-          );
-          return c.href ? (
-            <Link
-              key={c.label}
-              href={c.href}
-              className="rounded-[20px] border border-line-soft bg-white p-3.5 transition hover:-translate-y-0.5 hover:border-copper/60 hover:"
-            >
-              {inner}
-            </Link>
-          ) : (
-            <div key={c.label} className="rounded-[20px] border border-line-soft bg-white p-3.5">
-              {inner}
-            </div>
-          );
-        })}
+          <span className="flex items-center gap-2 text-[12.5px] text-muted">
+            <span className={cn('h-2 w-2 rounded-full', live.active ? 'animate-pulse bg-ok' : 'bg-line')} aria-hidden />
+            {live.active} {w.liveNow}
+          </span>
+        </Link>
       </section>
 
-      {/* ================= DINAMIKA ================= */}
-      <section className="rounded-[20px] border border-line-soft bg-white p-4">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">
-            {locale === 'ru' ? 'Динамика за 14 дней' : locale === 'en' ? 'Last 14 days' : '14 kunlik dinamika'}
-          </h2>
-          <span className="font-mono text-[11.5px] text-muted">
-            30 {locale === 'ru' ? 'дн' : locale === 'en' ? 'd' : 'kun'}: {stats.last30}
-          </span>
-        </div>
+      {/* ================= DINAMIKA + VORONKA ================= */}
+      <section className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <Card title={w.traffic30} aside={<Link href={`/${locale}/admin/analytics?p=30d`} className="text-[13px] font-medium text-copper-dark hover:underline">{ac.nav.analytics} →</Link>}>
+          <DualChart
+            points={series.map((d) => ({ x: shortDay(d.day), a: d.visitors, b: d.conversions }))}
+            labelA={w.visitors}
+            labelB={w.leads}
+          />
+        </Card>
 
-        <div className="mt-4 flex h-28 items-end gap-1">
-          {stats.timeline.slice(-14).map((d) => (
-            <div key={d.date} className="group flex min-w-0 flex-1 flex-col items-center gap-1.5">
-              <span className="font-mono text-[9.5px] text-muted opacity-0 transition group-hover:opacity-100">
-                {d.count}
-              </span>
-              <span
-                className="w-full rounded-t bg-navy transition group-hover:bg-copper"
-                style={{ height: `${Math.max(3, (d.count / timelineMax) * 100)}%` }}
-                title={`${d.date}: ${d.count}`}
-              />
-              <span className="truncate font-mono text-[9px] text-muted/70">{d.date.slice(5)}</span>
-            </div>
-          ))}
-        </div>
+        <Card title={ac.tables.funnel}>
+          <ol className="m-0 flex list-none flex-col gap-3 p-0">
+            {funnel.map((f, i) => {
+              const pct = Math.round((f.value / funnelTop) * 100);
+              const prev = i ? funnel[i - 1].value : 0;
+              const step = i && prev ? Math.round((f.value / prev) * 100) : null;
+              return (
+                <li key={f.key}>
+                  <div className="flex items-baseline justify-between gap-2 text-[13px]">
+                    <span className="text-slate">{ac.funnel[f.key] ?? f.key}</span>
+                    <span className="tabular-nums text-ink">
+                      <b className="font-semibold">{f.value}</b>
+                      {step != null ? <span className="ml-1.5 text-[12px] text-muted">{step}%</span> : null}
+                    </span>
+                  </div>
+                  <span className="mt-1.5 block h-2 overflow-hidden rounded-full bg-panel">
+                    <span
+                      className={cn('block h-full rounded-full', f.key === 'converted' ? 'bg-ok' : 'bg-navy')}
+                      style={{ width: `${Math.max(f.value ? 3 : 0, pct)}%`, opacity: 1 - i * 0.12 }}
+                    />
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+
+          <div className="mt-6 border-t border-line pt-4">
+            <h3 className="mb-3 text-[13px] font-semibold text-ink">{ac.tables.sources}</h3>
+            {r30.sources.length ? (
+              <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                {r30.sources.slice(0, 5).map((s) => (
+                  <li key={s.key} className="flex items-center gap-3 text-[13px]">
+                    <span className="w-[42%] truncate text-slate">{ac.sources[s.key] ?? s.key}</span>
+                    <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-panel">
+                      <span className="block h-full rounded-full bg-copper" style={{ width: `${(s.value / sourcesTotal) * 100}%` }} />
+                    </span>
+                    <span className="w-10 text-right tabular-nums text-muted">{Math.round((s.value / sourcesTotal) * 100)}%</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[13px] text-muted">{w.noData}</p>
+            )}
+          </div>
+        </Card>
+      </section>
+
+      {/* ================= SO'NGGI ARIZALAR + TOP MAHSULOTLAR ================= */}
+      <section className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <Card
+          title={t('admin.stats.recent')}
+          aside={<Link href={`/${locale}/admin/leads`} className="text-[13px] font-medium text-copper-dark hover:underline">{w.all} →</Link>}
+          flush
+        >
+          {recent.items.length ? (
+            <ul className="m-0 list-none divide-y divide-line p-0">
+              {recent.items.map((l) => {
+                const type = LEAD_TYPES[l.type as keyof typeof LEAD_TYPES];
+                return (
+                  <li key={l.id}>
+                    <Link href={`/${locale}/admin/leads/${l.id}`} className="flex items-center gap-4 px-5 py-3.5 transition hover:bg-panel/60">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-panel text-[14px] font-semibold text-slate">
+                        {(l.contact.fullName || '?').slice(0, 1).toUpperCase()}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex items-center gap-2">
+                          <span className="truncate text-[14px] font-medium text-ink">{l.contact.fullName}</span>
+                          {l.source.channel === 'telegram' ? (
+                            <span className="rounded-full bg-[#229ED9]/10 px-1.5 py-0.5 text-[11px] font-medium text-[#1a86b9]">{w.viaTg}</span>
+                          ) : null}
+                        </span>
+                        <span className="block truncate text-[12.5px] text-muted">
+                          {l.company.name || l.contact.phone} · {tr(type?.name, L, l.type)}
+                          {l.request.products?.length ? ` · ${l.request.products.length}` : ''}
+                        </span>
+                      </span>
+                      <span className="hidden shrink-0 text-right sm:block">
+                        <LeadStatusBadge status={l.status} locale={L} size="sm" />
+                        <span className="mt-1 block text-[12px] text-muted">{timeAgo(l.createdAt, locale)}</span>
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <Empty icon="invoice" title={t('admin.leads.noResults')} hint={t('admin.leads.noResultsHint')} />
+          )}
+        </Card>
+
+        <Card
+          title={t('admin.stats.topProducts')}
+          aside={<Link href={`/${locale}/admin/samples`} className="text-[13px] font-medium text-copper-dark hover:underline">{ac.nav.samples} →</Link>}
+        >
+          {stats.topProducts.length ? (
+            <ol className="m-0 flex list-none flex-col gap-3 p-0">
+              {stats.topProducts.slice(0, 7).map((p, i) => (
+                <li key={p.sku} className="flex items-center gap-3">
+                  <span className="w-5 text-[13px] tabular-nums text-muted">{i + 1}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[14px] text-ink">{p.name}</span>
+                    <span className="text-[12px] text-muted">{p.sku}</span>
+                  </span>
+                  <span className="rounded-full bg-panel px-2 py-0.5 text-[12.5px] font-medium tabular-nums text-slate">{p.count}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="text-[13px] text-muted">{w.noData}</p>
+          )}
+        </Card>
       </section>
 
       {/* ================= TAQSIMOTLAR ================= */}
-      <section className="grid gap-3 lg:grid-cols-3">
-        {/* Tur bo'yicha */}
-        <div className="rounded-[20px] border border-line-soft bg-white p-4">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">{t('admin.stats.byType')}</h2>
-          <ul className="mt-3.5 flex flex-col gap-2.5">
-            {byTypeRows.length === 0 ? (
-              <li className="text-[12.5px] text-muted">—</li>
-            ) : (
-              byTypeRows.map(([id, count]) => {
-                const meta = LEAD_TYPES[id as keyof typeof LEAD_TYPES];
-                return (
-                  <li key={id}>
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="truncate text-[12.5px] font-semibold text-slate">
-                        {tr(meta?.name, L, id)}
-                      </span>
-                      <span className="font-mono text-[12px] font-bold text-ink tabular-nums">{count}</span>
-                    </div>
-                    <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-line-soft">
-                      <span
-                        className="block h-full rounded-full"
-                        style={{ width: `${(count / maxType) * 100}%`, backgroundColor: meta?.color ?? '#0e7c6b' }}
-                      />
-                    </span>
-                  </li>
-                );
-              })
-            )}
-          </ul>
-        </div>
-
-        {/* Holat bo'yicha */}
-        <div className="rounded-[20px] border border-line-soft bg-white p-4">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">{t('admin.stats.byStatus')}</h2>
-          <ul className="mt-3.5 flex flex-col gap-2.5">
-            {byStatusRows.length === 0 ? (
-              <li className="text-[12.5px] text-muted">—</li>
-            ) : (
-              byStatusRows.map(([id, count]) => {
-                const meta = LEAD_STATUSES[id as keyof typeof LEAD_STATUSES];
-                return (
-                  <li key={id}>
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="truncate text-[12.5px] font-semibold text-slate">{tr(meta?.name, L, id)}</span>
-                      <span className="font-mono text-[12px] font-bold text-ink tabular-nums">{count}</span>
-                    </div>
-                    <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-line-soft">
-                      <span
-                        className="block h-full rounded-full"
-                        style={{ width: `${(count / maxStatus) * 100}%`, backgroundColor: meta?.color ?? '#0e7c6b' }}
-                      />
-                    </span>
-                  </li>
-                );
-              })
-            )}
-          </ul>
-        </div>
-
-        {/* Hudud bo'yicha */}
-        <div className="rounded-[20px] border border-line-soft bg-white p-4">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">{t('admin.stats.byRegion')}</h2>
-          <ul className="mt-3.5 flex flex-col gap-2.5">
-            {byRegionRows.length === 0 ? (
-              <li className="text-[12.5px] text-muted">—</li>
-            ) : (
-              byRegionRows.map(([id, count]) => {
-                const region = UZ_REGIONS.find((r) => r.id === id);
-                return (
-                  <li key={id}>
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="truncate text-[12.5px] font-semibold text-slate">{tr(region?.name, L, id)}</span>
-                      <span className="font-mono text-[12px] font-bold text-ink tabular-nums">{count}</span>
-                    </div>
-                    <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-line-soft">
-                      <span
-                        className="block h-full rounded-full bg-navy/70"
-                        style={{ width: `${(count / maxRegion) * 100}%` }}
-                      />
-                    </span>
-                  </li>
-                );
-              })
-            )}
-          </ul>
-        </div>
+      <section className="grid gap-4 lg:grid-cols-3">
+        <Distribution
+          title={t('admin.stats.byType')}
+          rows={byType.map(([id, n]) => ({ key: id, label: tr(LEAD_TYPES[id as keyof typeof LEAD_TYPES]?.name, L, id), value: n }))}
+          empty={w.noData}
+        />
+        <Distribution
+          title={t('admin.stats.byStatus')}
+          rows={byStatus.map(([id, n]) => ({ key: id, label: tr(LEAD_STATUSES[id as keyof typeof LEAD_STATUSES]?.name, L, id), value: n }))}
+          empty={w.noData}
+        />
+        <Distribution
+          title={t('admin.stats.byRegion')}
+          rows={byRegion.map(([id, n]) => ({ key: id, label: tr(UZ_REGIONS.find((r) => r.id === id)?.name, L, id), value: n }))}
+          empty={w.noData}
+        />
       </section>
+    </div>
+  );
+}
 
-      {/* ================= TOP MAHSULOTLAR ================= */}
-      <section className="rounded-[20px] border border-line-soft bg-white p-4">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">
-            {t('admin.stats.topProducts')}
-          </h2>
-          <Link href={`/${locale}/catalog`} className="text-[12px] font-bold text-copper-dark transition hover:text-ink">
-            {t('admin.products')}
-          </Link>
-        </div>
+/* ------------------------------------------------------------
+   Bloklar
+   ------------------------------------------------------------ */
 
-        {stats.topProducts.length === 0 ? (
-          <p className="mt-3 text-[12.5px] text-muted">
-            {locale === 'ru'
-              ? 'Пока нет данных — продукты появятся после первых заявок с образцами.'
-              : locale === 'en'
-                ? 'No data yet — products appear after the first sample requests.'
-                : 'Hozircha ma\'lumot yo‘q — namunali arizalardan keyin paydo bo‘ladi.'}
-          </p>
+function Card({ title, aside, children, flush }: { title: string; aside?: ReactNode; children: ReactNode; flush?: boolean }) {
+  return (
+    <section className="admin-card min-w-0">
+      <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
+        <h2 className="text-[15px] font-semibold text-ink">{title}</h2>
+        {aside}
+      </header>
+      <div className={flush ? '' : 'p-5'}>{children}</div>
+    </section>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  delta,
+  hint,
+  spark,
+  tone = 'primary',
+  href,
+}: {
+  label: string;
+  value: number | string;
+  delta: number | null;
+  hint: string;
+  spark: number[];
+  tone?: 'primary' | 'ok';
+  href?: string;
+}) {
+  const inner = (
+    <>
+      <span className="text-[13px] text-muted">{label}</span>
+      <span className="flex items-end justify-between gap-3">
+        <span className="text-[34px] font-semibold leading-none tracking-[-0.02em] text-ink tabular-nums">{value}</span>
+        <Sparkline values={spark} tone={tone} />
+      </span>
+      <span className="flex items-center gap-2 text-[12.5px]">
+        {delta == null ? (
+          <span className="text-muted">—</span>
         ) : (
-          <ul className="mt-3.5 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-            {stats.topProducts.slice(0, 9).map((p) => (
-              <li key={p.sku} className="flex items-center gap-2.5 rounded-[14px] border border-line-soft bg-panel/50 px-3 py-2">
-                <span className="font-mono text-[11px] font-bold text-copper-dark">{p.sku}</span>
-                <span className="min-w-0 flex-1 truncate text-[12.5px] font-semibold text-slate">{p.name}</span>
-                <span className="rounded-full bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-ink tabular-nums">
-                  {p.count}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      {/* ================= SO'NGGI ARIZALAR ================= */}
-      <section className="rounded-[20px] border border-line-soft bg-white">
-        <div className="flex items-center justify-between gap-3 border-b border-line-soft px-4 py-3">
-          <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">{t('admin.stats.recent')}</h2>
-          <Link
-            href={`/${locale}/admin/leads`}
-            className="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-copper-dark transition hover:text-ink"
+          <span
+            className={cn(
+              'inline-flex items-center rounded-full px-1.5 py-0.5 font-medium tabular-nums',
+              delta >= 0 ? 'bg-ok/10 text-ok' : 'bg-error/10 text-error',
+            )}
           >
-            {t('admin.leads')}
-            <Icon name="arrow-right" size={14} />
-          </Link>
-        </div>
-
-        {recent.items.length === 0 ? (
-          <div className="px-4 py-10 text-center">
-            <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-[20px] bg-panel text-muted" aria-hidden>
-              <Icon name="users" size={20} />
-            </span>
-            <p className="mt-3 text-[13.5px] font-bold text-ink">{t('admin.leads.noResults')}</p>
-            <p className="mt-1 text-[12.5px] text-muted">{t('admin.leads.noResultsHint')}</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[46rem] border-collapse text-left">
-              <thead>
-                <tr className="border-b border-line-soft bg-panel/50">
-                  {['ref', 'date', 'type', 'contact', 'company', 'status'].map((k) => (
-                    <th
-                      key={k}
-                      scope="col"
-                      className="px-3 py-2.5 text-[10.5px] font-bold uppercase tracking-[0.1em] whitespace-nowrap text-muted"
-                    >
-                      {t(`admin.leads.columns.${k}` as 'admin.leads.columns.ref')}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {recent.items.map((l) => (
-                  <tr key={l.id} className="border-b border-line-soft transition last:border-0 hover:bg-panel/60">
-                    <td className="px-3 py-2.5">
-                      <Link
-                        href={`/${locale}/admin/leads/${l.id}`}
-                        className="font-mono text-[11.5px] font-bold text-copper-dark transition hover:text-ink hover:underline"
-                      >
-                        {l.ref}
-                      </Link>
-                    </td>
-                    <td className="px-3 py-2.5 font-mono text-[11.5px] whitespace-nowrap text-muted">
-                      {formatDateTime(l.createdAt, locale)}
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold whitespace-nowrap text-slate">
-                        <Icon
-                          name={(LEAD_TYPES[l.type as keyof typeof LEAD_TYPES]?.icon ?? 'tag') as IconName}
-                          size={13}
-                          className="text-muted"
-                        />
-                        {tr(LEAD_TYPES[l.type as keyof typeof LEAD_TYPES]?.name, L, l.type)}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <span className="block max-w-[12rem] truncate text-[12.5px] font-semibold text-ink">
-                        {l.contact.fullName}
-                      </span>
-                      <span className="block font-mono text-[11px] whitespace-nowrap text-muted">{l.contact.phone}</span>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <span className="block max-w-[12rem] truncate text-[12.5px] text-slate">{l.company.name || '—'}</span>
-                      <LeadQuality lead={l} locale={L} />
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <LeadStatusBadge status={l.status} locale={L} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            {delta >= 0 ? '↑' : '↓'} {Math.abs(delta)}%
+          </span>
         )}
-      </section>
+        <span className="truncate text-muted">{hint}</span>
+      </span>
+    </>
+  );
+  const cls = 'admin-card flex flex-col justify-between gap-4 p-5';
+  return href ? (
+    <Link href={href} className={cn(cls, 'transition hover:border-copper')}>
+      {inner}
+    </Link>
+  ) : (
+    <div className={cls}>{inner}</div>
+  );
+}
+
+/** 14 kunlik mini-grafik — server SVG (JS yo'q) */
+function Sparkline({ values, tone }: { values: number[]; tone: 'primary' | 'ok' }) {
+  const w = 96;
+  const h = 32;
+  if (values.length < 2) return <span className="h-8 w-24" />;
+  const max = Math.max(...values, 0.0001);
+  const pts = values.map((v, i) => `${((i / (values.length - 1)) * w).toFixed(1)},${(h - 2 - (v / max) * (h - 4)).toFixed(1)}`);
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} aria-hidden className="shrink-0">
+      <polygon points={`0,${h} ${pts.join(' ')} ${w},${h}`} className={tone === 'ok' ? 'fill-ok/10' : 'fill-navy/10'} />
+      <polyline points={pts.join(' ')} fill="none" strokeWidth={1.8} strokeLinejoin="round" className={tone === 'ok' ? 'stroke-ok' : 'stroke-navy'} />
+    </svg>
+  );
+}
+
+function Distribution({ title, rows, empty }: { title: string; rows: { key: string; label: string; value: number }[]; empty: string }) {
+  const max = Math.max(1, ...rows.map((r) => r.value));
+  return (
+    <Card title={title}>
+      {rows.length ? (
+        <ul className="m-0 flex list-none flex-col gap-3 p-0">
+          {rows.map((r) => (
+            <li key={r.key}>
+              <div className="flex items-baseline justify-between gap-2 text-[13px]">
+                <span className="truncate text-slate">{r.label}</span>
+                <span className="font-semibold tabular-nums text-ink">{r.value}</span>
+              </div>
+              <span className="mt-1.5 block h-1.5 overflow-hidden rounded-full bg-panel">
+                <span className="block h-full rounded-full bg-navy" style={{ width: `${(r.value / max) * 100}%` }} />
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-[13px] text-muted">{empty}</p>
+      )}
+    </Card>
+  );
+}
+
+function Empty({ icon, title, hint }: { icon: IconName; title: string; hint: string }) {
+  return (
+    <div className="px-5 py-12 text-center">
+      <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-panel text-muted" aria-hidden>
+        <Icon name={icon} size={22} />
+      </span>
+      <p className="mt-3 text-[14px] font-medium text-ink">{title}</p>
+      <p className="mt-1 text-[13px] text-muted">{hint}</p>
     </div>
   );
 }

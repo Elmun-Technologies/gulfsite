@@ -32,16 +32,19 @@ import {
   ProcessSection,
   SampleBoxSection,
 } from '@/components/home/sections';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -64,6 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function HomePage({ params }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);

@@ -110,11 +110,11 @@ export function TrendChart({
       </svg>
       {h && hover != null ? (
         <div
-          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 rounded-[14px] bg-navy px-2.5 py-1.5 text-[12px] text-white"
+          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 rounded-[10px] bg-navy px-2.5 py-1.5 text-[12px] text-white"
           style={{ left: `${(h.x / W) * 100}%` }}
         >
           <span className="block text-white/60">{fx(points[hover].x)}</span>
-          <span className="font-bold tabular-nums">
+          <span className="font-semibold tabular-nums">
             {points[hover].y} · {label}
           </span>
         </div>
@@ -147,7 +147,7 @@ export function ColumnBars({ values, labels, unit }: { values: number[]; labels:
             style={{ height: `${Math.max(v ? 3 : 0, (v / max) * 100)}%` }}
           />
           <span className="mt-1 text-center text-[10px] text-muted">{labels[i]}</span>
-          <span className="pointer-events-none absolute -top-7 left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-navy px-2 py-1 text-[11px] font-bold text-white group-hover:block">
+          <span className="pointer-events-none absolute -top-7 left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-navy px-2 py-1 text-[11px] font-semibold text-white group-hover:block">
             {labels[i]}: {v} {unit}
           </span>
           <span className="sr-only">
@@ -198,7 +198,7 @@ export function BarList({
               {r.label}
               {r.sub ? <span className="ml-1.5 text-muted">{r.sub}</span> : null}
             </span>
-            <span className="relative shrink-0 font-bold tabular-nums text-ink">
+            <span className="relative shrink-0 font-semibold tabular-nums text-ink">
               {r.value}
               {showShare && sum ? (
                 <span className="ml-1.5 font-normal text-muted">{Math.round((r.value / sum) * 100)}%</span>
@@ -225,5 +225,154 @@ export function BarList({
         );
       })}
     </ul>
+  );
+}
+
+const DW = 900;
+const DH = 260;
+const P = { l: 36, r: 36, t: 14, b: 26 };
+
+/**
+ * Ikki o'lchovli dinamika: tashriflar (maydon, chap shkala) + arizalar
+ * (ustunlar, o'ng shkala). Hover — kun bo'yicha ikkala qiymat.
+ */
+export function DualChart({
+  points,
+  labelA,
+  labelB,
+}: {
+  points: { x: string; a: number; b: number }[];
+  labelA: string;
+  labelB: string;
+}) {
+  const [hover, setHover] = useState<number | null>(null);
+  const ref = useRef<SVGSVGElement>(null);
+
+  const geo = useMemo(() => {
+    const maxA = niceMax(Math.max(0, ...points.map((p) => p.a)));
+    const maxB = niceMax(Math.max(0, ...points.map((p) => p.b)));
+    const iw = DW - P.l - P.r;
+    const ih = DH - P.t - P.b;
+    const step = points.length > 1 ? iw / (points.length - 1) : 0;
+    const bw = Math.max(4, Math.min(18, (iw / Math.max(1, points.length)) * 0.5));
+    return {
+      maxA,
+      maxB,
+      ih,
+      bw,
+      xs: points.map((_, i) => P.l + (points.length > 1 ? i * step : iw / 2)),
+      ya: points.map((p) => P.t + ih - (p.a / maxA) * ih),
+      hb: points.map((p) => (p.b / maxB) * ih * 0.55),
+    };
+  }, [points]);
+
+  if (!points.length) return null;
+  const line = geo.xs.map((x, i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${geo.ya[i].toFixed(1)}`).join(' ');
+  const area = `${line} L${geo.xs[geo.xs.length - 1]},${DH - P.b} L${geo.xs[0]},${DH - P.b} Z`;
+  const every = Math.ceil(points.length / 8);
+
+  function onMove(e: React.PointerEvent<SVGSVGElement>) {
+    const svg = ref.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * DW;
+    let best = 0;
+    for (let i = 1; i < geo.xs.length; i++) if (Math.abs(geo.xs[i] - x) < Math.abs(geo.xs[best] - x)) best = i;
+    setHover(best);
+  }
+
+  return (
+    <div className="relative">
+      <div className="mb-3 flex flex-wrap gap-4 text-[12.5px] text-muted">
+        <span className="inline-flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-navy" aria-hidden />
+          {labelA}
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-[3px] bg-ok" aria-hidden />
+          {labelB}
+        </span>
+      </div>
+      <svg
+        ref={ref}
+        viewBox={`0 0 ${DW} ${DH}`}
+        className="h-auto w-full touch-none select-none"
+        role="img"
+        aria-label={`${labelA} / ${labelB}`}
+        onPointerMove={onMove}
+        onPointerLeave={() => setHover(null)}
+      >
+        {[0, 0.5, 1].map((f) => {
+          const y = P.t + geo.ih * (1 - f);
+          return (
+            <g key={f}>
+              <line x1={P.l} x2={DW - P.r} y1={y} y2={y} className="stroke-line-soft" strokeWidth={1} />
+              <text x={P.l - 8} y={y + 4} textAnchor="end" className="fill-muted text-[11px] tabular-nums">
+                {Math.round(geo.maxA * f)}
+              </text>
+              <text x={DW - P.r + 8} y={y + 4} textAnchor="start" className="fill-ok text-[11px] tabular-nums">
+                {f === 1 ? Math.round(geo.maxB) : ''}
+              </text>
+            </g>
+          );
+        })}
+        {geo.xs.map((x, i) =>
+          points[i].b ? (
+            <rect
+              key={`b${points[i].x}`}
+              x={x - geo.bw / 2}
+              y={DH - P.b - geo.hb[i]}
+              width={geo.bw}
+              height={geo.hb[i]}
+              rx={3}
+              className={hover === i ? 'fill-ok' : 'fill-ok/70'}
+            />
+          ) : null,
+        )}
+        <path d={area} className="fill-navy/10" />
+        <path d={line} fill="none" className="stroke-navy" strokeWidth={2.2} strokeLinejoin="round" strokeLinecap="round" />
+        {points.map((p, i) =>
+          i % every === 0 || i === points.length - 1 ? (
+            <text key={p.x} x={geo.xs[i]} y={DH - 8} textAnchor="middle" className="fill-muted text-[11px]">
+              {p.x}
+            </text>
+          ) : null,
+        )}
+        {hover != null ? (
+          <>
+            <line x1={geo.xs[hover]} x2={geo.xs[hover]} y1={P.t} y2={DH - P.b} className="stroke-ink/20" strokeWidth={1} />
+            <circle cx={geo.xs[hover]} cy={geo.ya[hover]} r={5} className="fill-navy stroke-white" strokeWidth={2} />
+          </>
+        ) : null}
+      </svg>
+      {hover != null ? (
+        <div
+          className="pointer-events-none absolute top-8 z-10 -translate-x-1/2 rounded-[10px] bg-ink px-3 py-2 text-[12px] text-white"
+          style={{ left: `${(geo.xs[hover] / DW) * 100}%` }}
+        >
+          <span className="block text-white/60">{points[hover].x}</span>
+          <span className="block tabular-nums">
+            {labelA}: <b>{points[hover].a}</b>
+          </span>
+          <span className="block tabular-nums">
+            {labelB}: <b>{points[hover].b}</b>
+          </span>
+        </div>
+      ) : null}
+      <table className="sr-only">
+        <caption>
+          {labelA} / {labelB}
+        </caption>
+        <tbody>
+          {points.map((p) => (
+            <tr key={p.x}>
+              <th>{p.x}</th>
+              <td>{p.a}</td>
+              <td>{p.b}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

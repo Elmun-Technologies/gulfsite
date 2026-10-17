@@ -75,7 +75,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
     (params.get('q') ? 1 : 0) + activeStatus.length + activeType.length + (period !== 'all' ? 1 : 0) + (sort !== 'newest' ? 1 : 0);
 
   return (
-    <div className="flex flex-col gap-3 rounded-[20px] border border-line-soft bg-white p-3.5">
+    <div className="flex flex-col gap-3 admin-card p-3.5">
       {/* Qidiruv + davr + saralash */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative min-w-[14rem] flex-1">
@@ -90,7 +90,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
             placeholder={t('admin.leads.search')}
             maxLength={120}
             aria-label={t('admin.leads.search')}
-            className="h-10 w-full rounded-[14px] border border-line bg-white pr-3 pl-9 text-[13px] text-ink transition focus:border-copper focus:outline-none focus:ring-4 focus:ring-copper/25"
+            className="h-10 w-full rounded-[10px] border border-line bg-white pr-3 pl-9 text-[13px] text-ink transition focus:border-copper focus:outline-none focus:ring-4 focus:ring-copper/25"
           />
         </div>
 
@@ -101,7 +101,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
               type="button"
               onClick={() => push((sp) => (p === 'all' ? sp.delete('period') : sp.set('period', p)))}
               className={cn(
-                'h-10 rounded-[14px] px-3 text-[12.5px] font-bold transition',
+                'h-10 rounded-[10px] px-3 text-[12.5px] font-semibold transition',
                 period === p
                   ? 'bg-navy text-white'
                   : 'border border-line bg-white text-slate hover:border-copper hover:text-copper-dark',
@@ -118,7 +118,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
             value={sort}
             onChange={(e) => push((sp) => (e.target.value === 'newest' ? sp.delete('sort') : sp.set('sort', e.target.value)))}
             aria-label={t('catalog.sort')}
-            className="h-10 appearance-none rounded-[14px] border border-line bg-white pr-8 pl-3 text-[12.5px] font-semibold text-slate transition focus:border-copper focus:outline-none focus:ring-4 focus:ring-copper/25"
+            className="h-10 appearance-none rounded-[10px] border border-line bg-white pr-8 pl-3 text-[12.5px] font-semibold text-slate transition focus:border-copper focus:outline-none focus:ring-4 focus:ring-copper/25"
           >
             {SORTS.map((s) => (
               <option key={s} value={s}>
@@ -137,7 +137,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/api/admin/leads/export?format=csv"
-          className="inline-flex h-10 items-center gap-1.5 rounded-[14px] border border-line bg-white px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark"
+          className="inline-flex h-10 items-center gap-1.5 rounded-[10px] border border-line bg-white px-3 text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark"
         >
           <Icon name="download" size={15} />
           <span className="hidden sm:inline">{t('admin.leads.export')}</span>
@@ -146,7 +146,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
 
       {/* Holatlar */}
       <div className="flex flex-wrap items-center gap-1.5 border-t border-line-soft pt-3">
-        <span className="mr-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted">
+        <span className="mr-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
           {t('admin.leads.columns.status')}
         </span>
         {Object.entries(LEAD_STATUSES).map(([id, meta]) => {
@@ -158,7 +158,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
               onClick={() => toggleList('status', id)}
               aria-pressed={on}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] font-bold transition',
+                'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] font-semibold transition',
                 on ? 'text-white' : 'bg-white text-slate hover:border-copper',
               )}
               style={
@@ -176,7 +176,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
 
       {/* Turlar */}
       <div className="flex flex-wrap items-center gap-1.5 border-t border-line-soft pt-3">
-        <span className="mr-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted">
+        <span className="mr-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
           {t('admin.leads.columns.type')}
         </span>
         {Object.entries(LEAD_TYPES).map(([id, meta]) => {
@@ -188,7 +188,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
               onClick={() => toggleList('type', id)}
               aria-pressed={on}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] font-bold transition',
+                'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] font-semibold transition',
                 on ? 'text-white' : 'bg-white text-slate hover:border-copper',
               )}
               style={
@@ -206,7 +206,7 @@ export function LeadsFilterBar({ locale, total }: Props) {
           <button
             type="button"
             onClick={() => startTransition(() => router.replace(pathname, { scroll: false }))}
-            className="ml-auto inline-flex items-center gap-1.5 rounded-[14px] border border-line bg-white px-2.5 py-1.5 text-[11.5px] font-bold text-error transition hover:border-error hover:bg-panel"
+            className="ml-auto inline-flex items-center gap-1.5 rounded-[10px] border border-line bg-white px-2.5 py-1.5 text-[11.5px] font-semibold text-error transition hover:border-error hover:bg-panel"
           >
             <Icon name="close" size={13} />
             {t('catalog.reset')} ({activeCount})

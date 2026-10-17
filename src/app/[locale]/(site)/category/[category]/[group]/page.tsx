@@ -12,14 +12,18 @@ import { categoryIdsWithData, categoryName, fitTitle, groupName, groupsFor } fro
 import type { Locale } from '@/lib/taxonomy';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { CategoryLanding, categoryLdItems } from '@/components/catalog/CategoryLanding';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 interface Props {
   params: Promise<{ locale: string; category: string; group: string }>;
 }
 
-export const dynamicParams = false;
+// admin qo'shgan guruh ham sahifaga ega bo'ladi (ustida loading.tsx yo'q — haqiqiy 404)
+export const dynamicParams = true;
+export const revalidate = 3600;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.flatMap((locale) =>
     categoryIdsWithData().flatMap((category) =>
       groupsFor(category, 'uz').map((g) => ({ locale, category, group: g.id })),
@@ -28,6 +32,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw, category, group } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -45,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GroupPage({ params }: Props) {
+  await ensureCatalog();
   const { locale: raw, category, group } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;
