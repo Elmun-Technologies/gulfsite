@@ -164,6 +164,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: verify
+    # ~20 daqiqa oladi — PR'ni kutdirmasligi uchun faqat main'ga merge'dan
+    # keyin (va qo'lda) ishlaydi. PR'da typecheck/lint/test/build/auditlar
+    # (`verify`, ~4 daqiqa) to'liq tekshiriladi.
+    if: github.event_name != 'pull_request'
 
     steps:
       - uses: actions/checkout@v7

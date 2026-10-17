@@ -19,13 +19,10 @@
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
-import { LOCALES, isLocale, localeFromAcceptLanguage } from '@/i18n';
+// `@/i18n/meta` — lug'atsiz: `@/i18n` 3 tildagi lug'atni proxy'ning har
+// sovuq ishga tushishiga yuklardi (proxy HAR sahifa so'rovida ishlaydi)
+import { LOCALES, isLocale, localeFromAcceptLanguage } from '@/i18n/meta';
 import { AUTH_COOKIE, isAdminConfigured, verifySessionToken } from '@/lib/auth';
-import { getProductBySlug } from '@/lib/catalog';
-import { ensureCatalogTtl } from '@/lib/catalog-live';
-import { applicationCounts } from '@/lib/catalog';
-import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
-import { industryIds } from '@/lib/industry-copy';
 
 const PRODUCT_RE = /^\/(uz|ru|en)\/(?:catalog|product|tg\/p)\/([^/]+)\/?$/;
 const GROUP_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/([^/]+)\/?$/;
@@ -39,6 +36,15 @@ async function catalogPathMissing(pathname: string): Promise<string | null> {
   const c = CATEGORY_RE.exec(pathname);
   const ind = INDUSTRY_RE.exec(pathname);
   if (!p && !g && !c && !ind) return null;
+  // Katalog modullari (617 mahsulot JSON + soha matnlari) faqat shu yo'llarda
+  // yuklanadi — boshqa sahifalar uchun proxy yengil qoladi
+  const [{ ensureCatalogTtl }, { getProductBySlug, applicationCounts }, { categoryIdsWithData, groupsFor }, { industryIds }] =
+    await Promise.all([
+      import('@/lib/catalog-live'),
+      import('@/lib/catalog'),
+      import('@/lib/category-pages'),
+      import('@/lib/industry-copy'),
+    ]);
   try {
     await ensureCatalogTtl();
   } catch {
