@@ -329,6 +329,27 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   Yoyilma rasmlari ikki yarimdan iborat va listing tartibi chap/o'ng emas — birlashtirishda tekshiring.
 - **id to'qnashuvi**: bosh sahifada `#katalog` kategoriyalar bo'liminiki; tizer `#e-katalog`.
 
+### 4.12 SEO landing'lar, split deploy, admin identikasi (2026-10-17)
+
+- **Kategoriya/guruh sahifalari**: `/[locale]/category/<cat>` (6) va
+  `/[locale]/category/<cat>/<group>` (65) — `components/catalog/CategoryLanding.tsx`,
+  `lib/category-pages.ts`, matnlar `catseo.*`. `dynamicParams = false`. Footer, bosh
+  sahifa va mahsulot breadcrumb'i shu sahifalarga havola beradi; sitemap'da bor;
+  katalogda faqat bitta kategoriya filtri bo'lsa canonical → `/category/<id>`.
+- **hreflang** faqat til kodi (`uz`/`ru`/`en`, `ru-RU` emas) — auditoriya O'zbekiston/O'rta Osiyo.
+- **Split deploy** (Vercel frontend + fly backend) — `docs/DEPLOY_VERCEL_FLY.md`.
+  `NEXT_PUBLIC_API_URL` → klient lead/analitikani fly'ga yuboradi (`lib/api-base.ts`,
+  CORS `lib/cors.ts`, `CORS_ORIGINS`). `BACKEND_URL` → Vercel kontentni
+  `/api/content/public` dan ISR (tag `site-content`) bilan oladi, `/admin` → fly'ga 307.
+  `FRONTEND_URL` + `REVALIDATE_SECRET` → admin saqlaganda fly Vercel'ning
+  `/api/revalidate` ini chaqiradi; fly'dagi ommaviy sahifalar frontend'ga 308.
+  Env berilmasa — bitta server rejimi (avvalgidek).
+- **Manzil**: Olmazor tumani, Qoraqamish 2/4, 25-uy (katalogdagi kabi — Mirzo Ulug'bek EMAS).
+  **E-mail** hozir `sales-uzb@gff.co.ae`; `info@gulfflavours.uz` uchun pochta
+  provayderi + MX yozuvlari kerak (fly/Vercel pochta bermaydi) — keyin `NEXT_PUBLIC_EMAIL`.
+- **Admin** endi sayt tokenlarida (navy/copper/panel, monogramma, soyasiz) — §6 dagi
+  "eski tokenlar" izohi tarixiy; `globals.css` dagi eski `@theme` bloki qolgan klasslar uchun.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)
@@ -637,8 +658,7 @@ shu qiymatni beradi).
       (`.env`) — production'da yoqish.
 - [ ] **Turnstile** — `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`
       bo'sh, shuning uchun hozir faqat honeypot + rate limit ishlaydi.
-- [ ] **Admin panel yangi dizaynga o'tkazilmagan** (§6 izohi) — brief talab
-      qilmaydi, lekin token ikkiligi texnik qarz.
+- [x] **Admin panel yangi dizaynga o'tkazildi (2026-10-17)** — §4.12.
 - [ ] **`/styleguide` production'da 404** — `NODE_ENV` bo'yicha; deploy'da
       tekshirish (sitemap/robots'da ham yopilgan).
 
