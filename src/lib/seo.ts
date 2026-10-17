@@ -33,7 +33,12 @@ export function clipText(text: string, max: number): string {
 }
 
 export function localizedPath(locale: AppLocale, path = ''): string {
-  const clean = path.startsWith('/') ? path : `/${path}`;
+  let clean = path.startsWith('/') ? path : `/${path}`;
+  // Idempotent: sahifa breadcrumb'lari `href: /${locale}/…` (Link uchun) beradi —
+  // prefiks ikki marta qo'shilsa JSON-LD `…/uz/uz/catalog` (404) bo'lardi.
+  if (clean === `/${locale}` || clean.startsWith(`/${locale}/`) || clean.startsWith(`/${locale}?`)) {
+    clean = clean.slice(locale.length + 1) || '/';
+  }
   const suffix = clean === '/' ? '' : clean.replace(/\/$/, '');
   return `/${locale}${suffix}`;
 }

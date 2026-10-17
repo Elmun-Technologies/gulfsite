@@ -15,7 +15,7 @@
 import type { MetadataRoute } from 'next';
 import { LOCALES, type AppLocale } from '@/i18n';
 import { SITE_URL } from '@/lib/config';
-import { allProducts } from '@/lib/catalog';
+import { allProducts, applicationCounts } from '@/lib/catalog';
 import { industryIds } from '@/lib/industry-copy';
 
 /** Bitta mantiqiy sahifa uchun 3 tilli yozuv */
@@ -57,7 +57,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ------------------------------------------------------------------------ */
 
   /* ---------- Tarmoq sahifalari ---------- */
-  for (const id of industryIds()) {
+  const appCounts = applicationCounts();
+  for (const id of industryIds().filter((i) => (appCounts[i] ?? 0) > 0)) {
     out.push(...entry(`/industries/${id}`, 0.7, 'monthly'));
   }
 

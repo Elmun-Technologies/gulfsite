@@ -14,7 +14,7 @@ import { Download } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
-import { productCount, queryCatalog, paramsToFilters } from '@/lib/catalog';
+import { countActive, productCount, queryCatalog, paramsToFilters } from '@/lib/catalog';
 import {
   ALL_GROUPS,
   CATEGORIES,
@@ -72,15 +72,21 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     ? t('seo.search.description', { q: filters.q.trim(), count: result.total })
     : t('seo.catalog.description');
 
-  const qs = sp.toString();
+  // Kanonik URL faqat oq ro'yxatdagi parametrlardan: kategoriya (o'z title'i
+  // bor) va sahifa raqami. utm/fbclid/sort/axlat kalitlar alohida kanonik
+  // yaratmaydi. Boshqa filtrlar (guruh, shakl, belgilar, qidiruv…) — noindex.
+  const canon = new URLSearchParams();
+  if (filters.categories.length) canon.set('categories', filters.categories.join(','));
+  if (filters.page > 1) canon.set('page', String(filters.page));
+  const qs = canon.toString();
+  const otherFilters = countActive(filters) - (filters.categories.length ? 1 : 0);
   return buildMetadata({
     locale,
     title: title.slice(0, 60),
     description: description.slice(0, 155),
     path: `/catalog${qs ? `?${qs}` : ''}`,
     image: '/images/cat-flavours.jpg',
-    // Filtrlangan/qidiruvli sahifalar kanonik sifatida toza /catalog ga ko'rsatadi
-    noIndex: Boolean(filters.q.trim()),
+    noIndex: otherFilters > 0,
   });
 }
 

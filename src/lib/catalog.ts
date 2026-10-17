@@ -65,15 +65,19 @@ function blobFor(p: CatalogProduct): SearchBlob {
   const secondary = [
     tr(ALL_GROUPS.find((g) => g.id === p.group)?.name, 'uz', ''),
     tr(ALL_GROUPS.find((g) => g.id === p.group)?.name, 'ru', ''),
+    tr(ALL_GROUPS.find((g) => g.id === p.group)?.name, 'en', ''),
     tr(CATEGORIES.find((c) => c.id === p.category)?.name, 'uz', ''),
     tr(CATEGORIES.find((c) => c.id === p.category)?.name, 'ru', ''),
+    tr(CATEGORIES.find((c) => c.id === p.category)?.name, 'en', ''),
     ...p.applications.flatMap((a) => [
       tr(APPLICATIONS.find((x) => x.id === a)?.name, 'uz', ''),
       tr(APPLICATIONS.find((x) => x.id === a)?.name, 'ru', ''),
+      tr(APPLICATIONS.find((x) => x.id === a)?.name, 'en', ''),
     ]),
     ...p.features.flatMap((f) => [
       tr(FEATURES.find((x) => x.id === f)?.name, 'uz', ''),
       tr(FEATURES.find((x) => x.id === f)?.name, 'ru', ''),
+      tr(FEATURES.find((x) => x.id === f)?.name, 'en', ''),
     ]),
     tr(FORMS.find((f) => f.id === p.form)?.name, 'uz', ''),
     ...p.tags,
@@ -426,8 +430,11 @@ function buildFacets(
   for (const def of defs) {
     const selectedIds = new Set(def.selected(f));
 
-    // Ushbu facetdan TASHQARI barcha filtrlarni qo'llaymiz
-    const others = matchers.filter((m) => m.key !== def.key);
+    // Ushbu facetdan TASHQARI barcha filtrlarni qo'llaymiz (OR facetlar).
+    // `features` — AND: yangi belgini qo'shish natijani faqat toraytiradi,
+    // shuning uchun son tanlanganlar BILAN hisoblanadi (aks holda 64 deb
+    // ko'rsatib, bosilganda 0 natija chiqardi).
+    const others = def.key === 'features' ? matchers : matchers.filter((m) => m.key !== def.key);
     const pool = applyMatchers(base, others);
 
     const options: FacetOption[] = [];

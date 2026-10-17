@@ -150,7 +150,10 @@ export default async function ProductPage({ params }: Props) {
     { key: 'coa', title: t('product.docCoA'), sub: t('product.docCoASub') },
     { key: 'tds', title: t('product.docTds'), sub: t('product.docPdf') },
     { key: 'msds', title: t('product.docMsds'), sub: t('product.docPdf') },
-    { key: 'halal', title: t('product.docHalal'), sub: t('product.docPdf') },
+    // Halol sertifikati faqat `halal` belgili mahsulotlarda (128 ta mahsulotda yo'q)
+    ...(product.features.includes('halal')
+      ? [{ key: 'halal', title: t('product.docHalal'), sub: t('product.docPdf') }]
+      : []),
   ];
 
   const askHref = `/${locale}/contact?type=quote&product=${encodeURIComponent(product.sku)}`;

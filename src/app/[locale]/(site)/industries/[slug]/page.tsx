@@ -23,12 +23,11 @@ import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
-import { applicationProducts } from '@/lib/catalog';
+import { applicationCounts, applicationProducts } from '@/lib/catalog';
 import {
   APPLICATIONS,
   FEATURES,
   FORMS,
-  sortTaxons,
   tr,
   type Locale,
 } from '@/lib/taxonomy';
@@ -60,7 +59,11 @@ interface Props {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) => industryIds().map((slug) => ({ locale, slug })));
+  // mahsuloti yo'q soha (masalan pet-food: matn bor, 0 pozitsiya) bo'sh sahifa
+  // bo'lib qolmasin — router darajasida 404 (dynamicParams = false)
+  const counts = applicationCounts();
+  const ids = industryIds().filter((id) => (counts[id] ?? 0) > 0);
+  return LOCALES.flatMap((locale) => ids.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -102,9 +105,8 @@ export default async function IndustryPage({ params }: Props) {
   const cards = applicationProducts(slug, TABLE_LIMIT, L);
   const setProducts = industrySet(slug, SET_SIZE);
   const solutions = taskSolutions(copy, L, 3);
-  const num = String(
-    sortTaxons([...APPLICATIONS]).findIndex((a) => a.id === slug) + 1,
-  ).padStart(2, '0');
+  // raqam indeks sahifasidagi bilan bir xil (u faqat mahsuloti bor sohalarni sanaydi)
+  const num = industriesWithData(L).find((a) => a.id === slug)?.num ?? '—';
 
   const formLabels = Object.fromEntries(FORMS.map((f) => [f.id, tr(f.name, L)]));
   const featureLabels = Object.fromEntries(FEATURES.map((f) => [f.id, tr(f.name, L)]));
