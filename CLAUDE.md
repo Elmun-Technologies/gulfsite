@@ -365,6 +365,12 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   Soft-404 bo'lmasligi uchun ro'yxat sahifasi va `loading.tsx` `catalog/(list)/` ichida —
   `[slug]` ustida loading chegarasi YO'Q. Yangi loading.tsx qo'shayotganda shuni buzmang
   (`curl …/uz/catalog/yoq` → 404 bo'lishi shart). Guruh landingi ham `true`.
+- **MUHIM: sahifa ichidagi `notFound()` bu loyihada brend 404 ni CHIZMAYDI** — status 404,
+  lekin HTML `<html id="__next_error__">` (header/footer yo'q; `[locale]/not-found.tsx`
+  boundary ishlamaydi — admin'dagi noma'lum ariza ham shunday). Shuning uchun dinamik
+  mahsulot/guruh slug'lari `proxy.ts` → `catalogPathMissing()` da tekshiriladi va mavjud
+  bo'lmagan yo'lga rewrite qilinadi (router 404 → ildiz `not-found.tsx`, to'liq qobiq).
+  Yangi dinamik ommaviy segment qo'shsangiz — shu ro'yxatga qo'shing.
 - **Yangi kategoriya** landing sahifasiga ega emas (`catseo.*` matni yo'q) — havolalar
   `categoryHref()/groupHref()` orqali katalog filtriga ketadi. Kod `BENEFITS/STORAGE/BLURBS`
   uchun aromatizator matnini zaxira qiladi.
