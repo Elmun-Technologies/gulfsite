@@ -912,6 +912,7 @@ export const en: Dict = {
   'contact.type.price': 'Price request',
   'contact.type.tech': 'Technical question',
   'contact.type.partner': 'Partnership',
+  'contact.type.callback': 'Callback',
   'contact.fIndustry': 'Industry',
   'contact.industry.other': 'Other',
   'contact.thanks': 'Thank you!',

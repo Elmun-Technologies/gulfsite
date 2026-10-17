@@ -10,18 +10,17 @@
  *   · quti BO'SH bo'lsa yuborish bloklanadi + ogohlantirish ko'rsatiladi
  *     (server sxemasi `type: 'sample'` uchun kamida 1 ta mahsulot talab
  *      qiladi — `src/lib/leads/schema.ts`)
- *   · muvaffaqiyatdan keyin quti tozalanadi va `sample_submit` yuboriladi
+ *   · muvaffaqiyatdan keyin quti tozalanadi (`sample_submit` — GffLeadForm'da)
  *   · "rahmat" matnidagi `{count}` / `{minutes}` joy tutgichlari to'ldiriladi
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ArrowRight, Package } from 'lucide-react';
 import type { AppLocale } from '@/i18n';
 import type { LeadLabels } from '@/components/lead/GffLeadForm';
 import { GffLeadForm } from '@/components/lead/GffLeadForm';
 import { useSampleBox } from '@/components/sample/SampleBoxProvider';
 import { fillVars } from '@/i18n/translator';
-import { track } from '@/lib/analytics';
 
 export function SamplesFormBridge({
   locale,
@@ -50,7 +49,9 @@ export function SamplesFormBridge({
   className?: string;
 }) {
   const box = useSampleBox();
-  const submittedCount = box.count;
+  // yuborilgan paytdagi son — `clear()` dan keyin "rahmat" matni 0 ko'rsatmasin
+  const [sentCount, setSentCount] = useState<number | null>(null);
+  const submittedCount = sentCount ?? box.count;
 
   const products = useMemo(
     () =>
@@ -66,11 +67,12 @@ export function SamplesFormBridge({
   );
 
   const onSubmitted = useCallback(
-    (ref: string) => {
-      track.sampleSubmit(submittedCount, ref);
+    // `sample_submit` hodisasini GffLeadForm o'zi yuboradi (ikki marta sanalmasin)
+    () => {
+      setSentCount(box.count);
       box.clear();
     },
-    [box, submittedCount],
+    [box],
   );
 
   const resolved: LeadLabels = {
@@ -84,7 +86,7 @@ export function SamplesFormBridge({
   return (
     <div className={className}>
       {/* quti bo'sh — nima qilishni aytamiz (server bu arizani qabul qilmaydi) */}
-      {box.ready && box.count === 0 ? (
+      {box.ready && box.count === 0 && sentCount === null ? (
         <div className="mb-3 flex flex-col gap-2 rounded-card border border-dashed border-line bg-panel p-5">
           <span className="flex items-center gap-2.5 text-body-l font-medium">
             <Package size={18} strokeWidth={1.8} aria-hidden />

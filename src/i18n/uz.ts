@@ -949,6 +949,7 @@ export const uz = {
   'contact.type.price': 'Narx so‘rovi',
   'contact.type.tech': 'Texnik savol',
   'contact.type.partner': 'Hamkorlik',
+  'contact.type.callback': 'Qayta qo‘ng‘iroq',
   'contact.fIndustry': 'Soha',
   'contact.industry.other': 'Boshqa',
   'contact.thanks': 'Rahmat!',

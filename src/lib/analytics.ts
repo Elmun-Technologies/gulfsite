@@ -36,11 +36,10 @@ export function trackEvent(name: string, params: Record<string, string | number 
   }
 
   try {
-    if (GA_ID) {
-      w.dataLayer = w.dataLayer ?? [];
-      w.dataLayer.push({ event: name, ...clean });
-      w.gtag?.('event', name, clean);
-    }
+    // dataLayer — GTM uchun DOIM (GA4/Pixel GTM konteyneri orqali ham ulanadi)
+    w.dataLayer = w.dataLayer ?? [];
+    w.dataLayer.push({ event: name, ...clean });
+    if (GA_ID) w.gtag?.('event', name, clean);
     if (YM_ID) {
       w.ym?.(YM_ID, 'reachGoal', name, clean);
     }
@@ -168,10 +167,8 @@ export function trackPageView(url: string, title: string) {
   const w = win();
   if (!w) return;
   try {
-    if (GA_ID) {
-      w.dataLayer = w.dataLayer ?? [];
-      w.dataLayer.push({ event: 'page_view', page_location: url, page_title: title });
-    }
+    w.dataLayer = w.dataLayer ?? [];
+    w.dataLayer.push({ event: 'page_view', page_location: url, page_title: title });
   } catch {
     /* ignore */
   }

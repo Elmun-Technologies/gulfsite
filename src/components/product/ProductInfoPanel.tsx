@@ -84,8 +84,11 @@ export function ProductInfoPanel({
 }) {
   const box = useSampleBox();
   const toast = useToast();
-  const [size, setSize] = useState<SampleSize>(50);
+  const [pickedSize, setSize] = useState<SampleSize>(50);
   const added = box.has(product.sku);
+  // qutida bo'lsa — tanlangan hajm qutidagi qiymatdan olinadi (store yagona manba)
+  const boxQty = box.items.find((i) => i.sku === product.sku)?.qty;
+  const size: SampleSize = SAMPLE_SIZES.find((s) => s === boxQty) ?? pickedSize;
 
   const changeSize = useCallback(
     (next: SampleSize) => {

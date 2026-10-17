@@ -54,6 +54,8 @@ export function MobileMenu({
   useEffect(() => {
     if (!open) return;
 
+    // yopilganda fokus ochgan tugmaga (burger) qaytadi — <body> ga tushmasin
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -85,6 +87,7 @@ export function MobileMenu({
       document.body.style.overflow = prevOverflow;
       document.removeEventListener('keydown', onKey, true);
       window.clearTimeout(t);
+      opener?.focus();
     };
   }, [open, onClose]);
 

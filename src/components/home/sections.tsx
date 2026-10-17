@@ -527,7 +527,7 @@ export function ContactSection({
           consent: t('form.consentShort'),
           privacy: t('footer.privacy'),
           thanks: t('contact.thanks'),
-          thanksText: t('contact.thanksText', { type: t('contact.type.sample'), minutes: biz.responseMinutes }),
+          thanksText: t('contact.thanksText', { type: t('contact.type.callback'), minutes: biz.responseMinutes }),
           errName: t('err.nameShort'),
           errCompany: t('err.companyShort'),
           errPhone: t('err.phone'),

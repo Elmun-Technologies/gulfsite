@@ -184,6 +184,14 @@ export function GffLeadForm({
   const [errors, setErrors] = useState<Errors>({});
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState<{ ref: string } | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  // xato maydoniga fokus — re-render'dan KEYIN va faqat shu forma ichida
+  // (sahifada ikkita forma bo'lishi mumkin: bosh sahifa + #forma)
+  const [focusTick, setFocusTick] = useState(0);
+  useEffect(() => {
+    if (!focusTick) return;
+    formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }, [focusTick]);
 
   const showCompany = variant !== 'home' || true;
 
@@ -204,8 +212,7 @@ export function GffLeadForm({
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) {
-      const first = document.querySelector<HTMLElement>('[aria-invalid="true"]');
-      first?.focus();
+      setFocusTick((n) => n + 1);
       track.formError(variant, Object.keys(e)[0]);
       return;
     }
@@ -332,6 +339,7 @@ export function GffLeadForm({
   return (
     <form
       id={id}
+      ref={formRef}
       onSubmit={submit}
       noValidate
       className={cn(

@@ -20,7 +20,7 @@ import { buildMetadata } from '@/lib/seo';
 import { I18nProvider } from '@/components/i18n/I18nProvider';
 import { SampleBoxProvider } from '@/components/sample/SampleBoxProvider';
 import { ToastProvider } from '@/components/ui/Overlay';
-import { Analytics, AnalyticsNoScript } from '@/components/layout/Analytics';
+import { Analytics } from '@/components/layout/Analytics';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { organizationLd } from '@/lib/seo';
 
@@ -113,7 +113,6 @@ export default async function RootLayout({
       </head>
 
       <body className="bg-white text-ink antialiased">
-        <AnalyticsNoScript gtmId={gtmId} />
 
         <I18nProvider locale={locale} dict={dict}>
           <SampleBoxProvider>

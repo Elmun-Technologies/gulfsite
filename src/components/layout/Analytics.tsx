@@ -32,6 +32,10 @@ export function Analytics({ gtmId, siteUrl }: { gtmId: string; siteUrl: string }
   const loadGtm = useCallback(() => {
     if (!gtmId || typeof document === 'undefined') return;
     if (document.getElementById('gff-gtm')) return;
+    // GTM'ning standart start hodisasi — usiz "All Pages" trigger'lari
+    // rozilik bosilgan (birinchi tashrif) sahifada ishlamaydi
+    window.dataLayer = window.dataLayer ?? [];
+    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
     const s = document.createElement('script');
     s.id = 'gff-gtm';
     s.async = true;
@@ -90,21 +94,5 @@ export function Analytics({ gtmId, siteUrl }: { gtmId: string; siteUrl: string }
         })();
       `}
     </Script>
-  );
-}
-
-/** GTM `<noscript>` ramkasi — konteyner yuklangan bo'lsa */
-export function AnalyticsNoScript({ gtmId }: { gtmId: string }) {
-  if (!gtmId) return null;
-  return (
-    <noscript>
-      <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-        height="0"
-        width="0"
-        style={{ display: 'none', visibility: 'hidden' }}
-        title="GTM"
-      />
-    </noscript>
   );
 }

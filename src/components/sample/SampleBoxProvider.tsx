@@ -58,6 +58,14 @@ const Ctx = createContext<SampleBoxCtx | null>(null);
 
 /* ---------------- saqlash / o'qish ---------------- */
 
+/** Namuna o'lchami faqat 25 / 50 / 100 (§5) — boshqa qiymat eng yaqiniga */
+const QTY_OPTIONS = [25, 50, 100] as const;
+function snapQty(qty: unknown): number {
+  const n = Number(qty);
+  if (!Number.isFinite(n)) return 50;
+  return QTY_OPTIONS.reduce((best, o) => (Math.abs(o - n) < Math.abs(best - n) ? o : best), 50 as number);
+}
+
 function readStorage(): SampleItem[] {
   if (typeof window === 'undefined') return [];
   try {
@@ -65,11 +73,14 @@ function readStorage(): SampleItem[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
+    const seen = new Set<string>();
     return parsed
       .filter(
         (x): x is SampleItem =>
           !!x && typeof x === 'object' && typeof (x as SampleItem).sku === 'string' && !!(x as SampleItem).name,
       )
+      // takroriy SKU (eski/buzilgan ma'lumot) — React kalitlari to'qnashmasin
+      .filter((x) => (seen.has(x.sku) ? false : (seen.add(x.sku), true)))
       .slice(0, MAX_ITEMS)
       .map((x) => ({
         sku: x.sku,
@@ -79,7 +90,7 @@ function readStorage(): SampleItem[] {
           ru: x.name?.ru ?? '',
           en: x.name?.en ?? '',
         },
-        qty: Number.isFinite(x.qty) ? Math.max(1, Math.min(5000, x.qty)) : 50,
+        qty: snapQty(x.qty),
         unit: x.unit === 'ml' || x.unit === 'kg' ? x.unit : 'g',
         note: typeof x.note === 'string' ? x.note.slice(0, 300) : undefined,
       }));
@@ -102,96 +113,94 @@ function writeStorage(items: SampleItem[]) {
 export function SampleBoxProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<SampleItem[]>([]);
   const [ready, setReady] = useState(false);
-  const hydrated = useRef(false);
+  // add/addMany natijasi (added/exists/full) setState updater'idan EMAS, shu
+  // ko'zgudan hisoblanadi — updater keyinroq (render paytida) bajarilishi mumkin.
+  const itemsRef = useRef<SampleItem[]>([]);
 
   // Gidratsiya: birinchi render'dan keyin o'qiymiz (SSR mos kelishi uchun).
   // localStorage brauzerdagina bor — shuning uchun effect majburiy.
   useEffect(() => {
+    const stored = readStorage();
+    itemsRef.current = stored;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setItems(readStorage());
+    setItems(stored);
     setReady(true);
-    hydrated.current = true;
   }, []);
 
   // Boshqa tab'dagi o'zgarishlarni tinglash
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) setItems(readStorage());
+      if (e.key !== STORAGE_KEY) return;
+      const stored = readStorage();
+      itemsRef.current = stored;
+      setItems(stored);
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  // O'zgarishlarni saqlash
+  // O'zgarishlarni saqlash. `ready` shu commit'ning state'i: gidratsiya
+  // commit'ida u hali false — boshlang'ich [] localStorage'ni o'chirmaydi
+  // (StrictMode'da qayta o'qish ham saqlangan qutini ko'radi).
   useEffect(() => {
-    if (hydrated.current) writeStorage(items);
-  }, [items]);
+    if (ready) writeStorage(items);
+  }, [items, ready]);
+
+  const commit = useCallback((next: SampleItem[]) => {
+    itemsRef.current = next;
+    setItems(next);
+  }, []);
 
   const has = useCallback((sku: string) => items.some((i) => i.sku === sku), [items]);
 
   const add = useCallback(
     (p: BoxProduct): 'added' | 'exists' | 'full' => {
-      let result: 'added' | 'exists' | 'full' = 'added';
-      setItems((prev) => {
-        if (prev.some((i) => i.sku === p.sku)) {
-          result = 'exists';
-          return prev;
-        }
-        if (prev.length >= MAX_ITEMS) {
-          result = 'full';
-          return prev;
-        }
-        return [
-          ...prev,
-          {
-            sku: p.sku,
-            slug: p.slug,
-            name: p.name,
-            qty: p.defaultQty ?? 50,
-            unit: p.unit ?? 'g',
-          },
-        ];
-      });
-      return result;
+      const prev = itemsRef.current;
+      if (prev.some((i) => i.sku === p.sku)) return 'exists';
+      if (prev.length >= MAX_ITEMS) return 'full';
+      commit([
+        ...prev,
+        { sku: p.sku, slug: p.slug, name: p.name, qty: snapQty(p.defaultQty ?? 50), unit: p.unit ?? 'g' },
+      ]);
+      return 'added';
     },
-    [],
+    [commit],
   );
 
-  const addMany = useCallback((list: BoxProduct[]) => {
-    let added = 0;
-    let skipped = 0;
-    setItems((prev) => {
-      const next = [...prev];
+  const addMany = useCallback(
+    (list: BoxProduct[]) => {
+      let added = 0;
+      let skipped = 0;
+      const next = [...itemsRef.current];
       for (const p of list) {
         if (next.length >= MAX_ITEMS || next.some((i) => i.sku === p.sku)) {
           skipped += 1;
           continue;
         }
-        next.push({ sku: p.sku, slug: p.slug, name: p.name, qty: p.defaultQty ?? 50, unit: p.unit ?? 'g' });
+        next.push({ sku: p.sku, slug: p.slug, name: p.name, qty: snapQty(p.defaultQty ?? 50), unit: p.unit ?? 'g' });
         added += 1;
       }
-      return next;
-    });
-    return { added, skipped };
-  }, []);
+      if (added) commit(next);
+      return { added, skipped };
+    },
+    [commit],
+  );
 
-  const remove = useCallback((sku: string) => setItems((prev) => prev.filter((i) => i.sku !== sku)), []);
+  const remove = useCallback((sku: string) => commit(itemsRef.current.filter((i) => i.sku !== sku)), [commit]);
 
   const setQty = useCallback(
     (sku: string, qty: number) =>
-      setItems((prev) =>
-        prev.map((i) => (i.sku === sku ? { ...i, qty: Math.max(1, Math.min(5000, Math.round(qty) || 1)) } : i)),
-      ),
-    [],
+      commit(itemsRef.current.map((i) => (i.sku === sku ? { ...i, qty: snapQty(qty) } : i))),
+    [commit],
   );
 
   const setNote = useCallback(
     (sku: string, note: string) =>
-      setItems((prev) => prev.map((i) => (i.sku === sku ? { ...i, note: note.slice(0, 300) } : i))),
-    [],
+      commit(itemsRef.current.map((i) => (i.sku === sku ? { ...i, note: note.slice(0, 300) } : i))),
+    [commit],
   );
 
-  const clear = useCallback(() => setItems([]), []);
+  const clear = useCallback(() => commit([]), [commit]);
 
   const value = useMemo<SampleBoxCtx>(
     () => ({

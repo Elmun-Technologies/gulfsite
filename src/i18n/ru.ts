@@ -912,6 +912,7 @@ export const ru: Dict = {
   'contact.type.price': 'Запрос цены',
   'contact.type.tech': 'Технический вопрос',
   'contact.type.partner': 'Сотрудничество',
+  'contact.type.callback': 'Обратный звонок',
   'contact.fIndustry': 'Отрасль',
   'contact.industry.other': 'Другое',
   'contact.thanks': 'Спасибо!',
