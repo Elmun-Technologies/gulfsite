@@ -163,22 +163,49 @@ export function saveContent(next: unknown): SiteContent {
 }
 
 /* ------------------------------------------------------------
-   Sayt uchun qulay yordamchilar
-   ------------------------------------------------------------ */
+   Sayt uchun: mahalliy fayl YOKI alohida backend (Vercel + fly)
+   ------------------------------------------------------------
+   `BACKEND_URL` sozlangan bo'lsa (Vercel'dagi sayt), kontent fly'dagi
+   `/api/content/public` dan olinadi: ISR keshi + `site-content` tegi.
+   Admin saqlaganda fly Vercel'ning `/api/revalidate` ga xabar beradi.
+   Aloqa uzilsa — standart qiymatlar (sayt hech qachon bo'sh qolmaydi). */
 
-export function visibleClients(): ClientLogo[] {
-  return getContent().clients.filter((c) => c.visible);
+const BACKEND_URL = (process.env.BACKEND_URL ?? '').trim().replace(/\/+$/, '');
+
+export async function loadContent(): Promise<SiteContent> {
+  if (!BACKEND_URL) return getContent();
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/content/public`, {
+      next: { revalidate: 600, tags: ['site-content'] },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = (await res.json()) as { data?: unknown };
+    const data = sanitizeContent(json.data);
+    // yuklangan logotiplar fly'da — mutlaq manzil
+    return {
+      ...data,
+      clients: data.clients.map((c) => (c.logo.startsWith('/api/media/') ? { ...c, logo: `${BACKEND_URL}${c.logo}` } : c)),
+    };
+  } catch (err) {
+    console.error('[content] backend kontenti olinmadi, standart qiymatlar:', String(err).slice(0, 200));
+    return DEFAULT_CONTENT;
+  }
 }
 
-export function visibleVideos(): (VideoItem & { parsed: ParsedVideo })[] {
-  return getContent()
+export async function visibleClients(): Promise<ClientLogo[]> {
+  return (await loadContent()).clients.filter((c) => c.visible);
+}
+
+export async function visibleVideos(): Promise<(VideoItem & { parsed: ParsedVideo })[]> {
+  return (await loadContent())
     .videos.filter((v) => v.visible)
     .map((v) => ({ ...v, parsed: parseVideo(v.url)! }))
     .filter((v) => v.parsed);
 }
 
-export function contactPeople(): { director: ContactPerson | null; managers: ContactPerson[] } {
-  const people = getContent().people;
+export async function contactPeople(): Promise<{ director: ContactPerson | null; managers: ContactPerson[] }> {
+  const people = (await loadContent()).people;
   const managers = people.filter((p) => p.role === 'sales');
   return {
     director: people.find((p) => p.role === 'director') ?? null,

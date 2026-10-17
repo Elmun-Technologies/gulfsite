@@ -25,7 +25,7 @@ import { PeopleContacts } from './PeopleContacts';
 
 const CERTS = ['Halal', 'ISO 22000', 'HACCP', 'SGS'];
 
-export function Footer({
+export async function Footer({
   locale,
   t,
   year = new Date().getFullYear(),
@@ -39,7 +39,7 @@ export function Footer({
   const c = siteConfig.contact;
   const s = siteConfig.social;
   // direktor + sotuv menejerlari — admin paneldagi "Kontent" bo'limidan
-  const people = contactPeople();
+  const people = await contactPeople();
 
   const cats = CATEGORIES.map((cat) => ({
     id: cat.id,

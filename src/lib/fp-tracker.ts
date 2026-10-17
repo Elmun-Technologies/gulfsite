@@ -13,11 +13,14 @@
  * Ism, telefon kabi shaxsiy ma'lumot YUBORILMAYDI.
  */
 
+import { apiUrl } from './api-base';
+
 const CONSENT_KEY = 'gff_cookie_consent';
 const VID_KEY = 'gff_vid';
 const SID_KEY = 'gff_sid';
 const SESSION_MS = 30 * 60_000;
-const ENDPOINT = '/api/t';
+// alohida backend (fly) bo'lsa — to'g'ridan-to'g'ri unga (lib/api-base.ts)
+const ENDPOINT = apiUrl('/api/t');
 
 type Payload = Record<string, unknown>;
 
@@ -84,9 +87,10 @@ function flush(useBeacon = false) {
   const body = JSON.stringify({ hits: queue.splice(0, 30) });
   try {
     if (useBeacon && navigator.sendBeacon) {
-      navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
+      // text/plain — CORS "oddiy" so'rov (preflight'siz); server tanani baribir JSON sifatida o'qiydi
+      navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
     } else {
-      void fetch(ENDPOINT, { method: 'POST', body, keepalive: true, headers: { 'content-type': 'application/json' } }).catch(
+      void fetch(ENDPOINT, { method: 'POST', body, keepalive: true, headers: { 'content-type': 'text/plain;charset=UTF-8' } }).catch(
         () => {},
       );
     }

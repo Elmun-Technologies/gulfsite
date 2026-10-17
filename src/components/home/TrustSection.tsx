@@ -12,8 +12,8 @@ import { visibleClients } from '@/lib/content';
 import { Reveal, RevealGroup } from '@/components/motion';
 import { Section, SectionHeader, SectionInset } from '@/components/ui/SectionHeader';
 
-export function TrustSection({ t }: { t: Translator }) {
-  const clients = visibleClients();
+export async function TrustSection({ t }: { t: Translator }) {
+  const clients = await visibleClients();
   if (!clients.length) return null;
 
   return (
@@ -33,7 +33,7 @@ export function TrustSection({ t }: { t: Translator }) {
                   sizes="(max-width: 768px) 45vw, 200px"
                   className="object-contain"
                   // yuklangan logotiplar /api/media orqali — optimizatorsiz beriladi
-                  unoptimized={c.logo.startsWith('/api/')}
+                  unoptimized={c.logo.includes('/api/media/')}
                 />
               </span>
             );

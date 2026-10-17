@@ -43,7 +43,7 @@ export default async function SiteLayout({ children, params }: Props) {
   const nav = buildNav(locale, t);
   const dict = getDictionary(locale);
   // suzuvchi WhatsApp/Telegram — birinchi sotuv menejeri
-  const fab = contactPeople().managers[0] ?? null;
+  const fab = (await contactPeople()).managers[0] ?? null;
 
   return (
     <div className="flex min-h-dvh flex-col">

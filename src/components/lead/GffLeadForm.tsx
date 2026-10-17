@@ -30,6 +30,7 @@ import { isValidUzPhone, maskUzPhone, parseUtm } from '@/lib/utils';
 import { fillVars } from '@/i18n/translator';
 import { track } from '@/lib/analytics';
 import { fpIds } from '@/lib/fp-tracker';
+import { apiUrl } from '@/lib/api-base';
 import { useToast } from '@/components/ui/Overlay';
 import { cn } from '@/lib/utils';
 
@@ -260,7 +261,7 @@ export function GffLeadForm({
     };
 
     try {
-      const res = await fetch('/api/leads', {
+      const res = await fetch(apiUrl('/api/leads'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

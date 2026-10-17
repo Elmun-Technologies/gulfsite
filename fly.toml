@@ -5,6 +5,7 @@
 #    fly launch --no-deploy --copy-config      # app nomini tanlang
 #    fly volumes create gff_data --size 3 --region fra
 #    fly secrets set ADMIN_PASSWORD=... ADMIN_SECRET=$(openssl rand -hex 32) \
+#                    REVALIDATE_SECRET=... (Vercel'dagi bilan bir xil) \
 #                    TELEGRAM_BOT_TOKEN=... TELEGRAM_CHAT_ID=...
 #    fly deploy
 #
@@ -36,6 +37,9 @@ primary_region = "fra"
   DATA_DIR = "/app/data"
   LEAD_STORAGE_PATH = "/app/data/leads"
   TRUSTED_IP_HEADER = "fly-client-ip"
+  # Sayt Vercel'da (docs/DEPLOY_VERCEL_FLY.md): CORS, revalidate, fly'dagi
+  # ommaviy sahifalar → saytga 308. Bitta serverda ishlatilsa — olib tashlang.
+  FRONTEND_URL = "https://gulfflavours.uz"
 
 [[mounts]]
   source = "gff_data"

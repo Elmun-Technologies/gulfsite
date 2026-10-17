@@ -14,6 +14,15 @@ import type { NextConfig } from 'next';
 const allowFraming =
   process.env.NODE_ENV !== 'production' || process.env.ALLOW_FRAMING === '1';
 
+function backendImagePattern() {
+  try {
+    const u = new URL((process.env.BACKEND_URL ?? '').trim());
+    return [{ protocol: u.protocol.replace(':', '') as 'https' | 'http', hostname: u.hostname, pathname: '/api/media/**' }];
+  } catch {
+    return [];
+  }
+}
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ['*.e2b.app'],
@@ -39,6 +48,8 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'gulfflavours.ru' },
       // video muqovalari (VideoGallery facade)
       { protocol: 'https', hostname: 'i.ytimg.com' },
+      // alohida backend (fly) — admin yuklagan logotiplar /api/media/*
+      ...backendImagePattern(),
     ],
   },
 

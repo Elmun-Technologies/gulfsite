@@ -70,6 +70,33 @@ export function proxy(req: NextRequest): NextResponse {
 
   /* ---------- Admin himoyasi ---------- */
   const adminPathMatch = pathname.match(/^\/([a-z]{2})\/admin(\/.*)?$/);
+
+  /* Backend (fly) tomoni: FRONTEND_URL sozlangan bo'lsa, ommaviy sahifalar
+     fly domenida takrorlanmasin (SEO dublikat) — saytga 308. Admin va API qoladi. */
+  const frontend = (process.env.FRONTEND_URL ?? '').trim().replace(/\/+$/, '');
+  if (frontend && !adminPathMatch && shouldHandle(pathname)) {
+    try {
+      if (new URL(frontend).host !== req.nextUrl.host) {
+        return NextResponse.redirect(`${frontend}${pathname}${search}`, 308);
+      }
+    } catch {
+      /* noto'g'ri FRONTEND_URL */
+    }
+  }
+
+  /* Sayt Vercel'da, backend fly'da (BACKEND_URL): admin panel ma'lumotlar
+     turgan serverda ishlaydi — u yerga yo'naltiramiz (Vercel diski o'qish uchun). */
+  const backend = (process.env.BACKEND_URL ?? '').trim().replace(/\/+$/, '');
+  if (adminPathMatch && backend) {
+    try {
+      if (new URL(backend).host !== req.nextUrl.host) {
+        return NextResponse.redirect(`${backend}${pathname}${search}`, 307);
+      }
+    } catch {
+      /* noto'g'ri BACKEND_URL — mahalliy panel */
+    }
+  }
+
   if (adminPathMatch) {
     const locale = adminPathMatch[1];
     const isLoginPage = pathname.endsWith('/admin/login');

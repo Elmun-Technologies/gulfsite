@@ -65,7 +65,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
 
   const sp = await searchParams;
   const c = siteConfig.contact;
-  const people = contactPeople();
+  const people = await contactPeople();
   const biz = siteConfig.business;
 
   const typeParam = typeof sp.type === 'string' ? sp.type : undefined;

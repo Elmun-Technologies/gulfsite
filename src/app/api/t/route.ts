@@ -6,6 +6,7 @@
  * (diskka yozilmaydi). Javob har doim 204 — brauzerda xato chiqmasin.
  */
 
+import { preflight, withCors } from '@/lib/cors';
 import { clientIp } from '@/lib/leads/antispam';
 import { appendHits, countryFrom, isBot, parseUa, type Hit } from '@/lib/analytics-store';
 
@@ -51,7 +52,7 @@ function cleanParams(p: unknown): Hit['p'] {
   return n ? out : undefined;
 }
 
-export async function POST(req: Request) {
+async function handlePost(req: Request): Promise<Response> {
   const ua = req.headers.get('user-agent') ?? '';
   if (isBot(ua)) return NO_CONTENT();
 
@@ -118,4 +119,13 @@ export async function POST(req: Request) {
 
   appendHits(hits);
   return NO_CONTENT();
+}
+
+/* Vercel'dagi sayt fly backend'iga to'g'ridan-to'g'ri yuboradi — CORS (lib/cors.ts) */
+export async function POST(req: Request) {
+  return withCors(req, await handlePost(req));
+}
+
+export function OPTIONS(req: Request) {
+  return preflight(req);
 }

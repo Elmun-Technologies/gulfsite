@@ -8,8 +8,8 @@ import { visibleVideos } from '@/lib/content';
 import { Section, SectionHeader, SectionInset } from '@/components/ui/SectionHeader';
 import { VideoGallery } from '@/components/video/VideoGallery';
 
-export function VideoSection({ t, limit }: { t: Translator; limit?: number }) {
-  const videos = visibleVideos().slice(0, limit ?? 24);
+export async function VideoSection({ t, limit }: { t: Translator; limit?: number }) {
+  const videos = (await visibleVideos()).slice(0, limit ?? 24);
   if (!videos.length) return null;
 
   return (
