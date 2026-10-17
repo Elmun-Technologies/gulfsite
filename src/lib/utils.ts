@@ -210,15 +210,6 @@ export function parseUtm(search: string): Record<string, string> {
    XAVFSIZLIK
    ------------------------------------------------------------ */
 
-/** Vaqt-bo'yicha o'zgarmas taqqoslash (timing hujumlarining oldini oladi) */
-export function safeEqual(a: string, b: string): boolean {
-  if (typeof a !== 'string' || typeof b !== 'string') return false;
-  if (a.length !== b.length) return false;
-  let out = 0;
-  for (let i = 0; i < a.length; i++) out |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return out === 0;
-}
-
 /** Log uchun xavfsizlashtirish (CRLF injection) */
 export function sanitizeLog(input: string): string {
   return String(input).replace(/[\r\n\t]/g, ' ').slice(0, 500);
@@ -236,7 +227,11 @@ export function escapeHtml(input: string): string {
 
 /** CSV eksporti uchun maydon */
 export function csvCell(value: unknown): string {
-  const s = value == null ? '' : String(value);
+  let s = value == null ? '' : String(value);
+  // CSV formula injection: `=`, `+`, `-`, `@`, TAB, CR bilan boshlangan katak
+  // Excel'da formula sifatida bajariladi (lead ismi ochiq formadan keladi).
+  // Faqat raqamli qiymatlar (telefon `+998 90 …`, manfiy son) tegilmaydi.
+  if (/^[=+\-@\t\r]/.test(s) && !/^[+-]?[\d\s().-]+$/.test(s)) s = `'${s}`;
   if (/[",;\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
   return s;
 }

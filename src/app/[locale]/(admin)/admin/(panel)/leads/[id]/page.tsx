@@ -10,8 +10,12 @@
  * PATCH qilinadi va `router.refresh()` bilan sahifa yangilanadi.
  */
 
+import { adminCopy } from '@/lib/admin-copy';
+import { journey } from '@/lib/analytics-store';
+import { SessionCard } from '@/components/admin/SessionCard';
+import { requireAdmin } from '@/lib/guard';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { makeT, normalizeLocale } from '@/i18n';
 import { getLead } from '@/lib/leads/store';
 import { BUSINESS_TYPES, LEAD_STATUSES, LEAD_TYPES, UZ_REGIONS, tr, type Locale } from '@/lib/taxonomy';
@@ -29,6 +33,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminLeadDetailPage({ params }: PageProps) {
   const { locale: raw, id } = await params;
+  // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
+  if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);
@@ -44,6 +50,9 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
   const statusMeta = LEAD_STATUSES[lead.status];
   const region = UZ_REGIONS.find((r) => r.id === lead.location.region);
   const bizType = BUSINESS_TYPES.find((b) => b.id === lead.company.type);
+  // o'z analitikamiz: ariza yuborgan tashrif buyuruvchining saytdagi yo'li (30 kun)
+  const ac = adminCopy(locale);
+  const visits = lead.source.visitorId ? journey({ vid: lead.source.visitorId, days: 30 }).slice(0, 5) : [];
 
 
   return (
@@ -52,16 +61,16 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
       <header className="flex flex-col gap-3">
         <Link
           href={listHref}
-          className="inline-flex w-fit items-center gap-1.5 text-[12.5px] font-bold text-slate-warm-600 transition hover:text-teal-600"
+          className="inline-flex w-fit items-center gap-1.5 text-[12.5px] font-bold text-muted transition hover:text-copper-dark"
         >
           <Icon name="arrow-left" size={14} />
           {t('admin.lead.backToList')}
         </Link>
 
-        <div className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
+        <div className="flex flex-wrap items-start justify-between gap-3 rounded-[20px] border border-line-soft bg-white p-4">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="font-display text-[clamp(1.1rem,2.4vw,1.45rem)] font-extrabold tracking-tight text-pine-900">
+              <h1 className="font-display text-[clamp(1.1rem,2.4vw,1.45rem)] font-semibold tracking-tight text-ink">
                 {lead.ref}
               </h1>
               <LeadStatusBadge status={lead.status} locale={L} />
@@ -75,18 +84,18 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               <SpamScoreBadge score={lead.spamScore} />
             </div>
 
-            <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-slate-warm-600">
+            <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-muted">
               <span className="inline-flex items-center gap-1.5">
-                <Icon name="calendar" size={13} className="text-teal-600" />
+                <Icon name="calendar" size={13} className="text-copper-dark" />
                 {formatDateTime(lead.createdAt, locale)}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Icon name="clock" size={13} className="text-teal-600" />
+                <Icon name="clock" size={13} className="text-copper-dark" />
                 {timeAgo(lead.createdAt, locale)}
               </span>
               {lead.updatedAt !== lead.createdAt ? (
                 <span className="inline-flex items-center gap-1.5">
-                  <Icon name="refresh" size={13} className="text-slate-warm-400" />
+                  <Icon name="refresh" size={13} className="text-muted/70" />
                   {formatDateTime(lead.updatedAt, locale)}
                 </span>
               ) : null}
@@ -94,10 +103,10 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </div>
 
           <div className="flex shrink-0 flex-col items-end gap-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-warm-500">
+            <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">
               {t('admin.lead.quality')}
             </span>
-            <span className="font-display text-[2rem] leading-none font-extrabold tracking-tight text-pine-900 tabular-nums">
+            <span className="font-display text-[2rem] leading-none font-semibold tracking-tight text-ink tabular-nums">
               {quality.score}
             </span>
             <LeadQuality lead={lead} locale={L} />
@@ -109,16 +118,16 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
         {/* ================= CHAP: MA'LUMOTLAR ================= */}
         <div className="flex min-w-0 flex-col gap-4">
           {/* Aloqa */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-              <Icon name="phone" size={16} className="text-teal-600" />
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+              <Icon name="phone" size={16} className="text-copper-dark" />
               {t('admin.lead.contact')}
             </h2>
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <a
                 href={`tel:${lead.contact.phone.replace(/\D/g, '')}`}
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-teal-600 px-3 font-mono text-[12.5px] font-bold text-white transition hover:bg-pine-800"
+                className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-navy px-3 font-mono text-[12.5px] font-bold text-white transition hover:bg-ink"
               >
                 <Icon name="phone" size={14} />
                 {lead.contact.phone}
@@ -126,7 +135,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               {lead.contact.email ? (
                 <a
                   href={`mailto:${lead.contact.email}`}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-cream-300 bg-white px-3 text-[12.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:text-teal-600"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line bg-white px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark"
                 >
                   <Icon name="mail" size={14} />
                   {lead.contact.email}
@@ -137,7 +146,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                   href={lead.contact.telegram.startsWith('http') ? lead.contact.telegram : `https://t.me/${lead.contact.telegram.replace(/^@/, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#229ED9] px-3 text-[12.5px] font-bold text-white transition hover:brightness-110"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-[#229ED9] px-3 text-[12.5px] font-bold text-white transition hover:brightness-110"
                 >
                   <Icon name="telegram" size={14} />
                   {lead.contact.telegram}
@@ -159,9 +168,9 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* Kompaniya */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-              <Icon name="building" size={16} className="text-teal-600" />
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+              <Icon name="building" size={16} className="text-copper-dark" />
               {t('admin.lead.company')}
             </h2>
             <div className="mt-3">
@@ -177,19 +186,19 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* So'rov */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-              <Icon name="box" size={16} className="text-teal-600" />
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+              <Icon name="box" size={16} className="text-copper-dark" />
               {t('admin.lead.request')}
             </h2>
 
             {products.length ? (
-              <div className="mt-3 overflow-x-auto rounded-lg border border-cream-200">
+              <div className="mt-3 overflow-x-auto rounded-[14px] border border-line-soft">
                 <table className="w-full min-w-[34rem] border-collapse text-left">
                   <thead>
-                    <tr className="border-b border-cream-200 bg-cream-50">
+                    <tr className="border-b border-line-soft bg-panel/50">
                       {['SKU', t('form.products'), t('samples.qtyLabel'), t('samples.noteLabel')].map((h, i) => (
-                        <th key={i} scope="col" className="px-3 py-2 text-[10.5px] font-bold uppercase tracking-[0.1em] whitespace-nowrap text-slate-warm-500">
+                        <th key={i} scope="col" className="px-3 py-2 text-[10.5px] font-bold uppercase tracking-[0.1em] whitespace-nowrap text-muted">
                           {h}
                         </th>
                       ))}
@@ -197,12 +206,12 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                   </thead>
                   <tbody>
                     {products.map((p) => (
-                      <tr key={p.sku} className="border-b border-cream-100 last:border-0">
+                      <tr key={p.sku} className="border-b border-line-soft last:border-0">
                         <td className="px-3 py-2">
                           <Link
                             href={`/${locale}/product/${p.slug}`}
                             target="_blank"
-                            className="font-mono text-[11.5px] font-bold text-teal-600 transition hover:underline"
+                            className="font-mono text-[11.5px] font-bold text-copper-dark transition hover:underline"
                           >
                             {p.sku}
                           </Link>
@@ -211,23 +220,23 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                           <Link
                             href={`/${locale}/product/${p.slug}`}
                             target="_blank"
-                            className="block max-w-[18rem] truncate text-[12.5px] font-semibold text-pine-900 transition hover:text-teal-600"
+                            className="block max-w-[18rem] truncate text-[12.5px] font-semibold text-ink transition hover:text-copper-dark"
                             title={tr(p.name, L, p.sku)}
                           >
                             {tr(p.name, L, p.sku)}
                           </Link>
                         </td>
-                        <td className="px-3 py-2 font-mono text-[12px] whitespace-nowrap text-pine-800 tabular-nums">
+                        <td className="px-3 py-2 font-mono text-[12px] whitespace-nowrap text-slate tabular-nums">
                           {p.qty} {p.unit}
                         </td>
-                        <td className="px-3 py-2 text-[11.5px] text-slate-warm-600">{p.note || '—'}</td>
+                        <td className="px-3 py-2 text-[11.5px] text-muted">{p.note || '—'}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             ) : (
-              <p className="mt-3 text-[12.5px] text-slate-warm-500">
+              <p className="mt-3 text-[12.5px] text-muted">
                 {locale === 'ru' ? 'Продукты не выбраны.' : locale === 'en' ? 'No products selected.' : 'Mahsulot tanlanmagan.'}
               </p>
             )}
@@ -252,17 +261,17 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             </div>
 
             {lead.request.message ? (
-              <div className="mt-3 rounded-lg border border-cream-200 bg-cream-50 p-3.5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-warm-500">{t('form.message')}</p>
-                <p className="mt-2 text-[13px] leading-relaxed whitespace-pre-wrap text-pine-900">{lead.request.message}</p>
+              <div className="mt-3 rounded-[14px] border border-line-soft bg-panel/50 p-3.5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">{t('form.message')}</p>
+                <p className="mt-2 text-[13px] leading-relaxed whitespace-pre-wrap text-ink">{lead.request.message}</p>
               </div>
             ) : null}
           </section>
 
           {/* Manba */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-              <Icon name="globe" size={16} className="text-teal-600" />
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+              <Icon name="globe" size={16} className="text-copper-dark" />
               {t('admin.lead.source')}
             </h2>
             <div className="mt-3">
@@ -275,7 +284,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               {lead.source.utm && Object.keys(lead.source.utm).length ? (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {Object.entries(lead.source.utm).map(([k, v]) => (
-                    <span key={k} className="rounded-md bg-mint-100 px-2 py-1 font-mono text-[11px] font-bold text-teal-700">
+                    <span key={k} className="rounded-md bg-panel px-2 py-1 font-mono text-[11px] font-bold text-copper-dark">
                       {k}={v}
                     </span>
                   ))}
@@ -284,11 +293,25 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             </div>
           </section>
 
+          {/* Tashrif yo'li — qaysi sahifalardan o'tib ariza qoldirdi */}
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{ac.session.journey}</h2>
+            {visits.length ? (
+              <div className="flex flex-col gap-3">
+                {visits.map((s) => (
+                  <SessionCard key={s.sid} session={s} locale={locale} copy={ac} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-[13px] text-muted">{ac.session.noJourney}</p>
+            )}
+          </section>
+
           {/* Bildirishnomalar + tarix */}
           <section className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-              <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-                <Icon name="send" size={16} className="text-teal-600" />
+            <div className="rounded-[20px] border border-line-soft bg-white p-4">
+              <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+                <Icon name="send" size={16} className="text-copper-dark" />
                 {t('admin.lead.notifications')}
               </h2>
               <ul className="mt-3 flex flex-col gap-2">
@@ -297,16 +320,16 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                   const ok = v === true;
                   return (
                     <li key={ch} className="flex items-center gap-2 text-[12.5px]">
-                      <span className={`h-2 w-2 rounded-full ${ok ? 'bg-teal-500' : v ? 'bg-gold-500' : 'bg-cream-300'}`} aria-hidden />
-                      <span className="font-semibold text-pine-800 capitalize">{ch}</span>
-                      <span className="ml-auto truncate font-mono text-[11px] text-slate-warm-500">
+                      <span className={`h-2 w-2 rounded-full ${ok ? 'bg-ok' : v ? 'bg-copper' : 'bg-line'}`} aria-hidden />
+                      <span className="font-semibold text-slate capitalize">{ch}</span>
+                      <span className="ml-auto truncate font-mono text-[11px] text-muted">
                         {v === true ? 'OK' : v === false ? '—' : String(v).slice(0, 40)}
                       </span>
                     </li>
                   );
                 })}
               </ul>
-              <p className="mt-3 border-t border-cream-200 pt-2.5 text-[11.5px] leading-snug text-slate-warm-500">
+              <p className="mt-3 border-t border-line-soft pt-2.5 text-[11.5px] leading-snug text-muted">
                 {lead.consent
                   ? t('form.consent')
                   : locale === 'ru'
@@ -317,21 +340,21 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               </p>
             </div>
 
-            <div className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-              <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-                <Icon name="refresh" size={16} className="text-teal-600" />
+            <div className="rounded-[20px] border border-line-soft bg-white p-4">
+              <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+                <Icon name="refresh" size={16} className="text-copper-dark" />
                 {t('admin.lead.history')}
               </h2>
               {lead.history?.length ? (
                 <ol className="mt-3 flex flex-col gap-2">
                   {lead.history.map((h, i) => (
                     <li key={i} className="flex items-center gap-2 text-[12px]">
-                      <span className="font-mono text-[11px] whitespace-nowrap text-slate-warm-500">
+                      <span className="font-mono text-[11px] whitespace-nowrap text-muted">
                         {formatDateTime(h.at, locale)}
                       </span>
-                      <span className="truncate text-pine-800">
+                      <span className="truncate text-slate">
                         {tr(LEAD_STATUSES[h.from as keyof typeof LEAD_STATUSES]?.name, L, h.from)}
-                        <Icon name="arrow-right" size={11} className="mx-1 inline text-slate-warm-400" />
+                        <Icon name="arrow-right" size={11} className="mx-1 inline text-muted/70" />
                         <strong style={{ color: LEAD_STATUSES[h.to as keyof typeof LEAD_STATUSES]?.color }}>
                           {tr(LEAD_STATUSES[h.to as keyof typeof LEAD_STATUSES]?.name, L, h.to)}
                         </strong>
@@ -340,7 +363,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                   ))}
                 </ol>
               ) : (
-                <p className="mt-3 text-[12.5px] text-slate-warm-500">
+                <p className="mt-3 text-[12.5px] text-muted">
                   {locale === 'ru' ? 'Изменений пока нет.' : locale === 'en' ? 'No changes yet.' : 'O‘zgarishlar yo‘q.'}
                 </p>
               )}
@@ -348,19 +371,19 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* Izohlar */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-              <Icon name="quote" size={16} className="text-teal-600" />
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+              <Icon name="quote" size={16} className="text-copper-dark" />
               {t('admin.lead.notes')}
-              <span className="ml-auto font-mono text-[11.5px] text-slate-warm-500">{lead.notes?.length ?? 0}</span>
+              <span className="ml-auto font-mono text-[11.5px] text-muted">{lead.notes?.length ?? 0}</span>
             </h2>
 
             {lead.notes?.length ? (
               <ul className="mt-3 flex flex-col gap-2.5">
                 {lead.notes.map((n, i) => (
-                  <li key={i} className="rounded-lg border border-cream-200 bg-cream-50 p-3">
-                    <p className="text-[12.5px] leading-relaxed whitespace-pre-wrap text-pine-900">{n.text}</p>
-                    <p className="mt-1.5 flex items-center gap-2 font-mono text-[10.5px] text-slate-warm-500">
+                  <li key={i} className="rounded-[14px] border border-line-soft bg-panel/50 p-3">
+                    <p className="text-[12.5px] leading-relaxed whitespace-pre-wrap text-ink">{n.text}</p>
+                    <p className="mt-1.5 flex items-center gap-2 font-mono text-[10.5px] text-muted">
                       <Icon name="user" size={11} />
                       {n.author} · {formatDateTime(n.at, locale)}
                     </p>
@@ -368,7 +391,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 ))}
               </ul>
             ) : (
-              <p className="mt-3 text-[12.5px] text-slate-warm-500">
+              <p className="mt-3 text-[12.5px] text-muted">
                 {locale === 'ru' ? 'Заметок пока нет — добавьте первую справа.' : locale === 'en' ? 'No notes yet — add the first one.' : 'Izoh yo‘q — o‘ngdagi formadan qo‘shing.'}
               </p>
             )}
@@ -380,17 +403,17 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           <LeadActions id={lead.id} locale={L} status={lead.status} spamScore={lead.spamScore} />
 
           {/* Tezkor kontekst */}
-          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-            <h2 className="font-display text-[13px] font-extrabold tracking-tight text-pine-900">
+          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+            <h2 className="font-display text-[13px] font-semibold tracking-tight text-ink">
               {locale === 'ru' ? 'Быстрые действия' : locale === 'en' ? 'Quick actions' : 'Tezkor amallar'}
             </h2>
             <ul className="mt-3 flex flex-col gap-1.5">
               <li>
                 <Link
                   href={`/${locale}/admin/leads?status=new`}
-                  className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] font-semibold text-pine-800 transition hover:bg-mint-50 hover:text-teal-600"
+                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
-                  <Icon name="sparkles" size={15} className="text-teal-600" />
+                  <Icon name="sparkles" size={15} className="text-copper-dark" />
                   {t('admin.stats.new')}
                 </Link>
               </li>
@@ -399,9 +422,9 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                                 <a
                   href="/api/admin/leads/export?format=csv"
-                  className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] font-semibold text-pine-800 transition hover:bg-mint-50 hover:text-teal-600"
+                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
-                  <Icon name="download" size={15} className="text-teal-600" />
+                  <Icon name="download" size={15} className="text-copper-dark" />
                   {t('admin.leads.export')}
                 </a>
               </li>
@@ -409,15 +432,15 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 <Link
                   href={`/${locale}/samples`}
                   target="_blank"
-                  className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] font-semibold text-pine-800 transition hover:bg-mint-50 hover:text-teal-600"
+                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
-                  <Icon name="box" size={15} className="text-teal-600" />
+                  <Icon name="box" size={15} className="text-copper-dark" />
                   {t('box.title')}
                 </Link>
               </li>
             </ul>
 
-            <p className="mt-3 border-t border-cream-200 pt-3 text-[11.5px] leading-snug text-slate-warm-500">
+            <p className="mt-3 border-t border-line-soft pt-3 text-[11.5px] leading-snug text-muted">
               {statusMeta ? tr(statusMeta.name, L, lead.status) : lead.status} ·{' '}
               {locale === 'ru' ? 'качество' : locale === 'en' ? 'quality' : 'sifat'} {quality.score}/100
             </p>
@@ -439,8 +462,8 @@ function Row({ label, value, mono, href }: { label: string; value?: string | nul
     <span
       className={
         mono
-          ? 'block truncate font-mono text-[12.5px] text-pine-900'
-          : 'block truncate text-[12.5px] text-pine-900'
+          ? 'block truncate font-mono text-[12.5px] text-ink'
+          : 'block truncate text-[12.5px] text-ink'
       }
       title={value}
     >
@@ -448,14 +471,14 @@ function Row({ label, value, mono, href }: { label: string; value?: string | nul
     </span>
   );
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-cream-100 py-2 last:border-0">
-      <span className="shrink-0 text-[11.5px] text-slate-warm-500">{label}</span>
+    <div className="flex items-baseline justify-between gap-3 border-b border-line-soft py-2 last:border-0">
+      <span className="shrink-0 text-[11.5px] text-muted">{label}</span>
       {href ? (
         <a
           href={href}
           target={href.startsWith('http') ? '_blank' : undefined}
           rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-          className="min-w-0 flex-1 text-right transition hover:text-teal-600"
+          className="min-w-0 flex-1 text-right transition hover:text-copper-dark"
         >
           {body}
         </a>

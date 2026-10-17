@@ -35,7 +35,7 @@ const REPORT_ONLY = process.argv.includes('--report');
    ------------------------------------------------------------ */
 const CANON = {
   phone: '+998 97 570 77 60',
-  email: 'info@gulfflavour.uz', // mijoz tasdiqladi, 2026-10-12
+  email: 'sales-uzb@gff.co.ae', // katalog 2026; info@gulfflavours.uz quti ochilgach
   telegram: 'GFF_uzb',
   instagram: 'gulfflavour.uz',
   hqPhone: '+971 4 883 3923',
@@ -48,7 +48,7 @@ const CANON = {
 };
 
 /** Ruxsat etilgan e-mail domenlari (§15). Boshqa domen = shubhali. */
-const ALLOWED_EMAIL_DOMAINS = ['gulfflavour.uz', 'gulfflavours.ae', 'gff.co.ae'];
+const ALLOWED_EMAIL_DOMAINS = ['gulfflavours.uz', 'gulfflavour.uz', 'gulfflavours.ae', 'gff.co.ae'];
 
 /* ------------------------------------------------------------
    .env fayllarini o'qish (Next tartibi: .env.local > .env)
@@ -71,10 +71,17 @@ function parseEnvFile(path) {
   return out;
 }
 
-const fromFiles = { ...parseEnvFile(join(ROOT, '.env')), ...parseEnvFile(join(ROOT, '.env.local')) };
-const env = { ...process.env, ...fromFiles };
+// Next.js tartibi: .env < .env.production < .env.local < .env.production.local,
+// va HAQIQIY muhit o'zgaruvchilari hammasidan ustun (fayl ularni bosib o'tmaydi).
+const fromFiles = {
+  ...parseEnvFile(join(ROOT, '.env')),
+  ...parseEnvFile(join(ROOT, '.env.production')),
+  ...parseEnvFile(join(ROOT, '.env.local')),
+  ...parseEnvFile(join(ROOT, '.env.production.local')),
+};
+const env = { ...fromFiles, ...process.env };
 const get = (k) => (env[k] ?? '').trim();
-const source = (k) => (k in fromFiles ? '.env' : k in process.env ? 'muhit' : 'standart');
+const source = (k) => (k in process.env ? 'muhit' : k in fromFiles ? '.env' : 'standart');
 
 /* ------------------------------------------------------------
    Natijalarni yig'ish
@@ -212,6 +219,13 @@ if (rlMax !== CANON.rateLimitMax || rlWin !== CANON.rateLimitWindow) {
   );
 } else ok(`Rate limit: ${rlMax} so'rov / ${rlWin}s (§11.2)`);
 
+if (get('TRUSTED_IP_HEADER')) ok(`Mijoz IP sarlavhasi: ${get('TRUSTED_IP_HEADER')}`);
+else
+  warn(
+    'TRUSTED_IP_HEADER bo\'sh — IP sarlavhalarini mijoz soxtalashtirib rate limit\'ni (lead + admin login) aylanib o\'tishi mumkin',
+    'Cloudflare → cf-connecting-ip, nginx → x-real-ip, Vercel → x-forwarded-for',
+  );
+
 if (get('TURNSTILE_SECRET_KEY') && get('NEXT_PUBLIC_TURNSTILE_SITE_KEY')) ok('Turnstile yoqilgan');
 else if (get('TURNSTILE_SECRET_KEY') || get('NEXT_PUBLIC_TURNSTILE_SITE_KEY'))
   warn('Turnstile yarim sozlangan — himoya ishlamaydi', 'Ikkala kalit ham kerak (sayt + maxfiy)');
@@ -222,8 +236,11 @@ if (get('NEXT_PUBLIC_GTM_ID')) ok(`GTM: ${get('NEXT_PUBLIC_GTM_ID')}`);
 else warn('NEXT_PUBLIC_GTM_ID bo\'sh — dataLayer hodisalari yoziladi, lekin hech qaerga ketmaydi', 'GTM konteynerini bering (GA4/Meta Pixel shu orqali)');
 
 /* ---------- 7. Kontent joy tutgichlari (§15 TODO) ---------- */
-if (get('NEXT_PUBLIC_CATALOG_PDF')) ok(`Katalog PDF: ${get('NEXT_PUBLIC_CATALOG_PDF')}`);
-else warn('NEXT_PUBLIC_CATALOG_PDF bo\'sh — hujjatlar bloki ko\'rsatilmaydi (o\'lik havola yo\'q)', 'PDF ni public/ ga qo\'ying va yo\'lni bering');
+{
+  const pdf = get('NEXT_PUBLIC_CATALOG_PDF') || '/catalog/gff-katalog-uz.pdf';
+  if (existsSync(join(ROOT, 'public', pdf))) ok(`Katalog PDF: ${pdf} (flipbook: /brochure)`);
+  else warn(`Katalog PDF topilmadi: public${pdf}`, 'node scripts/build-brochure.mjs <katalog.pdf> uz');
+}
 
 if (get('NEXT_PUBLIC_PRODUCTION_VIDEO')) ok(`Video: ${get('NEXT_PUBLIC_PRODUCTION_VIDEO')}`);
 else warn('NEXT_PUBLIC_PRODUCTION_VIDEO bo\'sh — video bloki ko\'rsatilmaydi', 'Ishlab chiqarish videosi (About/Hero) uchun');

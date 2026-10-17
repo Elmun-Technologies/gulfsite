@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   if (period === 'today') from = new Date(now - 86400000).toISOString();
   else if (period === '7d') from = new Date(now - 7 * 86400000).toISOString();
   else if (period === '30d') from = new Date(now - 30 * 86400000).toISOString();
-  else if (sp.get('from')) from = new Date(sp.get('from')!).toISOString();
+  else if (sp.get('from')) from = isoOrUndefined(sp.get('from'));
 
   const result = listLeads({
     q: (sp.get('q') ?? '').slice(0, 120),
@@ -40,11 +40,18 @@ export async function GET(req: NextRequest) {
     type: list('type'),
     region: list('region'),
     from,
-    to: sp.get('to') ? new Date(sp.get('to')!).toISOString() : undefined,
+    to: isoOrUndefined(sp.get('to')),
     sort: (['newest', 'oldest', 'quality'] as const).includes(sp.get('sort') as 'newest') ? (sp.get('sort') as 'newest') : 'newest',
     page,
     pageSize,
   });
 
   return NextResponse.json({ ok: true, data: result }, { headers: { 'Cache-Control': 'no-store' } });
+}
+
+/** Noto'g'ri sana (`?from=abc`) RangeError → 500 bermasin — filtr e'tiborsiz qoladi */
+function isoOrUndefined(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
 }

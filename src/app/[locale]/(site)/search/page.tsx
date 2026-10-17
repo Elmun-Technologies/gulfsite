@@ -21,9 +21,8 @@ import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd } from '@/lib/seo';
-import { applicationCounts, productCount, queryCatalog } from '@/lib/catalog';
+import { applicationCounts, groupOverview, productCount, queryCatalog } from '@/lib/catalog';
 import {
-  ALL_GROUPS,
   APPLICATIONS,
   CATEGORIES,
   FORMS,
@@ -87,22 +86,24 @@ export default async function SearchPage({ params, searchParams }: Props) {
   const result = q ? queryCatalog({ q }, L, PRODUCT_LIMIT) : null;
   const products = result?.cards ?? [];
   const industries = q ? matchIndustries(q, L) : [];
-  const total = products.length + industries.length;
+  // mahsulotlar soni — HAQIQIY jami (kartalar PRODUCT_LIMIT bilan kesilgan)
+  const productTotal = result?.total ?? 0;
+  const total = productTotal + industries.length;
 
   const catLabels = Object.fromEntries(CATEGORIES.map((c) => [c.id, tr(c.name, L)]));
   const formLabels = Object.fromEntries(FORMS.map((f) => [f.id, tr(f.name, L)]));
 
   /* ---- "Ko'p qidiriladi" — MA'LUMOTDAN (eng katta guruhlar) ---- */
-  const popular = sortTaxons([...ALL_GROUPS])
-    .map((g) => ({ label: tr(g.name, L), q: tr(g.name, 'en'), count: 0 }))
-    .slice(0, 6);
+  const popular = groupOverview(L)
+    .slice(0, 6)
+    .map((g) => ({ label: g.label, q: g.label, count: g.count }));
 
   const showProducts = tab !== 'industries';
   const showIndustries = tab !== 'products';
 
   const tabs = [
     { id: 'all', label: t('search.tabAll'), count: total },
-    { id: 'products', label: t('search.tabProducts'), count: products.length },
+    { id: 'products', label: t('search.tabProducts'), count: productTotal },
     { id: 'industries', label: t('search.tabIndustries'), count: industries.length },
   ];
 

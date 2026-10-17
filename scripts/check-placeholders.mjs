@@ -228,6 +228,8 @@ const ROUTES = [
   '/uz/contact',
   '/uz/search?q=vanil',
   '/uz/privacy',
+  '/uz/terms',
+  '/uz/quote',
 ];
 
 const HTML_VAR_RE = /\{[a-zA-Z][\w.]*\}/g;

@@ -10,11 +10,11 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Download } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
-import { productCount, queryCatalog, paramsToFilters } from '@/lib/catalog';
+import { countActive, productCount, queryCatalog, paramsToFilters } from '@/lib/catalog';
 import {
   ALL_GROUPS,
   CATEGORIES,
@@ -22,7 +22,6 @@ import {
   tr,
   type Locale,
 } from '@/lib/taxonomy';
-import { publicAssetExists } from '@/lib/design';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { PageHead } from '@/components/ui/PageHead';
 import { Section, SectionInset } from '@/components/ui/SectionHeader';
@@ -72,15 +71,23 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     ? t('seo.search.description', { q: filters.q.trim(), count: result.total })
     : t('seo.catalog.description');
 
-  const qs = sp.toString();
+  // Kanonik URL faqat oq ro'yxatdagi parametrlardan: kategoriya (o'z title'i
+  // bor) va sahifa raqami. utm/fbclid/sort/axlat kalitlar alohida kanonik
+  // yaratmaydi. Boshqa filtrlar (guruh, shakl, belgilar, qidiruv…) — noindex.
+  const canon = new URLSearchParams();
+  if (filters.categories.length) canon.set('categories', filters.categories.join(','));
+  if (filters.page > 1) canon.set('page', String(filters.page));
+  const qs = canon.toString();
+  const otherFilters = countActive(filters) - (filters.categories.length ? 1 : 0);
+  // Faqat bitta kategoriya (boshqa filtrsiz) — kanonik sahifa uning landing'i
+  const onlyCategory = filters.categories.length === 1 && otherFilters === 0 && filters.page === 1;
   return buildMetadata({
     locale,
     title: title.slice(0, 60),
     description: description.slice(0, 155),
-    path: `/catalog${qs ? `?${qs}` : ''}`,
+    path: onlyCategory ? `/category/${filters.categories[0]}` : `/catalog${qs ? `?${qs}` : ''}`,
     image: '/images/cat-flavours.jpg',
-    // Filtrlangan/qidiruvli sahifalar kanonik sifatida toza /catalog ga ko'rsatadi
-    noIndex: Boolean(filters.q.trim()),
+    noIndex: otherFilters > 0,
   });
 }
 
@@ -95,7 +102,6 @@ export default async function CatalogPage({ params, searchParams }: Props) {
   const result = queryCatalog(filters, L);
 
   const biz = siteConfig.business;
-  const hasPdf = Boolean(siteConfig.catalogPdf) && publicAssetExists(siteConfig.catalogPdf);
   const commoditiesOnly =
     filters.categories.length === 1 && filters.categories[0] === 'commodities' && result.total === 0;
 
@@ -170,16 +176,15 @@ export default async function CatalogPage({ params, searchParams }: Props) {
         crumbLabel={t('nav.catalog')}
         actions={
           <>
-            {hasPdf ? (
-              <ButtonLink
-                href={siteConfig.catalogPdf}
-                variant="outline"
-                size="md"
-                icon={<Download size={18} strokeWidth={1.8} aria-hidden />}
-              >
-                {t('catalog.pdf')}
-              </ButtonLink>
-            ) : null}
+            {/* elektron katalog (flipbook + PDF yuklab olish) */}
+            <ButtonLink
+              href={`/${locale}/brochure`}
+              variant="accent"
+              size="md"
+              icon={<BookOpen size={18} strokeWidth={1.8} aria-hidden />}
+            >
+              {t('nav.brochure')}
+            </ButtonLink>
             <ButtonLink href={`/${locale}/contact`} variant="primary" size="md">
               {t('catalog.askTech')}
             </ButtonLink>

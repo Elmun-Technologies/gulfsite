@@ -45,13 +45,13 @@ export function LeadQuality({ lead, locale }: { lead: LeadRecord; locale: Locale
 
   return (
     <span className="inline-flex items-center gap-1.5" title={`${label}: ${score}/100`}>
-      <span className="relative flex h-1.5 w-10 overflow-hidden rounded-full bg-cream-200">
+      <span className="relative flex h-1.5 w-10 overflow-hidden rounded-full bg-line-soft">
         <span
-          className={cn('absolute inset-y-0 left-0 rounded-full', level === 'high' ? 'bg-teal-500' : level === 'medium' ? 'bg-gold-500' : 'bg-slate-warm-400')}
+          className={cn('absolute inset-y-0 left-0 rounded-full', level === 'high' ? 'bg-ok' : level === 'medium' ? 'bg-copper' : 'bg-muted/50')}
           style={{ width: `${score}%` }}
         />
       </span>
-      <span className="font-mono text-[10.5px] font-bold text-slate-warm-600 tabular-nums">{score}</span>
+      <span className="font-mono text-[10.5px] font-bold text-muted tabular-nums">{score}</span>
     </span>
   );
 }
@@ -95,7 +95,7 @@ export function LeadStatusBadge({
 export function LeadTypeBadge({ type, locale }: { type: string; locale: Locale }) {
   const meta = LEAD_TYPES[type as keyof typeof LEAD_TYPES];
   return (
-    <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold whitespace-nowrap text-pine-800">
+    <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold whitespace-nowrap text-slate">
       <span
         className="flex h-6 w-6 items-center justify-center rounded-md text-white"
         style={{ backgroundColor: meta?.color ?? '#0e7c6b' }}
@@ -120,10 +120,10 @@ export function SpamScoreBadge({ score }: { score: number }) {
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11.5px] font-bold tabular-nums',
         danger
-          ? 'border-clay-500/35 bg-clay-500/10 text-clay-700'
+          ? 'border-error/40 bg-error/50/10 text-error'
           : warn
-            ? 'border-gold-500/35 bg-gold-500/10 text-gold-700'
-            : 'border-cream-300 bg-cream-100 text-slate-warm-600',
+            ? 'border-copper/50 bg-copper/15 text-copper-dark'
+            : 'border-line bg-panel text-muted',
       )}
       title={danger ? 'Spam ehtimoli yuqori' : warn ? 'Shubhali belgilar bor' : 'Toza ariza'}
     >

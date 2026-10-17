@@ -11,11 +11,14 @@
  * O'zbekiston Respublikasi Qonuniga muvofiq.
  */
 
+import { fpEvent } from './fp-tracker';
+
 type Win = Window & {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
   ym?: (id: number, action: string, ...args: unknown[]) => void;
 };
+
 
 const GA_ID = process.env.NEXT_PUBLIC_GA4_ID ?? '';
 const YM_ID = Number(process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID ?? 0) || 0;
@@ -35,12 +38,14 @@ export function trackEvent(name: string, params: Record<string, string | number 
     if (v !== undefined && v !== null && v !== '') clean[k] = v;
   }
 
+  // o'z analitikamiz (admin panel) — GTM/GA'dan qat'i nazar
+  fpEvent(name, clean);
+
   try {
-    if (GA_ID) {
-      w.dataLayer = w.dataLayer ?? [];
-      w.dataLayer.push({ event: name, ...clean });
-      w.gtag?.('event', name, clean);
-    }
+    // dataLayer — GTM uchun DOIM (GA4/Pixel GTM konteyneri orqali ham ulanadi)
+    w.dataLayer = w.dataLayer ?? [];
+    w.dataLayer.push({ event: name, ...clean });
+    if (GA_ID) w.gtag?.('event', name, clean);
     if (YM_ID) {
       w.ym?.(YM_ID, 'reachGoal', name, clean);
     }
@@ -139,6 +144,16 @@ export const track = {
   /** Telegram bosildi */
   telegramClick: (source: string) => trackEvent('telegram_click', { source }),
 
+  /** WhatsApp bosildi */
+  whatsappClick: (source: string, phone?: string) => trackEvent('whatsapp_click', { source, phone }),
+
+  /** Video ochildi (YouTube / Instagram) */
+  videoPlay: (source: string, id: string) => trackEvent('video_play', { source, video_id: id }),
+
+  /** Elektron katalog: sahifa varaqlandi / PDF yuklandi */
+  brochurePage: (lang: string, page: number) => trackEvent('brochure_page', { lang, page }),
+  brochureDownload: (lang: string, source: string) => trackEvent('brochure_download', { lang, source }),
+
   /** Instagram bosildi */
   instagramClick: (source: string) => trackEvent('instagram_click', { source }),
 
@@ -168,10 +183,8 @@ export function trackPageView(url: string, title: string) {
   const w = win();
   if (!w) return;
   try {
-    if (GA_ID) {
-      w.dataLayer = w.dataLayer ?? [];
-      w.dataLayer.push({ event: 'page_view', page_location: url, page_title: title });
-    }
+    w.dataLayer = w.dataLayer ?? [];
+    w.dataLayer.push({ event: 'page_view', page_location: url, page_title: title });
   } catch {
     /* ignore */
   }

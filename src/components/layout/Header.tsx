@@ -142,10 +142,10 @@ export function Header({
         className={cn('block h-10 w-auto lg:h-12')}
       />
       <span className="flex flex-col gap-[5px]">
-        <span className="text-[10px] font-semibold leading-none tracking-[0.12em] lg:text-[13px] lg:tracking-[0.16em]">
+        <span className="text-[10px] font-semibold leading-none tracking-[0.12em] min-[1280px]:text-[13px] min-[1280px]:tracking-[0.16em]">
           GULF FLAVOURS &amp; FRAGRANCES
         </span>
-        <span className="text-[9px] font-semibold leading-none tracking-[0.28em] text-copper-dark lg:text-[11px] lg:tracking-[0.32em]">
+        <span className="text-[9px] font-semibold leading-none tracking-[0.28em] text-copper-dark min-[1280px]:text-[11px] min-[1280px]:tracking-[0.32em]">
           UZBEKISTAN
         </span>
       </span>
@@ -180,7 +180,7 @@ export function Header({
           {/* ---------- >=1080px: nav + til + CTA ---------- */}
           <nav
             aria-label="Menu"
-            className="hidden flex-wrap items-center gap-x-7 gap-y-1 nav:flex"
+            className="hidden flex-wrap items-center gap-x-5 gap-y-1 nav:flex min-[1280px]:gap-x-7"
           >
             {nav.map((item) => (
               <Link
@@ -188,7 +188,7 @@ export function Header({
                 href={item.href}
                 data-active={item.id === active ? 'true' : undefined}
                 aria-current={item.id === active ? 'page' : undefined}
-                className="nav-link"
+                className={cn('nav-link', item.wideOnly && 'max-[1319px]:hidden')}
               >
                 {item.label}
               </Link>

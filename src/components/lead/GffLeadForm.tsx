@@ -29,6 +29,8 @@ import { dur, ease } from '@/lib/motion';
 import { isValidUzPhone, maskUzPhone, parseUtm } from '@/lib/utils';
 import { fillVars } from '@/i18n/translator';
 import { track } from '@/lib/analytics';
+import { fpIds } from '@/lib/fp-tracker';
+import { apiUrl } from '@/lib/api-base';
 import { useToast } from '@/components/ui/Overlay';
 import { cn } from '@/lib/utils';
 
@@ -184,6 +186,14 @@ export function GffLeadForm({
   const [errors, setErrors] = useState<Errors>({});
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState<{ ref: string } | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  // xato maydoniga fokus — re-render'dan KEYIN va faqat shu forma ichida
+  // (sahifada ikkita forma bo'lishi mumkin: bosh sahifa + #forma)
+  const [focusTick, setFocusTick] = useState(0);
+  useEffect(() => {
+    if (!focusTick) return;
+    formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }, [focusTick]);
 
   const showCompany = variant !== 'home' || true;
 
@@ -204,8 +214,7 @@ export function GffLeadForm({
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) {
-      const first = document.querySelector<HTMLElement>('[aria-invalid="true"]');
-      first?.focus();
+      setFocusTick((n) => n + 1);
       track.formError(variant, Object.keys(e)[0]);
       return;
     }
@@ -244,13 +253,15 @@ export function GffLeadForm({
         page: typeof window === 'undefined' ? '/' : window.location.pathname + window.location.search,
         referrer: typeof document === 'undefined' ? '' : document.referrer,
         utm: readUtm(),
+        visitorId: fpIds()?.vid,
+        sessionId: fpIds()?.sid,
       },
       website_url: honeypot,
       formStartedAt: startedAt.current || Date.now(),
     };
 
     try {
-      const res = await fetch('/api/leads', {
+      const res = await fetch(apiUrl('/api/leads'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -332,6 +343,7 @@ export function GffLeadForm({
   return (
     <form
       id={id}
+      ref={formRef}
       onSubmit={submit}
       noValidate
       className={cn(

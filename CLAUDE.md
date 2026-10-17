@@ -272,6 +272,84 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   `industryTitle()` bilan qisqaradi. `GOOGLE_SITE_VERIFICATION` /
   `YANDEX_VERIFICATION` env → meta teglar.
 
+### 4.9 To'liq audit (2026-10-17) — topilgan "jim" xatolar va qoidalar
+
+- **Namuna qutisi**: `setState` updater ichida natija (`added/full`)
+  hisoblamang — updater keyinroq bajarilishi mumkin. `SampleBoxProvider`
+  `itemsRef` ko'zgusidan hisoblaydi. Persist effect `ready` bo'lmaguncha
+  yozmaydi (aks holda gidratsiya commit'ida `[]` localStorage'ni o'chiradi).
+- **`clear()` dan keyin son kerak bo'lsa** — avval state'ga saqlang
+  (`SamplesFormBridge.sentCount`), aks holda "0 ta namuna" chiqadi.
+- **`localizedPath()` idempotent** — breadcrumb `href: /${locale}/…` berilsa
+  ham JSON-LD `/uz/uz/…` bo'lmaydi.
+- **Katalog kanonik URL** — faqat `categories` + `page`; boshqa filtr → noindex.
+- **Takroriy lead** — telefon + tur + SKU'lar bo'yicha (faqat telefon emas).
+- **`TRUSTED_IP_HEADER`** — production'da proksiga mos bering (env:check
+  ogohlantiradi); admin login'da IP'siz umumiy cheklov ham bor (30/15 min).
+- **Analitika** — `dataLayer` GA4_ID'siz ham to'ldiriladi (GTM-only sozlama).
+- **`audit:links`** endi sitemap domeni `BASE_URL` dan farq qilsa ham
+  barcha URL'larni tekshiradi (avval 0 ta tekshirib "toza" derdi).
+
+
+### 4.10 Admin panel, o'z analitikamiz, kontent (2026-10-17)
+
+- **Ma'lumotlar** `DATA_DIR` (standart `<cwd>/data`, fly/Docker `/app/data` volume):
+  `leads/` · `analytics/YYYY-MM-DD.jsonl` · `content/site.json` + `content/media/`.
+  Standalone `server.js` `chdir` qiladi → `scripts/start.mjs` `DATA_DIR` ni
+  mutlaq yo'lga qo'yadi (aks holda `.next/standalone/data` ga yozilib, build o'chiradi).
+- **Analitika** (GA/Metrika'siz): `lib/fp-tracker.ts` (klient, `SiteTracker`) →
+  `POST /api/t` → `lib/analytics-store.ts`. `trackEvent()` har hodisani ham yuboradi.
+  IP saqlanmaydi; `HeadlessChrome`/botlar sanalmaydi (Playwright testida oddiy UA bering).
+  Lead'ga `visitorId/sessionId` yoziladi → ariza sahifasida tashrif yo'li.
+- **Admin sahifalari**: `/admin` · `analytics` · `analytics/sessions` · `leads` ·
+  `samples` · `clients` · `content` · `settings`. Matnlar `lib/admin-copy.ts` da
+  (sayt lug'atiga QO'SHILMAYDI — §4.4). Har sahifada `requireAdmin()`.
+- **Kontent** (`lib/content.ts`): kontaktlar (direktor + menejerlar, WA/TG),
+  "Bizga ishonishadi" logotiplari, videolar. Saqlashda `revalidatePath('/', 'layout')`;
+  `(site)/layout.tsx` da `revalidate = 600` (deploy'dan keyingi zaxira).
+  Logotip yuklash `sharp` → WebP (`/api/media/<xesh>.webp`).
+- **Video**: facade — iframe faqat bosilganda (Perf). YouTube nocookie, Instagram embed.
+- **fly.io**: `fly.toml` (volume `gff_data`, `TRUSTED_IP_HEADER=fly-client-ip`,
+  `NEXT_PUBLIC_*` → `[build.args]`). Dockerfile entrypoint volume egasini tuzatadi;
+  `.next` `gff` egaligida — ISR yozishi uchun shart.
+
+
+### 4.11 Elektron katalog (flipbook) va katalog fotolari (2026-10-17)
+
+- **Manba**: mijoz PDF katalogi → `node scripts/build-brochure.mjs <pdf> <uz|ru|en>`
+  (poppler + sharp) → `public/catalog/<lang>/pNN.webp` + `src/data/brochure-<lang>.json`.
+  Natija commit qilinadi (Docker/fly build'da poppler yo'q). **RU kelganda**: skriptni
+  ishga tushirib, `lib/brochure.ts` dagi `ru:` qatorini oching; mundarija varaqlari
+  (`BROCHURE_TOC`) PDF sahifa tartibiga bog'liq — RU tartibi farq qilsa tekshiring.
+- **`/brochure`**: `components/brochure/Flipbook.tsx` — desktop 3D varaq (faqat
+  transform), mobil yarim-sahifa surish; tizer `BrochureTeaser` (bosh sahifa hero'dan
+  keyin, kompaniya). Menyu punkti `wideOnly` — header ≥1320px da (torroqda qator sig'maydi).
+- **Fotolar** `public/images/stock/*` — katalogdagi dizaynerlik stok rasmlari
+  (`pdfimages -png`: CMYK JPEG to'g'ridan-to'g'ri `sharp` bilan teskari rangda chiqadi!).
+  Yoyilma rasmlari ikki yarimdan iborat va listing tartibi chap/o'ng emas — birlashtirishda tekshiring.
+- **id to'qnashuvi**: bosh sahifada `#katalog` kategoriyalar bo'liminiki; tizer `#e-katalog`.
+
+### 4.12 SEO landing'lar, split deploy, admin identikasi (2026-10-17)
+
+- **Kategoriya/guruh sahifalari**: `/[locale]/category/<cat>` (6) va
+  `/[locale]/category/<cat>/<group>` (65) — `components/catalog/CategoryLanding.tsx`,
+  `lib/category-pages.ts`, matnlar `catseo.*`. `dynamicParams = false`. Footer, bosh
+  sahifa va mahsulot breadcrumb'i shu sahifalarga havola beradi; sitemap'da bor;
+  katalogda faqat bitta kategoriya filtri bo'lsa canonical → `/category/<id>`.
+- **hreflang** faqat til kodi (`uz`/`ru`/`en`, `ru-RU` emas) — auditoriya O'zbekiston/O'rta Osiyo.
+- **Split deploy** (Vercel frontend + fly backend) — `docs/DEPLOY_VERCEL_FLY.md`.
+  `NEXT_PUBLIC_API_URL` → klient lead/analitikani fly'ga yuboradi (`lib/api-base.ts`,
+  CORS `lib/cors.ts`, `CORS_ORIGINS`). `BACKEND_URL` → Vercel kontentni
+  `/api/content/public` dan ISR (tag `site-content`) bilan oladi, `/admin` → fly'ga 307.
+  `FRONTEND_URL` + `REVALIDATE_SECRET` → admin saqlaganda fly Vercel'ning
+  `/api/revalidate` ini chaqiradi; fly'dagi ommaviy sahifalar frontend'ga 308.
+  Env berilmasa — bitta server rejimi (avvalgidek).
+- **Manzil**: Olmazor tumani, Qoraqamish 2/4, 25-uy (katalogdagi kabi — Mirzo Ulug'bek EMAS).
+  **E-mail** hozir `sales-uzb@gff.co.ae`; `info@gulfflavours.uz` uchun pochta
+  provayderi + MX yozuvlari kerak (fly/Vercel pochta bermaydi) — keyin `NEXT_PUBLIC_EMAIL`.
+- **Admin** endi sayt tokenlarida (navy/copper/panel, monogramma, soyasiz) — §6 dagi
+  "eski tokenlar" izohi tarixiy; `globals.css` dagi eski `@theme` bloki qolgan klasslar uchun.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)
@@ -580,8 +658,7 @@ shu qiymatni beradi).
       (`.env`) — production'da yoqish.
 - [ ] **Turnstile** — `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`
       bo'sh, shuning uchun hozir faqat honeypot + rate limit ishlaydi.
-- [ ] **Admin panel yangi dizaynga o'tkazilmagan** (§6 izohi) — brief talab
-      qilmaydi, lekin token ikkiligi texnik qarz.
+- [x] **Admin panel yangi dizaynga o'tkazildi (2026-10-17)** — §4.12.
 - [ ] **`/styleguide` production'da 404** — `NODE_ENV` bo'yicha; deploy'da
       tekshirish (sitemap/robots'da ham yopilgan).
 

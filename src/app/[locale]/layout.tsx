@@ -20,7 +20,7 @@ import { buildMetadata } from '@/lib/seo';
 import { I18nProvider } from '@/components/i18n/I18nProvider';
 import { SampleBoxProvider } from '@/components/sample/SampleBoxProvider';
 import { ToastProvider } from '@/components/ui/Overlay';
-import { Analytics, AnalyticsNoScript } from '@/components/layout/Analytics';
+import { Analytics } from '@/components/layout/Analytics';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { organizationLd } from '@/lib/seo';
 
@@ -51,7 +51,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
-  const meta = LOCALE_META[locale];
 
   return {
     ...buildMetadata({ locale, title: siteConfig.seo.defaultTitle, description: siteConfig.seo.defaultDescription, path: '' }),
@@ -59,11 +58,12 @@ export async function generateMetadata({
     alternates: {
       canonical: `${siteConfig.url}/${locale}`,
       languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].lang, `${siteConfig.url}/${l}`])),
+        // hreflang — faqat til kodi (uz/ru/en): 'ru-RU' Google'ga "Rossiya uchun" deydi,
+        // bizning auditoriya esa O'zbekiston va Markaziy Osiyo
+        ...Object.fromEntries(LOCALES.map((l) => [l, `${siteConfig.url}/${l}`])),
         'x-default': `${siteConfig.url}/uz`,
       },
     },
-    other: { 'og:locale': meta.tag },
     // Google Search Console / Yandex Webmaster egalikni tasdiqlash (env bo'sh bo'lsa teg chiqmaydi)
     verification: {
       ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
@@ -113,7 +113,6 @@ export default async function RootLayout({
       </head>
 
       <body className="bg-white text-ink antialiased">
-        <AnalyticsNoScript gtmId={gtmId} />
 
         <I18nProvider locale={locale} dict={dict}>
           <SampleBoxProvider>

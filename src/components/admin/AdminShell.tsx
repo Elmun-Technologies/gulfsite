@@ -12,6 +12,7 @@
 
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, type ReactNode } from 'react';
@@ -19,14 +20,16 @@ import { useI18n } from '@/components/i18n/I18nProvider';
 import { useToast } from '@/components/ui/Overlay';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { cn } from '@/lib/utils';
-import { siteConfig } from '@/lib/config';
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher';
+import { adminCopy } from '@/lib/admin-copy';
 
 interface NavItem {
   href: string;
-  labelKey: 'admin.dashboard' | 'admin.leads' | 'admin.products';
+  label: string;
   icon: IconName;
   badge?: number;
+  /** faqat aniq mos kelganda faol (masalan /analytics va /analytics/sessions) */
+  exact?: boolean;
 }
 
 interface Props {
@@ -46,14 +49,21 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
   const [loggingOut, setLoggingOut] = useState(false);
 
   const base = `/${locale}/admin`;
+  const c = adminCopy(locale);
   const items: NavItem[] = [
-    { href: base, labelKey: 'admin.dashboard', icon: 'chart', badge: unseen },
-    { href: `${base}/leads`, labelKey: 'admin.leads', icon: 'users' },
-    { href: `/${locale}/catalog`, labelKey: 'admin.products', icon: 'grid' },
+    { href: base, label: t('admin.dashboard'), icon: 'target', badge: unseen },
+    { href: `${base}/analytics`, label: c.nav.analytics, icon: 'chart', exact: true },
+    { href: `${base}/analytics/sessions`, label: c.nav.sessions, icon: 'eye' },
+    { href: `${base}/leads`, label: t('admin.leads'), icon: 'invoice' },
+    { href: `${base}/samples`, label: c.nav.samples, icon: 'box' },
+    { href: `${base}/clients`, label: c.nav.clients, icon: 'users' },
+    { href: `${base}/content`, label: c.nav.content, icon: 'edit' },
+    { href: `${base}/settings`, label: c.nav.settings, icon: 'settings' },
+    { href: `/${locale}/catalog`, label: t('admin.products'), icon: 'grid' },
   ];
 
-  const isActive = (href: string) =>
-    href === base ? pathname === base || pathname === `${base}/` : pathname.startsWith(href);
+  const isActive = (href: string, exact?: boolean) =>
+    href === base || exact ? pathname === href || pathname === `${href}/` : pathname.startsWith(href);
 
   async function logout() {
     setLoggingOut(true);
@@ -69,42 +79,41 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-cream-100 lg:flex-row">
+    <div className="flex min-h-dvh flex-col bg-panel lg:flex-row">
       {/* ================= SIDEBAR ================= */}
-      <aside className="flex shrink-0 flex-col border-b border-pine-900/40 bg-pine-950 text-white lg:min-h-dvh lg:w-[15.5rem] lg:border-b-0 lg:border-r">
-        <div className="flex items-center gap-2.5 px-4 py-4">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-600 font-display text-[13px] font-extrabold text-white">
-            {siteConfig.brand.short}
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate font-display text-[13.5px] font-extrabold tracking-tight text-white">
-              {t('admin.title')}
+      <aside className="flex shrink-0 flex-col border-b border-white/10 bg-navy text-white lg:min-h-dvh lg:w-[15.5rem] lg:border-b-0 lg:border-r">
+        <div className="flex items-center gap-3 px-4 py-5">
+          {/* GFF monogrammasi — sayt header'i bilan bir xil identika */}
+          <Image src="/images/monogram-copper.png" alt="" width={498} height={523} className="h-10 w-auto" priority />
+          <span className="flex min-w-0 flex-col gap-[5px]">
+            <span className="truncate text-[11px] font-semibold leading-none tracking-[0.14em] text-white">GULF FLAVOURS</span>
+            <span className="truncate text-[9.5px] font-semibold leading-none tracking-[0.26em] text-copper-light">
+              {t('admin.title').toUpperCase()}
             </span>
-            <span className="block truncate font-mono text-[10.5px] text-white/45">gff.uz</span>
           </span>
         </div>
 
         {/* Mobil navigatsiya */}
         <nav className="flex gap-1.5 overflow-x-auto px-3 pb-3 no-scrollbar lg:flex-col lg:overflow-visible lg:px-2.5 lg:pb-0">
           {items.map((it) => {
-            const active = isActive(it.href);
+            const active = isActive(it.href, it.exact);
             return (
               <Link
                 key={it.href}
                 href={it.href}
                 className={cn(
-                  'group flex shrink-0 items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] font-semibold transition lg:w-full',
-                  active ? 'bg-teal-600 text-white' : 'text-white/65 hover:bg-white/10 hover:text-white',
+                  'group flex shrink-0 items-center gap-2.5 rounded-[14px] px-3 py-2.5 text-[13px] font-semibold transition lg:w-full',
+                  active ? 'bg-copper text-ink' : 'text-white/70 hover:bg-white/10 hover:text-white',
                 )}
                 aria-current={active ? 'page' : undefined}
               >
-                <Icon name={it.icon} size={17} className={cn(active ? 'text-white' : 'text-white/50 group-hover:text-mint-200')} />
-                <span className="whitespace-nowrap">{t(it.labelKey)}</span>
+                <Icon name={it.icon} size={17} className={cn(active ? 'text-ink' : 'text-white/50 group-hover:text-copper-light')} />
+                <span className="whitespace-nowrap">{it.label}</span>
                 {it.badge ? (
                   <span
                     className={cn(
                       'ml-auto rounded-full px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums',
-                      active ? 'bg-white/25 text-white' : 'bg-gold-500 text-pine-950',
+                      active ? 'bg-navy text-white' : 'bg-copper text-ink',
                     )}
                   >
                     {it.badge}
@@ -117,19 +126,19 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
 
         {/* Pastki blok — faqat desktopda */}
         <div className="mt-auto hidden flex-col gap-3 px-3 py-4 lg:flex">
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.04] p-3">
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-white/45">
               {locale === 'ru' ? 'Хранилище' : locale === 'en' ? 'Storage' : 'Saqlash'}
             </p>
             <p className="mt-1.5 flex items-center gap-1.5 font-mono text-[11.5px] text-white/75">
-              <span className={cn('h-1.5 w-1.5 rounded-full', storage.writable ? 'bg-teal-400' : 'bg-clay-500')} />
+              <span className={cn('h-1.5 w-1.5 rounded-full', storage.writable ? 'bg-ok' : 'bg-error')} />
               {storage.driver}
             </p>
             <p className="mt-1 font-mono text-[11px] text-white/45">
               {storage.months} {locale === 'ru' ? 'файл(ов)' : 'fayl'} · {storage.sizeKb} KB
             </p>
             {!storage.writable ? (
-              <p className="mt-2 text-[11px] leading-snug text-clay-400">
+              <p className="mt-2 text-[11px] leading-snug text-copper-light">
                 {locale === 'ru'
                   ? 'Папка недоступна для записи — заявки только в памяти.'
                   : locale === 'en'
@@ -139,14 +148,14 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
             ) : null}
           </div>
 
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.04] p-3">
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-white/45">
               {locale === 'ru' ? 'Каналы уведомлений' : locale === 'en' ? 'Notification channels' : 'Bildirishnoma kanallari'}
             </p>
             <ul className="mt-2 flex flex-col gap-1.5">
               {(['telegram', 'email', 'webhook'] as const).map((ch) => (
                 <li key={ch} className="flex items-center gap-2 text-[11.5px] text-white/70">
-                  <span className={cn('h-1.5 w-1.5 rounded-full', channels[ch] ? 'bg-teal-400' : 'bg-white/20')} />
+                  <span className={cn('h-1.5 w-1.5 rounded-full', channels[ch] ? 'bg-ok' : 'bg-white/20')} />
                   <span className="capitalize">{ch}</span>
                   <span className="ml-auto font-mono text-[10px] text-white/40">
                     {channels[ch] ? 'ON' : 'OFF'}
@@ -159,7 +168,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
           <div className="flex flex-col gap-1.5">
             <Link
               href={`/${locale}`}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-[12.5px] font-semibold text-white/60 transition hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2 rounded-[14px] px-3 py-2 text-[12.5px] font-semibold text-white/60 transition hover:bg-white/10 hover:text-white"
             >
               <Icon name="arrow-up-right" size={15} />
               {t('legal.backToSite')}
@@ -168,7 +177,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
               type="button"
               onClick={logout}
               disabled={loggingOut}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-left text-[12.5px] font-semibold text-white/60 transition hover:bg-clay-500/20 hover:text-clay-300 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-[14px] px-3 py-2 text-left text-[12.5px] font-semibold text-white/60 transition hover:bg-white/10 hover:text-copper-light disabled:opacity-50"
             >
               <Icon name="logout" size={15} />
               {loggingOut ? t('common.loading') : t('admin.logout')}
@@ -180,13 +189,13 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
       {/* ================= KONTENT ================= */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobil yuqori panel */}
-        <header className="sticky top-0 z-30 flex items-center gap-2 border-b border-cream-200 bg-white/95 px-4 py-2.5 backdrop-blur lg:hidden">
+        <header className="sticky top-0 z-30 flex items-center gap-2 border-b border-line-soft bg-white/95 px-4 py-2.5 backdrop-blur lg:hidden">
           <LocaleSwitcher />
           {/* CSV eksport — bu API endpoint (sahifa emas), shuning uchun oddiy <a> */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                     <a
             href="/api/admin/leads/export?format=csv"
-            className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg border border-cream-300 px-3 text-[12.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:text-teal-600"
+            className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark"
           >
             <Icon name="download" size={14} />
             CSV
@@ -195,7 +204,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
             type="button"
             onClick={logout}
             disabled={loggingOut}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-pine-900 px-3 text-[12.5px] font-bold text-white transition hover:bg-clay-600 disabled:opacity-50"
+            className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-navy px-3 text-[12.5px] font-bold text-white transition hover:bg-error disabled:opacity-50"
           >
             <Icon name="logout" size={14} />
             {t('admin.logout')}

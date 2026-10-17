@@ -13,6 +13,7 @@
  * Hamma matn lug'atdan, hamma son ma'lumotdan (§7.1, §10.1).
  */
 
+import { categoryName, groupName } from '@/lib/category-pages';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -150,7 +151,10 @@ export default async function ProductPage({ params }: Props) {
     { key: 'coa', title: t('product.docCoA'), sub: t('product.docCoASub') },
     { key: 'tds', title: t('product.docTds'), sub: t('product.docPdf') },
     { key: 'msds', title: t('product.docMsds'), sub: t('product.docPdf') },
-    { key: 'halal', title: t('product.docHalal'), sub: t('product.docPdf') },
+    // Halol sertifikati faqat `halal` belgili mahsulotlarda (128 ta mahsulotda yo'q)
+    ...(product.features.includes('halal')
+      ? [{ key: 'halal', title: t('product.docHalal'), sub: t('product.docPdf') }]
+      : []),
   ];
 
   const askHref = `/${locale}/contact?type=quote&product=${encodeURIComponent(product.sku)}`;
@@ -164,6 +168,9 @@ export default async function ProductPage({ params }: Props) {
             [
               { name: t('nav.home'), path: '/' },
               { name: t('nav.catalog'), path: '/catalog' },
+              // kategoriya va guruh landing sahifalari — ichki havola (SEO)
+              { name: categoryName(product.category, L), path: `/category/${product.category}` },
+              { name: groupName(product.group, L), path: `/category/${product.category}/${product.group}` },
               { name, path: `/catalog/${product.slug}` },
             ],
             locale,
@@ -178,7 +185,8 @@ export default async function ProductPage({ params }: Props) {
           items={[
             { label: t('nav.home'), href: `/${locale}` },
             { label: t('nav.catalog'), href: `/${locale}/catalog` },
-            { label: catLabel, href: `/${locale}/catalog?categories=${product.category}` },
+            { label: catLabel, href: `/${locale}/category/${product.category}` },
+            { label: groupName(product.group, L), href: `/${locale}/category/${product.category}/${product.group}` },
             { label: name },
           ]}
         />

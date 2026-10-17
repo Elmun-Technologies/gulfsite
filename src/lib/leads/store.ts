@@ -118,12 +118,14 @@ function readMeta(): Meta {
   }
 }
 
-function writeMeta(meta: Meta) {
-  if (DRIVER !== 'file') return;
+function writeMeta(meta: Meta): boolean {
+  if (DRIVER !== 'file') return true;
   try {
     writeFileSync(metaFile(), JSON.stringify(meta, null, 2), 'utf8');
+    return true;
   } catch (err) {
     console.error('[lead-store] meta yozilmadi:', sanitizeLog(String(err)));
+    return false;
   }
 }
 
@@ -133,10 +135,15 @@ function nextRef(): { ref: string; seq: number } {
   const now = new Date();
   const mk = monthKey(now);
   const seq = meta.lastMonth === mk ? meta.seq + 1 : 1;
-  writeMeta({ seq, lastMonth: mk });
+  const persisted = writeMeta({ seq, lastMonth: mk });
 
   const doy = Math.floor((now.getTime() - Date.UTC(now.getUTCFullYear(), 0, 0)) / 86400000);
-  const ref = `GFF-${now.getUTCFullYear()}-${String(doy).padStart(3, '0')}-${String(seq).padStart(4, '0')}`;
+  let ref = `GFF-${now.getUTCFullYear()}-${String(doy).padStart(3, '0')}-${String(seq).padStart(4, '0')}`;
+  // Hisoblagich saqlanmadi (read-only FS, masalan Vercel) yoki xotira drayveri
+  // (bir nechta instansiya) — har lead `…-0001` bo'lib qolmasin: tasodifiy qo'shimcha.
+  if (!persisted || DRIVER === 'memory') {
+    ref += `-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+  }
   return { ref, seq };
 }
 
@@ -270,7 +277,8 @@ export function listLeads(query: LeadQuery = {}): LeadQueryResult {
   }
 
   if (sort === 'oldest') items = items.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-  else if (sort === 'quality') items = items.sort((a, b) => b.spamScore - a.spamScore || b.createdAt.localeCompare(a.createdAt));
+  // "sifat" — eng toza (spam bahosi past) leadlar birinchi
+  else if (sort === 'quality') items = items.sort((a, b) => a.spamScore - b.spamScore || b.createdAt.localeCompare(a.createdAt));
 
   const total = items.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -531,16 +539,41 @@ export function exportLeads(): LeadRecord[] {
   return readAllLeads();
 }
 
-/** Ikki xil arizani tekshirish (bir xil telefon + yaqin vaqt) */
-export function findRecentDuplicate(phone: string, withinSec: number): LeadRecord | null {
+/**
+ * Ikki marta bosilgan arizani tekshirish: bir xil telefon + bir xil tur +
+ * bir xil mahsulotlar + yaqin vaqt. Tur yoki mahsulotlar boshqa bo'lsa — bu
+ * YANGI so'rov (masalan, avval qo'ng'iroq, keyin namuna qutisi) va u jim
+ * tashlab yuborilmasligi kerak.
+ */
+export function findRecentDuplicate(
+  phone: string,
+  withinSec: number,
+  match: { type: string; skus: string[] },
+): LeadRecord | null {
   if (!phone) return null;
   const digits = phone.replace(/\D/g, '');
   const cutoff = Date.now() - withinSec * 1000;
+  const skuKey = [...match.skus].sort().join(',');
   const all = readAllLeads();
   return (
     all.find((l) => {
       const t = new Date(l.createdAt).getTime();
-      return t >= cutoff && l.contact.phone.replace(/\D/g, '').endsWith(digits.slice(-9));
+      return (
+        t >= cutoff &&
+        l.type === match.type &&
+        (l.request.products ?? []).map((p) => p.sku).sort().join(',') === skuKey &&
+        l.contact.phone.replace(/\D/g, '').endsWith(digits.slice(-9))
+      );
     }) ?? null
   );
+}
+
+/**
+ * Yetkazilmagan (diskka yozilmagan VA hech bir kanal olmagan) leadni xotiradan
+ * olib tashlash. Aks holda foydalanuvchi qayta bosganda takroriy-ariza
+ * tekshiruvi uni topib, soxta "Rahmat" (200) qaytarardi.
+ */
+export function discardUndelivered(id: string) {
+  const i = MEM.findIndex((l) => l.id === id);
+  if (i !== -1) MEM.splice(i, 1);
 }

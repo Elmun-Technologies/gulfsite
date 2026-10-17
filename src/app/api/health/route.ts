@@ -4,6 +4,8 @@
  */
 
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { AUTH_COOKIE, verifySessionToken } from '@/lib/auth';
 import { notificationChannels, serverConfig } from '@/lib/config';
 import { getStats } from '@/lib/leads/store';
 import { productCount } from '@/lib/catalog';
@@ -13,7 +15,11 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const detailed = url.searchParams.get('detailed') === '1';
+  // Batafsil holat (lead soni, kanallar, admin sozlanganmi) — faqat admin
+  // sessiyasi bilan: ochiq bo'lsa ma'lumot sizib chiqadi va har chaqiruv
+  // barcha JSONL fayllarini o'qiydi (arzon DoS).
+  const wantsDetailed = url.searchParams.get('detailed') === '1';
+  const detailed = wantsDetailed && verifySessionToken((await cookies()).get(AUTH_COOKIE.name)?.value);
 
   const base = {
     ok: true,

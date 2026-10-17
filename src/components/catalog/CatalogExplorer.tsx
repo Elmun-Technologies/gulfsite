@@ -93,6 +93,8 @@ export interface CatalogExplorerProps {
 
 type View = 'table' | 'cards';
 
+const FACET_LIMIT = 12;
+
 export function CatalogExplorer({
   locale,
   cards,
@@ -120,6 +122,8 @@ export function CatalogExplorer({
   const [view, setView] = useState<View>('table');
   const searchRef = useRef<HTMLInputElement | null>(null);
   const [q, setQ] = useState(params.get('q') ?? '');
+  // 12 tadan ko'p variantli facet (guruhlar: 49 ta) — "yana ko'rsatish"
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   /* ---- <900px: filtrlar sheet'da, default ko'rinish — kartochka (§9) ---- */
   useEffect(() => {
@@ -198,8 +202,10 @@ export function CatalogExplorer({
 
   const resetAll = useCallback(() => {
     pushParams((p) => {
-      for (const k of [...LIST_KEYS, 'q', 'sort', 'page', 'doseMax', 'onlyNew', 'onlyTop']) p.delete(k);
+      // URL kalitlari `filters-url.ts` dagi bilan bir xil: dose / new / top
+      for (const k of [...LIST_KEYS, 'q', 'sort', 'page', 'dose', 'new', 'top']) p.delete(k);
     });
+    setQ('');
   }, [pushParams]);
 
   /* ---- qidiruv: 400ms debounce, URL'ga yoziladi ---- */
@@ -234,13 +240,16 @@ export function CatalogExplorer({
     let n = 0;
     for (const key of LIST_KEYS) n += (params.get(key) ?? '').split(',').filter(Boolean).length;
     if (params.get('q')) n += 1;
+    for (const key of ['dose', 'new', 'top']) if (params.get(key)) n += 1;
     return n;
   }, [params]);
 
   /* ---- tab elementlari ---- */
   const categoryFacet = facets.find((f) => f.key === 'categories');
+  // "Barchasi" — kategoriya filtrisiz son (facet soni kategoriya filtrini hisobga olmaydi)
+  const allCount = categoryFacet ? categoryFacet.options.reduce((n, o) => n + o.count, 0) : total;
   const tabItems = [
-    { id: 'all', label: labels.facetLabels.all ?? '—', count: total },
+    { id: 'all', label: labels.facetLabels.all ?? '—', count: allCount },
     ...(categoryFacet?.options ?? []).map((o) => ({ id: o.id, label: o.label, count: o.count })),
   ];
 
@@ -259,7 +268,10 @@ export function CatalogExplorer({
           <legend className="label p-0">
             {labels.facetLabels[String(facet.key)] ?? facet.label}
           </legend>
-          {facet.options.slice(0, 12).map((opt) => (
+          {(expanded[facet.key]
+            ? facet.options
+            : facet.options.filter((o, i) => i < FACET_LIMIT || o.active)
+          ).map((opt) => (
             <label
               key={opt.id}
               className="flex min-h-7 cursor-pointer items-center gap-3 text-[15px]"
@@ -274,6 +286,15 @@ export function CatalogExplorer({
               <span className="text-[13px] text-muted">{opt.count}</span>
             </label>
           ))}
+          {!expanded[facet.key] && facet.options.length > FACET_LIMIT ? (
+            <button
+              type="button"
+              onClick={() => setExpanded((e) => ({ ...e, [facet.key]: true }))}
+              className="self-start text-[14px] font-medium underline underline-offset-4"
+            >
+              {labels.showMore} · {facet.options.length - FACET_LIMIT}
+            </button>
+          ) : null}
         </fieldset>
       ))}
 
@@ -419,7 +440,7 @@ export function CatalogExplorer({
                 {commoditiesOnly ? labels.emptyText : labels.facetLabels.noResultsHint ?? labels.emptyText}
               </span>
               <ButtonLink href={contactHref} variant="primary" size="md">
-                {commoditiesOnly ? labels.emptyCta : labels.reset}
+                {labels.emptyCta}
               </ButtonLink>
               {!commoditiesOnly ? (
                 <button type="button" onClick={resetAll} className="btn btn--ghost btn--sm">

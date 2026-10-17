@@ -7,7 +7,10 @@ import { siteConfig } from '@/lib/config';
 import { CATEGORIES, tr, type Locale } from '@/lib/taxonomy';
 import { allProducts } from '@/lib/catalog';
 import { Reveal } from '@/components/motion';
-import { FooterAddress, FooterEmail, FooterPhone, FooterSocial } from './FooterContact';
+import { contactPeople } from '@/lib/content';
+import { peopleLabels } from '@/lib/people-labels';
+import { FooterAddress, FooterEmail, FooterSocial } from './FooterContact';
+import { PeopleContacts } from './PeopleContacts';
 
 /**
  * FOOTER (§5, design/Footer.dc.html)
@@ -22,7 +25,7 @@ import { FooterAddress, FooterEmail, FooterPhone, FooterSocial } from './FooterC
 
 const CERTS = ['Halal', 'ISO 22000', 'HACCP', 'SGS'];
 
-export function Footer({
+export async function Footer({
   locale,
   t,
   year = new Date().getFullYear(),
@@ -35,6 +38,8 @@ export function Footer({
   const products = allProducts();
   const c = siteConfig.contact;
   const s = siteConfig.social;
+  // direktor + sotuv menejerlari — admin paneldagi "Kontent" bo'limidan
+  const people = await contactPeople();
 
   const cats = CATEGORIES.map((cat) => ({
     id: cat.id,
@@ -85,7 +90,7 @@ export function Footer({
           <nav aria-label={t('footer.colCatalog')} className="flex flex-col gap-2.5 text-[15px]">
             <span className="label">{t('footer.colCatalog')}</span>
             {cats.map((cat) => (
-              <Link key={cat.id} href={`/${locale}/catalog?categories=${cat.id}`} className="foot-link">
+              <Link key={cat.id} href={`/${locale}/category/${cat.id}`} className="foot-link">
                 {cat.label}
               </Link>
             ))}
@@ -106,12 +111,10 @@ export function Footer({
             <Link href={`/${locale}/contact`} className="foot-link">
               {t('nav.contact')}
             </Link>
-            {/* PDF katalog: fayl yo'q bo'lsa tugma ko'rsatilmaydi (§15 TODO) */}
-            {siteConfig.catalogPdf ? (
-              <Link href={siteConfig.catalogPdf} className="foot-link" download>
-                {t('footer.pdfCatalog')}
-              </Link>
-            ) : null}
+            {/* elektron katalog (flipbook + PDF) — mijoz katalogi, 2026-10-17 */}
+            <Link href={`/${locale}/brochure`} className="foot-link">
+              {t('nav.brochure')}
+            </Link>
           </nav>
 
           {/* ---------- 4. ALOQA ---------- */}
@@ -120,7 +123,12 @@ export function Footer({
 
             <FooterAddress address={address} />
 
-            <FooterPhone href={c.phonePrimaryHref} label={c.phonePrimary} source="footer" />
+            <PeopleContacts
+              variant="list"
+              source="footer"
+              people={[...(people.director ? [people.director] : []), ...people.managers]}
+              labels={peopleLabels(t)}
+            />
 
             <FooterEmail email={c.email} source="footer" />
 

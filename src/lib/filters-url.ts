@@ -83,7 +83,7 @@ export function paramsToFilters(sp: URLSearchParams): CatalogFilters {
     onlyNew: sp.get('new') === '1',
     onlyTop: sp.get('top') === '1',
     sort: sortRaw && VALID_SORTS.includes(sortRaw) ? sortRaw : DEFAULT_FILTERS.sort,
-    page: Math.max(1, Math.min(500, Number(sp.get('page') ?? '1') || 1)),
+    page: Math.max(1, Math.min(500, Math.floor(Number(sp.get('page') ?? '1')) || 1)),
   };
 }
 

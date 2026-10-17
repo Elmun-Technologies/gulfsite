@@ -53,29 +53,29 @@ const GROUP_IMAGE: Record<string, string> = {
   nut: '/images/spices.jpg',
   dairy: '/images/icecream.jpg',
   'dairy-base': '/images/icecream.jpg',
-  sweet: '/images/cake.jpg',
+  sweet: '/images/stock/macarons.webp',
   chocolate: '/images/cake.jpg',
   'chocolate-base': '/images/cake.jpg',
-  bakery: '/images/cake.jpg',
+  bakery: '/images/stock/dough.webp',
   savoury: '/images/spices.jpg',
   'savoury-base': '/images/spices.jpg',
   vegetable: '/images/spices.jpg',
   'herb-spice': '/images/spices.jpg',
   'mint-cool': '/images/sample-pod.jpg',
-  floral: '/images/cat-fragrances.jpg',
-  beverage: '/images/coffee.jpg',
+  floral: '/images/stock/perfume-pink.webp',
+  beverage: '/images/stock/smoothie.webp',
   'tea-coffee': '/images/coffee.jpg',
   alcohol: '/images/coffee.jpg',
   snack: '/images/spices.jpg',
   tobacco: '/images/sample-pod.jpg',
-  'fine-fragrance': '/images/cat-fragrances.jpg',
-  'personal-care': '/images/cat-oils.jpg',
-  'home-care': '/images/cat-aroma.jpg',
-  'fabric-care': '/images/cat-aroma.jpg',
+  'fine-fragrance': '/images/stock/perfume-hands.webp',
+  'personal-care': '/images/stock/hand-cream.webp',
+  'home-care': '/images/stock/laundry.webp',
+  'fabric-care': '/images/stock/laundry.webp',
   oriental: '/images/cat-fragrances.jpg',
   woody: '/images/cat-fragrances.jpg',
   'fresh-aquatic': '/images/cat-fragrances.jpg',
-  'oil-base': '/images/cat-oils.jpg',
+  'oil-base': '/images/stock/essential-oil.webp',
   solvent: '/images/cat-commodities.jpg',
   'sweetener-base': '/images/cat-commodities.jpg',
   'bulk-sugar': '/images/cat-commodities.jpg',
@@ -85,6 +85,11 @@ const GROUP_IMAGE: Record<string, string> = {
   'bulk-fat': '/images/cat-commodities.jpg',
   'bulk-dairy': '/images/cat-commodities.jpg',
 };
+
+/** Guruh rasmi (landing sahifalar uchun) — yo'q bo'lsa null */
+export function groupImage(groupId: string): string | null {
+  return GROUP_IMAGE[groupId] ?? null;
+}
 
 /** Mahsulot rasmi — guruh, bo'lmasa kategoriya bo'yicha */
 export function productImage(p: Pick<CatalogProduct, 'group' | 'category'>): string {
@@ -106,12 +111,12 @@ export function packImagesFor(p: Pick<CatalogProduct, 'packaging'>) {
 
 /** Ilova (application) → rasm. Mijoz fotosi yo'q sohalar eng yaqin kadrni oladi. */
 export const APPLICATION_IMAGE: Record<string, string> = {
-  bakery: '/images/cake.jpg',
-  confectionery: '/images/cake.jpg',
+  bakery: '/images/stock/dough.webp',
+  confectionery: '/images/stock/macarons.webp',
   chocolate: '/images/cake.jpg',
   dairy: '/images/icecream.jpg',
-  icecream: '/images/icecream.jpg',
-  beverages: '/images/coffee.jpg',
+  icecream: '/images/stock/popsicles.webp',
+  beverages: '/images/stock/smoothie.webp',
   'tea-coffee': '/images/coffee.jpg',
   sauces: '/images/spices.jpg',
   snacks: '/images/spices.jpg',
@@ -119,14 +124,14 @@ export const APPLICATION_IMAGE: Record<string, string> = {
   margarine: '/images/spices.jpg',
   canned: '/images/spices.jpg',
   horeca: '/images/coffee.jpg',
-  supplements: '/images/lab.jpg',
+  supplements: '/images/stock/lab-pipette.webp',
   tobacco: '/images/spices.jpg',
-  'personal-care': '/images/berries.jpg',
-  'home-care': '/images/berries.jpg',
-  'fabric-care': '/images/berries.jpg',
-  pharma: '/images/lab.jpg',
-  'flavour-base': '/images/lab.jpg',
-  'fragrance-base': '/images/blueberries.jpg',
+  'personal-care': '/images/stock/hand-cream.webp',
+  'home-care': '/images/stock/laundry.webp',
+  'fabric-care': '/images/stock/laundry.webp',
+  pharma: '/images/stock/lab-pipette.webp',
+  'flavour-base': '/images/stock/vials.webp',
+  'fragrance-base': '/images/stock/perfume-pink.webp',
 };
 
 /** Rasm hech qayerda topilmasa ishlatiladigan zaxira kadr */
@@ -152,16 +157,21 @@ export function productHeroImage(p: Pick<CatalogProduct, 'group' | 'category' | 
    ------------------------------------------------------------ */
 
 export const INDUSTRY_IMAGE: Record<string, string> = {
-  bakery: '/images/cake.jpg',
-  confectionery: '/images/cat-flavours.jpg',
-  dairy: '/images/blueberries.jpg',
-  icecream: '/images/icecream.jpg',
-  beverages: '/images/coffee.jpg',
+  bakery: '/images/stock/dough.webp',
+  confectionery: '/images/stock/macarons.webp',
+  dairy: '/images/stock/milk-cake.webp',
+  icecream: '/images/stock/popsicles.webp',
+  beverages: '/images/stock/smoothie.webp',
   sauces: '/images/spices.jpg',
   meat: '/images/spices.jpg',
-  'personal-care': '/images/cat-oils.jpg',
+  'personal-care': '/images/stock/hand-cream.webp',
   horeca: '/images/citrus-board.jpg',
-  supplements: '/images/lab.jpg',
+  supplements: '/images/stock/lab-pipette.webp',
+  'home-care': '/images/stock/laundry.webp',
+  'fabric-care': '/images/stock/laundry.webp',
+  pharma: '/images/stock/lab-pipette.webp',
+  'flavour-base': '/images/stock/vials.webp',
+  'fragrance-base': '/images/stock/perfume-pink.webp',
 };
 
 /** Kartochka ohangi — dizayn: aksari panel, bittadan navy va mis */

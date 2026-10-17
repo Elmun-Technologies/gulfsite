@@ -61,12 +61,16 @@ export function tokenize(input: string): string[] {
     .filter((t) => t.length >= 2);
 }
 
-const STOPWORDS = new Set([
-  'the', 'and', 'for', 'with', 'flavour', 'flavors', 'flavor', 'flavours',
-  'fragrance', 'aromatizator', 'aromat', 'aroma', 'hidi', 'tami',
-  'пищевой', 'ароматизатор', 'ароматизаторы', 'отдушка', 'масло',
-  'uchun', 'для', 'for',
-]);
+// Tokenlar `searchKey()` dan o'tib LOTINGA o'girilgan — stop-so'zlar ham
+// xuddi shu shaklga keltiriladi (aks holda 'для' hech qachon mos kelmaydi).
+const STOPWORDS = new Set(
+  [
+    'the', 'and', 'for', 'with', 'flavour', 'flavors', 'flavor', 'flavours',
+    'fragrance', 'aromatizator', 'aromat', 'aroma', 'hidi', 'tami',
+    'пищевой', 'ароматизатор', 'ароматизаторы', 'отдушка', 'масло',
+    'uchun', 'для',
+  ].map(searchKey),
+);
 
 export function meaningfulTokens(input: string): string[] {
   return tokenize(input).filter((t) => !STOPWORDS.has(t));
@@ -121,6 +125,14 @@ export function scoreMatch(
       for (const s of secondaryKeys) {
         if (s.includes(token)) best = Math.max(best, 8);
       }
+    }
+    // Rus/o'zbek qo'shimchalari: "выпечки" → "vypechk" ("выпечка" ga mos).
+    // To'liq token topilmasa, 5+ belgili tokenning oxirgi harfisiz o'zagi
+    // pastroq ball bilan sinab ko'riladi.
+    if (best === 0 && token.length >= 5) {
+      const stem = token.slice(0, -1);
+      if (primaryKeys.some((p) => p.includes(stem))) best = 12;
+      else if (secondaryKeys.some((s) => s.includes(stem))) best = 6;
     }
     if (best === 0) return { score: 0, matched: false };
     total += best;

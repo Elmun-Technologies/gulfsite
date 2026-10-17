@@ -16,9 +16,10 @@
  * 413 (katta hajm), 500 (server). Lead hech qachon jim yo'qolmaydi.
  */
 
+import { preflight, withCors } from '@/lib/cors';
 import { NextResponse, type NextRequest } from 'next/server';
 import { leadInputSchema, issuesToFieldErrors, scoreLead } from '@/lib/leads/schema';
-import { createLead, findRecentDuplicate } from '@/lib/leads/store';
+import { createLead, discardUndelivered, findRecentDuplicate } from '@/lib/leads/store';
 import { notifyAll } from '@/lib/leads/notify';
 import { checkRateLimit, clientCountry, clientIp, spamScore, verifyTurnstile } from '@/lib/leads/antispam';
 import { serverConfig, siteConfig } from '@/lib/config';
@@ -32,7 +33,7 @@ export const dynamic = 'force-dynamic';
 
 const MAX_BODY_BYTES = 256 * 1024; // 256 KB — test box ham bemalol sig'adi
 
-export async function POST(req: NextRequest) {
+async function handlePost(req: NextRequest): Promise<Response> {
   const startedAt = Date.now();
   const ip = clientIp(req.headers);
 
@@ -138,7 +139,10 @@ export async function POST(req: NextRequest) {
   });
 
   /* ---- 7. Takroriy ariza ---- */
-  const duplicate = findRecentDuplicate(data.contact.phone, serverConfig.antispam.duplicateGuardSec);
+  const duplicate = findRecentDuplicate(data.contact.phone, serverConfig.antispam.duplicateGuardSec, {
+    type: data.type,
+    skus: (data.request.products ?? []).map((p) => p.sku),
+  });
   if (duplicate && spam < 80) {
     return NextResponse.json(
       {
@@ -219,6 +223,8 @@ export async function POST(req: NextRequest) {
         userAgent: (req.headers.get('user-agent') ?? '').slice(0, 500),
         ip,
         country: clientCountry(req.headers),
+        visitorId: data.source?.visitorId,
+        sessionId: data.source?.sessionId,
       },
       consent: data.consent,
       spamScore: spam,
@@ -266,6 +272,7 @@ export async function POST(req: NextRequest) {
      Foydalanuvchiga soxta "Rahmat" ko'rsatish o'rniga 503 qaytaramiz:
      forma xato matnini (qo'ng'iroq qiling) ko'rsatadi, mijoz yo'qolmaydi. */
   if (!durable && !anyNotified) {
+    discardUndelivered(lead.id);
     console.error(
       `[api/leads] XATO: ${lead.ref} diskka yozilmadi va hech bir kanal sozlanmagan/ishlamadi — ` +
         'TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID (yoki SMTP / LEAD_WEBHOOK_URL) ni sozlang.',
@@ -341,4 +348,13 @@ function normalizePhoneDisplay(raw: string): string {
     return `+998 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5, 7)} ${d.slice(7, 9)}`;
   }
   return raw;
+}
+
+/* Vercel'dagi sayt fly backend'iga to'g'ridan-to'g'ri yuboradi — CORS (lib/cors.ts) */
+export async function POST(req: NextRequest) {
+  return withCors(req, await handlePost(req));
+}
+
+export function OPTIONS(req: Request) {
+  return preflight(req);
 }

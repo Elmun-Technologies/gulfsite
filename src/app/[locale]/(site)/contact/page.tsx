@@ -17,7 +17,10 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { contactPeople } from '@/lib/content';
+import { peopleLabels } from '@/lib/people-labels';
+import { PeopleContacts } from '@/components/layout/PeopleContacts';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, localBusinessLd } from '@/lib/seo';
@@ -62,6 +65,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
 
   const sp = await searchParams;
   const c = siteConfig.contact;
+  const people = await contactPeople();
   const biz = siteConfig.business;
 
   const typeParam = typeof sp.type === 'string' ? sp.type : undefined;
@@ -134,26 +138,13 @@ export default async function ContactPage({ params, searchParams }: Props) {
           locale={locale}
           className="grid min-w-0 flex-1 basis-[480px] gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]"
           phoneCard={
-            <div
-              data-surface="navy"
-              className="col-span-full flex flex-wrap items-center justify-between gap-5 rounded-card bg-navy px-[clamp(24px,2.5vw,36px)] py-8 text-white"
-            >
-              <span className="flex flex-col gap-2">
-                <span className="text-[14px] text-copper-light">{t('contact.salesDept')}</span>
-                <span className="text-[clamp(28px,2.8vw,40px)] font-normal tracking-[-0.02em]">
-                  {c.phonePrimary}
-                </span>
-              </span>
-              <a
-                href={c.phonePrimaryHref}
-                className="btn btn--accent btn--lg shrink-0"
-                data-ga="cta_phone_call"
-                data-track="phone"
-              >
-                <Phone size={18} strokeWidth={1.8} aria-hidden />
-                {t('contact.callUs')}
-              </a>
-            </div>
+            /* direktor (navy) + sotuv menejerlari — admin paneldan tahrirlanadi */
+            <PeopleContacts
+              source="contact"
+              labels={peopleLabels(t)}
+              people={[...(people.director ? [people.director] : []), ...people.managers]}
+              className="col-span-full grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))]"
+            />
           }
           cards={[
             {

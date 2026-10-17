@@ -199,7 +199,7 @@ export function CategoriesSection({
         {cats.map((c, i) => (
           <Reveal key={c.id} index={i}>
             <Link
-              href={`/${locale}/catalog?categories=${c.id}`}
+              href={`/${locale}/category/${c.id}`}
               className="group card flex h-full flex-col gap-[22px] p-3 pb-7 no-underline"
             >
               <span className="media-frame block aspect-4/3 w-full overflow-hidden rounded-media">
@@ -527,7 +527,7 @@ export function ContactSection({
           consent: t('form.consentShort'),
           privacy: t('footer.privacy'),
           thanks: t('contact.thanks'),
-          thanksText: t('contact.thanksText', { type: t('contact.type.sample'), minutes: biz.responseMinutes }),
+          thanksText: t('contact.thanksText', { type: t('contact.type.callback'), minutes: biz.responseMinutes }),
           errName: t('err.nameShort'),
           errCompany: t('err.companyShort'),
           errPhone: t('err.phone'),

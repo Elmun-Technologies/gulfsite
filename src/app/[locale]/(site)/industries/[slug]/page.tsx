@@ -23,12 +23,12 @@ import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
-import { applicationProducts } from '@/lib/catalog';
+import { applicationCounts, applicationProducts, queryCatalog } from '@/lib/catalog';
+import { DUBAI_BESTSELLERS } from '@/lib/dubai-bestsellers';
 import {
   APPLICATIONS,
   FEATURES,
   FORMS,
-  sortTaxons,
   tr,
   type Locale,
 } from '@/lib/taxonomy';
@@ -60,7 +60,11 @@ interface Props {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) => industryIds().map((slug) => ({ locale, slug })));
+  // mahsuloti yo'q soha (masalan pet-food: matn bor, 0 pozitsiya) bo'sh sahifa
+  // bo'lib qolmasin — router darajasida 404 (dynamicParams = false)
+  const counts = applicationCounts();
+  const ids = industryIds().filter((id) => (counts[id] ?? 0) > 0);
+  return LOCALES.flatMap((locale) => ids.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -102,9 +106,8 @@ export default async function IndustryPage({ params }: Props) {
   const cards = applicationProducts(slug, TABLE_LIMIT, L);
   const setProducts = industrySet(slug, SET_SIZE);
   const solutions = taskSolutions(copy, L, 3);
-  const num = String(
-    sortTaxons([...APPLICATIONS]).findIndex((a) => a.id === slug) + 1,
-  ).padStart(2, '0');
+  // raqam indeks sahifasidagi bilan bir xil (u faqat mahsuloti bor sohalarni sanaydi)
+  const num = industriesWithData(L).find((a) => a.id === slug)?.num ?? '—';
 
   const formLabels = Object.fromEntries(FORMS.map((f) => [f.id, tr(f.name, L)]));
   const featureLabels = Object.fromEntries(FEATURES.map((f) => [f.id, tr(f.name, L)]));
@@ -112,6 +115,15 @@ export default async function IndustryPage({ params }: Props) {
   const heroImage = publicAssetExists(APPLICATION_IMAGE[slug] ?? '')
     ? (APPLICATION_IMAGE[slug] as string)
     : FALLBACK_IMAGE;
+
+  // Dubay "Top Selling" — har nom katalogdagi mos aromatizatorlar soni bilan (0 bo'lsa chiqmaydi)
+  const dubaiChips = (names: string[]) =>
+    [...new Set(names)]
+      .map((name) => ({ name, count: queryCatalog({ q: name, categories: ['flavours'] }, L).total }))
+      .filter((x) => x.count > 0);
+  const dubai = DUBAI_BESTSELLERS[slug];
+  const dubaiTop = dubai ? dubaiChips(dubai.top) : [];
+  const dubaiNew = dubai ? dubaiChips(dubai.fresh) : [];
 
   // faqat HAQIQATAN mahsuloti bor boshqa sohalar (§7.1)
   const others = industriesWithData(L)
@@ -223,6 +235,41 @@ export default async function IndustryPage({ params }: Props) {
           ))}
         </div>
       </Section>
+
+      {/* ============ DUBAY XITLARI (gulfflavours.ae) ============ */}
+      {dubaiTop.length ? (
+        <Section>
+          <SectionHeader title={t('industry.dubaiTopTitle')} rules="top" />
+          <p className="m-0 max-w-[640px] pb-6 text-body-l text-muted">{t('industry.dubaiTopText')}</p>
+          <div className="flex flex-wrap gap-2">
+            {dubaiTop.map((x) => (
+              <Link
+                key={x.name}
+                href={`/${locale}/catalog?q=${encodeURIComponent(x.name)}&categories=flavours`}
+                className="cert-pill no-underline hover:border-ink"
+              >
+                {x.name} <span className="text-muted">· {x.count}</span>
+              </Link>
+            ))}
+          </div>
+          {dubaiNew.length ? (
+            <div className="flex flex-col gap-3 pt-6">
+              <span className="label">{t('industry.dubaiNew')}</span>
+              <div className="flex flex-wrap gap-2">
+                {dubaiNew.map((x) => (
+                  <Link
+                    key={x.name}
+                    href={`/${locale}/catalog?q=${encodeURIComponent(x.name)}&categories=flavours`}
+                    className="cert-pill no-underline hover:border-ink"
+                  >
+                    {x.name} <span className="text-muted">· {x.count}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </Section>
+      ) : null}
 
       {/* ============ 02 · TAVSIYA ETILGAN MAHSULOTLAR ============ */}
       {cards.length ? (

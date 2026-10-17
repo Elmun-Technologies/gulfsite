@@ -124,13 +124,19 @@ async function auditSitemap() {
   let done = 0;
   process.stdout.write(c(C.d, `  sitemap: ${locs.length} URL tekshirilmoqda (${CONCURRENCY} parallel)...`));
 
+  // Sitemap NEXT_PUBLIC_SITE_URL bilan quriladi; audit esa BASE_URL ga boradi.
+  // Domen farq qilsa (www/apex, lokal run + production build) URL'lar
+  // tashlab yuborilmaydi — yo'li BASE ga ko'chiriladi (aks holda 0 ta URL
+  // tekshirilib "barchasi 200" deyilardi).
+  let foreign = 0;
   await mapLimit(locs, CONCURRENCY, async (loc) => {
     let path = loc;
-    if (loc.startsWith(origin)) path = loc.slice(origin.length) || '/';
-    else if (loc.startsWith('http')) {
-      // boshqa domen — tashqi, tekshirilmaydi
-      done += 1;
-      return;
+    try {
+      const u = new URL(loc, BASE);
+      if (u.origin !== origin) foreign += 1;
+      path = `${u.pathname}${u.search}` || '/';
+    } catch {
+      /* nisbiy yo'l — o'zi qoladi */
     }
     const s = await finalStatus(path);
     done += 1;
@@ -139,6 +145,11 @@ async function auditSitemap() {
   });
 
   process.stdout.write(` ${done}\n`);
+  if (foreign) {
+    warnings.push(
+      `sitemap'dagi ${foreign} ta URL boshqa domenda (${new URL(locs[0]).origin}) — yo'llari ${origin} da tekshirildi. NEXT_PUBLIC_SITE_URL ni tekshiring.`,
+    );
+  }
 
   if (bad.length) {
     for (const b of bad.slice(0, 12)) errors.push(`sitemap'dagi URL ${b.status} qaytardi: ${b.loc}`);

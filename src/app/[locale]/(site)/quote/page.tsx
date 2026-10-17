@@ -157,6 +157,7 @@ export default async function QuotePage({ params }: Props) {
             locale={locale}
             variant="contact"
             defaultType="quote"
+            thanksVars={{ minutes: biz.responseMinutes }}
             submitHint={t('quote.submitHint', { minutes: biz.responseMinutes })}
             successLinks={[
               { href: `/${locale}/catalog`, label: t('contact.viewCatalog') },

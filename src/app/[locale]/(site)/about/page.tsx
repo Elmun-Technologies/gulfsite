@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
-import { aboutLd, buildMetadata, breadcrumbLd, organizationLd } from '@/lib/seo';
+import { aboutLd, buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { productCount } from '@/lib/catalog';
 import { monogramCopy, publicAssetExists } from '@/lib/design';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
@@ -28,11 +28,22 @@ import { Section, SectionHeader } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { MonogramStatic, Reveal, SplitLines } from '@/components/motion';
 import { cn } from '@/lib/utils';
+import { TrustSection } from '@/components/home/TrustSection';
+import { BrochureTeaser } from '@/components/brochure/BrochureTeaser';
+import { VideoSection } from '@/components/home/VideoSection';
 
 interface Props {
   params: Promise<{ locale: string }>;
 }
 
+
+/** Katalogdagi dizaynerlik fotolari (public/images/stock) */
+const GALLERY = [
+  { key: 'rnd', src: '/images/stock/perfumer.webp' },
+  { key: 'lab', src: '/images/stock/lab-pipette.webp' },
+  { key: 'samples', src: '/images/stock/vials.webp' },
+  { key: 'warehouse', src: '/images/stock/warehouse-worker.webp' },
+] as const;
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -90,7 +101,6 @@ export default async function AboutPage({ params }: Props) {
     <>
       <JsonLdGroup
         items={[
-          organizationLd(locale),
           aboutLd(locale),
           breadcrumbLd(
             [
@@ -221,7 +231,39 @@ export default async function AboutPage({ params }: Props) {
             ))}
           </div>
         </div>
+
+        {/* katalogdagi sertifikat belgilari (asl logotiplar) */}
+        <Reveal className="mt-3 flex justify-center rounded-card border border-line-soft bg-white px-6 py-5">
+          <Image
+            src="/images/stock/certificates-strip.webp"
+            alt={t('about.certStripAlt')}
+            width={1007}
+            height={152}
+            sizes="(max-width: 768px) 100vw, 720px"
+            className="h-auto w-full max-w-[720px]"
+          />
+        </Reveal>
       </Section>
+
+      {/* ============ GALEREYA: ishlab chiqarish (katalog fotolari) ============ */}
+      <Section>
+        <SectionHeader title={t('about.galleryTitle')} />
+        <div className="grid grid-cols-2 gap-3 pt-6 tab:grid-cols-4">
+          {GALLERY.map((g, i) => (
+            <Reveal key={g.key} index={i} className="flex flex-col gap-3">
+              <span className="relative block aspect-[3/4] overflow-hidden rounded-media">
+                <Image src={g.src} alt={t(`about.gallery.${g.key}` as never)} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
+              </span>
+              <span className="px-1 text-[15px] font-medium leading-snug">{t(`about.gallery.${g.key}` as never)}</span>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* ============ MIJOZLAR + VIDEO (admin paneldan) ============ */}
+      <TrustSection t={t} />
+      <BrochureTeaser locale={locale} t={t} />
+      <VideoSection t={t} />
 
       {/* ============ 03 · O'ZBEKISTONDAGI OFIS ============ */}
       <Section>
