@@ -30,6 +30,7 @@ import { MonogramStatic, Reveal, SplitLines } from '@/components/motion';
 import { cn } from '@/lib/utils';
 import { TrustSection } from '@/components/home/TrustSection';
 import { BrochureTeaser } from '@/components/brochure/BrochureTeaser';
+import { getBrochure } from '@/lib/brochure';
 import { VideoSection } from '@/components/home/VideoSection';
 import { ensureCatalog } from '@/lib/catalog-live';
 
@@ -95,7 +96,8 @@ export default async function AboutPage({ params }: Props) {
   // Manzil matni tilga bog'liq (§10) — config'da 3 tilda saqlanadi
   const address =
     locale === 'ru' ? siteConfig.contact.addressRu : locale === 'en' ? siteConfig.contact.addressEn : siteConfig.contact.address;
-  const certPending = !siteConfig.catalogPdf || !publicAssetExists(siteConfig.catalogPdf);
+  const catalogPdf = siteConfig.catalogPdf || getBrochure(locale).brochure.pdf;
+  const certPending = !publicAssetExists(catalogPdf);
 
   const advantages = [
     { title: t('about.adv1Title'), text: t('about.adv1Text', { count: positions }) },
@@ -299,7 +301,7 @@ export default async function AboutPage({ params }: Props) {
                 <span className="text-[14px] text-on-navy">{t('about.officeCertPending')}</span>
               ) : (
                 <a
-                  href={siteConfig.catalogPdf}
+                  href={catalogPdf}
                   className="text-[14px] text-copper-light underline underline-offset-4"
                 >
                   PDF

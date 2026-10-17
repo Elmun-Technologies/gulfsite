@@ -1,0 +1,112 @@
+{
+  "lang": "ru",
+  "pdf": "/catalog/gff-katalog-ru.pdf",
+  "pdfSizeKb": 7003,
+  "pages": [
+    {
+      "src": "/catalog/ru/p01.webp",
+      "thumb": "/catalog/ru/p01-t.webp",
+      "width": 1100,
+      "height": 1574,
+      "spread": false
+    },
+    {
+      "src": "/catalog/ru/p02.webp",
+      "thumb": "/catalog/ru/p02-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p03.webp",
+      "thumb": "/catalog/ru/p03-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p04.webp",
+      "thumb": "/catalog/ru/p04-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p05.webp",
+      "thumb": "/catalog/ru/p05-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p06.webp",
+      "thumb": "/catalog/ru/p06-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p07.webp",
+      "thumb": "/catalog/ru/p07-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p08.webp",
+      "thumb": "/catalog/ru/p08-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p09.webp",
+      "thumb": "/catalog/ru/p09-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p10.webp",
+      "thumb": "/catalog/ru/p10-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p11.webp",
+      "thumb": "/catalog/ru/p11-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p12.webp",
+      "thumb": "/catalog/ru/p12-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p13.webp",
+      "thumb": "/catalog/ru/p13-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p14.webp",
+      "thumb": "/catalog/ru/p14-t.webp",
+      "width": 2200,
+      "height": 1574,
+      "spread": true
+    },
+    {
+      "src": "/catalog/ru/p15.webp",
+      "thumb": "/catalog/ru/p15-t.webp",
+      "width": 1100,
+      "height": 1574,
+      "spread": false
+    }
+  ]
+}
