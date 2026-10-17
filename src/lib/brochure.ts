@@ -2,10 +2,12 @@
  * ELEKTRON KATALOG (broshyura) — flipbook ma'lumotlari
  * ----------------------------------------------------------------
  * Sahifa rasmlari `scripts/build-brochure.mjs` bilan PDF'dan yaratiladi.
- * Til versiyasi yo'q bo'lsa (masalan RU hali tayyor emas) — o'zbekcha
- * ko'rsatiladi va sahifada bu haqda yoziladi.
+ * Til versiyasi yo'q bo'lsa (hozir EN) — o'zbekcha ko'rsatiladi va
+ * sahifada bu haqda yoziladi. RU — bosmaxona bukletidan
+ * (`scripts/deimpose-booklet.py` → o'qish tartibi → build-brochure).
  */
 
+import ru from '@/data/brochure-ru.json';
 import uz from '@/data/brochure-uz.json';
 import type { AppLocale } from '@/i18n/meta';
 
@@ -26,7 +28,7 @@ export interface Brochure {
 
 const BROCHURES: Partial<Record<AppLocale, Brochure>> = {
   uz: uz as Brochure,
-  // ru: ru as Brochure,  ← `node scripts/build-brochure.mjs ru.pdf ru` dan keyin
+  ru: ru as Brochure,
 };
 
 export function availableBrochures(): AppLocale[] {

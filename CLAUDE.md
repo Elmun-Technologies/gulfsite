@@ -321,9 +321,11 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 
 - **Manba**: mijoz PDF katalogi → `node scripts/build-brochure.mjs <pdf> <uz|ru|en>`
   (poppler + sharp) → `public/catalog/<lang>/pNN.webp` + `src/data/brochure-<lang>.json`.
-  Natija commit qilinadi (Docker/fly build'da poppler yo'q). **RU kelganda**: skriptni
-  ishga tushirib, `lib/brochure.ts` dagi `ru:` qatorini oching; mundarija varaqlari
-  (`BROCHURE_TOC`) PDF sahifa tartibiga bog'liq — RU tartibi farq qilsa tekshiring.
+  Natija commit qilinadi (Docker/fly build'da poppler yo'q). **UZ va RU tayyor** (EN → UZ
+  zaxirasi). Mijoz **bosmaxona bukleti** (impozitsiya: varaq tomonida [28|1], [2|27] …)
+  yuborsa — avval `python3 scripts/deimpose-booklet.py <buklet.pdf> <o'qish.pdf>`
+  (pypdf), keyin build-brochure. Mundarija varaqlari (`BROCHURE_TOC`) ikkala tilda bir xil
+  (15 varaq: muqova · 13 yoyilma · orqa muqova); yangi til tartibi farq qilsa tekshiring.
 - **`/brochure`**: `components/brochure/Flipbook.tsx` — desktop 3D varaq (faqat
   transform), mobil yarim-sahifa surish; tizer `BrochureTeaser` (bosh sahifa hero'dan
   keyin, kompaniya). Menyu punkti `wideOnly` — header ≥1320px da (torroqda qator sig'maydi).
