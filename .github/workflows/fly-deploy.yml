@@ -1,0 +1,24 @@
+# Backend'ni (admin panel, arizalar, analitika) fly.io'ga deploy qilish.
+# Yig'ish fly'ning remote builder'ida bajariladi — lokal internetga bog'liq emas.
+# Kerak: repo secret FLY_API_TOKEN (`fly tokens create deploy`).
+name: Fly deploy
+
+on:
+  push:
+    branches: [main, claude/intelligent-edison-g3j9ie]
+  workflow_dispatch:
+
+concurrency:
+  group: fly-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only --wait-timeout 600
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
