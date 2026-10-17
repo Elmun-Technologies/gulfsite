@@ -57,3 +57,17 @@ Admin → Kontent → saqlang → saytda bir necha soniyada yangilanadi.
 fly ham, Vercel ham pochta xizmati bermaydi. Pochta uchun domen DNS'iga MX yozuvlari
 qo'shiladigan provayder kerak: **Yandex 360 for Business**, **Zoho Mail** (bepul tarif bor)
 yoki **Google Workspace**. Quti ochilgach Vercel'da `NEXT_PUBLIC_EMAIL` ni o'zgartiring.
+
+## Telegram do'kon (Mini App)
+
+1. fly'da bot tokeni va xodimlar guruhi bo'lishi kerak:
+   `fly secrets set TELEGRAM_BOT_TOKEN='…' TELEGRAM_CHAT_ID='-100…'`
+2. Admin panel → **Sozlamalar** → "Telegram do'kon" → **Botni sozlash**. Tugma:
+   webhook (`https://<fly-app>.fly.dev/api/telegram/webhook`), menyu tugmasi "Do'kon"
+   (`https://gulfflavours.uz/uz/tg`), `/start` javobi va bot tavsifini o'rnatadi.
+3. Botga `/start` yozing → "Do'konni ochish" → katalog, quti, narx so'rash. Ariza
+   admin panelda (Telegram belgisi bilan) va guruhda ko'rinadi; mijozga botda tasdiq keladi.
+
+Bot xodimlar guruhida ham turadi — guruh xabarlariga javob bermaydi. Mijoz botga yozgan
+savol uning oxirgi arizasiga izoh bo'lib tushadi va guruhga yuboriladi; javobni admin
+paneldagi ariza sahifasidan yozasiz.

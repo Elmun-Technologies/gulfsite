@@ -1108,3 +1108,41 @@ html[data-motion-ready] [data-reveal-clip][data-in='true'] {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ============================================================
+   ADMIN PANEL — o'z palitrasi (ichki ish vositasi, mijoz talabi 2026-10-17)
+   ------------------------------------------------------------
+   Sayt tokenlari (navy/copper/panel…) shu blok ichida qayta belgilanadi:
+   admin komponentlari bir xil utility klasslarni ishlatadi, ammo panel
+   neytral, zamonaviy dashboard ko'rinishida (indigo aksent, slate matn).
+   Marketing sahifalari bunga ta'sirlanmaydi.
+   ============================================================ */
+.admin-ui {
+  --color-navy: #4f46e5;
+  --color-ink: #0f172a;
+  --color-slate: #334155;
+  --color-body: #475569;
+  --color-muted: #64748b;
+  --color-panel: #f1f5f9;
+  --color-line: #e2e8f0;
+  --color-line-soft: #edf0f4;
+  --color-copper: #6366f1;
+  --color-copper-light: #c7d2fe;
+  --color-copper-dark: #4338ca;
+  --color-ok: #16a34a;
+  --color-error: #dc2626;
+  --color-on-copper: #ffffff;
+  /* tizim shrifti — jadval va raqamlar uchun eng aniq (SF / Segoe / Roboto) */
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Onest Variable', sans-serif;
+  background-color: #f5f6f8;
+  color: var(--color-ink);
+}
+.admin-ui .font-display {
+  font-family: inherit;
+}
+.admin-card {
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+}

@@ -80,7 +80,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
         actions={
           <Link
             href={`${base}/sessions?${new URLSearchParams(periodQs).toString()}`}
-            className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark"
+            className="inline-flex h-10 items-center rounded-[12px] border border-line bg-white px-4 text-[13px] font-semibold text-slate hover:border-copper hover:text-copper-dark"
           >
             {c.nav.sessions}
           </Link>
@@ -113,7 +113,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
                   key={m}
                   href={`${base}?${new URLSearchParams({ ...periodQs, m }).toString()}`}
                   className={cn(
-                    'rounded-[14px] px-2.5 py-1 text-[12px] font-bold',
+                    'rounded-[10px] px-2.5 py-1 text-[12px] font-semibold',
                     metric === m ? 'bg-navy text-white' : 'text-slate hover:bg-panel',
                   )}
                 >
@@ -129,7 +129,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
         <AdminCard title={c.realtime.title}>
           <p className="font-display text-[2.4rem] font-semibold leading-none text-ink tabular-nums">{live.active}</p>
           <p className="mb-3 mt-1 text-[12px] text-muted">{c.realtime.active}</p>
-          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-muted">{c.realtime.pages}</p>
+          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">{c.realtime.pages}</p>
           <BarList rows={rows(live.pages, pageLabel)} empty={c.realtime.none} />
         </AdminCard>
       </div>
@@ -165,7 +165,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
                         {pageLabel(p.key)}
                       </a>
                     </td>
-                    <td className="px-3 py-1.5 text-right font-bold tabular-nums">{p.value}</td>
+                    <td className="px-3 py-1.5 text-right font-semibold tabular-nums">{p.value}</td>
                     <td className="px-3 py-1.5 text-right tabular-nums">{p.visitors}</td>
                     <td className="py-1.5 pl-3 text-right tabular-nums">{fmtDuration(p.avgSec)}</td>
                   </tr>
@@ -235,7 +235,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
                     <span>
                       {i + 1}. {c.funnel[f.key] ?? f.key}
                     </span>
-                    <span className="font-bold tabular-nums">
+                    <span className="font-semibold tabular-nums">
                       {f.value}
                       {i ? <span className="ml-2 font-normal text-muted">{step}%</span> : null}
                     </span>

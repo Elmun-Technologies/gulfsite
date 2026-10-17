@@ -67,10 +67,10 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
       <PeriodPicker base={base} current={period.key} from={period.from} to={period.to} copy={c} extra={{ ...(onlyConverted ? { c: '1' } : {}), ...(src ? { src } : {}) }} />
 
       <div className="flex flex-wrap gap-1.5">
-        <Link href={link({ c: null })} className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-bold', !onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
+        <Link href={link({ c: null })} className={cn('rounded-[10px] border px-3 py-1.5 text-[12.5px] font-semibold', !onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
           {c.session.all}
         </Link>
-        <Link href={link({ c: '1' })} className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-bold', onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
+        <Link href={link({ c: '1' })} className={cn('rounded-[10px] border px-3 py-1.5 text-[12.5px] font-semibold', onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
           {c.session.onlyConverted}
         </Link>
         <span className="mx-1 w-px bg-line" />
@@ -78,13 +78,13 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
           <Link
             key={k}
             href={link({ src: src === k ? null : k })}
-            className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-semibold', src === k ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}
+            className={cn('rounded-[10px] border px-3 py-1.5 text-[12.5px] font-semibold', src === k ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}
           >
             {label}
           </Link>
         ))}
         {pathFilter ? (
-          <Link href={link({ path: null })} className="rounded-[14px] border border-navy bg-navy px-3 py-1.5 text-[12.5px] font-semibold text-white">
+          <Link href={link({ path: null })} className="rounded-[10px] border border-navy bg-navy px-3 py-1.5 text-[12.5px] font-semibold text-white">
             {pathFilter} ✕
           </Link>
         ) : null}
@@ -105,7 +105,7 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
       {totalPages > 1 ? (
         <nav className="flex items-center justify-center gap-2 text-[13px]">
           {page > 1 ? (
-            <Link href={link({ page: String(page - 1) })} className="rounded-[14px] border border-line bg-white px-3 py-1.5 font-bold">
+            <Link href={link({ page: String(page - 1) })} className="rounded-[10px] border border-line bg-white px-3 py-1.5 font-semibold">
               ←
             </Link>
           ) : null}
@@ -113,7 +113,7 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
             {page} / {totalPages}
           </span>
           {page < totalPages ? (
-            <Link href={link({ page: String(page + 1) })} className="rounded-[14px] border border-line bg-white px-3 py-1.5 font-bold">
+            <Link href={link({ page: String(page + 1) })} className="rounded-[10px] border border-line bg-white px-3 py-1.5 font-semibold">
               →
             </Link>
           ) : null}

@@ -51,9 +51,9 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
           name="q"
           defaultValue={q}
           placeholder={c.clients.search}
-          className="h-10 min-w-0 flex-1 rounded-[20px] border border-line bg-white px-3 text-[13.5px]"
+          className="h-10 min-w-0 flex-1 rounded-[12px] border border-line bg-white px-3 text-[13.5px]"
         />
-        <button type="submit" className="h-10 rounded-[20px] bg-navy px-4 text-[13px] font-bold text-white">
+        <button type="submit" className="h-10 rounded-[12px] bg-navy px-4 text-[13px] font-semibold text-white">
           {c.period.apply}
         </button>
       </form>
@@ -77,7 +77,7 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
                 {rows.slice(0, 300).map((r) => (
                   <tr key={r.key} className="border-b border-line-soft align-top last:border-0">
                     <td className="py-2 pr-3">
-                      <span className="block font-bold text-ink">{r.name || '—'}</span>
+                      <span className="block font-semibold text-ink">{r.name || '—'}</span>
                       <span className="mt-0.5 flex items-center gap-2 text-muted">
                         <a href={telHref(r.phone)} className="tabular-nums hover:text-copper-dark">
                           {r.phone}
@@ -104,7 +104,7 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
                         ))}
                       </span>
                     </td>
-                    <td className="px-3 py-2 text-right font-bold tabular-nums">
+                    <td className="px-3 py-2 text-right font-semibold tabular-nums">
                       <Link href={`/${locale}/admin/leads?q=${encodeURIComponent(r.phone.replace(/\D/g, '').slice(-9))}`} className="hover:text-copper-dark" title={c.clients.open}>
                         {r.requests}
                       </Link>

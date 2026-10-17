@@ -7,13 +7,42 @@
  *   3. Statik fayl va API yo'nalishlariga tegmaslik
  *   4. Admin panelga kirishni himoya qilish (cookie tekshiruvi)
  *
- * BU FAQAT YO'NALTIRISH — biznes mantiqi emas. Shuning uchun
- * bu yerda hech qanday ma'lumotlar bazasi yoki katalog chaqirilmaydi.
+ *   5. Noma'lum mahsulot / guruh manzili → HAQIQIY 404 (brend ko'rinishi bilan)
+ *
+ * 5-band nega shu yerda: mahsulot sahifasi `dynamicParams = true` (admin
+ * qo'shgan mahsulot build'siz ochilishi uchun). Sahifa ichidagi `notFound()`
+ * bu loyihada brend 404 ni chizmaydi (javob 404, lekin `__next_error__`
+ * qobig'i — sayt header/footer'isiz). Next hujjati haqiqiy 404 tekshiruvini
+ * proxy'da qilishni tavsiya qiladi: noma'lum slug mavjud bo'lmagan yo'lga
+ * rewrite qilinadi → router darajasidagi ildiz `not-found.tsx` (to'liq qobiq).
+ * Katalog `ensureCatalogTtl()` bilan 60 soniyada bir yangilanadi.
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
 import { LOCALES, isLocale, localeFromAcceptLanguage } from '@/i18n';
 import { AUTH_COOKIE, isAdminConfigured, verifySessionToken } from '@/lib/auth';
+import { getProductBySlug } from '@/lib/catalog';
+import { ensureCatalogTtl } from '@/lib/catalog-live';
+import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
+
+const PRODUCT_RE = /^\/(uz|ru|en)\/(?:catalog|tg\/p)\/([^/]+)\/?$/;
+const GROUP_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/([^/]+)\/?$/;
+
+/** Mahsulot/guruh manzili mavjudmi (null — bu tekshiruv tegishli emas) */
+async function catalogPathMissing(pathname: string): Promise<string | null> {
+  const p = PRODUCT_RE.exec(pathname);
+  const g = p ? null : GROUP_RE.exec(pathname);
+  if (!p && !g) return null;
+  try {
+    await ensureCatalogTtl();
+  } catch {
+    return null; // katalog o'qilmasa — sahifa o'zi hal qiladi
+  }
+  if (p) return getProductBySlug(decodeURIComponent(p[2])) ? null : p[1];
+  const [, locale, category, group] = g!;
+  const ok = categoryIdsWithData().includes(category) && groupsFor(category, 'uz').some((x) => x.id === group);
+  return ok ? null : locale;
+}
 
 const PUBLIC_FILE_RE = /\.(?:ico|png|jpe?g|gif|webp|avif|svg|txt|xml|json|webmanifest|pdf|woff2?|ttf|otf|css|js|map|mp4|webp)$/i;
 
@@ -40,7 +69,7 @@ function detectLocale(req: NextRequest): (typeof LOCALES)[number] {
   return localeFromAcceptLanguage(req.headers.get('accept-language'));
 }
 
-export function proxy(req: NextRequest): NextResponse {
+export async function proxy(req: NextRequest): Promise<NextResponse> {
   const { pathname, search } = req.nextUrl;
 
   /* ---------- Katta harfli prefiks/segment → kanonik kichik harf (301) ----------
@@ -140,6 +169,11 @@ export function proxy(req: NextRequest): NextResponse {
 
   /* ---------- Til prefiksi allaqachon bor ---------- */
   if (first && isLocale(first)) {
+    const missingIn = await catalogPathMissing(pathname);
+    if (missingIn) {
+      // mavjud bo'lmagan yo'lga rewrite → router 404 + ildiz not-found (to'liq brend qobig'i)
+      return NextResponse.rewrite(new URL(`/${missingIn}/__gff-not-found`, req.url));
+    }
     const response = NextResponse.next();
     // Til cookie'sini yangilaymiz (keyingi tashrifda avtomatik tanlanadi)
     if (req.cookies.get('gff_locale')?.value !== first) {

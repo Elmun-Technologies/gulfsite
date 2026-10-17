@@ -23,6 +23,7 @@ import type { DictKey } from '@/i18n';
 import { formatDateTime, timeAgo } from '@/lib/utils';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { LeadActions } from '@/components/admin/LeadActions';
+import { TelegramReply } from '@/components/admin/TelegramReply';
 import { LeadQuality, LeadStatusBadge, SpamScoreBadge, leadQuality } from '@/components/admin/LeadBits';
 
 interface PageProps {
@@ -61,13 +62,13 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
       <header className="flex flex-col gap-3">
         <Link
           href={listHref}
-          className="inline-flex w-fit items-center gap-1.5 text-[12.5px] font-bold text-muted transition hover:text-copper-dark"
+          className="inline-flex w-fit items-center gap-1.5 text-[12.5px] font-semibold text-muted transition hover:text-copper-dark"
         >
           <Icon name="arrow-left" size={14} />
           {t('admin.lead.backToList')}
         </Link>
 
-        <div className="flex flex-wrap items-start justify-between gap-3 rounded-[20px] border border-line-soft bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3 admin-card p-4">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-display text-[clamp(1.1rem,2.4vw,1.45rem)] font-semibold tracking-tight text-ink">
@@ -75,13 +76,19 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               </h1>
               <LeadStatusBadge status={lead.status} locale={L} />
               <span
-                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11.5px] font-bold whitespace-nowrap text-white"
+                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-white"
                 style={{ backgroundColor: typeMeta?.color ?? '#0e7c6b' }}
               >
                 <Icon name={(typeMeta?.icon ?? 'tag') as IconName} size={13} />
                 {tr(typeMeta?.name, L, lead.type)}
               </span>
               <SpamScoreBadge score={lead.spamScore} />
+              {lead.source.channel === 'telegram' ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#229ED9] px-2.5 py-1 text-[11.5px] font-semibold text-white">
+                  <Icon name="telegram" size={13} />
+                  Telegram
+                </span>
+              ) : null}
             </div>
 
             <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-muted">
@@ -103,7 +110,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </div>
 
           <div className="flex shrink-0 flex-col items-end gap-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
               {t('admin.lead.quality')}
             </span>
             <span className="font-display text-[2rem] leading-none font-semibold tracking-tight text-ink tabular-nums">
@@ -118,7 +125,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
         {/* ================= CHAP: MA'LUMOTLAR ================= */}
         <div className="flex min-w-0 flex-col gap-4">
           {/* Aloqa */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
               <Icon name="phone" size={16} className="text-copper-dark" />
               {t('admin.lead.contact')}
@@ -127,7 +134,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <a
                 href={`tel:${lead.contact.phone.replace(/\D/g, '')}`}
-                className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-navy px-3 font-mono text-[12.5px] font-bold text-white transition hover:bg-ink"
+                className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-navy px-3 font-mono text-[12.5px] font-semibold text-white transition hover:bg-ink"
               >
                 <Icon name="phone" size={14} />
                 {lead.contact.phone}
@@ -135,7 +142,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               {lead.contact.email ? (
                 <a
                   href={`mailto:${lead.contact.email}`}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-line bg-white px-3 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line bg-white px-3 text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark"
                 >
                   <Icon name="mail" size={14} />
                   {lead.contact.email}
@@ -146,7 +153,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                   href={lead.contact.telegram.startsWith('http') ? lead.contact.telegram : `https://t.me/${lead.contact.telegram.replace(/^@/, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-[#229ED9] px-3 text-[12.5px] font-bold text-white transition hover:brightness-110"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-[#229ED9] px-3 text-[12.5px] font-semibold text-white transition hover:brightness-110"
                 >
                   <Icon name="telegram" size={14} />
                   {lead.contact.telegram}
@@ -167,8 +174,12 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             </div>
           </section>
 
+          {lead.telegram?.id ? (
+            <TelegramReply leadId={lead.id} username={lead.telegram.username} locale={locale} />
+          ) : null}
+
           {/* Kompaniya */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
               <Icon name="building" size={16} className="text-copper-dark" />
               {t('admin.lead.company')}
@@ -186,19 +197,19 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* So'rov */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
               <Icon name="box" size={16} className="text-copper-dark" />
               {t('admin.lead.request')}
             </h2>
 
             {products.length ? (
-              <div className="mt-3 overflow-x-auto rounded-[14px] border border-line-soft">
+              <div className="mt-3 overflow-x-auto rounded-[10px] border border-line-soft">
                 <table className="w-full min-w-[34rem] border-collapse text-left">
                   <thead>
                     <tr className="border-b border-line-soft bg-panel/50">
                       {['SKU', t('form.products'), t('samples.qtyLabel'), t('samples.noteLabel')].map((h, i) => (
-                        <th key={i} scope="col" className="px-3 py-2 text-[10.5px] font-bold uppercase tracking-[0.1em] whitespace-nowrap text-muted">
+                        <th key={i} scope="col" className="px-3 py-2 text-[10.5px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap text-muted">
                           {h}
                         </th>
                       ))}
@@ -211,7 +222,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                           <Link
                             href={`/${locale}/product/${p.slug}`}
                             target="_blank"
-                            className="font-mono text-[11.5px] font-bold text-copper-dark transition hover:underline"
+                            className="font-mono text-[11.5px] font-semibold text-copper-dark transition hover:underline"
                           >
                             {p.sku}
                           </Link>
@@ -261,15 +272,15 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             </div>
 
             {lead.request.message ? (
-              <div className="mt-3 rounded-[14px] border border-line-soft bg-panel/50 p-3.5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">{t('form.message')}</p>
+              <div className="mt-3 rounded-[10px] border border-line-soft bg-panel/50 p-3.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">{t('form.message')}</p>
                 <p className="mt-2 text-[13px] leading-relaxed whitespace-pre-wrap text-ink">{lead.request.message}</p>
               </div>
             ) : null}
           </section>
 
           {/* Manba */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
               <Icon name="globe" size={16} className="text-copper-dark" />
               {t('admin.lead.source')}
@@ -284,7 +295,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               {lead.source.utm && Object.keys(lead.source.utm).length ? (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {Object.entries(lead.source.utm).map(([k, v]) => (
-                    <span key={k} className="rounded-md bg-panel px-2 py-1 font-mono text-[11px] font-bold text-copper-dark">
+                    <span key={k} className="rounded-md bg-panel px-2 py-1 font-mono text-[11px] font-semibold text-copper-dark">
                       {k}={v}
                     </span>
                   ))}
@@ -294,7 +305,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* Tashrif yo'li — qaysi sahifalardan o'tib ariza qoldirdi */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{ac.session.journey}</h2>
             {visits.length ? (
               <div className="flex flex-col gap-3">
@@ -309,7 +320,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
 
           {/* Bildirishnomalar + tarix */}
           <section className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-[20px] border border-line-soft bg-white p-4">
+            <div className="admin-card p-4">
               <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
                 <Icon name="send" size={16} className="text-copper-dark" />
                 {t('admin.lead.notifications')}
@@ -340,7 +351,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               </p>
             </div>
 
-            <div className="rounded-[20px] border border-line-soft bg-white p-4">
+            <div className="admin-card p-4">
               <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
                 <Icon name="refresh" size={16} className="text-copper-dark" />
                 {t('admin.lead.history')}
@@ -371,7 +382,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           </section>
 
           {/* Izohlar */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
               <Icon name="quote" size={16} className="text-copper-dark" />
               {t('admin.lead.notes')}
@@ -381,7 +392,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
             {lead.notes?.length ? (
               <ul className="mt-3 flex flex-col gap-2.5">
                 {lead.notes.map((n, i) => (
-                  <li key={i} className="rounded-[14px] border border-line-soft bg-panel/50 p-3">
+                  <li key={i} className="rounded-[10px] border border-line-soft bg-panel/50 p-3">
                     <p className="text-[12.5px] leading-relaxed whitespace-pre-wrap text-ink">{n.text}</p>
                     <p className="mt-1.5 flex items-center gap-2 font-mono text-[10.5px] text-muted">
                       <Icon name="user" size={11} />
@@ -403,7 +414,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
           <LeadActions id={lead.id} locale={L} status={lead.status} spamScore={lead.spamScore} />
 
           {/* Tezkor kontekst */}
-          <section className="rounded-[20px] border border-line-soft bg-white p-4">
+          <section className="admin-card p-4">
             <h2 className="font-display text-[13px] font-semibold tracking-tight text-ink">
               {locale === 'ru' ? 'Быстрые действия' : locale === 'en' ? 'Quick actions' : 'Tezkor amallar'}
             </h2>
@@ -411,7 +422,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
               <li>
                 <Link
                   href={`/${locale}/admin/leads?status=new`}
-                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
+                  className="flex items-center gap-2 rounded-[10px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
                   <Icon name="sparkles" size={15} className="text-copper-dark" />
                   {t('admin.stats.new')}
@@ -422,7 +433,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                                 <a
                   href="/api/admin/leads/export?format=csv"
-                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
+                  className="flex items-center gap-2 rounded-[10px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
                   <Icon name="download" size={15} className="text-copper-dark" />
                   {t('admin.leads.export')}
@@ -432,7 +443,7 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 <Link
                   href={`/${locale}/samples`}
                   target="_blank"
-                  className="flex items-center gap-2 rounded-[14px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
+                  className="flex items-center gap-2 rounded-[10px] px-2.5 py-2 text-[12.5px] font-semibold text-slate transition hover:bg-panel hover:text-copper-dark"
                 >
                   <Icon name="box" size={15} className="text-copper-dark" />
                   {t('box.title')}

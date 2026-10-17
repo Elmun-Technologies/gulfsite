@@ -143,6 +143,19 @@ export async function ensureCatalog(): Promise<void> {
   applyOverrides(await loadOverrides());
 }
 
+/**
+ * Proxy uchun: ko'pi bilan 60 soniyada bir marta yangilash (proxy'da
+ * `fetch` ning ISR keshi yo'q — har so'rovda tarmoqqa chiqmaslik uchun).
+ */
+let ttlLoadedAt = 0;
+export async function ensureCatalogTtl(ttlMs = 60_000): Promise<void> {
+  // bitta server (fly): fayl mtime bilan keshlangan — arzon, har safar tekshiramiz
+  if (!BACKEND_URL) return ensureCatalog();
+  if (Date.now() - ttlLoadedAt < ttlMs) return;
+  ttlLoadedAt = Date.now();
+  await ensureCatalog();
+}
+
 /** Admin: joriy tuzatmalar (faqat fly'da — fayldan) */
 export function currentOverrides(): CatalogOverrides {
   return readOverridesFile();

@@ -16,9 +16,9 @@ import type { ClientLogo, SiteContent, VideoItem } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 const input =
-  'h-10 w-full rounded-[14px] border border-line bg-white px-3 text-[13.5px] text-ink focus:border-copper focus:outline-none';
+  'h-10 w-full rounded-[10px] border border-line bg-white px-3 text-[13.5px] text-ink focus:border-copper focus:outline-none';
 const smallBtn =
-  'inline-flex h-9 items-center justify-center rounded-[14px] border border-line bg-white px-2.5 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark disabled:opacity-40';
+  'inline-flex h-9 items-center justify-center rounded-[10px] border border-line bg-white px-2.5 text-[12.5px] font-semibold text-slate transition hover:border-copper hover:text-copper-dark disabled:opacity-40';
 
 function move<T>(list: T[], i: number, d: -1 | 1): T[] {
   const j = i + d;
@@ -112,11 +112,11 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
   return (
     <div className="flex flex-col gap-4">
       {/* ============ KONTAKTLAR ============ */}
-      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+      <section className="admin-card p-4">
         <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.people}</h2>
         <div className="flex flex-col gap-2.5">
           {people.map((p, i) => (
-            <div key={i} className="grid gap-2 rounded-[14px] bg-panel/50 p-2.5 md:grid-cols-[150px_1fr_1fr_auto]">
+            <div key={i} className="grid gap-2 rounded-[10px] bg-panel/50 p-2.5 md:grid-cols-[150px_1fr_1fr_auto]">
               <select
                 value={p.role}
                 aria-label={c.content.role}
@@ -190,11 +190,11 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
       </section>
 
       {/* ============ LOGOTIPLAR ============ */}
-      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+      <section className="admin-card p-4">
         <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.clients}</h2>
         <div className="grid gap-2.5 md:grid-cols-2">
           {clients.map((cl, i) => (
-            <div key={cl.id} className={cn('flex gap-3 rounded-[14px] border p-2.5', cl.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
+            <div key={cl.id} className={cn('flex gap-3 rounded-[10px] border p-2.5', cl.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
               <label className="relative flex h-20 w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border border-line-soft bg-white" title={c.content.upload}>
                 {cl.logo ? (
                   <Image src={cl.logo} alt={cl.name} fill sizes="112px" className="object-contain p-1.5" unoptimized={cl.logo.startsWith('/api/')} />
@@ -265,11 +265,11 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
       </section>
 
       {/* ============ VIDEOLAR ============ */}
-      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+      <section className="admin-card p-4">
         <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.videos}</h2>
         <div className="flex flex-col gap-2">
           {videos.map((v, i) => (
-            <div key={v.id} className={cn('grid gap-2 rounded-[14px] border p-2.5 md:grid-cols-[1fr_1fr_auto]', v.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
+            <div key={v.id} className={cn('grid gap-2 rounded-[10px] border p-2.5 md:grid-cols-[1fr_1fr_auto]', v.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
               <a href={v.url} target="_blank" rel="noopener noreferrer" className="truncate self-center text-[13px] text-copper-dark hover:underline" title={v.url}>
                 {v.url}
               </a>
@@ -334,12 +334,12 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
       </section>
 
       {/* ============ SAQLASH (pastda yopishgan) ============ */}
-      <div className="sticky bottom-3 z-20 flex flex-wrap items-center gap-3 rounded-[20px] border border-line-soft bg-white/95 p-3 backdrop-blur">
+      <div className="sticky bottom-3 z-20 flex flex-wrap items-center gap-3 admin-card/95 p-3 backdrop-blur">
         <button
           type="button"
           onClick={save}
           disabled={state === 'saving'}
-          className="inline-flex h-10 items-center rounded-[20px] bg-navy px-5 text-[13.5px] font-bold text-white transition hover:bg-ink disabled:opacity-60"
+          className="inline-flex h-10 items-center rounded-[12px] bg-navy px-5 text-[13.5px] font-semibold text-white transition hover:bg-ink disabled:opacity-60"
         >
           {state === 'saving' ? c.content.saving : c.content.save}
         </button>
