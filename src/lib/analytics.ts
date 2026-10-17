@@ -150,6 +150,10 @@ export const track = {
   /** Video ochildi (YouTube / Instagram) */
   videoPlay: (source: string, id: string) => trackEvent('video_play', { source, video_id: id }),
 
+  /** Elektron katalog: sahifa varaqlandi / PDF yuklandi */
+  brochurePage: (lang: string, page: number) => trackEvent('brochure_page', { lang, page }),
+  brochureDownload: (lang: string, source: string) => trackEvent('brochure_download', { lang, source }),
+
   /** Instagram bosildi */
   instagramClick: (source: string) => trackEvent('instagram_click', { source }),
 

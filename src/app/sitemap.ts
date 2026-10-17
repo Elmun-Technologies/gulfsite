@@ -39,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const out: MetadataRoute.Sitemap = [];
 
   /* ---------- Asosiy sahifalar ---------- */
-  for (const p of ['', '/catalog', '/samples', '/quote', '/industries', '/about', '/contact']) {
+  for (const p of ['', '/catalog', '/brochure', '/samples', '/quote', '/industries', '/about', '/contact']) {
     out.push(...entry(p, p === '' ? 1 : 0.8, p === '' ? 'weekly' : 'weekly'));
   }
 

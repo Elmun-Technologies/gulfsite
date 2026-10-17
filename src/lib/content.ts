@@ -47,17 +47,15 @@ export interface SiteContent {
    ------------------------------------------------------------ */
 
 const DEFAULT_PEOPLE: ContactPerson[] = [
-  ...((process.env.NEXT_PUBLIC_DIRECTOR_PHONE ?? '').trim()
-    ? [
-        {
-          role: 'director' as const,
-          name: (process.env.NEXT_PUBLIC_DIRECTOR_NAME ?? '').trim(),
-          phone: formatPhone(process.env.NEXT_PUBLIC_DIRECTOR_PHONE ?? ''),
-          whatsapp: true,
-          telegram: true,
-        },
-      ]
-    : []),
+  // Katalog 2026 (mijoz bergan, 2026-10-17): direktor + sotuv bo'limi, barcha raqamlarda WhatsApp/Telegram.
+  // NEXT_PUBLIC_DIRECTOR_* env ustun; admin panel → Kontent'dan ham o'zgartiriladi.
+  {
+    role: 'director',
+    name: (process.env.NEXT_PUBLIC_DIRECTOR_NAME ?? '').trim() || 'Zarif Sadriev',
+    phone: formatPhone((process.env.NEXT_PUBLIC_DIRECTOR_PHONE ?? '').trim() || '+998 88 766 77 60'),
+    whatsapp: true,
+    telegram: true,
+  },
   { role: 'sales', name: '', phone: '+998 97 570 77 60', whatsapp: true, telegram: true },
   { role: 'sales', name: '', phone: '+998 97 571 77 60', whatsapp: true, telegram: true },
 ];
@@ -69,6 +67,7 @@ const DEFAULT_CLIENTS: ClientLogo[] = [
   { id: 'candy-gold', name: 'Candy Gold', logo: '/images/clients/candy-gold.webp', visible: true },
   { id: 'vitagum', name: 'Vitagum', logo: '/images/clients/vitagum.webp', visible: true },
   { id: 'pure-milky', name: 'Pure Milky', logo: '/images/clients/pure-milky.webp', visible: true },
+  { id: 'asi-prime', name: 'ASI Prime', logo: '/images/clients/asi-prime.webp', visible: true },
 ];
 
 export const DEFAULT_CONTENT: SiteContent = {

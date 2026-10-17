@@ -79,6 +79,8 @@ const COPY = {
       form_error: 'Forma xatosi',
       click_outbound: 'Tashqi havola',
       view_item: 'Mahsulot ko‘rildi',
+      brochure_page: 'Katalog varaqlandi',
+      brochure_download: 'Katalog PDF yuklandi',
     } as Record<string, string>,
     session: { entry: 'Kirish', duration: 'Davomiylik', pagesN: 'sahifa', converted: 'Ariza yubordi', onlyConverted: 'Faqat ariza yuborganlar', all: 'Hammasi', lead: 'Ariza', journey: 'Tashrif yo‘li', noJourney: 'Bu ariza uchun tashrif ma’lumoti yo‘q (analitika yoqilishidan oldingi ariza).' },
     clients: {
@@ -221,6 +223,8 @@ const COPY = {
       form_error: 'Ошибка формы',
       click_outbound: 'Внешняя ссылка',
       view_item: 'Просмотр товара',
+      brochure_page: 'Листание каталога',
+      brochure_download: 'Скачан PDF каталога',
     } as Record<string, string>,
     session: { entry: 'Вход', duration: 'Длительность', pagesN: 'стр.', converted: 'Отправил заявку', onlyConverted: 'Только с заявкой', all: 'Все', lead: 'Заявка', journey: 'Путь посетителя', noJourney: 'Для этой заявки нет данных о визите (заявка до включения аналитики).' },
     clients: {
@@ -363,6 +367,8 @@ const COPY = {
       form_error: 'Form error',
       click_outbound: 'Outbound link',
       view_item: 'Product view',
+      brochure_page: 'Catalogue page flip',
+      brochure_download: 'Catalogue PDF download',
     } as Record<string, string>,
     session: { entry: 'Entry', duration: 'Duration', pagesN: 'pages', converted: 'Sent a request', onlyConverted: 'Converted only', all: 'All', lead: 'Lead', journey: 'Visitor journey', noJourney: 'No visit data for this lead (submitted before analytics was enabled).' },
     clients: {

@@ -1,0 +1,112 @@
+{
+  "lang": "uz",
+  "pdf": "/catalog/gff-katalog-uz.pdf",
+  "pdfSizeKb": 9771,
+  "pages": [
+    {
+      "src": "/catalog/uz/p01.webp",
+      "thumb": "/catalog/uz/p01-t.webp",
+      "width": 1100,
+      "height": 1560,
+      "spread": false
+    },
+    {
+      "src": "/catalog/uz/p02.webp",
+      "thumb": "/catalog/uz/p02-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p03.webp",
+      "thumb": "/catalog/uz/p03-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p04.webp",
+      "thumb": "/catalog/uz/p04-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p05.webp",
+      "thumb": "/catalog/uz/p05-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p06.webp",
+      "thumb": "/catalog/uz/p06-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p07.webp",
+      "thumb": "/catalog/uz/p07-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p08.webp",
+      "thumb": "/catalog/uz/p08-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p09.webp",
+      "thumb": "/catalog/uz/p09-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p10.webp",
+      "thumb": "/catalog/uz/p10-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p11.webp",
+      "thumb": "/catalog/uz/p11-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p12.webp",
+      "thumb": "/catalog/uz/p12-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p13.webp",
+      "thumb": "/catalog/uz/p13-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p14.webp",
+      "thumb": "/catalog/uz/p14-t.webp",
+      "width": 2200,
+      "height": 1561,
+      "spread": true
+    },
+    {
+      "src": "/catalog/uz/p15.webp",
+      "thumb": "/catalog/uz/p15-t.webp",
+      "width": 1100,
+      "height": 1560,
+      "spread": false
+    }
+  ]
+}

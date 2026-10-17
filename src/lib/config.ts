@@ -146,7 +146,8 @@ export const siteConfig = {
    * Bo'sh yoki fayl mavjud bo'lmasa — tugma UMUMAN ko'rsatilmaydi
    * (`publicAssetExists` orqali tekshiriladi). O'lik havola yo'q.
    */
-  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', ''),
+  /** Mijoz katalogi (UZ) — `scripts/build-brochure.mjs` joylashtiradi; flipbook: /brochure */
+  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', '/catalog/gff-katalog-uz.pdf'),
   productionVideo: str('NEXT_PUBLIC_PRODUCTION_VIDEO', ''),
 
   seo: {

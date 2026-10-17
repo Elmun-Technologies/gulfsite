@@ -23,8 +23,9 @@ primary_region = "fra"
   dockerfile = "Dockerfile"
 
   [build.args]
-    NEXT_PUBLIC_SITE_URL = "https://gulfflavour.uz"
-    # Direktor raqami (ixtiyoriy — admin panel → Kontent'dan ham qo'shiladi)
+    # katalog 2026 dagi QR va manzil: gulfflavours.uz
+    NEXT_PUBLIC_SITE_URL = "https://gulfflavours.uz"
+    # Direktor: standart — Zarif Sadriev, +998 88 766 77 60 (katalogdan); o'zgartirish: admin → Kontent
     # NEXT_PUBLIC_DIRECTOR_PHONE = "+998 ..."
     # NEXT_PUBLIC_GTM_ID = "GTM-XXXXXXX"
 

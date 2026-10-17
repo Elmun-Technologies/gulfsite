@@ -236,8 +236,11 @@ if (get('NEXT_PUBLIC_GTM_ID')) ok(`GTM: ${get('NEXT_PUBLIC_GTM_ID')}`);
 else warn('NEXT_PUBLIC_GTM_ID bo\'sh — dataLayer hodisalari yoziladi, lekin hech qaerga ketmaydi', 'GTM konteynerini bering (GA4/Meta Pixel shu orqali)');
 
 /* ---------- 7. Kontent joy tutgichlari (§15 TODO) ---------- */
-if (get('NEXT_PUBLIC_CATALOG_PDF')) ok(`Katalog PDF: ${get('NEXT_PUBLIC_CATALOG_PDF')}`);
-else warn('NEXT_PUBLIC_CATALOG_PDF bo\'sh — hujjatlar bloki ko\'rsatilmaydi (o\'lik havola yo\'q)', 'PDF ni public/ ga qo\'ying va yo\'lni bering');
+{
+  const pdf = get('NEXT_PUBLIC_CATALOG_PDF') || '/catalog/gff-katalog-uz.pdf';
+  if (existsSync(join(ROOT, 'public', pdf))) ok(`Katalog PDF: ${pdf} (flipbook: /brochure)`);
+  else warn(`Katalog PDF topilmadi: public${pdf}`, 'node scripts/build-brochure.mjs <katalog.pdf> uz');
+}
 
 if (get('NEXT_PUBLIC_PRODUCTION_VIDEO')) ok(`Video: ${get('NEXT_PUBLIC_PRODUCTION_VIDEO')}`);
 else warn('NEXT_PUBLIC_PRODUCTION_VIDEO bo\'sh — video bloki ko\'rsatilmaydi', 'Ishlab chiqarish videosi (About/Hero) uchun');

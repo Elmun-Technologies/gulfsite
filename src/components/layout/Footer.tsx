@@ -111,12 +111,10 @@ export function Footer({
             <Link href={`/${locale}/contact`} className="foot-link">
               {t('nav.contact')}
             </Link>
-            {/* PDF katalog: fayl yo'q bo'lsa tugma ko'rsatilmaydi (§15 TODO) */}
-            {siteConfig.catalogPdf ? (
-              <Link href={siteConfig.catalogPdf} className="foot-link" download>
-                {t('footer.pdfCatalog')}
-              </Link>
-            ) : null}
+            {/* elektron katalog (flipbook + PDF) — mijoz katalogi, 2026-10-17 */}
+            <Link href={`/${locale}/brochure`} className="foot-link">
+              {t('nav.brochure')}
+            </Link>
           </nav>
 
           {/* ---------- 4. ALOQA ---------- */}
