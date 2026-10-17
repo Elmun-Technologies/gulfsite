@@ -45,9 +45,11 @@ yarn-error.log*
 
 # lead storage (runtime data) — server'da saqlanadi
 /data/leads
+/data/analytics
+/data/content
 /data/*.jsonl
 !/data/source/*.tsv
-!.data/source/*.json
+!/data/source/*.json
 
 # logs
 /logs

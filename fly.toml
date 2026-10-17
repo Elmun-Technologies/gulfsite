@@ -1,0 +1,64 @@
+# ============================================================
+#  GFF UZBEKISTAN — fly.io konfiguratsiyasi
+# ------------------------------------------------------------
+#  Birinchi deploy:
+#    fly launch --no-deploy --copy-config      # app nomini tanlang
+#    fly volumes create gff_data --size 3 --region fra
+#    fly secrets set ADMIN_PASSWORD=... ADMIN_SECRET=$(openssl rand -hex 32) \
+#                    TELEGRAM_BOT_TOKEN=... TELEGRAM_CHAT_ID=...
+#    fly deploy
+#
+#  MUHIM:
+#   · NEXT_PUBLIC_* qiymatlar BUILD vaqtida JS'ga yoziladi — shuning uchun
+#     ular [build.args] da (fly secrets emas). Domen o'zgarsa qayta deploy.
+#   · Volume (/app/data) — arizalar, analitika, kontent va logotiplar.
+#     Volume bitta mashinaga ulanadi → mashinalar soni 1 (scale count 1).
+#   · Mijoz IP manzili fly'da `Fly-Client-IP` sarlavhasida (rate limit uchun).
+# ============================================================
+
+app = "gff-uzbekistan"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+  [build.args]
+    NEXT_PUBLIC_SITE_URL = "https://gulfflavour.uz"
+    # Direktor raqami (ixtiyoriy — admin panel → Kontent'dan ham qo'shiladi)
+    # NEXT_PUBLIC_DIRECTOR_PHONE = "+998 ..."
+    # NEXT_PUBLIC_GTM_ID = "GTM-XXXXXXX"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "3000"
+  HOSTNAME = "0.0.0.0"
+  DATA_DIR = "/app/data"
+  LEAD_STORAGE_PATH = "/app/data/leads"
+  TRUSTED_IP_HEADER = "fly-client-ip"
+
+[[mounts]]
+  source = "gff_data"
+  destination = "/app/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+  [[http_service.checks]]
+    grace_period = "20s"
+    interval = "30s"
+    method = "GET"
+    path = "/api/health"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"

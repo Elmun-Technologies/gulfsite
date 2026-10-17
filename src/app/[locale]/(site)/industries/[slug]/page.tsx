@@ -23,7 +23,8 @@ import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
-import { applicationCounts, applicationProducts } from '@/lib/catalog';
+import { applicationCounts, applicationProducts, queryCatalog } from '@/lib/catalog';
+import { DUBAI_BESTSELLERS } from '@/lib/dubai-bestsellers';
 import {
   APPLICATIONS,
   FEATURES,
@@ -114,6 +115,15 @@ export default async function IndustryPage({ params }: Props) {
   const heroImage = publicAssetExists(APPLICATION_IMAGE[slug] ?? '')
     ? (APPLICATION_IMAGE[slug] as string)
     : FALLBACK_IMAGE;
+
+  // Dubay "Top Selling" — har nom katalogdagi mos aromatizatorlar soni bilan (0 bo'lsa chiqmaydi)
+  const dubaiChips = (names: string[]) =>
+    [...new Set(names)]
+      .map((name) => ({ name, count: queryCatalog({ q: name, categories: ['flavours'] }, L).total }))
+      .filter((x) => x.count > 0);
+  const dubai = DUBAI_BESTSELLERS[slug];
+  const dubaiTop = dubai ? dubaiChips(dubai.top) : [];
+  const dubaiNew = dubai ? dubaiChips(dubai.fresh) : [];
 
   // faqat HAQIQATAN mahsuloti bor boshqa sohalar (§7.1)
   const others = industriesWithData(L)
@@ -225,6 +235,41 @@ export default async function IndustryPage({ params }: Props) {
           ))}
         </div>
       </Section>
+
+      {/* ============ DUBAY XITLARI (gulfflavours.ae) ============ */}
+      {dubaiTop.length ? (
+        <Section>
+          <SectionHeader title={t('industry.dubaiTopTitle')} rules="top" />
+          <p className="m-0 max-w-[640px] pb-6 text-body-l text-muted">{t('industry.dubaiTopText')}</p>
+          <div className="flex flex-wrap gap-2">
+            {dubaiTop.map((x) => (
+              <Link
+                key={x.name}
+                href={`/${locale}/catalog?q=${encodeURIComponent(x.name)}&categories=flavours`}
+                className="cert-pill no-underline hover:border-ink"
+              >
+                {x.name} <span className="text-muted">· {x.count}</span>
+              </Link>
+            ))}
+          </div>
+          {dubaiNew.length ? (
+            <div className="flex flex-col gap-3 pt-6">
+              <span className="label">{t('industry.dubaiNew')}</span>
+              <div className="flex flex-wrap gap-2">
+                {dubaiNew.map((x) => (
+                  <Link
+                    key={x.name}
+                    href={`/${locale}/catalog?q=${encodeURIComponent(x.name)}&categories=flavours`}
+                    className="cert-pill no-underline hover:border-ink"
+                  >
+                    {x.name} <span className="text-muted">· {x.count}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </Section>
+      ) : null}
 
       {/* ============ 02 · TAVSIYA ETILGAN MAHSULOTLAR ============ */}
       {cards.length ? (

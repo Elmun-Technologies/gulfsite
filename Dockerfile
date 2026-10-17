@@ -12,10 +12,12 @@
 #      -e NEXT_PUBLIC_SITE_URL=https://gff.uz \
 #      -e ADMIN_PASSWORD=... -e ADMIN_SECRET=... \
 #      -e TELEGRAM_BOT_TOKEN=... -e TELEGRAM_CHAT_ID=... \
-#      -v gff-leads:/app/data/leads \
+#      -v gff-data:/app/data \
 #      gff-uz
 #
-#  LEADLAR: /app/data/leads ichiga JSONL fayllar yoziladi.
+#  MA'LUMOTLAR: /app/data ichida — leads/ (arizalar), analytics/ (tashriflar),
+#  content/ (admin paneldagi kontaktlar, logotiplar, videolar).
+#  fly.io: fly.toml dagi [[mounts]] shu papkani volume'ga ulaydi.
 #  Volume bermasangiz, konteyner o'chsa ma'lumot yo'qoladi —
 #  shuning uchun -v yoki bind-mount MAJBURIY deb hisoblang.
 # ============================================================
@@ -51,19 +53,28 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0 \
     # Lead papkasi: server.js `process.chdir(__dirname)` qiladi, shuning uchun
     # yo'lni ANIQ ko'rsatamiz — volume mount nuqtasi bilan bir xil.
-    LEAD_STORAGE_PATH=/app/data/leads
+    LEAD_STORAGE_PATH=/app/data/leads \
+    DATA_DIR=/app/data
 
-# Xavfsizlik: root emas
-RUN addgroup -S gff && adduser -S gff -G gff
+# Xavfsizlik: server root emas, `gff` foydalanuvchisi nomidan ishlaydi.
+# su-exec — entrypoint volume egasini tuzatib, keyin huquqni tushiradi.
+RUN addgroup -S gff && adduser -S gff -G gff && apk add --no-cache su-exec
 
 # Standalone server + statik fayllar
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+# --chown: ISR (revalidate) qayta yaratilgan sahifalarni .next ichiga YOZADI —
+# root egaligida bu jim yiqilardi va sahifalar yangilanmasdi.
+COPY --from=builder --chown=gff:gff /app/.next/standalone ./
+COPY --from=builder --chown=gff:gff /app/.next/static ./.next/static
+COPY --from=builder --chown=gff:gff /app/public ./public
 
-# Leadlar uchun yoziladigan katalog (volume mount nuqtasi)
-RUN mkdir -p /app/data/leads && chown -R gff:gff /app/data
-USER gff
+# Ma'lumotlar (leadlar, analitika, kontent, logotiplar) — volume mount nuqtasi
+RUN mkdir -p /app/data/leads /app/data/analytics /app/data/content && chown -R gff:gff /app/data
+
+# fly.io / Docker volume root egaligida ulanadi → entrypoint egani tuzatadi
+# va serverni `gff` nomidan ishga tushiradi.
+RUN printf '#!/bin/sh\nchown -R gff:gff /app/data 2>/dev/null || true\nexec su-exec gff "$@"\n' > /entrypoint.sh \
+  && chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 3000
 
