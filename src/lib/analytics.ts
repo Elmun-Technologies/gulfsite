@@ -138,6 +138,12 @@ export const track = {
   /** Telegram bosildi */
   telegramClick: (source: string) => trackEvent('telegram_click', { source }),
 
+  /** WhatsApp bosildi */
+  whatsappClick: (source: string, phone?: string) => trackEvent('whatsapp_click', { source, phone }),
+
+  /** Video ochildi (YouTube / Instagram) */
+  videoPlay: (source: string, id: string) => trackEvent('video_play', { source, video_id: id }),
+
   /** Instagram bosildi */
   instagramClick: (source: string) => trackEvent('instagram_click', { source }),
 

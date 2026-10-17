@@ -37,6 +37,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'gulfflavours.ae' },
       { protocol: 'https', hostname: 'gulfflavours.ru' },
+      // video muqovalari (VideoGallery facade)
+      { protocol: 'https', hostname: 'i.ytimg.com' },
     ],
   },
 

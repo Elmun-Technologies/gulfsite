@@ -8,9 +8,9 @@
  * elementlarsiz ochiladi. Natijada panel toza, tez va ortiqcha
  * havolalarsiz ishlaydi.
  *
- * Sticky CTA va "yuzuvchi" aloqa tugmalari BU YERDA YO'Q: dizayn (§9)
- * ularni faqat katalog va mahsulot sahifalarida, faqat <768px da talab
- * qiladi — shuning uchun ularni o'sha sahifalarning o'zi qo'shadi.
+ * Sticky CTA BU YERDA YO'Q: dizayn (§9) uni faqat katalog va mahsulot
+ * sahifalarida, faqat <768px da talab qiladi. Suzuvchi WhatsApp/Telegram
+ * tugmalari esa mijoz talabi bilan (2026-10-17) barcha sahifalarda.
  */
 
 import type { ReactNode } from 'react';
@@ -20,6 +20,15 @@ import { siteConfig } from '@/lib/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CookieBanner } from '@/components/layout/CookieConsent';
+import { MessengerFab } from '@/components/layout/MessengerFab';
+import { contactPeople } from '@/lib/content';
+
+/**
+ * ISR: kontakt/logotip/video admin paneldan o'zgaradi. Saqlashda
+ * `revalidatePath` darhol yangilaydi; bu oraliq esa zaxira (masalan
+ * deploy'dan keyin build vaqtidagi standart kontent qolib ketmasligi uchun).
+ */
+export const revalidate = 600;
 
 interface Props {
   children: ReactNode;
@@ -32,6 +41,8 @@ export default async function SiteLayout({ children, params }: Props) {
   const t = makeT(locale);
   const nav = buildNav(locale, t);
   const dict = getDictionary(locale);
+  // suzuvchi WhatsApp/Telegram — birinchi sotuv menejeri
+  const fab = contactPeople().managers[0] ?? null;
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -55,6 +66,20 @@ export default async function SiteLayout({ children, params }: Props) {
       </main>
 
       <Footer locale={locale} t={t} />
+
+      {fab ? (
+        <MessengerFab
+          phone={fab.phone}
+          whatsapp={fab.whatsapp}
+          telegram={fab.telegram}
+          labels={{
+            whatsapp: t('contact.writeWhatsapp'),
+            telegram: t('contact.writeTelegram'),
+            waGreeting: t('contact.waGreeting'),
+            group: t('contact.messengers'),
+          }}
+        />
+      ) : null}
 
       <CookieBanner
         locale={locale}

@@ -12,6 +12,8 @@
  * Barcha sonlar ma'lumotdan hisoblanadi (§7.1). Sahifa to'liq statik (SSG).
  */
 
+import { TrustSection } from '@/components/home/TrustSection';
+import { VideoSection } from '@/components/home/VideoSection';
 import type { Metadata } from 'next';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
@@ -91,9 +93,11 @@ export default async function HomePage({ params }: PageProps) {
     <>
       <Hero locale={locale} t={t} tp={t.tp} productCount={count} />
       <AboutSection locale={locale} t={t} tp={t.tp} productCount={count} />
+      <TrustSection t={t} />
       <CategoriesSection locale={locale} t={t} productCount={count} />
       <SampleBoxSection locale={locale} t={t} />
       <ProcessSection t={t} />
+      <VideoSection t={t} limit={6} />
       <IndustriesSection locale={locale} t={t} />
       <ContactSection locale={locale} t={t} />
 

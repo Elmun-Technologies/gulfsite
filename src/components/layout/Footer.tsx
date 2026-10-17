@@ -7,7 +7,10 @@ import { siteConfig } from '@/lib/config';
 import { CATEGORIES, tr, type Locale } from '@/lib/taxonomy';
 import { allProducts } from '@/lib/catalog';
 import { Reveal } from '@/components/motion';
-import { FooterAddress, FooterEmail, FooterPhone, FooterSocial } from './FooterContact';
+import { contactPeople } from '@/lib/content';
+import { peopleLabels } from '@/lib/people-labels';
+import { FooterAddress, FooterEmail, FooterSocial } from './FooterContact';
+import { PeopleContacts } from './PeopleContacts';
 
 /**
  * FOOTER (§5, design/Footer.dc.html)
@@ -35,6 +38,8 @@ export function Footer({
   const products = allProducts();
   const c = siteConfig.contact;
   const s = siteConfig.social;
+  // direktor + sotuv menejerlari — admin paneldagi "Kontent" bo'limidan
+  const people = contactPeople();
 
   const cats = CATEGORIES.map((cat) => ({
     id: cat.id,
@@ -120,7 +125,12 @@ export function Footer({
 
             <FooterAddress address={address} />
 
-            <FooterPhone href={c.phonePrimaryHref} label={c.phonePrimary} source="footer" />
+            <PeopleContacts
+              variant="list"
+              source="footer"
+              people={[...(people.director ? [people.director] : []), ...people.managers]}
+              labels={peopleLabels(t)}
+            />
 
             <FooterEmail email={c.email} source="footer" />
 

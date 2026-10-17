@@ -28,6 +28,8 @@ import { Section, SectionHeader } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { MonogramStatic, Reveal, SplitLines } from '@/components/motion';
 import { cn } from '@/lib/utils';
+import { TrustSection } from '@/components/home/TrustSection';
+import { VideoSection } from '@/components/home/VideoSection';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -221,6 +223,10 @@ export default async function AboutPage({ params }: Props) {
           </div>
         </div>
       </Section>
+
+      {/* ============ MIJOZLAR + VIDEO (admin paneldan) ============ */}
+      <TrustSection t={t} />
+      <VideoSection t={t} />
 
       {/* ============ 03 · O'ZBEKISTONDAGI OFIS ============ */}
       <Section>
