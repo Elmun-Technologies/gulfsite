@@ -8,7 +8,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { sendWelcome, webhookAuthorized } from '@/lib/telegram';
+import { isLegacyButton, sendWelcome, webhookAuthorized } from '@/lib/telegram';
 import { appendCustomerMessage } from '@/lib/leads/telegram-link';
 
 export const runtime = 'nodejs';
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
   if (!msg?.chat || msg.chat.type !== 'private' || !msg.from) return NextResponse.json({ ok: true });
 
   const text = (msg.text ?? '').trim();
-  if (!text || text.startsWith('/start') || text.startsWith('/shop') || text.startsWith('/menu')) {
+  if (!text || text.startsWith('/start') || text.startsWith('/shop') || text.startsWith('/menu') || isLegacyButton(text)) {
     await sendWelcome(msg.chat.id, msg.from.language_code);
     return NextResponse.json({ ok: true });
   }

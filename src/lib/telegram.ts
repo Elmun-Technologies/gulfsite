@@ -182,15 +182,30 @@ export function botText(locale: 'uz' | 'ru' | 'en') {
 export async function sendWelcome(chatId: number, lang?: string) {
   const l = tgLocale(lang);
   const t = TEXT[l];
+  // Bitta xabarda faqat bitta reply_markup: sarlavha eski botdan qolgan pastki
+  // klaviaturani ("Магазин", "Отследить заказ"…) olib tashlaydi, matn esa
+  // do'kon tugmasini beradi. Klaviatura chatda o'zi yo'qolmaydi.
+  const [title, ...body] = t.welcome.split('\n\n');
+  await tgApi('sendMessage', {
+    chat_id: chatId,
+    text: title,
+    parse_mode: 'HTML',
+    reply_markup: { remove_keyboard: true },
+  });
   return tgApi('sendMessage', {
     chat_id: chatId,
-    text: t.welcome,
+    text: body.join('\n\n'),
     parse_mode: 'HTML',
     disable_web_page_preview: true,
     reply_markup: {
       inline_keyboard: [[{ text: t.open, web_app: { url: miniAppUrl(l) } }]],
     },
   });
+}
+
+/** Eski bot klaviaturasining tugmalari — bosilsa izoh emas, salomlashish */
+export function isLegacyButton(text: string): boolean {
+  return /^\W*\s*(Магазин|Отследить заказ|Поддержка|Выбрать язык|Do.?kon|Shop|Support|Track order|Language|Til)\s*$/iu.test(text);
 }
 
 /** Ariza qabul qilinganda mijozga tasdiq */
