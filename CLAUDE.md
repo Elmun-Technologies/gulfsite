@@ -262,6 +262,24 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **Skrinshot auditida "bo'sh joy"** ko'pincha reveal/lazy-rasm artefakti:
   sahifani sekin skroll qiling (300px / 250ms), keyin xulosa qiling.
 
+### 4.9 To'liq audit (2026-10-17) — topilgan "jim" xatolar va qoidalar
+
+- **Namuna qutisi**: `setState` updater ichida natija (`added/full`)
+  hisoblamang — updater keyinroq bajarilishi mumkin. `SampleBoxProvider`
+  `itemsRef` ko'zgusidan hisoblaydi. Persist effect `ready` bo'lmaguncha
+  yozmaydi (aks holda gidratsiya commit'ida `[]` localStorage'ni o'chiradi).
+- **`clear()` dan keyin son kerak bo'lsa** — avval state'ga saqlang
+  (`SamplesFormBridge.sentCount`), aks holda "0 ta namuna" chiqadi.
+- **`localizedPath()` idempotent** — breadcrumb `href: /${locale}/…` berilsa
+  ham JSON-LD `/uz/uz/…` bo'lmaydi.
+- **Katalog kanonik URL** — faqat `categories` + `page`; boshqa filtr → noindex.
+- **Takroriy lead** — telefon + tur + SKU'lar bo'yicha (faqat telefon emas).
+- **`TRUSTED_IP_HEADER`** — production'da proksiga mos bering (env:check
+  ogohlantiradi); admin login'da IP'siz umumiy cheklov ham bor (30/15 min).
+- **Analitika** — `dataLayer` GA4_ID'siz ham to'ldiriladi (GTM-only sozlama).
+- **`audit:links`** endi sitemap domeni `BASE_URL` dan farq qilsa ham
+  barcha URL'larni tekshiradi (avval 0 ta tekshirib "toza" derdi).
+
 ### 4.8 SEO: ikonkalar va robots
 
 - Ikonkalar `npm run icons` (scripts/build-icons.mjs) bilan monogram-copper.png
