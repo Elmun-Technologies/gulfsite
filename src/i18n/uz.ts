@@ -941,6 +941,8 @@ export const uz = {
   'video.play': 'Videoni ko‘rish',
   'video.openYoutube': 'YouTube’da ochish',
   'video.openInstagram': 'Instagram’da ochish',
+  'video.openVk': 'VK’da ochish',
+  'video.openFile': 'Alohida oynada ochish',
   'industry.dubaiTopTitle': 'Dubayda eng ko‘p sotiladigan ta’mlar',
   'industry.dubaiTopText': 'Gulf Flavours bosh ofisi (Dubay) ushbu soha uchun eng ko‘p sotadigan ta’mlar. Nomni bosing — katalogdagi mos pozitsiyalar ochiladi.',
   'industry.dubaiNew': 'Yangi ishlanmalar',

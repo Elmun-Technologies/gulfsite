@@ -26,6 +26,7 @@ import { Section, SectionHeader } from '@/components/ui/SectionHeader';
 import { Faq } from '@/components/ui/Faq';
 import { CountUp, Reveal } from '@/components/motion';
 import { GffLeadForm } from '@/components/lead/GffLeadForm';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -33,11 +34,13 @@ interface Props {
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -60,6 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function QuotePage({ params }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);

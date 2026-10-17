@@ -11,9 +11,35 @@
 import { allProducts } from './catalog';
 import { ALL_GROUPS, APPLICATIONS, CATEGORIES, sortTaxons, tr, type Locale } from './taxonomy';
 
+/** SEO matni (`catseo.<id>.*`) bor kategoriyalar — faqat ularning landing sahifasi bor */
+export const LANDING_CATEGORIES = [
+  'flavours',
+  'fragrances',
+  'food-ingredients',
+  'essential-oils',
+  'aroma-chemicals',
+  'commodities',
+] as const;
+
 export function categoryIdsWithData(): string[] {
-  const set = new Set(allProducts().map((p) => p.category));
-  return CATEGORIES.filter((c) => set.has(c.id as never)).map((c) => c.id);
+  const set = new Set<string>(allProducts().map((p) => p.category));
+  return CATEGORIES.filter((c) => set.has(c.id) && (LANDING_CATEGORIES as readonly string[]).includes(c.id)).map(
+    (c) => c.id,
+  );
+}
+
+/** Kategoriya havolasi: landing sahifasi bo'lsa o'sha, bo'lmasa katalog filtri (admin qo'shgan) */
+export function categoryHref(id: string, locale: string): string {
+  return (LANDING_CATEGORIES as readonly string[]).includes(id)
+    ? `/${locale}/category/${id}`
+    : `/${locale}/catalog?categories=${encodeURIComponent(id)}`;
+}
+
+/** Guruh havolasi: landing kategoriyasida — guruh sahifasi, aks holda katalog filtri */
+export function groupHref(category: string, group: string, locale: string): string {
+  return (LANDING_CATEGORIES as readonly string[]).includes(category)
+    ? `/${locale}/category/${category}/${group}`
+    : `/${locale}/catalog?categories=${encodeURIComponent(category)}&groups=${encodeURIComponent(group)}`;
 }
 
 export function groupsFor(category: string, locale: Locale): { id: string; label: string; count: number }[] {

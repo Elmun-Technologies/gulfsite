@@ -9,11 +9,13 @@ import { AUTH_COOKIE, verifySessionToken } from '@/lib/auth';
 import { notificationChannels, serverConfig } from '@/lib/config';
 import { getStats } from '@/lib/leads/store';
 import { productCount } from '@/lib/catalog';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
+  await ensureCatalog();
   const url = new URL(req.url);
   // Batafsil holat (lead soni, kanallar, admin sozlanganmi) — faqat admin
   // sessiyasi bilan: ochiq bo'lsa ma'lumot sizib chiqadi va har chaqiruv

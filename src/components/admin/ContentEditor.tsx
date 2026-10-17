@@ -28,9 +28,14 @@ function move<T>(list: T[], i: number, d: -1 | 1): T[] {
   return next;
 }
 
-/** YouTube / Instagram havolasini klientda tez tekshirish (server baribir qayta tekshiradi) */
+/** YouTube / Instagram / VK / .mp4 havolasini klientda tez tekshirish (server baribir qayta tekshiradi) */
 function looksLikeVideo(url: string): boolean {
-  return /^(https?:\/\/)?(www\.|m\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/|instagram\.com\/([\w.]+\/)?(p|reel|reels|tv)\/)/i.test(url.trim());
+  const u = url.trim();
+  return (
+    /^(https?:\/\/)?(www\.|m\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/|instagram\.com\/([\w.]+\/)?(p|reel|reels|tv)\/)/i.test(u) ||
+    /^(https?:\/\/)?(m\.)?(vkvideo\.ru|vk\.com|vk\.ru)\/.*video-?\d+_\d+/i.test(u) ||
+    /^https:\/\/[^\s]+\.(mp4|webm|mov)(#.*)?$/i.test(u)
+  );
 }
 
 function rid(prefix: string) {

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * VIDEO GALEREYA — YouTube / Instagram (admin paneldan boshqariladi)
+ * VIDEO GALEREYA — YouTube / Instagram / VK / .mp4 (admin paneldan boshqariladi)
  * ----------------------------------------------------------------
  * "Facade" usuli: sahifada faqat muqova + play tugmasi. iframe FAQAT
  * bosilgandan keyin yuklanadi — YouTube/Instagram skriptlari birinchi
@@ -20,10 +20,12 @@ import { cn } from '@/lib/utils';
 export interface GalleryVideo {
   id: string;
   title: string;
-  source: 'youtube' | 'instagram';
+  source: 'youtube' | 'instagram' | 'vk' | 'file';
   embed: string;
   href: string;
   thumb?: string;
+  /** to'g'ridan-to'g'ri video fayl — iframe o'rniga <video> */
+  file?: string;
 }
 
 export function VideoGallery({
@@ -31,7 +33,7 @@ export function VideoGallery({
   labels,
 }: {
   videos: GalleryVideo[];
-  labels: { play: string; openYoutube: string; openInstagram: string };
+  labels: { play: string; openYoutube: string; openInstagram: string; openVk: string; openFile: string };
 }) {
   const [playing, setPlaying] = useState<string | null>(null);
 
@@ -48,7 +50,15 @@ export function VideoGallery({
                 vertical ? 'aspect-[9/14]' : 'aspect-video',
               )}
             >
-              {active ? (
+              {active && v.file ? (
+                <video
+                  src={v.file}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="absolute inset-0 h-full w-full bg-navy object-contain"
+                />
+              ) : active ? (
                 <iframe
                   src={v.embed}
                   title={v.title || labels.play}
@@ -67,7 +77,18 @@ export function VideoGallery({
                   aria-label={v.title ? `${labels.play}: ${v.title}` : labels.play}
                   className="group absolute inset-0 flex h-full w-full items-center justify-center"
                 >
-                  {v.thumb ? (
+                  {v.file ? (
+                    // birinchi kadr muqova sifatida (faqat metadata yuklanadi)
+                    <video
+                      src={`${v.file}#t=0.001`}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      aria-hidden
+                      tabIndex={-1}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-85 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                  ) : v.thumb ? (
                     <Image
                       src={v.thumb}
                       alt=""
@@ -77,7 +98,7 @@ export function VideoGallery({
                     />
                   ) : (
                     <span className="absolute left-5 top-5 text-[13px] uppercase tracking-[0.12em] text-copper-light">
-                      Instagram
+                      {v.source === 'vk' ? 'VK Video' : 'Instagram'}
                     </span>
                   )}
                   <span className="relative flex h-16 w-16 items-center justify-center rounded-pill bg-copper text-ink transition-transform duration-300 group-hover:scale-110">
@@ -94,7 +115,13 @@ export function VideoGallery({
                 rel="noopener noreferrer"
                 className="inline-flex shrink-0 items-center gap-1 text-[14px] text-muted no-underline hover:text-ink"
               >
-                {v.source === 'youtube' ? labels.openYoutube : labels.openInstagram}
+                {v.source === 'youtube'
+                  ? labels.openYoutube
+                  : v.source === 'vk'
+                    ? labels.openVk
+                    : v.source === 'file'
+                      ? labels.openFile
+                      : labels.openInstagram}
                 <ArrowUpRight size={14} aria-hidden />
               </a>
             </figcaption>

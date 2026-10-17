@@ -27,6 +27,7 @@ import { makeT, normalizeLocale } from '@/i18n';
 import { parseUtm, sanitizeLog } from '@/lib/utils';
 import type { LeadRecord } from '@/lib/types';
 import { getProductBySku } from '@/lib/catalog';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -311,6 +312,7 @@ async function handlePost(req: NextRequest): Promise<Response> {
 
 /** GET — servis holatini tekshirish (monitoring uchun) */
 export async function GET() {
+  await ensureCatalog();
   return NextResponse.json({
     ok: true,
     service: 'leads',
@@ -352,6 +354,7 @@ function normalizePhoneDisplay(raw: string): string {
 
 /* Vercel'dagi sayt fly backend'iga to'g'ridan-to'g'ri yuboradi — CORS (lib/cors.ts) */
 export async function POST(req: NextRequest) {
+  await ensureCatalog();
   return withCors(req, await handlePost(req));
 }
 

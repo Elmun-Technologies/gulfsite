@@ -11,6 +11,7 @@ import { contactPeople } from '@/lib/content';
 import { peopleLabels } from '@/lib/people-labels';
 import { FooterAddress, FooterEmail, FooterSocial } from './FooterContact';
 import { PeopleContacts } from './PeopleContacts';
+import { categoryHref } from '@/lib/category-pages';
 
 /**
  * FOOTER (§5, design/Footer.dc.html)
@@ -90,7 +91,7 @@ export async function Footer({
           <nav aria-label={t('footer.colCatalog')} className="flex flex-col gap-2.5 text-[15px]">
             <span className="label">{t('footer.colCatalog')}</span>
             {cats.map((cat) => (
-              <Link key={cat.id} href={`/${locale}/category/${cat.id}`} className="foot-link">
+              <Link key={cat.id} href={categoryHref(cat.id, locale)} className="foot-link">
                 {cat.label}
               </Link>
             ))}

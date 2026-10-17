@@ -17,12 +17,14 @@ import { queryCatalog } from '@/lib/catalog';
 import { paramsToFilters } from '@/lib/filters-url';
 import { normalizeLocale } from '@/i18n';
 import { PAGE_SIZE } from '@/lib/types';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const runtime = 'nodejs';
 /** Filtr natijalari 60 soniya keshlanadi — bir xil so'rovlar tez qaytadi */
 export const revalidate = 60;
 
 export async function GET(req: NextRequest) {
+  await ensureCatalog();
   const sp = req.nextUrl.searchParams;
   const locale = normalizeLocale(sp.get('lang'));
   const size = Math.min(48, Math.max(6, Number(sp.get('size') ?? PAGE_SIZE) || PAGE_SIZE));

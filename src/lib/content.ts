@@ -26,7 +26,7 @@ export interface ClientLogo {
   visible: boolean;
 }
 
-export type VideoSource = 'youtube' | 'instagram';
+export type VideoSource = 'youtube' | 'instagram' | 'vk' | 'file';
 
 export interface VideoItem {
   id: string;
@@ -225,8 +225,10 @@ export interface ParsedVideo {
   embed: string;
   /** asl sahifa (yangi oynada ochish uchun) */
   href: string;
-  /** muqova rasmi (YouTube'da bor, Instagram'da yo'q) */
+  /** muqova rasmi (YouTube'da bor, Instagram/VK'da yo'q) */
   thumb?: string;
+  /** to'g'ridan-to'g'ri video fayl (.mp4/.webm) — iframe emas, <video> */
+  file?: string;
 }
 
 export function parseVideo(url: string): ParsedVideo | null {
@@ -263,6 +265,25 @@ export function parseVideo(url: string): ParsedVideo | null {
       embed: `https://www.instagram.com/${kind}/${m[2]}/embed`,
       href: `https://www.instagram.com/${kind}/${m[2]}/`,
     };
+  }
+
+  // VK Video: vkvideo.ru/video-123_456, vk.com/video123_456, ?z=video123_456
+  if (host === 'vkvideo.ru' || host === 'vk.com' || host === 'vk.ru') {
+    const m = `${u.pathname}${u.search}`.match(/video(-?\d+)_(\d+)/);
+    if (!m) return null;
+    const [, oid, vid] = m;
+    return {
+      source: 'vk',
+      id: `${oid}_${vid}`,
+      embed: `https://vkvideo.ru/video_ext.php?oid=${oid}&id=${vid}&hd=2&autoplay=1`,
+      href: `https://vkvideo.ru/video${oid}_${vid}`,
+    };
+  }
+
+  // To'g'ridan-to'g'ri fayl (masalan gulfflavours.ae/images/gff-reel.mp4) — faqat https
+  if (u.protocol === 'https:' && /\.(mp4|webm|mov)$/i.test(u.pathname)) {
+    const file = `${u.origin}${u.pathname}`;
+    return { source: 'file', id: file.slice(-40), embed: file, href: file, file };
   }
 
   return null;

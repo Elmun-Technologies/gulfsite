@@ -5,11 +5,13 @@ import { requireAdmin } from '@/lib/guard';
 import { getStats } from '@/lib/leads/store';
 import { notificationChannels } from '@/lib/config';
 import { productCount } from '@/lib/catalog';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  await ensureCatalog();
   if (!(await requireAdmin())) {
     return NextResponse.json({ ok: false, error: { code: 'unauthorized', message: 'admin.errors.unauthorized' } }, { status: 401 });
   }

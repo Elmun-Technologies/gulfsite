@@ -19,6 +19,7 @@ import { formatDateTime } from '@/lib/utils';
 import { AdminCard, Kpi, PageTitle, PeriodPicker } from '@/components/admin/AdminUi';
 import { BarList } from '@/components/admin/charts';
 import { LeadStatusBadge } from '@/components/admin/LeadBits';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,7 @@ interface PageProps {
 }
 
 export default async function AdminSamplesPage({ params, searchParams }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);

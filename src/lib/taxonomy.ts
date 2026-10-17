@@ -368,17 +368,27 @@ export type LeadStatus = keyof typeof LEAD_STATUSES;
    Helpers
    ============================================================ */
 
-export const ALL_GROUPS = [
+export const ALL_GROUPS: Taxon[] = [
   ...FLAVOUR_GROUPS,
   ...FRAGRANCE_GROUPS,
   ...INGREDIENT_GROUPS,
   ...COMMODITY_GROUPS,
 ];
 
+/**
+ * Ro'yxat ichidan id bo'yicha qidirish. Kesh ro'yxat o'zgarganda (admin
+ * qo'shgan kategoriya/guruh — `catalog-live.ts`) qayta quriladi.
+ */
 export function byId<T extends { id: string }>(list: readonly T[]) {
-  const map = new Map<string, T>();
-  for (const item of list) map.set(item.id, item);
-  return (id: string): T | undefined => map.get(id);
+  let map = new Map<string, T>();
+  let snapshot: readonly T[] = [];
+  return (id: string): T | undefined => {
+    if (snapshot.length !== list.length || snapshot[0] !== list[0] || snapshot[snapshot.length - 1] !== list[list.length - 1]) {
+      map = new Map(list.map((item) => [item.id, item]));
+      snapshot = [...list];
+    }
+    return map.get(id);
+  };
 }
 
 export const getCategory = byId(CATEGORIES);

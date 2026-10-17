@@ -23,6 +23,7 @@ import { CookieBanner } from '@/components/layout/CookieConsent';
 import { MessengerFab } from '@/components/layout/MessengerFab';
 import { SiteTracker } from '@/components/layout/SiteTracker';
 import { contactPeople } from '@/lib/content';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 /**
  * ISR: kontakt/logotip/video admin paneldan o'zgaradi. Saqlashda
@@ -37,6 +38,7 @@ interface Props {
 }
 
 export default async function SiteLayout({ children, params }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);

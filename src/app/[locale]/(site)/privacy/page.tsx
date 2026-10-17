@@ -15,6 +15,7 @@ import { buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { PRIVACY } from '@/lib/legal';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { LegalPage } from '@/components/legal/LegalPage';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -22,11 +23,13 @@ interface Props {
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -40,6 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PrivacyPage({ params }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const t = makeT(locale);

@@ -19,6 +19,7 @@ import { tr, type Locale } from '@/lib/taxonomy';
 import { AdminCard, Kpi, PageTitle, PeriodPicker, pctDelta } from '@/components/admin/AdminUi';
 import { BarList, ColumnBars, TrendChart, type BarRow } from '@/components/admin/charts';
 import { cn } from '@/lib/utils';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ const METRICS = ['visitors', 'sessions', 'pageviews', 'conversions'] as const;
 type Metric = (typeof METRICS)[number];
 
 export default async function AdminAnalyticsPage({ params, searchParams }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);

@@ -30,6 +30,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CookieBanner } from '@/components/layout/CookieConsent';
 import '@/app/globals.css';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const metadata: Metadata = {
   title: '404',
@@ -38,7 +39,8 @@ export const metadata: Metadata = {
 
 const LOCALE: AppLocale = 'uz';
 
-export default function RootNotFound() {
+export default async function RootNotFound() {
+  await ensureCatalog();
   const t = makeT(LOCALE);
   const dict = getDictionary(LOCALE);
 

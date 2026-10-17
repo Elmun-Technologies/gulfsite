@@ -23,6 +23,7 @@ import { ToastProvider } from '@/components/ui/Overlay';
 import { Analytics } from '@/components/layout/Analytics';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { organizationLd } from '@/lib/seo';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 /**
  * `dynamicParams` bu yerda ISHLATILMAYDI: Next.js segment konfiguratsiyasi
@@ -32,7 +33,8 @@ import { organizationLd } from '@/lib/seo';
  * `src/proxy.ts` da (u standart tilga yo'naltiradi) va sahifalardagi
  * `dynamicParams = false` da.
  */
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
@@ -49,6 +51,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
 
@@ -83,6 +86,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const dict = getDictionary(locale);

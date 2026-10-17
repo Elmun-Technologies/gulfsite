@@ -25,6 +25,7 @@ import { productCount } from '@/lib/catalog';
 import { formatDate, formatDateTime } from '@/lib/utils';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { LeadStatusBadge, LeadQuality } from '@/components/admin/LeadBits';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -33,6 +34,7 @@ interface PageProps {
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage({ params }: PageProps) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
   if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);

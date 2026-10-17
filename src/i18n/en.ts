@@ -904,6 +904,8 @@ export const en: Dict = {
   'video.play': 'Play video',
   'video.openYoutube': 'Open on YouTube',
   'video.openInstagram': 'Open on Instagram',
+  'video.openVk': 'Open on VK',
+  'video.openFile': 'Open in new tab',
   'industry.dubaiTopTitle': 'Best-sellers in Dubai',
   'industry.dubaiTopText': 'The best-selling flavours of the Gulf Flavours head office (Dubai) for this industry. Tap a name to open matching catalogue items.',
   'industry.dubaiNew': 'New creations',

@@ -49,6 +49,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { MonogramStatic, Reveal } from '@/components/motion';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
 import { IndustrySetButton } from '@/components/industry/IndustrySetButton';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 const TABLE_LIMIT = 10;
 const SET_SIZE = 5;
@@ -59,7 +60,8 @@ interface Props {
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   // mahsuloti yo'q soha (masalan pet-food: matn bor, 0 pozitsiya) bo'sh sahifa
   // bo'lib qolmasin — router darajasida 404 (dynamicParams = false)
   const counts = applicationCounts();
@@ -68,6 +70,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw, slug } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -90,6 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function IndustryPage({ params }: Props) {
+  await ensureCatalog();
   const { locale: raw, slug } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;

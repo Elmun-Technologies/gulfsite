@@ -46,7 +46,29 @@ export { countActive, filtersToParams, paramsToFilters, LIST_KEYS };
    Xotiradagi kesh
    ------------------------------------------------------------ */
 
-const PRODUCTS = (catalogFile as unknown as { products: CatalogProduct[] }).products;
+/** Build vaqtidagi asos (617 pozitsiya) — o'zgarmaydi */
+export const BASE_PRODUCTS: readonly CatalogProduct[] = (catalogFile as unknown as { products: CatalogProduct[] }).products;
+
+/**
+ * Saytda ko'rinadigan mahsulotlar. Admin tuzatmalari (`catalog-live.ts`)
+ * `ensureCatalog()` orqali shu ro'yxatni almashtiradi; qolgan barcha
+ * funksiyalar sinxron qoladi.
+ */
+let PRODUCTS: CatalogProduct[] = [...BASE_PRODUCTS];
+/** Admin uchun: yashirinlari bilan birga */
+let ALL_WITH_HIDDEN: CatalogProduct[] = PRODUCTS;
+
+/** `catalog-live.ts` chaqiradi — boshqa joydan ishlatmang */
+export function __replaceProducts(visible: CatalogProduct[], all: CatalogProduct[]): void {
+  PRODUCTS = visible;
+  ALL_WITH_HIDDEN = all;
+  BLOBS.clear();
+}
+
+/** Admin panel: yashirin mahsulotlar ham */
+export function allProductsWithHidden(): CatalogProduct[] {
+  return ALL_WITH_HIDDEN;
+}
 
 interface SearchBlob {
   primary: string[];
@@ -138,8 +160,14 @@ export function toCard(p: CatalogProduct, locale: Locale): ProductCard {
     isTop: p.isTop,
     popularity: p.popularity,
     color: group?.color ?? '#0e7c6b',
-    blurb: productBlurb(p.category, p.applications, locale),
+    blurb: p.description?.[locale] ? clip(p.description[locale], 140) : productBlurb(p.category, p.applications, locale),
+    ...(p.image ? { image: p.image } : {}),
   };
+}
+
+function clip(text: string, max: number): string {
+  const t = text.replace(/\s+/g, ' ').trim();
+  return t.length <= max ? t : `${t.slice(0, max - 1).replace(/[\s,.;:]+\S*$/, '')}…`;
 }
 
 /* ------------------------------------------------------------

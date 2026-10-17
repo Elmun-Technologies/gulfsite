@@ -10,10 +10,12 @@
 import { permanentRedirect } from 'next/navigation';
 import { LOCALES, normalizeLocale } from '@/i18n';
 import { allProducts } from '@/lib/catalog';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.flatMap((locale) => allProducts().map((p) => ({ locale, slug: p.slug })));
 }
 
@@ -22,6 +24,7 @@ export default async function LegacyProductRedirect({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
+  await ensureCatalog();
   const { locale, slug } = await params;
   permanentRedirect(`/${normalizeLocale(locale)}/catalog/${slug}`);
 }

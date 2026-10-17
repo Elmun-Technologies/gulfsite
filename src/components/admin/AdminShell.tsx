@@ -55,11 +55,11 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
     { href: `${base}/analytics`, label: c.nav.analytics, icon: 'chart', exact: true },
     { href: `${base}/analytics/sessions`, label: c.nav.sessions, icon: 'eye' },
     { href: `${base}/leads`, label: t('admin.leads'), icon: 'invoice' },
+    { href: `${base}/products`, label: t('admin.products'), icon: 'grid' },
     { href: `${base}/samples`, label: c.nav.samples, icon: 'box' },
     { href: `${base}/clients`, label: c.nav.clients, icon: 'users' },
     { href: `${base}/content`, label: c.nav.content, icon: 'edit' },
     { href: `${base}/settings`, label: c.nav.settings, icon: 'settings' },
-    { href: `/${locale}/catalog`, label: t('admin.products'), icon: 'grid' },
   ];
 
   const isActive = (href: string, exact?: boolean) =>

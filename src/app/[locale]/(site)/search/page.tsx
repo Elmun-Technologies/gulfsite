@@ -38,6 +38,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/motion';
 import { SearchInput } from '@/components/search/SearchInput';
 import { AddSampleButton } from '@/components/catalog/AddSampleButton';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 const PRODUCT_LIMIT = 30;
 
@@ -48,11 +49,13 @@ interface Props {
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -74,6 +77,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 }
 
 export default async function SearchPage({ params, searchParams }: Props) {
+  await ensureCatalog();
   const { locale: raw } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;

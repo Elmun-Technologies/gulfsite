@@ -12,6 +12,7 @@ import { MonogramPanel } from '@/components/ui/MonogramPanel';
 import { Section, SectionHeader, SectionInset } from '@/components/ui/SectionHeader';
 import { GffLeadForm } from '@/components/lead/GffLeadForm';
 import { UZ_REGIONS } from '@/lib/taxonomy';
+import { categoryHref } from '@/lib/category-pages';
 
 /**
  * BOSH SAHIFA BO'LIMLARI (§5, design/Main.dc.html)
@@ -199,7 +200,7 @@ export function CategoriesSection({
         {cats.map((c, i) => (
           <Reveal key={c.id} index={i}>
             <Link
-              href={`/${locale}/category/${c.id}`}
+              href={categoryHref(c.id, locale)}
               className="group card flex h-full flex-col gap-[22px] p-3 pb-7 no-underline"
             >
               <span className="media-frame block aspect-4/3 w-full overflow-hidden rounded-media">

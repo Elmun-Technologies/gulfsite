@@ -13,7 +13,7 @@
  * Hamma matn lug'atdan, hamma son ma'lumotdan (§7.1, §10.1).
  */
 
-import { categoryName, groupName } from '@/lib/category-pages';
+import { categoryHref, categoryName, groupHref, groupName } from '@/lib/category-pages';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,7 +32,7 @@ import {
   tr,
   type Locale,
 } from '@/lib/taxonomy';
-import { BENEFITS, applicationLabel, productDescription, storageText } from '@/lib/catalog-copy';
+import { benefitsFor, applicationLabel, productDescription, storageText } from '@/lib/catalog-copy';
 import {
   APPLICATION_IMAGE,
   CATEGORY_IMAGE,
@@ -48,29 +48,26 @@ import { Reveal } from '@/components/motion';
 import { ProductGallery, type GallerySlide } from '@/components/product/ProductGallery';
 import { ProductInfoPanel } from '@/components/product/ProductInfoPanel';
 import { ProductStickyBar } from '@/components/product/ProductStickyBar';
+import { ensureCatalog } from '@/lib/catalog-live';
 
 const MAX_RELATED = 4;
 
 /**
- * `false` — barcha 617 slug `generateStaticParams` da oldindan
- * yaratiladi, shuning uchun noma'lum slug ROUTER darajasida 404 bo'ladi.
+ * `true` — admin paneldan qo'shilgan mahsulot build'siz ham sahifaga ega
+ * bo'ladi (birinchi so'rovda yaratiladi, keyin ISR keshida).
  *
- * Nega bu muhim: `dynamicParams = true` bo'lganda production'da noma'lum
- * slug uchun javob **200 + `loading.tsx` skeleti** edi (soft-404) —
- * `notFound()` Suspense chegarasi ichida otildi, javob allaqachon
- * flush bo'lgan shell bilan 200 sifatida keshlangandi (`x-nextjs-cache:
- * HIT`). Qidiruv tizimi bunday sahifani haqiqiy 404 deb hisoblamaydi
- * (§13). `industries/[slug]` va `product/[slug]` da shu sababli `false`.
+ * Soft-404 xavfi (§4.3): avval `catalog/loading.tsx` shu segmentni ham
+ * Suspense bilan o'rardi va noma'lum slug uchun `notFound()` 200 + skelet
+ * qaytarardi. Endi ro'yxat sahifasi va uning skeleti `catalog/(list)/`
+ * ichida — mahsulot sahifasining ustida loading chegarasi YO'Q, shuning
+ * uchun `notFound()` haqiqiy 404 beradi (production'da tekshirilgan).
  */
-export const dynamicParams = false;
-/**
- * 24 soat (86400 s). Next.js segment konfiguratsiyasi FAQAT literal
- * qiymatni qabul qiladi — `60 * 60 * 24` kabi ifoda build'ni
- * "Invalid segment configuration export" bilan to'xtatadi.
- */
-export const revalidate = 86400;
+export const dynamicParams = true;
+/** 1 soat — admin saqlaganda `revalidatePath` darhol yangilaydi, bu zaxira. */
+export const revalidate = 3600;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  await ensureCatalog();
   return LOCALES.flatMap((locale) => allProducts().map((p) => ({ locale, slug: p.slug })));
 }
 
@@ -79,6 +76,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await ensureCatalog();
   const { locale: raw, slug } = await params;
   const locale = normalizeLocale(raw);
   const t = makeT(locale);
@@ -92,7 +90,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cat = CATEGORIES.find((c) => c.id === product.category);
   const category = cat ? tr(cat.name, locale as Locale) : t('nav.catalog');
   const description = clipText(
-    productDescription(product.category, name, product.applications, product.copyVariant, locale as Locale),
+    product.description?.[locale as Locale] ||
+      productDescription(product.category, name, product.applications, product.copyVariant, locale as Locale),
     150,
   );
 
@@ -108,6 +107,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
+  await ensureCatalog();
   const { locale: raw, slug } = await params;
   const locale: AppLocale = normalizeLocale(raw);
   const L = locale as Locale;
@@ -121,7 +121,8 @@ export default async function ProductPage({ params }: Props) {
   const group = ALL_GROUPS.find((g) => g.id === product.group);
   const form = FORMS.find((f) => f.id === product.form);
   const catLabel = category ? tr(category.name, L) : t('nav.catalog');
-  const description = productDescription(product.category, name, product.applications, product.copyVariant, L);
+  const description =
+    product.description?.[L] || productDescription(product.category, name, product.applications, product.copyVariant, L);
 
   const apps = product.applications
     .map((id) => {
@@ -135,9 +136,9 @@ export default async function ProductPage({ params }: Props) {
     .filter((a) => a.label !== a.id);
 
   const related = relatedProducts(product, MAX_RELATED, L);
-  const benefits = BENEFITS[product.category][L];
+  const benefits = benefitsFor(product.category, L);
   const storage = storageText(product.category, L);
-  const gallery = buildGallery(product.category, product.applications, name, t);
+  const gallery = buildGallery(product.category, product.applications, name, t, product.image);
 
   const availabilityTone =
     product.availability === 'in-stock'
@@ -169,8 +170,8 @@ export default async function ProductPage({ params }: Props) {
               { name: t('nav.home'), path: '/' },
               { name: t('nav.catalog'), path: '/catalog' },
               // kategoriya va guruh landing sahifalari — ichki havola (SEO)
-              { name: categoryName(product.category, L), path: `/category/${product.category}` },
-              { name: groupName(product.group, L), path: `/category/${product.category}/${product.group}` },
+              { name: categoryName(product.category, L), path: categoryHref(product.category, locale).slice(locale.length + 1) },
+              { name: groupName(product.group, L), path: groupHref(product.category, product.group, locale).slice(locale.length + 1) },
               { name, path: `/catalog/${product.slug}` },
             ],
             locale,
@@ -185,8 +186,8 @@ export default async function ProductPage({ params }: Props) {
           items={[
             { label: t('nav.home'), href: `/${locale}` },
             { label: t('nav.catalog'), href: `/${locale}/catalog` },
-            { label: catLabel, href: `/${locale}/category/${product.category}` },
-            { label: groupName(product.group, L), href: `/${locale}/category/${product.category}/${product.group}` },
+            { label: catLabel, href: categoryHref(product.category, locale) },
+            { label: groupName(product.group, L), href: groupHref(product.category, product.group, locale) },
             { label: name },
           ]}
         />
@@ -412,12 +413,13 @@ function buildGallery(
   applications: string[],
   name: string,
   t: ReturnType<typeof makeT>,
+  uploaded?: string,
 ): { main: GallerySlide; slides: GallerySlide[] } {
   const app = applications.find((a) => APPLICATION_IMAGE[a]);
-  const mainSrc = imageFor(
-    app ? APPLICATION_IMAGE[app] : CATEGORY_IMAGE[categoryId],
-    imageFor(CATEGORY_IMAGE[categoryId]),
-  );
+  // admin yuklagan rasm (fly media) — birinchi o'rinda
+  const mainSrc =
+    uploaded ??
+    imageFor(app ? APPLICATION_IMAGE[app] : CATEGORY_IMAGE[categoryId], imageFor(CATEGORY_IMAGE[categoryId]));
 
   const slides: GallerySlide[] = [];
   for (const pk of PACK_IMAGES) {

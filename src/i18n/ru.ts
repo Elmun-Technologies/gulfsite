@@ -904,6 +904,8 @@ export const ru: Dict = {
   'video.play': 'Смотреть видео',
   'video.openYoutube': 'Открыть в YouTube',
   'video.openInstagram': 'Открыть в Instagram',
+  'video.openVk': 'Открыть в VK',
+  'video.openFile': 'Открыть в новом окне',
   'industry.dubaiTopTitle': 'Хиты продаж в Дубае',
   'industry.dubaiTopText': 'Самые продаваемые вкусы головного офиса Gulf Flavours (Дубай) для этой отрасли. Нажмите на название — откроются подходящие позиции каталога.',
   'industry.dubaiNew': 'Новинки',
