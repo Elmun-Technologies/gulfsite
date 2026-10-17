@@ -152,7 +152,7 @@ export const siteConfig = {
    * (`publicAssetExists` orqali tekshiriladi). O'lik havola yo'q.
    */
   /** Mijoz katalogi (UZ) — `scripts/build-brochure.mjs` joylashtiradi; flipbook: /brochure */
-  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', '/catalog/gff-katalog-uz.pdf'),
+  catalogPdf: str('NEXT_PUBLIC_CATALOG_PDF', ''), // bo'sh → joriy tildagi broshyura PDF'i (lib/brochure)
   productionVideo: str('NEXT_PUBLIC_PRODUCTION_VIDEO', ''),
 
   seo: {

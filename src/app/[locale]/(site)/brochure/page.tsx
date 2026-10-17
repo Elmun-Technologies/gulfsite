@@ -89,6 +89,7 @@ export default async function BrochurePage({ params }: Props) {
 
       <Section gap={false} className="pt-3">
         <Flipbook
+          key={brochure.lang /* til almashsa varaq/zoom holati muqovadan boshlanadi */}
           pages={brochure.pages}
           pdf={brochure.pdf}
           lang={brochure.lang}
