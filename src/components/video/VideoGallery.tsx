@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 export interface GalleryVideo {
   id: string;
   title: string;
-  source: 'youtube' | 'instagram' | 'vk' | 'file';
+  source: 'youtube' | 'instagram' | 'vk' | 'linkedin' | 'file';
   embed: string;
   href: string;
   thumb?: string;
@@ -33,21 +33,25 @@ export function VideoGallery({
   labels,
 }: {
   videos: GalleryVideo[];
-  labels: { play: string; openYoutube: string; openInstagram: string; openVk: string; openFile: string };
+  labels: { play: string; openYoutube: string; openInstagram: string; openVk: string; openLinkedin: string; openFile: string };
 }) {
   const [playing, setPlaying] = useState<string | null>(null);
 
-  return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-3">
-      {videos.map((v) => {
-        const vertical = v.source === 'instagram';
+  // Keng (YouTube, VK, .mp4) va vertikal (Instagram reel, LinkedIn) videolar alohida
+  // qatorlarda — aralash bo'lsa qatorlar notekis bo'lib, dizayn buziladi
+  const isVertical = (v: GalleryVideo) => v.source === 'instagram' || v.source === 'linkedin';
+  const wide = videos.filter((v) => !isVertical(v));
+  const tall = videos.filter(isVertical);
+
+  const renderCard = (v: GalleryVideo) => {
+        const vertical = isVertical(v);
         const active = playing === v.id;
         return (
           <figure key={v.id} className="m-0 flex flex-col gap-3">
             <div
               className={cn(
                 'relative w-full overflow-hidden rounded-media bg-navy',
-                vertical ? 'aspect-[9/14]' : 'aspect-video',
+                vertical ? 'aspect-[9/16]' : 'aspect-video',
               )}
             >
               {active && v.file ? (
@@ -98,7 +102,7 @@ export function VideoGallery({
                     />
                   ) : (
                     <span className="absolute left-5 top-5 text-[13px] uppercase tracking-[0.12em] text-copper-light">
-                      {v.source === 'vk' ? 'VK Video' : 'Instagram'}
+                      {v.source === 'vk' ? 'VK Video' : v.source === 'linkedin' ? 'LinkedIn' : 'Instagram'}
                     </span>
                   )}
                   <span className="relative flex h-16 w-16 items-center justify-center rounded-pill bg-copper text-ink transition-transform duration-300 group-hover:scale-110">
@@ -119,6 +123,8 @@ export function VideoGallery({
                   ? labels.openYoutube
                   : v.source === 'vk'
                     ? labels.openVk
+                    : v.source === 'linkedin'
+                      ? labels.openLinkedin
                     : v.source === 'file'
                       ? labels.openFile
                       : labels.openInstagram}
@@ -127,7 +133,16 @@ export function VideoGallery({
             </figcaption>
           </figure>
         );
-      })}
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      {wide.length ? (
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] gap-3">{wide.map(renderCard)}</div>
+      ) : null}
+      {tall.length ? (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{tall.map(renderCard)}</div>
+      ) : null}
     </div>
   );
 }

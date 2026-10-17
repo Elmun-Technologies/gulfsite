@@ -58,12 +58,18 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export const dynamicParams = false;
+/**
+ * `true`: `false` bo'lganda admin saqlagan paytdagi revalidatsiyadan keyin
+ * (revalidatePath / ISR) sahifa qayta yaratilmay `NoFallbackError` → 404
+ * bo'lib qolardi (standalone, 2026-10-17 tekshirilgan). Noma'lum slug uchun
+ * haqiqiy 404 — `proxy.ts` da (`catalogPathMissing`).
+ */
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   await ensureCatalog();
   // mahsuloti yo'q soha (masalan pet-food: matn bor, 0 pozitsiya) bo'sh sahifa
-  // bo'lib qolmasin — router darajasida 404 (dynamicParams = false)
+  // bo'lib qolmasin — proxy.ts haqiqiy 404 beradi (industryHasData)
   const counts = applicationCounts();
   const ids = industryIds().filter((id) => (counts[id] ?? 0) > 0);
   return LOCALES.flatMap((locale) => ids.map((slug) => ({ locale, slug })));

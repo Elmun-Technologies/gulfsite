@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { adminGuard } from '@/lib/admin-api';
-import { getContent, saveContent } from '@/lib/content';
+import { effectiveIntegrations, getContent, saveContent } from '@/lib/content';
 import { notifyFrontend } from '@/lib/frontend-sync';
 
 export const runtime = 'nodejs';
@@ -32,7 +32,7 @@ export async function PUT(req: Request) {
     // kontakt (footer) va logotip/video (bosh sahifa, kompaniya) — butun sayt
     revalidatePath('/', 'layout');
     await notifyFrontend();
-    return NextResponse.json({ ok: true, data });
+    return NextResponse.json({ ok: true, data, effective: effectiveIntegrations(data.integrations) });
   } catch (err) {
     console.error('[admin/content] saqlanmadi:', String(err).slice(0, 200));
     return NextResponse.json({ ok: false, error: { code: 'save_failed' } }, { status: 500 });

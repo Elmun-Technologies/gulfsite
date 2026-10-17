@@ -905,6 +905,7 @@ export const en: Dict = {
   'video.openYoutube': 'Open on YouTube',
   'video.openInstagram': 'Open on Instagram',
   'video.openVk': 'Open on VK',
+  'video.openLinkedin': 'Open on LinkedIn',
   'video.openFile': 'Open in new tab',
   'tg.metaTitle': 'GFF Shop — Telegram',
   'tg.brand': 'GFF Uzbekistan',

@@ -942,6 +942,7 @@ export const uz = {
   'video.openYoutube': 'YouTube’da ochish',
   'video.openInstagram': 'Instagram’da ochish',
   'video.openVk': 'VK’da ochish',
+  'video.openLinkedin': 'LinkedIn’da ochish',
   'video.openFile': 'Alohida oynada ochish',
   'tg.metaTitle': 'GFF Do‘kon — Telegram',
   'tg.brand': 'GFF Uzbekistan',

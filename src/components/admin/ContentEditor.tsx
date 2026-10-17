@@ -34,6 +34,7 @@ function looksLikeVideo(url: string): boolean {
   return (
     /^(https?:\/\/)?(www\.|m\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/|instagram\.com\/([\w.]+\/)?(p|reel|reels|tv)\/)/i.test(u) ||
     /^(https?:\/\/)?(m\.)?(vkvideo\.ru|vk\.com|vk\.ru)\/.*video-?\d+_\d+/i.test(u) ||
+    /^(https?:\/\/)?(www\.)?linkedin\.com\/.*activity[-:]\d{15,22}/i.test(u) ||
     /^https:\/\/[^\s]+\.(mp4|webm|mov)(#.*)?$/i.test(u)
   );
 }

@@ -17,6 +17,7 @@ import { getStats } from '@/lib/leads/store';
 import { AdminCard, PageTitle } from '@/components/admin/AdminUi';
 import { TelegramBotCard } from '@/components/admin/TelegramBotCard';
 import { botStatus, miniAppUrl } from '@/lib/telegram';
+import { effectiveIntegrations, getContent } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -61,6 +62,7 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
   const days = availableDays();
   const env = (k: string) => Boolean((process.env[k] ?? '').trim());
   const bot = await botStatus();
+  const integ = effectiveIntegrations(getContent().integrations);
 
   return (
     <div className="flex flex-col gap-4">
@@ -103,9 +105,10 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
         <AdminCard title={c.settings.checks}>
           <ul>
             <Check ok={!/localhost|127\.0\.0\.1/.test(siteConfig.url)} label={`NEXT_PUBLIC_SITE_URL: ${siteConfig.url}`} />
-            <Check ok={env('NEXT_PUBLIC_GTM_ID')} label="Google Tag Manager (ixtiyoriy)" />
-            <Check ok={env('GOOGLE_SITE_VERIFICATION')} label="Google Search Console" />
-            <Check ok={env('YANDEX_VERIFICATION')} label="Yandex Webmaster" />
+            <Check ok={Boolean(integ.googleVerification)} label="Google Search Console" hint="Admin → Integratsiyalar" />
+            <Check ok={Boolean(integ.yandexVerification)} label="Yandex Webmaster" />
+            <Check ok={Boolean(integ.bingVerification)} label="Bing Webmaster" />
+            <Check ok={Boolean(integ.yandexMetrikaId || integ.ga4Id || integ.gtmId)} label="Yandex Metrika / GA4 / GTM" />
           </ul>
         </AdminCard>
 

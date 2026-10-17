@@ -10,6 +10,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { createContext, useContext, type ReactNode } from 'react';
 import { motion } from 'motion/react';
 import { LOCALES, LOCALE_META, normalizeLocale, type AppLocale } from '@/i18n/meta';
 import { dur, ease } from '@/lib/motion';
@@ -17,6 +18,13 @@ import { track } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 /** `/uz/catalog?q=1` → `/ru/catalog?q=1` */
+const LocaleHomeOnlyCtx = createContext(false);
+
+/** 404 qobig'i: ichidagi til almashtirgich faqat til bosh sahifalariga havola beradi */
+export function LocaleHomeOnly({ children }: { children: ReactNode }) {
+  return <LocaleHomeOnlyCtx.Provider value>{children}</LocaleHomeOnlyCtx.Provider>;
+}
+
 export function localizePath(pathname: string, from: AppLocale, to: AppLocale, search = ''): string {
   // 404 sahifasida `usePathname()` Next'ning ICHKI yo'lini qaytaradi
   // (`/uz/_not-found`) — bu haqiqiy URL emas, shuning uchun til almashtirish
@@ -44,6 +52,7 @@ export function LocaleSwitcher({
 }) {
   const pathname = usePathname();
   const locale = localeProp ?? normalizeLocale(pathname.split('/')[1]);
+  const homeOnly = useContext(LocaleHomeOnlyCtx);
 
   return (
     <div
@@ -57,7 +66,9 @@ export function LocaleSwitcher({
     >
       {LOCALES.map((l) => {
         const active = l === locale;
-        const href = localizePath(pathname, locale, l, search ?? '');
+        // 404 sahifasi: HTML barcha noma'lum manzillar uchun bitta (keshlangan) — joriy
+        // yo'lga tayanib bo'lmaydi, til almashtirish o'sha tilning bosh sahifasiga
+        const href = homeOnly ? `/${l}` : localizePath(pathname, locale, l, search ?? '');
         const meta = LOCALE_META[l];
 
         return (

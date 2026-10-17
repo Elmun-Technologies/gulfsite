@@ -59,6 +59,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
     { href: `${base}/samples`, label: c.nav.samples, icon: 'box' },
     { href: `${base}/clients`, label: c.nav.clients, icon: 'users' },
     { href: `${base}/content`, label: c.nav.content, icon: 'edit' },
+    { href: `${base}/integrations`, label: locale === 'ru' ? 'Интеграции' : locale === 'en' ? 'Integrations' : 'Integratsiyalar', icon: 'link' },
     { href: `${base}/settings`, label: c.nav.settings, icon: 'settings' },
   ];
 
@@ -81,7 +82,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
   const groups: { title: string; items: NavItem[] }[] = [
     { title: locale === 'ru' ? 'Продажи' : locale === 'en' ? 'Sales' : 'Savdo', items: [items[0], items[3], items[5], items[6]] },
     { title: locale === 'ru' ? 'Аналитика' : locale === 'en' ? 'Analytics' : 'Analitika', items: [items[1], items[2]] },
-    { title: locale === 'ru' ? 'Сайт и бот' : locale === 'en' ? 'Site & bot' : 'Sayt va bot', items: [items[4], items[7], items[8]] },
+    { title: locale === 'ru' ? 'Сайт и бот' : locale === 'en' ? 'Site & bot' : 'Sayt va bot', items: [items[4], items[7], items[8], items[9]] },
   ];
   const statusOk = storage.writable && channels.telegram;
 

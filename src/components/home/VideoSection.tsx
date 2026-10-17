@@ -32,6 +32,7 @@ export async function VideoSection({ t, limit }: { t: Translator; limit?: number
               openYoutube: t('video.openYoutube'),
               openInstagram: t('video.openInstagram'),
               openVk: t('video.openVk'),
+              openLinkedin: t('video.openLinkedin'),
               openFile: t('video.openFile'),
             }}
           />

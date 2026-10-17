@@ -174,9 +174,12 @@ bo'lgan shell bilan 200 sifatida keshlanadi (`x-nextjs-cache: HIT`).
 Dev rejimida bu 404 ko'rinadi — **shuning uchun 404 holatlarini faqat
 production build'da tekshirish kerak.**
 
-Qoida: barcha slug'lari `generateStaticParams` da bor bo'lgan segmentlarda
-`dynamicParams = false` (router darajasida 404). Hozir shunday:
-`catalog/[slug]`, `product/[slug]`, `industries/[slug]`.
+~~Qoida: `dynamicParams = false`~~ — **BEKOR QILINDI (2026-10-17)**: `false` bo'lgan
+statik sahifa revalidatsiyadan keyin (admin saqlaganda `revalidatePath`, ISR) qayta
+yaratilmay `NoFallbackError` → **404** bo'lib qolardi (about, samples, privacy… —
+standalone'da takrorlangan). Endi hamma joyda `dynamicParams = true`, noma'lum slug
+uchun haqiqiy 404 `proxy.ts` → `catalogPathMissing()` da (mahsulot, eski `/product`,
+kategoriya, guruh, soha, `/tg/p`). Tekshirish: admin'da kontentni saqlang → `/uz/about` 200.
 
 Tekshirish:
 ```bash
@@ -388,6 +391,12 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   CSP `frame-ancestors` faqat Telegram (Desktop/Web iframe'da ochadi).
 - **Video**: YouTube, Instagram, **VK Video** (`video_ext.php`), to'g'ridan-to'g'ri `.mp4`
   (`<video>`, birinchi kadr muqova). Boshqa manba qo'shsangiz — `parseVideo()` + ContentEditor.
+- **Integratsiyalar** (admin → Integratsiyalar, `SiteContent.integrations`): Google/Yandex/
+  Bing/Facebook tasdiq meta-teglari (`[locale]/layout` metadata), GTM, GA4, Yandex Metrika,
+  Meta Pixel, TikTok Pixel (`components/layout/Analytics.tsx` — faqat cookie roziligidan keyin,
+  admin'da emas), qo'shimcha kod. Butun `<meta>`/`<script>` joylashtirilsa ham ID ajratiladi
+  (`sanitizeIntegrations`). Bo'sh maydon → env zaxirasi (`effectiveIntegrations`).
+  `saveContent()` endi joriy kontent ustiga qo'yadi (bo'limlar bir-birini o'chirmaydi).
 - **Admin dizayni**: `.admin-ui` (globals.css) sayt tokenlarini panel ichida qayta belgilaydi
   (indigo aksent, slate matn, tizim shrifti, `.admin-card`). Marketing sahifalari ta'sirlanmaydi;
   admin klasslarini o'zgartirmasdan rang almashtirish shu blokda.

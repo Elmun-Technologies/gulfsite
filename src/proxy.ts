@@ -23,25 +23,37 @@ import { LOCALES, isLocale, localeFromAcceptLanguage } from '@/i18n';
 import { AUTH_COOKIE, isAdminConfigured, verifySessionToken } from '@/lib/auth';
 import { getProductBySlug } from '@/lib/catalog';
 import { ensureCatalogTtl } from '@/lib/catalog-live';
+import { applicationCounts } from '@/lib/catalog';
 import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
+import { industryIds } from '@/lib/industry-copy';
 
-const PRODUCT_RE = /^\/(uz|ru|en)\/(?:catalog|tg\/p)\/([^/]+)\/?$/;
+const PRODUCT_RE = /^\/(uz|ru|en)\/(?:catalog|product|tg\/p)\/([^/]+)\/?$/;
 const GROUP_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/([^/]+)\/?$/;
+const CATEGORY_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/?$/;
+const INDUSTRY_RE = /^\/(uz|ru|en)\/industries\/([^/]+)\/?$/;
 
 /** Mahsulot/guruh manzili mavjudmi (null — bu tekshiruv tegishli emas) */
 async function catalogPathMissing(pathname: string): Promise<string | null> {
   const p = PRODUCT_RE.exec(pathname);
-  const g = p ? null : GROUP_RE.exec(pathname);
-  if (!p && !g) return null;
+  const g = GROUP_RE.exec(pathname);
+  const c = CATEGORY_RE.exec(pathname);
+  const ind = INDUSTRY_RE.exec(pathname);
+  if (!p && !g && !c && !ind) return null;
   try {
     await ensureCatalogTtl();
   } catch {
     return null; // katalog o'qilmasa — sahifa o'zi hal qiladi
   }
   if (p) return getProductBySlug(decodeURIComponent(p[2])) ? null : p[1];
-  const [, locale, category, group] = g!;
-  const ok = categoryIdsWithData().includes(category) && groupsFor(category, 'uz').some((x) => x.id === group);
-  return ok ? null : locale;
+  if (g) {
+    const [, locale, category, group] = g;
+    const ok = categoryIdsWithData().includes(category) && groupsFor(category, 'uz').some((x) => x.id === group);
+    return ok ? null : locale;
+  }
+  if (c) return categoryIdsWithData().includes(c[2]) ? null : c[1];
+  // soha: matni bor VA kamida bitta mahsuloti bor
+  const [, locale, slug] = ind!;
+  return industryIds().includes(slug) && (applicationCounts()[slug] ?? 0) > 0 ? null : locale;
 }
 
 const PUBLIC_FILE_RE = /\.(?:ico|png|jpe?g|gif|webp|avif|svg|txt|xml|json|webmanifest|pdf|woff2?|ttf|otf|css|js|map|mp4|webp)$/i;
