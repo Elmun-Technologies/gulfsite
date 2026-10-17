@@ -86,6 +86,11 @@ const GROUP_IMAGE: Record<string, string> = {
   'bulk-dairy': '/images/cat-commodities.jpg',
 };
 
+/** Guruh → rasm xaritasi (Telegram Mini App: yuklangan rasm bo'lmasa zaxira) */
+export function groupImageMap(): Record<string, string> {
+  return { ...CATEGORY_IMAGE, ...GROUP_IMAGE };
+}
+
 /** Guruh rasmi (landing sahifalar uchun) — yo'q bo'lsa null */
 export function groupImage(groupId: string): string | null {
   return GROUP_IMAGE[groupId] ?? null;

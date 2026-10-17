@@ -230,6 +230,16 @@ export interface LeadRecord {
     /** o'z analitikamiz: admin panelda arizaning tashrif yo'li */
     visitorId?: string;
     sessionId?: string;
+    /** qayerdan keldi: sayt yoki Telegram Mini App */
+    channel?: 'web' | 'telegram';
+  };
+
+  /** Telegram Mini App orqali kelgan bo'lsa — imzosi tekshirilgan foydalanuvchi */
+  telegram?: {
+    id: number;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
   };
 
   consent: boolean;

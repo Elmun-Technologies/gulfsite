@@ -28,6 +28,7 @@ import { parseUtm, sanitizeLog } from '@/lib/utils';
 import type { LeadRecord } from '@/lib/types';
 import { getProductBySku } from '@/lib/catalog';
 import { ensureCatalog } from '@/lib/catalog-live';
+import { sendLeadReceived, verifyInitData } from '@/lib/telegram';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -109,6 +110,9 @@ async function handlePost(req: NextRequest): Promise<Response> {
     );
   }
   const data = parsed.data;
+
+  /* ---- 3b. Telegram Mini App foydalanuvchisi (imzo tekshiriladi) ---- */
+  const tgUser = data.tgInitData ? verifyInitData(data.tgInitData) : null;
 
   /* ---- 4. Honeypot (tez rad etish) ---- */
   if (data.website_url && data.website_url.trim()) {
@@ -192,7 +196,7 @@ async function handlePost(req: NextRequest): Promise<Response> {
         phone: normalizePhoneDisplay(data.contact.phone),
         phoneRaw: data.contact.phone,
         email: data.contact.email || undefined,
-        telegram: data.contact.telegram || undefined,
+        telegram: data.contact.telegram || (tgUser?.username ? `@${tgUser.username}` : undefined),
       },
       company: {
         name: data.company.name || '',
@@ -226,7 +230,18 @@ async function handlePost(req: NextRequest): Promise<Response> {
         country: clientCountry(req.headers),
         visitorId: data.source?.visitorId,
         sessionId: data.source?.sessionId,
+        channel: tgUser ? 'telegram' : 'web',
       },
+      ...(tgUser
+        ? {
+            telegram: {
+              id: tgUser.id,
+              username: tgUser.username,
+              firstName: tgUser.firstName,
+              lastName: tgUser.lastName,
+            },
+          }
+        : {}),
       consent: data.consent,
       spamScore: spam,
       notes: [
@@ -282,6 +297,12 @@ async function handlePost(req: NextRequest): Promise<Response> {
       { ok: false, error: { code: 'delivery_failed', message: t('err.server') } },
       { status: 503, headers: { 'Cache-Control': 'no-store, max-age=0' } },
     );
+  }
+
+  /* ---- 11c. Telegram mijoziga tasdiq (Mini App) ---- */
+  if (tgUser) {
+    const sent = await sendLeadReceived(tgUser, lead.ref, locale);
+    if (!sent.ok) console.warn('[api/leads] mijozga Telegram tasdig‘i yuborilmadi:', sanitizeLog(sent.description ?? ''));
   }
 
   /* ---- 12. Javob ---- */
