@@ -262,6 +262,16 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **Skrinshot auditida "bo'sh joy"** ko'pincha reveal/lazy-rasm artefakti:
   sahifani sekin skroll qiling (300px / 250ms), keyin xulosa qiling.
 
+### 4.8 SEO: ikonkalar va robots
+
+- Ikonkalar `npm run icons` (scripts/build-icons.mjs) bilan monogram-copper.png
+  dan yaratiladi: `src/app/{favicon.ico,icon.png,apple-icon.png}` (Next o'zi
+  `<link>` qo'yadi) + `public/icons/*` (manifest, Organization.logo).
+- `robots.txt` da `/_next/` YOPILMAYDI (Googlebot render uchun CSS/JS kerak).
+- Title ≤ 60 (shablon " — GFF Uzbekistan" = 17 belgi); soha title'i
+  `industryTitle()` bilan qisqaradi. `GOOGLE_SITE_VERIFICATION` /
+  `YANDEX_VERIFICATION` env → meta teglar.
+
 ### 4.9 To'liq audit (2026-10-17) — topilgan "jim" xatolar va qoidalar
 
 - **Namuna qutisi**: `setState` updater ichida natija (`added/full`)
@@ -279,16 +289,6 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **Analitika** — `dataLayer` GA4_ID'siz ham to'ldiriladi (GTM-only sozlama).
 - **`audit:links`** endi sitemap domeni `BASE_URL` dan farq qilsa ham
   barcha URL'larni tekshiradi (avval 0 ta tekshirib "toza" derdi).
-
-### 4.8 SEO: ikonkalar va robots
-
-- Ikonkalar `npm run icons` (scripts/build-icons.mjs) bilan monogram-copper.png
-  dan yaratiladi: `src/app/{favicon.ico,icon.png,apple-icon.png}` (Next o'zi
-  `<link>` qo'yadi) + `public/icons/*` (manifest, Organization.logo).
-- `robots.txt` da `/_next/` YOPILMAYDI (Googlebot render uchun CSS/JS kerak).
-- Title ≤ 60 (shablon " — GFF Uzbekistan" = 17 belgi); soha title'i
-  `industryTitle()` bilan qisqaradi. `GOOGLE_SITE_VERIFICATION` /
-  `YANDEX_VERIFICATION` env → meta teglar.
 
 ---
 
