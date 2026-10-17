@@ -46,7 +46,8 @@ npm run i18n:export    # RU/EN review CSV'larini yangilash (docs/*.csv)
 — typecheck, lint, placeholder testi (offline + RENDER), `env:check --report`,
 build, server, `audit:seo`, `audit:links`, HTTP semantikasi (307/308/404),
 lead API (201 + honeypot), server log'i va **Lighthouse** (mobile: Perf ≥ 90 ·
-A11y ≥ 95 · SEO 100; desktop qo'shimcha). GitHub runner'larida Chrome bor,
+A11y ≥ 95 · SEO 100; desktop qo'shimcha). **Lighthouse job'i (~20 daqiqa) faqat main'ga push'da
+(merge'dan keyin) va qo'lda** — PR'da faqat `verify` (~4 daqiqa) ishlaydi. GitHub runner'larida Chrome bor,
 sandbox'da yo'q — shuning uchun Lighthouse CI'da o'lchanadi.
 
 **MUHIM diagnostika:**
