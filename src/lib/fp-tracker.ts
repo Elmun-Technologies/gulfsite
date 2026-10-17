@@ -57,7 +57,9 @@ let memVid = '';
 function ids(): { vid: string; sid: string; anon: boolean } {
   const anon = !consented();
   const vStore = anon ? globalThis.sessionStorage : globalThis.localStorage;
-  let vid = safeGet(vStore, VID_KEY) || memVid;
+  // rozilik endi berilgan bo'lsa — shu tabdagi vaqtinchalik id doimiyga o'tadi
+  // (aks holda bitta odam ikki tashrif buyuruvchi bo'lib sanalardi)
+  let vid = safeGet(vStore, VID_KEY) || (anon ? '' : safeGet(globalThis.sessionStorage, VID_KEY) ?? '') || memVid;
   if (!vid) {
     vid = rand();
     safeSet(vStore, VID_KEY, vid);

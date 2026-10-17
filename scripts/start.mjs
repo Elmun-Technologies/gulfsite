@@ -51,6 +51,8 @@ const env = {
   HOSTNAME: process.env.HOSTNAME || '0.0.0.0',
   PORT: process.env.PORT || '3000',
   LEAD_STORAGE_PATH: process.env.LEAD_STORAGE_PATH || join(root, 'data', 'leads'),
+  // analitika, admin kontenti, logotiplar — xuddi shu sababdan mutlaq yo'l
+  DATA_DIR: process.env.DATA_DIR || join(root, 'data'),
 };
 console.log(`✓ lead papkasi: ${env.LEAD_STORAGE_PATH}`);
 console.log(`\n▲ GFF Uzbekistan — http://${env.HOSTNAME}:${env.PORT}\n`);

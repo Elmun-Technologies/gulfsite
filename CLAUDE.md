@@ -290,6 +290,29 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **`audit:links`** endi sitemap domeni `BASE_URL` dan farq qilsa ham
   barcha URL'larni tekshiradi (avval 0 ta tekshirib "toza" derdi).
 
+
+### 4.10 Admin panel, o'z analitikamiz, kontent (2026-10-17)
+
+- **Ma'lumotlar** `DATA_DIR` (standart `<cwd>/data`, fly/Docker `/app/data` volume):
+  `leads/` · `analytics/YYYY-MM-DD.jsonl` · `content/site.json` + `content/media/`.
+  Standalone `server.js` `chdir` qiladi → `scripts/start.mjs` `DATA_DIR` ni
+  mutlaq yo'lga qo'yadi (aks holda `.next/standalone/data` ga yozilib, build o'chiradi).
+- **Analitika** (GA/Metrika'siz): `lib/fp-tracker.ts` (klient, `SiteTracker`) →
+  `POST /api/t` → `lib/analytics-store.ts`. `trackEvent()` har hodisani ham yuboradi.
+  IP saqlanmaydi; `HeadlessChrome`/botlar sanalmaydi (Playwright testida oddiy UA bering).
+  Lead'ga `visitorId/sessionId` yoziladi → ariza sahifasida tashrif yo'li.
+- **Admin sahifalari**: `/admin` · `analytics` · `analytics/sessions` · `leads` ·
+  `samples` · `clients` · `content` · `settings`. Matnlar `lib/admin-copy.ts` da
+  (sayt lug'atiga QO'SHILMAYDI — §4.4). Har sahifada `requireAdmin()`.
+- **Kontent** (`lib/content.ts`): kontaktlar (direktor + menejerlar, WA/TG),
+  "Bizga ishonishadi" logotiplari, videolar. Saqlashda `revalidatePath('/', 'layout')`;
+  `(site)/layout.tsx` da `revalidate = 600` (deploy'dan keyingi zaxira).
+  Logotip yuklash `sharp` → WebP (`/api/media/<xesh>.webp`).
+- **Video**: facade — iframe faqat bosilganda (Perf). YouTube nocookie, Instagram embed.
+- **fly.io**: `fly.toml` (volume `gff_data`, `TRUSTED_IP_HEADER=fly-client-ip`,
+  `NEXT_PUBLIC_*` → `[build.args]`). Dockerfile entrypoint volume egasini tuzatadi;
+  `.next` `gff` egaligida — ISR yozishi uchun shart.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)
