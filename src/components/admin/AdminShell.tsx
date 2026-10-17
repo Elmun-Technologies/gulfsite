@@ -21,12 +21,15 @@ import { Icon, type IconName } from '@/components/ui/Icon';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config';
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher';
+import { adminCopy } from '@/lib/admin-copy';
 
 interface NavItem {
   href: string;
-  labelKey: 'admin.dashboard' | 'admin.leads' | 'admin.products';
+  label: string;
   icon: IconName;
   badge?: number;
+  /** faqat aniq mos kelganda faol (masalan /analytics va /analytics/sessions) */
+  exact?: boolean;
 }
 
 interface Props {
@@ -46,14 +49,21 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
   const [loggingOut, setLoggingOut] = useState(false);
 
   const base = `/${locale}/admin`;
+  const c = adminCopy(locale);
   const items: NavItem[] = [
-    { href: base, labelKey: 'admin.dashboard', icon: 'chart', badge: unseen },
-    { href: `${base}/leads`, labelKey: 'admin.leads', icon: 'users' },
-    { href: `/${locale}/catalog`, labelKey: 'admin.products', icon: 'grid' },
+    { href: base, label: t('admin.dashboard'), icon: 'target', badge: unseen },
+    { href: `${base}/analytics`, label: c.nav.analytics, icon: 'chart', exact: true },
+    { href: `${base}/analytics/sessions`, label: c.nav.sessions, icon: 'eye' },
+    { href: `${base}/leads`, label: t('admin.leads'), icon: 'invoice' },
+    { href: `${base}/samples`, label: c.nav.samples, icon: 'box' },
+    { href: `${base}/clients`, label: c.nav.clients, icon: 'users' },
+    { href: `${base}/content`, label: c.nav.content, icon: 'edit' },
+    { href: `${base}/settings`, label: c.nav.settings, icon: 'settings' },
+    { href: `/${locale}/catalog`, label: t('admin.products'), icon: 'grid' },
   ];
 
-  const isActive = (href: string) =>
-    href === base ? pathname === base || pathname === `${base}/` : pathname.startsWith(href);
+  const isActive = (href: string, exact?: boolean) =>
+    href === base || exact ? pathname === href || pathname === `${href}/` : pathname.startsWith(href);
 
   async function logout() {
     setLoggingOut(true);
@@ -87,7 +97,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
         {/* Mobil navigatsiya */}
         <nav className="flex gap-1.5 overflow-x-auto px-3 pb-3 no-scrollbar lg:flex-col lg:overflow-visible lg:px-2.5 lg:pb-0">
           {items.map((it) => {
-            const active = isActive(it.href);
+            const active = isActive(it.href, it.exact);
             return (
               <Link
                 key={it.href}
@@ -99,7 +109,7 @@ export function AdminShell({ locale, children, unseen, storage, channels }: Prop
                 aria-current={active ? 'page' : undefined}
               >
                 <Icon name={it.icon} size={17} className={cn(active ? 'text-white' : 'text-white/50 group-hover:text-mint-200')} />
-                <span className="whitespace-nowrap">{t(it.labelKey)}</span>
+                <span className="whitespace-nowrap">{it.label}</span>
                 {it.badge ? (
                   <span
                     className={cn(

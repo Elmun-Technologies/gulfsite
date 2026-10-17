@@ -10,6 +10,9 @@
  * PATCH qilinadi va `router.refresh()` bilan sahifa yangilanadi.
  */
 
+import { adminCopy } from '@/lib/admin-copy';
+import { journey } from '@/lib/analytics-store';
+import { SessionCard } from '@/components/admin/SessionCard';
 import { requireAdmin } from '@/lib/guard';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
@@ -47,6 +50,9 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
   const statusMeta = LEAD_STATUSES[lead.status];
   const region = UZ_REGIONS.find((r) => r.id === lead.location.region);
   const bizType = BUSINESS_TYPES.find((b) => b.id === lead.company.type);
+  // o'z analitikamiz: ariza yuborgan tashrif buyuruvchining saytdagi yo'li (30 kun)
+  const ac = adminCopy(locale);
+  const visits = lead.source.visitorId ? journey({ vid: lead.source.visitorId, days: 30 }).slice(0, 5) : [];
 
 
   return (
@@ -285,6 +291,20 @@ export default async function AdminLeadDetailPage({ params }: PageProps) {
                 </div>
               ) : null}
             </div>
+          </section>
+
+          {/* Tashrif yo'li — qaysi sahifalardan o'tib ariza qoldirdi */}
+          <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
+            <h2 className="mb-3 font-display text-[14px] font-extrabold text-pine-900">{ac.session.journey}</h2>
+            {visits.length ? (
+              <div className="flex flex-col gap-3">
+                {visits.map((s) => (
+                  <SessionCard key={s.sid} session={s} locale={locale} copy={ac} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-[13px] text-slate-warm-500">{ac.session.noJourney}</p>
+            )}
           </section>
 
           {/* Bildirishnomalar + tarix */}

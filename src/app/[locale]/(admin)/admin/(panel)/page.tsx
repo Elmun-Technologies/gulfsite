@@ -13,6 +13,8 @@
  * yo'q) — panel server komponent, shuning uchun tez va xavfsiz.
  */
 
+import { adminCopy } from '@/lib/admin-copy';
+import { buildReport, realtime, shiftDay, todayKey } from '@/lib/analytics-store';
 import { requireAdmin } from '@/lib/guard';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -73,6 +75,13 @@ export default async function AdminDashboardPage({ params }: PageProps) {
 
   const timelineMax = Math.max(1, ...stats.timeline.map((d) => d.count));
 
+  // o'z analitikamiz — qisqa ko'rinish (to'liq hisobot: /admin/analytics)
+  const ac = adminCopy(locale);
+  const today = todayKey();
+  const traffic7 = buildReport(shiftDay(today, -6), today, { sessionsLimit: 0 });
+  const trafficToday = traffic7.series[traffic7.series.length - 1];
+  const live = realtime(5);
+
   return (
     <div className="flex flex-col gap-5">
       {/* ================= SARLAVHA ================= */}
@@ -104,6 +113,25 @@ export default async function AdminDashboardPage({ params }: PageProps) {
           </Link>
         </div>
       </header>
+
+      {/* ================= SAYT TRAFIGI ================= */}
+      <Link
+        href={`/${locale}/admin/analytics`}
+        className="grid grid-cols-2 gap-3 rounded-xl border border-cream-200 bg-white p-3.5 shadow-soft transition hover:border-teal-500 md:grid-cols-5"
+      >
+        {[
+          { label: ac.realtime.title, value: live.active },
+          { label: `${ac.kpi.visitors} · ${ac.period.today}`, value: trafficToday?.visitors ?? 0 },
+          { label: `${ac.kpi.visitors} · ${ac.period['7d']}`, value: traffic7.totals.visitors },
+          { label: `${ac.kpi.pageviews} · ${ac.period['7d']}`, value: traffic7.totals.pageviews },
+          { label: `${ac.kpi.conversionRate} · ${ac.period['7d']}`, value: `${traffic7.totals.conversionRate}%` },
+        ].map((k) => (
+          <span key={k.label} className="flex flex-col">
+            <span className="text-[11.5px] text-slate-warm-600">{k.label}</span>
+            <span className="mt-1 font-display text-[1.4rem] font-extrabold leading-none text-pine-900 tabular-nums">{k.value}</span>
+          </span>
+        ))}
+      </Link>
 
       {/* ================= RAQAMLAR ================= */}
       <section className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
