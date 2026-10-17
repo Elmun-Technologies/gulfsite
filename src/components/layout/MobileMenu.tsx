@@ -25,6 +25,7 @@ export interface MobileNavItem {
   id: string;
   href: string;
   label: string;
+  wideOnly?: boolean;
 }
 
 const FOCUSABLE = 'a[href], button:not([disabled])';

@@ -20,6 +20,8 @@ export interface NavItem {
   id: 'catalog' | 'brochure' | 'industries' | 'samples' | 'about' | 'contact';
   href: string;
   label: string;
+  /** header'da faqat keng ekranda (≥1320px) — torroqda til/CTA ikkinchi qatorga tushadi */
+  wideOnly?: boolean;
 }
 
 export interface MegaCategory {
@@ -34,7 +36,7 @@ export function buildNav(locale: Locale, t: Translator): NavItem[] {
   return [
     { id: 'catalog', href: `/${locale}/catalog`, label: t('nav.catalog') },
     // Elektron katalog (flipbook) — mijoz talabi (2026-10-17): ko'zga tashlanadigan joyda
-    { id: 'brochure', href: `/${locale}/brochure`, label: t('nav.brochure') },
+    { id: 'brochure', href: `/${locale}/brochure`, label: t('nav.brochureShort'), wideOnly: true },
     { id: 'industries', href: `/${locale}/industries`, label: t('nav.industries') },
     { id: 'samples', href: `/${locale}/samples`, label: t('nav.samplesShort') },
     { id: 'about', href: `/${locale}/about`, label: t('nav.about') },

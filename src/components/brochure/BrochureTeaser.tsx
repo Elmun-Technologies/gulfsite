@@ -23,7 +23,7 @@ export function BrochureTeaser({ locale, t }: { locale: AppLocale; t: Translator
   const sizeMb = (brochure.pdfSizeKb / 1024).toFixed(1);
 
   return (
-    <Section id="katalog">
+    <Section id="e-katalog">
       <Reveal className="flex flex-wrap items-center gap-[clamp(28px,4vw,64px)] overflow-hidden rounded-block bg-panel p-[clamp(24px,4vw,56px)]">
         {/* ---- kitob ---- */}
         <Link

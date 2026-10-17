@@ -945,6 +945,7 @@ export const uz = {
   'industry.dubaiTopText': 'Gulf Flavours bosh ofisi (Dubay) ushbu soha uchun eng ko‘p sotadigan ta’mlar. Nomni bosing — katalogdagi mos pozitsiyalar ochiladi.',
   'industry.dubaiNew': 'Yangi ishlanmalar',
   'nav.brochure': 'Elektron katalog',
+  'nav.brochureShort': 'E-katalog',
   'brochure.eyebrow': 'Katalog 2026',
   'brochure.title': 'GFF elektron katalogi',
   'brochure.lead': 'Ta’m va hidlar dunyosi bir joyda: oziq-ovqat aromatizatorlari, atir kompozitsiyalari, efir moylari, ingredientlar va to‘liq assortiment ro‘yxati. Varaqlang yoki PDF’ni yuklab oling.',

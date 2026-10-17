@@ -313,6 +313,22 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
   `NEXT_PUBLIC_*` → `[build.args]`). Dockerfile entrypoint volume egasini tuzatadi;
   `.next` `gff` egaligida — ISR yozishi uchun shart.
 
+
+### 4.11 Elektron katalog (flipbook) va katalog fotolari (2026-10-17)
+
+- **Manba**: mijoz PDF katalogi → `node scripts/build-brochure.mjs <pdf> <uz|ru|en>`
+  (poppler + sharp) → `public/catalog/<lang>/pNN.webp` + `src/data/brochure-<lang>.json`.
+  Natija commit qilinadi (Docker/fly build'da poppler yo'q). **RU kelganda**: skriptni
+  ishga tushirib, `lib/brochure.ts` dagi `ru:` qatorini oching; mundarija varaqlari
+  (`BROCHURE_TOC`) PDF sahifa tartibiga bog'liq — RU tartibi farq qilsa tekshiring.
+- **`/brochure`**: `components/brochure/Flipbook.tsx` — desktop 3D varaq (faqat
+  transform), mobil yarim-sahifa surish; tizer `BrochureTeaser` (bosh sahifa hero'dan
+  keyin, kompaniya). Menyu punkti `wideOnly` — header ≥1320px da (torroqda qator sig'maydi).
+- **Fotolar** `public/images/stock/*` — katalogdagi dizaynerlik stok rasmlari
+  (`pdfimages -png`: CMYK JPEG to'g'ridan-to'g'ri `sharp` bilan teskari rangda chiqadi!).
+  Yoyilma rasmlari ikki yarimdan iborat va listing tartibi chap/o'ng emas — birlashtirishda tekshiring.
+- **id to'qnashuvi**: bosh sahifada `#katalog` kategoriyalar bo'liminiki; tizer `#e-katalog`.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)

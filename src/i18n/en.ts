@@ -908,6 +908,7 @@ export const en: Dict = {
   'industry.dubaiTopText': 'The best-selling flavours of the Gulf Flavours head office (Dubai) for this industry. Tap a name to open matching catalogue items.',
   'industry.dubaiNew': 'New creations',
   'nav.brochure': 'E-catalogue',
+  'nav.brochureShort': 'E-catalogue',
   'brochure.eyebrow': 'Catalogue 2026',
   'brochure.title': 'GFF e-catalogue',
   'brochure.lead': 'The world of flavours and fragrances in one place: food flavours, fragrance compositions, essential oils, ingredients and the full assortment list. Flip through online or download the PDF.',

@@ -12,7 +12,7 @@ import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { buildMetadata, breadcrumbLd } from '@/lib/seo';
 import { BROCHURE_TOC, getBrochure } from '@/lib/brochure';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
-import { PageHead } from '@/components/ui/PageHead';
+import { Breadcrumbs } from '@/components/ui/PageHead';
 import { Section } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { Flipbook } from '@/components/brochure/Flipbook';
@@ -62,17 +62,20 @@ export default async function BrochurePage({ params }: Props) {
         ]}
       />
 
-      <PageHead
-        title={t('nav.brochure')}
-        text={t('brochure.lead')}
-        crumbs={[{ label: t('nav.home'), href: `/${locale}` }, { label: t('nav.brochure') }]}
-        crumbLabel={t('nav.brochure')}
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="cert-pill">{t('brochure.positions')}</span>
-          {fallback ? <span className="text-[14px] text-muted">{t('brochure.fallbackNote')}</span> : null}
+      {/* Ixcham sarlavha — kitob birinchi ekranda ko'rinsin (PageHead juda baland) */}
+      <Section gap={false} className="flex flex-col gap-4 pt-4">
+        <Breadcrumbs items={[{ label: t('nav.home'), href: `/${locale}` }, { label: t('nav.brochure') }]} label={t('nav.brochure')} />
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+          <div className="flex min-w-0 max-w-[760px] flex-col gap-2">
+            <h1 className="m-0 text-h2 font-normal">{t('nav.brochure')}</h1>
+            <p className="m-0 text-[16px] leading-[1.55] text-muted">{t('brochure.lead')}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="cert-pill">{t('brochure.positions')}</span>
+            {fallback ? <span className="text-[14px] text-muted">{t('brochure.fallbackNote')}</span> : null}
+          </div>
         </div>
-      </PageHead>
+      </Section>
 
       <Section gap={false} className="pt-3">
         <Flipbook

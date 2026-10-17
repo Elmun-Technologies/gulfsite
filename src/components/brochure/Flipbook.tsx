@@ -244,7 +244,12 @@ export function Flipbook({
               ? { maxHeight: isFull ? '86vh' : '78vh' }
               : narrow
                 ? { aspectRatio: current?.spread ? `${current.width / 2} / ${current.height}` : `${current?.width} / ${current?.height}`, maxWidth: 560 }
-                : { aspectRatio: '2200 / 1241', maxWidth: isFull ? 'calc(86vh * 1.773)' : undefined, perspective: 2600 }
+                : {
+                    aspectRatio: '2200 / 1241',
+                    // kitob balandligi ekranga sig'sin (boshqaruv paneli va header uchun joy)
+                    maxWidth: isFull ? 'calc(86vh * 1.773)' : 'min(100%, calc((100svh - 340px) * 1.773))',
+                    perspective: 2600,
+                  }
           }
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
