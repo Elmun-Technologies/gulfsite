@@ -222,6 +222,8 @@ export async function POST(req: NextRequest) {
         userAgent: (req.headers.get('user-agent') ?? '').slice(0, 500),
         ip,
         country: clientCountry(req.headers),
+        visitorId: data.source?.visitorId,
+        sessionId: data.source?.sessionId,
       },
       consent: data.consent,
       spamScore: spam,

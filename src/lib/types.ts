@@ -216,6 +216,9 @@ export interface LeadRecord {
     userAgent?: string;
     ip?: string;
     country?: string;
+    /** o'z analitikamiz: admin panelda arizaning tashrif yo'li */
+    visitorId?: string;
+    sessionId?: string;
   };
 
   consent: boolean;

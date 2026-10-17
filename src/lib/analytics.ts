@@ -11,11 +11,14 @@
  * O'zbekiston Respublikasi Qonuniga muvofiq.
  */
 
+import { fpEvent } from './fp-tracker';
+
 type Win = Window & {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
   ym?: (id: number, action: string, ...args: unknown[]) => void;
 };
+
 
 const GA_ID = process.env.NEXT_PUBLIC_GA4_ID ?? '';
 const YM_ID = Number(process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID ?? 0) || 0;
@@ -34,6 +37,9 @@ export function trackEvent(name: string, params: Record<string, string | number 
   for (const [k, v] of Object.entries(params)) {
     if (v !== undefined && v !== null && v !== '') clean[k] = v;
   }
+
+  // o'z analitikamiz (admin panel) — GTM/GA'dan qat'i nazar
+  fpEvent(name, clean);
 
   try {
     // dataLayer — GTM uchun DOIM (GA4/Pixel GTM konteyneri orqali ham ulanadi)

@@ -21,6 +21,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CookieBanner } from '@/components/layout/CookieConsent';
 import { MessengerFab } from '@/components/layout/MessengerFab';
+import { SiteTracker } from '@/components/layout/SiteTracker';
 import { contactPeople } from '@/lib/content';
 
 /**
@@ -66,6 +67,8 @@ export default async function SiteLayout({ children, params }: Props) {
       </main>
 
       <Footer locale={locale} t={t} />
+
+      <SiteTracker />
 
       {fab ? (
         <MessengerFab

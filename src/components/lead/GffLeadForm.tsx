@@ -29,6 +29,7 @@ import { dur, ease } from '@/lib/motion';
 import { isValidUzPhone, maskUzPhone, parseUtm } from '@/lib/utils';
 import { fillVars } from '@/i18n/translator';
 import { track } from '@/lib/analytics';
+import { fpIds } from '@/lib/fp-tracker';
 import { useToast } from '@/components/ui/Overlay';
 import { cn } from '@/lib/utils';
 
@@ -251,6 +252,8 @@ export function GffLeadForm({
         page: typeof window === 'undefined' ? '/' : window.location.pathname + window.location.search,
         referrer: typeof document === 'undefined' ? '' : document.referrer,
         utm: readUtm(),
+        visitorId: fpIds()?.vid,
+        sessionId: fpIds()?.sid,
       },
       website_url: honeypot,
       formStartedAt: startedAt.current || Date.now(),

@@ -176,6 +176,9 @@ const sourceSchema = z.object({
   userAgent: z.string().max(500).optional(),
   ip: z.string().max(64).optional(),
   country: z.string().max(64).optional(),
+  /** o'z analitikamiz identifikatorlari — arizani tashrif yo'li bilan bog'lash */
+  visitorId: z.string().regex(/^[a-z0-9]{8,40}$/i).optional(),
+  sessionId: z.string().regex(/^[a-z0-9]{8,40}$/i).optional(),
 });
 
 /* ------------------------------------------------------------
