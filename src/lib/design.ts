@@ -86,6 +86,11 @@ const GROUP_IMAGE: Record<string, string> = {
   'bulk-dairy': '/images/cat-commodities.jpg',
 };
 
+/** Guruh rasmi (landing sahifalar uchun) — yo'q bo'lsa null */
+export function groupImage(groupId: string): string | null {
+  return GROUP_IMAGE[groupId] ?? null;
+}
+
 /** Mahsulot rasmi — guruh, bo'lmasa kategoriya bo'yicha */
 export function productImage(p: Pick<CatalogProduct, 'group' | 'category'>): string {
   return GROUP_IMAGE[p.group] ?? CATEGORY_IMAGE[p.category] ?? '/images/lab.jpg';

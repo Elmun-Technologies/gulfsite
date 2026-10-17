@@ -16,6 +16,7 @@ import type { MetadataRoute } from 'next';
 import { LOCALES, type AppLocale } from '@/i18n';
 import { SITE_URL } from '@/lib/config';
 import { allProducts, applicationCounts } from '@/lib/catalog';
+import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
 import { industryIds } from '@/lib/industry-copy';
 
 /** Bitta mantiqiy sahifa uchun 3 tilli yozuv */
@@ -56,6 +57,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
          sayt ichki linklaridan (kategoriya/guruh kartalaridan) topiladi.
      Shu sababli 6 kategoriya va 49 guruh bo'yicha URL'lar bu yerga qo'shilmaydi.
   ------------------------------------------------------------------------ */
+
+  /* ---------- Kategoriya va guruh landing sahifalari (SEO) ---------- */
+  for (const c of categoryIdsWithData()) {
+    out.push(...entry(`/category/${c}`, 0.8, 'weekly'));
+    for (const g of groupsFor(c, 'uz')) out.push(...entry(`/category/${c}/${g.id}`, 0.7, 'weekly'));
+  }
 
   /* ---------- Tarmoq sahifalari ---------- */
   const appCounts = applicationCounts();

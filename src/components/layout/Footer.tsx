@@ -90,7 +90,7 @@ export function Footer({
           <nav aria-label={t('footer.colCatalog')} className="flex flex-col gap-2.5 text-[15px]">
             <span className="label">{t('footer.colCatalog')}</span>
             {cats.map((cat) => (
-              <Link key={cat.id} href={`/${locale}/catalog?categories=${cat.id}`} className="foot-link">
+              <Link key={cat.id} href={`/${locale}/category/${cat.id}`} className="foot-link">
                 {cat.label}
               </Link>
             ))}

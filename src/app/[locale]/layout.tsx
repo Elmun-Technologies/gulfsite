@@ -58,7 +58,9 @@ export async function generateMetadata({
     alternates: {
       canonical: `${siteConfig.url}/${locale}`,
       languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].lang, `${siteConfig.url}/${l}`])),
+        // hreflang — faqat til kodi (uz/ru/en): 'ru-RU' Google'ga "Rossiya uchun" deydi,
+        // bizning auditoriya esa O'zbekiston va Markaziy Osiyo
+        ...Object.fromEntries(LOCALES.map((l) => [l, `${siteConfig.url}/${l}`])),
         'x-default': `${siteConfig.url}/uz`,
       },
     },

@@ -79,11 +79,13 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (filters.page > 1) canon.set('page', String(filters.page));
   const qs = canon.toString();
   const otherFilters = countActive(filters) - (filters.categories.length ? 1 : 0);
+  // Faqat bitta kategoriya (boshqa filtrsiz) — kanonik sahifa uning landing'i
+  const onlyCategory = filters.categories.length === 1 && otherFilters === 0 && filters.page === 1;
   return buildMetadata({
     locale,
     title: title.slice(0, 60),
     description: description.slice(0, 155),
-    path: `/catalog${qs ? `?${qs}` : ''}`,
+    path: onlyCategory ? `/category/${filters.categories[0]}` : `/catalog${qs ? `?${qs}` : ''}`,
     image: '/images/cat-flavours.jpg',
     noIndex: otherFilters > 0,
   });

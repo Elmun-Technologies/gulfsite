@@ -35,7 +35,7 @@ const REPORT_ONLY = process.argv.includes('--report');
    ------------------------------------------------------------ */
 const CANON = {
   phone: '+998 97 570 77 60',
-  email: 'info@gulfflavour.uz', // mijoz tasdiqladi, 2026-10-12
+  email: 'sales-uzb@gff.co.ae', // katalog 2026; info@gulfflavours.uz quti ochilgach
   telegram: 'GFF_uzb',
   instagram: 'gulfflavour.uz',
   hqPhone: '+971 4 883 3923',
@@ -48,7 +48,7 @@ const CANON = {
 };
 
 /** Ruxsat etilgan e-mail domenlari (§15). Boshqa domen = shubhali. */
-const ALLOWED_EMAIL_DOMAINS = ['gulfflavour.uz', 'gulfflavours.ae', 'gff.co.ae'];
+const ALLOWED_EMAIL_DOMAINS = ['gulfflavours.uz', 'gulfflavour.uz', 'gulfflavours.ae', 'gff.co.ae'];
 
 /* ------------------------------------------------------------
    .env fayllarini o'qish (Next tartibi: .env.local > .env)

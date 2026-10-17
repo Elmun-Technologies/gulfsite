@@ -47,27 +47,31 @@ export const siteConfig = {
    * .env orqali o'zgartirish mumkin, lekin standart qiymatlar mijoz
    * bergan rasmiy kontaktlar.
    *
-   * ✔ E-mail tasdiqlandi (mijoz qarori, 2026-10-12): "info@gulfflavour.uz".
-   *   Avvalgi "info@gulfflovour.uz" yozuvi xato bo'lgan — TODO yopildi.
+   * Katalog 2026 + mijoz javobi (2026-10-17):
+   *   · manzil — Olmazor tumani, Qoraqamish 2/4 (Mirzo Ulug'bek EMAS);
+   *   · e-mail — `sales-uzb@gff.co.ae` (ishlaydigan quti). `info@gulfflavours.uz`
+   *     katalogda bor, lekin pochta qutisi hali ochilmagan — ochilgach
+   *     NEXT_PUBLIC_EMAIL orqali yoqiladi (domen: gulfflavours.uz, Vercel).
+   *   · ish vaqti — Du–Ju 09–18, Sha 10–15, Ya dam olish.
    */
   contact: {
     phonePrimary: str('NEXT_PUBLIC_PHONE_PRIMARY', '+998 97 570 77 60'),
     phoneSecondary: str('NEXT_PUBLIC_PHONE_SECONDARY', ''),
     phonePrimaryHref: `tel:${str('NEXT_PUBLIC_PHONE_PRIMARY', '+998 97 570 77 60').replace(/[^\d+]/g, '')}`,
     phoneSecondaryHref: `tel:${str('NEXT_PUBLIC_PHONE_SECONDARY', '').replace(/[^\d+]/g, '')}`,
-    email: str('NEXT_PUBLIC_EMAIL', 'info@gulfflavour.uz'),
-    salesEmail: str('NEXT_PUBLIC_SALES_EMAIL', 'info@gulfflavour.uz'),
+    email: str('NEXT_PUBLIC_EMAIL', 'sales-uzb@gff.co.ae'),
+    salesEmail: str('NEXT_PUBLIC_SALES_EMAIL', 'sales-uzb@gff.co.ae'),
     address: str(
       'NEXT_PUBLIC_ADDRESS',
-      'Toshkent, Mirzo Ulug‘bek tumani, Mustaqillik shoh ko‘chasi, 128',
+      'Toshkent sh., Olmazor tumani, Qoraqamish massivi, 2/4-mavze, 25-uy, 1-xonadon',
     ),
     addressRu: str(
       'NEXT_PUBLIC_ADDRESS_RU',
-      'Ташкент, Мирзо-Улугбекский район, проспект Мустакиллик, 128',
+      'г. Ташкент, Алмазарский район, массив Каракамыш, 2/4-квартал, дом 25, кв. 1',
     ),
     addressEn: str(
       'NEXT_PUBLIC_ADDRESS_EN',
-      '128 Mustaqillik Ave., Mirzo Ulugbek district, Tashkent',
+      'Karakamysh 2/4, building 25, apt. 1, Olmazor district, Tashkent',
     ),
     /** Ish vaqti alohida qismlarda — formatlash dictionary orqali */
     hoursWeekFrom: str('NEXT_PUBLIC_HOURS_WEEK_FROM', '09:00'),
@@ -86,13 +90,14 @@ export const siteConfig = {
      */
     hqEmail: str('NEXT_PUBLIC_HQ_EMAIL', ''),
     mapsQuery: encodeURIComponent(
-      str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mirzo Ulugbek district, Mustaqillik 128'),
+      str('NEXT_PUBLIC_MAPS_QUERY', 'Tashkent, Olmazor district, Karakamysh 2/4, 25'),
     ),
     mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      str('NEXT_PUBLIC_ADDRESS', 'Tashkent, Mirzo Ulugbek district, Mustaqillik 128'),
+      str('NEXT_PUBLIC_MAPS_QUERY', 'Tashkent, Olmazor district, Karakamysh 2/4, 25'),
     )}`,
-    lat: 41.3111,
-    lng: 69.3404,
+    // Qoraqamish-2/4 mavzesi (taxminiy markaz) — JSON-LD geo uchun
+    lat: 41.3505,
+    lng: 69.2063,
   },
 
   social: {
@@ -205,7 +210,7 @@ export const serverConfig = {
      * to'qilgan domen (no-reply@gff.uz) ISHLATILMAYDI, chunki SPF/DKIM
      * bo'lmasa xatlar spam'ga tushadi. Real domen bilan almashtiring.
      */
-    from: str('SMTP_FROM', `GFF Uzbekistan <${str('NEXT_PUBLIC_EMAIL', 'info@gulfflavour.uz')}>`),
+    from: str('SMTP_FROM', `GFF Uzbekistan <${str('NEXT_PUBLIC_EMAIL', 'sales-uzb@gff.co.ae')}>`),
     to: str('LEAD_EMAIL_TO')
       .split(',')
       .map((s) => s.trim())
