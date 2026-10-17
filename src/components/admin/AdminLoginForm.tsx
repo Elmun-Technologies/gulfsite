@@ -92,14 +92,14 @@ function LoginFormInner({ locale }: { locale: string }) {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-3.5" noValidate>
       <label className="flex flex-col gap-1.5" htmlFor="admin-password">
-        <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-slate-warm-500">
+        <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-muted">
           {t('admin.password')}
         </span>
         <span className="relative flex items-center">
           <Icon
             name="lock"
             size={17}
-            className="pointer-events-none absolute left-3.5 text-slate-warm-500"
+            className="pointer-events-none absolute left-3.5 text-muted"
           />
           <input
             id="admin-password"
@@ -114,19 +114,19 @@ function LoginFormInner({ locale }: { locale: string }) {
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'admin-login-error' : undefined}
             className={cn(
-              'h-12 w-full rounded-xl border bg-white pr-12 pl-10 font-mono text-[14px] text-pine-900 shadow-soft transition',
-              'placeholder:font-sans placeholder:text-slate-warm-500',
+              'h-12 w-full rounded-[20px] border bg-white pr-12 pl-10 font-mono text-[14px] text-ink transition',
+              'placeholder:font-sans placeholder:text-muted',
               'focus:outline-none focus:ring-4',
               error
-                ? 'border-clay-500 focus:border-clay-500 focus:ring-clay-500/15'
-                : 'border-cream-300 focus:border-teal-500 focus:ring-teal-500/15',
+                ? 'border-error focus:border-error focus:ring-error/15'
+                : 'border-line focus:border-copper focus:ring-copper/25',
             )}
           />
           <button
             type="button"
             onClick={() => setShow((s) => !s)}
             aria-label={show ? t('common.close') : t('common.more')}
-            className="absolute right-2 flex h-9 w-9 items-center justify-center rounded-lg text-slate-warm-500 transition hover:bg-cream-100 hover:text-pine-800"
+            className="absolute right-2 flex h-9 w-9 items-center justify-center rounded-[14px] text-muted transition hover:bg-panel hover:text-ink"
           >
             <Icon name={show ? 'eye' : 'lock'} size={16} />
           </button>
@@ -137,13 +137,13 @@ function LoginFormInner({ locale }: { locale: string }) {
         <p
           id="admin-login-error"
           role="alert"
-          className="flex items-start gap-2 rounded-xl border border-clay-500/30 bg-clay-50 px-3.5 py-2.5 text-[12.5px] leading-snug font-semibold text-clay-700"
+          className="flex items-start gap-2 rounded-[20px] border border-error/30 bg-error/5 px-3.5 py-2.5 text-[12.5px] leading-snug font-semibold text-error"
         >
           <Icon name="alert" size={15} className="mt-px shrink-0" />
           <span>
             {error}
             {retryIn > 0 ? (
-              <span className="mt-1 block font-mono text-[12px] text-clay-600">
+              <span className="mt-1 block font-mono text-[12px] text-error">
                 {Math.floor(retryIn / 60)}:{String(retryIn % 60).padStart(2, '0')}
               </span>
             ) : null}
@@ -155,8 +155,8 @@ function LoginFormInner({ locale }: { locale: string }) {
         type="submit"
         disabled={busy || retryIn > 0 || !password}
         className={cn(
-          'inline-flex h-12 items-center justify-center gap-2 rounded-xl px-5 text-[14.5px] font-bold text-white transition',
-          'bg-teal-600 hover:bg-pine-800 active:scale-[0.99]',
+          'inline-flex h-12 items-center justify-center gap-2 rounded-[20px] px-5 text-[14.5px] font-bold text-white transition',
+          'bg-navy hover:bg-ink active:scale-[0.99]',
           'disabled:cursor-not-allowed disabled:opacity-50',
         )}
       >
@@ -164,20 +164,20 @@ function LoginFormInner({ locale }: { locale: string }) {
         {busy ? t('common.loading') : t('admin.login')}
       </button>
 
-      <p className="flex items-start gap-2 text-[11.5px] leading-snug text-slate-warm-500">
-        <Icon name="shield" size={14} className="mt-px shrink-0 text-teal-600" />
+      <p className="flex items-start gap-2 text-[11.5px] leading-snug text-muted">
+        <Icon name="shield" size={14} className="mt-px shrink-0 text-copper-dark" />
         {t('admin.loginHint')}
       </p>
 
       <a
         href={`/${locale}`}
-        className="mt-1 inline-flex items-center justify-center gap-1.5 text-[12.5px] font-semibold text-slate-warm-600 transition hover:text-teal-600"
+        className="mt-1 inline-flex items-center justify-center gap-1.5 text-[12.5px] font-semibold text-muted transition hover:text-copper-dark"
       >
         <Icon name="arrow-left" size={14} />
         {t('legal.backToSite')}
       </a>
 
-      <p className="text-center font-mono text-[10.5px] text-slate-warm-400">
+      <p className="text-center font-mono text-[10.5px] text-muted/70">
         {siteConfig.brand.full} · {new Date().getFullYear()}
       </p>
     </form>

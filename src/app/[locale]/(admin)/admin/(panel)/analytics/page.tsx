@@ -78,7 +78,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
         actions={
           <Link
             href={`${base}/sessions?${new URLSearchParams(periodQs).toString()}`}
-            className="inline-flex h-10 items-center rounded-xl border border-pine-800/20 bg-white px-4 text-[13px] font-bold text-pine-800 shadow-soft hover:border-teal-500 hover:text-teal-600"
+            className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark"
           >
             {c.nav.sessions}
           </Link>
@@ -111,8 +111,8 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
                   key={m}
                   href={`${base}?${new URLSearchParams({ ...periodQs, m }).toString()}`}
                   className={cn(
-                    'rounded-lg px-2.5 py-1 text-[12px] font-bold',
-                    metric === m ? 'bg-teal-600 text-white' : 'text-pine-800 hover:bg-cream-100',
+                    'rounded-[14px] px-2.5 py-1 text-[12px] font-bold',
+                    metric === m ? 'bg-navy text-white' : 'text-slate hover:bg-panel',
                   )}
                 >
                   {kpiLabel[m]}
@@ -125,9 +125,9 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
         </AdminCard>
 
         <AdminCard title={c.realtime.title}>
-          <p className="font-display text-[2.4rem] font-extrabold leading-none text-pine-900 tabular-nums">{live.active}</p>
-          <p className="mb-3 mt-1 text-[12px] text-slate-warm-600">{c.realtime.active}</p>
-          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-warm-500">{c.realtime.pages}</p>
+          <p className="font-display text-[2.4rem] font-semibold leading-none text-ink tabular-nums">{live.active}</p>
+          <p className="mb-3 mt-1 text-[12px] text-muted">{c.realtime.active}</p>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-muted">{c.realtime.pages}</p>
           <BarList rows={rows(live.pages, pageLabel)} empty={c.realtime.none} />
         </AdminCard>
       </div>
@@ -148,7 +148,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] text-[13px]">
               <thead>
-                <tr className="border-b border-cream-200 text-left text-[11.5px] text-slate-warm-500">
+                <tr className="border-b border-line-soft text-left text-[11.5px] text-muted">
                   <th className="py-2 pr-3 font-semibold">{c.tables.page}</th>
                   <th className="px-3 py-2 text-right font-semibold">{c.tables.views}</th>
                   <th className="px-3 py-2 text-right font-semibold">{c.tables.uniq}</th>
@@ -157,9 +157,9 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
               </thead>
               <tbody>
                 {r.pages.slice(0, 25).map((p) => (
-                  <tr key={p.key} className="border-b border-cream-100 last:border-0">
-                    <td className="max-w-[420px] truncate py-1.5 pr-3 text-pine-800" title={p.key}>
-                      <a href={`/${locale}${p.key === '/' ? '' : p.key}`} target="_blank" rel="noopener noreferrer" className="hover:text-teal-600">
+                  <tr key={p.key} className="border-b border-line-soft last:border-0">
+                    <td className="max-w-[420px] truncate py-1.5 pr-3 text-slate" title={p.key}>
+                      <a href={`/${locale}${p.key === '/' ? '' : p.key}`} target="_blank" rel="noopener noreferrer" className="hover:text-copper-dark">
                         {pageLabel(p.key)}
                       </a>
                     </td>
@@ -172,7 +172,7 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
             </table>
           </div>
         ) : (
-          <p className="py-6 text-center text-[13px] text-slate-warm-500">{c.tables.empty}</p>
+          <p className="py-6 text-center text-[13px] text-muted">{c.tables.empty}</p>
         )}
       </AdminCard>
 
@@ -229,17 +229,17 @@ export default async function AdminAnalyticsPage({ params, searchParams }: PageP
               const step = prev ? Math.round((f.value / prev) * 100) : 0;
               return (
                 <li key={f.key} className="flex flex-col gap-1">
-                  <span className="flex items-baseline justify-between text-[13px] text-pine-800">
+                  <span className="flex items-baseline justify-between text-[13px] text-slate">
                     <span>
                       {i + 1}. {c.funnel[f.key] ?? f.key}
                     </span>
                     <span className="font-bold tabular-nums">
                       {f.value}
-                      {i ? <span className="ml-2 font-normal text-slate-warm-500">{step}%</span> : null}
+                      {i ? <span className="ml-2 font-normal text-muted">{step}%</span> : null}
                     </span>
                   </span>
-                  <span className="h-2.5 overflow-hidden rounded-full bg-cream-100">
-                    <span className="block h-full rounded-full bg-teal-600" style={{ width: `${(f.value / funnelTop) * 100}%` }} />
+                  <span className="h-2.5 overflow-hidden rounded-full bg-panel">
+                    <span className="block h-full rounded-full bg-navy" style={{ width: `${(f.value / funnelTop) * 100}%` }} />
                   </span>
                 </li>
               );

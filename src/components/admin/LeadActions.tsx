@@ -94,9 +94,9 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {/* ---------------- Holat ---------------- */}
-      <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-        <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-          <Icon name="sliders" size={16} className="text-teal-600" />
+      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+        <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+          <Icon name="sliders" size={16} className="text-copper-dark" />
           {t('admin.leads.columns.status')}
         </h2>
 
@@ -113,7 +113,7 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
                 aria-pressed={active}
                 className={cn(
                   'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-bold transition',
-                  active ? 'cursor-default text-white shadow-soft' : 'bg-white hover:-translate-y-px',
+                  active ? 'cursor-default text-white' : 'bg-white hover:-translate-y-px',
                   pending && !active && 'opacity-50',
                 )}
                 style={
@@ -134,16 +134,16 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
         </div>
 
         {/* Spam boshqaruvi */}
-        <div className="mt-3.5 flex flex-wrap items-center gap-2 border-t border-cream-200 pt-3.5">
-          <span className="font-mono text-[11.5px] text-slate-warm-500">
-            {t('admin.lead.spamScore')}: <strong className={cn(spamScore >= 60 ? 'text-clay-600' : 'text-pine-800')}>{spamScore}</strong>
+        <div className="mt-3.5 flex flex-wrap items-center gap-2 border-t border-line-soft pt-3.5">
+          <span className="font-mono text-[11.5px] text-muted">
+            {t('admin.lead.spamScore')}: <strong className={cn(spamScore >= 60 ? 'text-error' : 'text-slate')}>{spamScore}</strong>
           </span>
           {status === 'spam' ? (
             <button
               type="button"
               disabled={busy !== null}
               onClick={() => changeStatus('new')}
-              className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg border border-teal-500/40 bg-mint-50 px-3 text-[12px] font-bold text-teal-700 transition hover:bg-teal-500 hover:text-white disabled:opacity-50"
+              className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-copper/60 bg-panel px-3 text-[12px] font-bold text-copper-dark transition hover:bg-ink hover:text-white disabled:opacity-50"
             >
               {busy === 'spam' || busy === 'status' ? <Spinner size={14} /> : <Icon name="check" size={14} />}
               {t('admin.lead.unmarkSpam')}
@@ -153,7 +153,7 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
               type="button"
               disabled={busy !== null}
               onClick={() => changeStatus('spam')}
-              className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg border border-clay-500/35 bg-white px-3 text-[12px] font-bold text-clay-600 transition hover:bg-clay-500 hover:text-white disabled:opacity-50"
+              className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-[14px] border border-error/40 bg-white px-3 text-[12px] font-bold text-error transition hover:bg-error hover:text-white disabled:opacity-50"
             >
               {busy === 'status' ? <Spinner size={14} /> : <Icon name="alert" size={14} />}
               {t('admin.lead.markSpam')}
@@ -163,9 +163,9 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
       </section>
 
       {/* ---------------- Izoh ---------------- */}
-      <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-        <h2 className="flex items-center gap-2 font-display text-[13.5px] font-extrabold tracking-tight text-pine-900">
-          <Icon name="edit" size={16} className="text-teal-600" />
+      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+        <h2 className="flex items-center gap-2 font-display text-[13.5px] font-semibold tracking-tight text-ink">
+          <Icon name="edit" size={16} className="text-copper-dark" />
           {t('admin.lead.addNote')}
         </h2>
 
@@ -177,14 +177,14 @@ export function LeadActions({ id, locale, status, spamScore }: Props) {
             maxLength={2000}
             placeholder={t('admin.lead.notePlaceholder')}
             aria-label={t('admin.lead.notePlaceholder')}
-            className="w-full resize-y rounded-lg border border-cream-300 bg-white px-3 py-2.5 text-[13px] leading-relaxed text-pine-900 shadow-soft transition placeholder:text-slate-warm-500 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/12"
+            className="w-full resize-y rounded-[14px] border border-line bg-white px-3 py-2.5 text-[13px] leading-relaxed text-ink transition placeholder:text-muted focus:border-copper focus:outline-none focus:ring-4 focus:ring-copper/25"
           />
           <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-[11px] text-slate-warm-400 tabular-nums">{note.length}/2000</span>
+            <span className="font-mono text-[11px] text-muted/70 tabular-nums">{note.length}/2000</span>
             <button
               type="submit"
               disabled={busy !== null || !note.trim()}
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-teal-600 px-4 text-[12.5px] font-bold text-white shadow-soft transition hover:bg-pine-800 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[14px] bg-navy px-4 text-[12.5px] font-bold text-white transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-50"
             >
               {busy === 'note' ? <Spinner size={14} /> : <Icon name="send" size={14} />}
               {t('admin.lead.save')}

@@ -88,20 +88,20 @@ export default async function AdminSamplesPage({ params, searchParams }: PagePro
 
       <AdminCard title={c.samples.list}>
         {r.latest.length ? (
-          <ul className="flex flex-col divide-y divide-cream-100">
+          <ul className="flex flex-col divide-y divide-line-soft">
             {r.latest.map((l) => (
               <li key={l.id} className="flex flex-wrap items-start gap-x-4 gap-y-2 py-3">
                 <div className="min-w-[200px] flex-1">
-                  <Link href={`/${locale}/admin/leads/${l.id}`} className="font-bold text-pine-900 hover:text-teal-600">
+                  <Link href={`/${locale}/admin/leads/${l.id}`} className="font-bold text-ink hover:text-copper-dark">
                     {l.contact.fullName} · {l.company.name || '—'}
                   </Link>
-                  <span className="block text-[12px] tabular-nums text-slate-warm-500">
+                  <span className="block text-[12px] tabular-nums text-muted">
                     {l.ref} · {formatDateTime(l.createdAt, locale)} · {l.contact.phone}
                   </span>
                 </div>
                 <div className="flex flex-[2] flex-wrap gap-1.5">
                   {(l.request.products ?? []).map((p) => (
-                    <span key={p.sku} className="rounded-md bg-cream-100 px-2 py-1 text-[12px] text-pine-800">
+                    <span key={p.sku} className="rounded-md bg-panel px-2 py-1 text-[12px] text-slate">
                       {tr(p.name, L, p.sku)} · {p.qty} {p.unit}
                     </span>
                   ))}
@@ -111,7 +111,7 @@ export default async function AdminSamplesPage({ params, searchParams }: PagePro
             ))}
           </ul>
         ) : (
-          <p className="py-8 text-center text-[13px] text-slate-warm-500">{c.tables.empty}</p>
+          <p className="py-8 text-center text-[13px] text-muted">{c.tables.empty}</p>
         )}
       </AdminCard>
     </div>

@@ -39,12 +39,12 @@ function dirSizeKb(dir: string): number {
 function Check({ ok, label, hint }: { ok: boolean; label: string; hint?: string }) {
   return (
     <li className="flex items-start gap-2.5 py-1.5 text-[13px]">
-      <span className={cn('mt-1 h-2 w-2 shrink-0 rounded-full', ok ? 'bg-teal-500' : 'bg-clay-500')} aria-hidden />
+      <span className={cn('mt-1 h-2 w-2 shrink-0 rounded-full', ok ? 'bg-ok' : 'bg-error')} aria-hidden />
       <span className="min-w-0 flex-1">
-        <span className="text-pine-900">{label}</span>
-        {hint ? <span className="block text-[12px] text-slate-warm-500">{hint}</span> : null}
+        <span className="text-ink">{label}</span>
+        {hint ? <span className="block text-[12px] text-muted">{hint}</span> : null}
       </span>
-      <span className={cn('shrink-0 text-[11.5px] font-bold', ok ? 'text-teal-600' : 'text-clay-600')}>{ok ? 'OK' : '—'}</span>
+      <span className={cn('shrink-0 text-[11.5px] font-bold', ok ? 'text-copper-dark' : 'text-error')}>{ok ? 'OK' : '—'}</span>
     </li>
   );
 }
@@ -105,7 +105,7 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
         </AdminCard>
 
         <AdminCard title={c.settings.analytics} className="lg:col-span-2">
-          <p className="text-[13px] text-pine-800">
+          <p className="text-[13px] text-slate">
             {c.settings.analyticsDays}: <b className="tabular-nums">{days.length}</b>
             {days.length ? ` (${days[0]} — ${days[days.length - 1]})` : ''} · {c.settings.analyticsSize}:{' '}
             <b className="tabular-nums">{dirSizeKb(ANALYTICS_DIR)} KB</b>
@@ -113,11 +113,11 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
           <div className="mt-3 flex flex-wrap gap-2">
             {/* fayl yuklash — API endpoint, sahifa emas */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/api/admin/leads/export?format=csv" className="inline-flex h-10 items-center rounded-xl border border-pine-800/20 bg-white px-4 text-[13px] font-bold text-pine-800 hover:border-teal-500 hover:text-teal-600">
+            <a href="/api/admin/leads/export?format=csv" className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark">
               {c.settings.exportLeads}
             </a>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/api/admin/analytics/export?days=30" className="inline-flex h-10 items-center rounded-xl border border-pine-800/20 bg-white px-4 text-[13px] font-bold text-pine-800 hover:border-teal-500 hover:text-teal-600">
+            <a href="/api/admin/analytics/export?days=30" className="inline-flex h-10 items-center rounded-[20px] border border-line bg-white px-4 text-[13px] font-bold text-slate hover:border-copper hover:text-copper-dark">
               {c.settings.exportAnalytics}
             </a>
           </div>

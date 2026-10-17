@@ -31,9 +31,9 @@ export function SessionCard({ session: s, locale, copy: c }: { session: SessionS
   ].sort((a, b) => a.ts - b.ts);
 
   return (
-    <article className={cn('rounded-xl border bg-white p-4 shadow-soft', s.converted ? 'border-teal-500' : 'border-cream-200')}>
-      <header className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-slate-warm-600">
-        <span className="font-bold text-pine-900 tabular-nums">{time(s.start, locale)}</span>
+    <article className={cn('rounded-[20px] border bg-white p-4', s.converted ? 'border-copper' : 'border-line-soft')}>
+      <header className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-muted">
+        <span className="font-bold text-ink tabular-nums">{time(s.start, locale)}</span>
         <span>{c.devices[s.dev] ?? s.dev} · {s.os} · {s.br}</span>
         {s.country ? <span>{s.country}</span> : null}
         <span>
@@ -45,19 +45,19 @@ export function SessionCard({ session: s, locale, copy: c }: { session: SessionS
           {c.session.duration}: {fmtDuration(s.durationSec)} · {s.pages.length} {c.session.pagesN}
         </span>
         {s.converted ? (
-          <span className="rounded-full bg-teal-600 px-2 py-0.5 text-[11px] font-bold text-white">{c.session.converted}</span>
+          <span className="rounded-full bg-navy px-2 py-0.5 text-[11px] font-bold text-white">{c.session.converted}</span>
         ) : null}
-        <span className="ml-auto font-mono text-[10.5px] text-slate-warm-400">{s.vid.slice(0, 8)}</span>
+        <span className="ml-auto font-mono text-[10.5px] text-muted/70">{s.vid.slice(0, 8)}</span>
       </header>
       <ol className="flex flex-wrap items-center gap-1.5">
         {timeline.map((item, i) => (
           <li key={`${item.ts}-${i}`} className="flex items-center gap-1.5">
-            {i ? <span aria-hidden className="text-slate-warm-400">→</span> : null}
+            {i ? <span aria-hidden className="text-muted/70">→</span> : null}
             <span
               title={item.title ? `${item.title} · ${time(item.ts, locale)}` : time(item.ts, locale)}
               className={cn(
                 'max-w-[260px] truncate rounded-md px-2 py-1 text-[12px]',
-                item.kind === 'page' ? 'bg-cream-100 text-pine-800' : 'bg-teal-600/12 font-semibold text-teal-600',
+                item.kind === 'page' ? 'bg-panel text-slate' : 'bg-copper/20 font-semibold text-copper-dark',
               )}
             >
               {item.text}

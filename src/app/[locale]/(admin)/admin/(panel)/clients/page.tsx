@@ -51,9 +51,9 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
           name="q"
           defaultValue={q}
           placeholder={c.clients.search}
-          className="h-10 min-w-0 flex-1 rounded-xl border border-cream-300 bg-white px-3 text-[13.5px]"
+          className="h-10 min-w-0 flex-1 rounded-[20px] border border-line bg-white px-3 text-[13.5px]"
         />
-        <button type="submit" className="h-10 rounded-xl bg-teal-600 px-4 text-[13px] font-bold text-white">
+        <button type="submit" className="h-10 rounded-[20px] bg-navy px-4 text-[13px] font-bold text-white">
           {c.period.apply}
         </button>
       </form>
@@ -63,7 +63,7 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-[13px]">
               <thead>
-                <tr className="border-b border-cream-200 text-left text-[11.5px] text-slate-warm-500">
+                <tr className="border-b border-line-soft text-left text-[11.5px] text-muted">
                   <th className="py-2 pr-3 font-semibold">{c.clients.name}</th>
                   <th className="px-3 py-2 font-semibold">{c.clients.company}</th>
                   <th className="px-3 py-2 text-right font-semibold">{c.clients.requests}</th>
@@ -75,43 +75,43 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
               </thead>
               <tbody>
                 {rows.slice(0, 300).map((r) => (
-                  <tr key={r.key} className="border-b border-cream-100 align-top last:border-0">
+                  <tr key={r.key} className="border-b border-line-soft align-top last:border-0">
                     <td className="py-2 pr-3">
-                      <span className="block font-bold text-pine-900">{r.name || '—'}</span>
-                      <span className="mt-0.5 flex items-center gap-2 text-slate-warm-600">
-                        <a href={telHref(r.phone)} className="tabular-nums hover:text-teal-600">
+                      <span className="block font-bold text-ink">{r.name || '—'}</span>
+                      <span className="mt-0.5 flex items-center gap-2 text-muted">
+                        <a href={telHref(r.phone)} className="tabular-nums hover:text-copper-dark">
                           {r.phone}
                         </a>
-                        <a href={whatsappHref(r.phone)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="hover:text-teal-600">
+                        <a href={whatsappHref(r.phone)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="hover:text-copper-dark">
                           <WhatsAppIcon size={14} />
                         </a>
-                        <a href={telegramHref(r.phone)} target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="hover:text-teal-600">
+                        <a href={telegramHref(r.phone)} target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="hover:text-copper-dark">
                           <TelegramIcon size={14} />
                         </a>
                       </span>
-                      {r.email ? <span className="block text-[12px] text-slate-warm-500">{r.email}</span> : null}
+                      {r.email ? <span className="block text-[12px] text-muted">{r.email}</span> : null}
                     </td>
                     <td className="px-3 py-2">
-                      <span className="block text-pine-800">{r.company || '—'}</span>
-                      <span className="text-[12px] text-slate-warm-500">
+                      <span className="block text-slate">{r.company || '—'}</span>
+                      <span className="text-[12px] text-muted">
                         {r.region ? tr(UZ_REGIONS.find((x) => x.id === r.region)?.name, L, r.region) : ''}
                       </span>
                       <span className="mt-1 flex flex-wrap gap-1">
                         {r.types.map((t) => (
-                          <span key={t} className="rounded bg-cream-100 px-1.5 py-0.5 text-[11px] text-pine-800">
+                          <span key={t} className="rounded bg-panel px-1.5 py-0.5 text-[11px] text-slate">
                             {tr((LEAD_TYPES as Record<string, { name: Trilingual }>)[t]?.name, L, t)}
                           </span>
                         ))}
                       </span>
                     </td>
                     <td className="px-3 py-2 text-right font-bold tabular-nums">
-                      <Link href={`/${locale}/admin/leads?q=${encodeURIComponent(r.phone.replace(/\D/g, '').slice(-9))}`} className="hover:text-teal-600" title={c.clients.open}>
+                      <Link href={`/${locale}/admin/leads?q=${encodeURIComponent(r.phone.replace(/\D/g, '').slice(-9))}`} className="hover:text-copper-dark" title={c.clients.open}>
                         {r.requests}
                       </Link>
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{r.samples}</td>
-                    <td className="px-3 py-2 tabular-nums text-slate-warm-600">{formatDate(r.first, locale)}</td>
-                    <td className="px-3 py-2 tabular-nums text-slate-warm-600">{formatDate(r.last, locale)}</td>
+                    <td className="px-3 py-2 tabular-nums text-muted">{formatDate(r.first, locale)}</td>
+                    <td className="px-3 py-2 tabular-nums text-muted">{formatDate(r.last, locale)}</td>
                     <td className="py-2 pl-3">
                       <LeadStatusBadge status={r.lastStatus} locale={L} size="sm" />
                     </td>
@@ -121,7 +121,7 @@ export default async function AdminClientsPage({ params, searchParams }: PagePro
             </table>
           </div>
         ) : (
-          <p className="py-8 text-center text-[13px] text-slate-warm-500">{c.tables.empty}</p>
+          <p className="py-8 text-center text-[13px] text-muted">{c.tables.empty}</p>
         )}
       </AdminCard>
     </div>

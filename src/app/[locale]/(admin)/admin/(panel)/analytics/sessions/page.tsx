@@ -67,24 +67,24 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
       <PeriodPicker base={base} current={period.key} from={period.from} to={period.to} copy={c} extra={{ ...(onlyConverted ? { c: '1' } : {}), ...(src ? { src } : {}) }} />
 
       <div className="flex flex-wrap gap-1.5">
-        <Link href={link({ c: null })} className={cn('rounded-lg border px-3 py-1.5 text-[12.5px] font-bold', !onlyConverted ? 'border-teal-600 bg-teal-600 text-white' : 'border-cream-300 bg-white text-pine-800')}>
+        <Link href={link({ c: null })} className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-bold', !onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
           {c.session.all}
         </Link>
-        <Link href={link({ c: '1' })} className={cn('rounded-lg border px-3 py-1.5 text-[12.5px] font-bold', onlyConverted ? 'border-teal-600 bg-teal-600 text-white' : 'border-cream-300 bg-white text-pine-800')}>
+        <Link href={link({ c: '1' })} className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-bold', onlyConverted ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}>
           {c.session.onlyConverted}
         </Link>
-        <span className="mx-1 w-px bg-cream-300" />
+        <span className="mx-1 w-px bg-line" />
         {Object.entries(c.sources).map(([k, label]) => (
           <Link
             key={k}
             href={link({ src: src === k ? null : k })}
-            className={cn('rounded-lg border px-3 py-1.5 text-[12.5px] font-semibold', src === k ? 'border-pine-900 bg-pine-900 text-white' : 'border-cream-300 bg-white text-pine-800')}
+            className={cn('rounded-[14px] border px-3 py-1.5 text-[12.5px] font-semibold', src === k ? 'border-navy bg-navy text-white' : 'border-line bg-white text-slate')}
           >
             {label}
           </Link>
         ))}
         {pathFilter ? (
-          <Link href={link({ path: null })} className="rounded-lg border border-pine-900 bg-pine-900 px-3 py-1.5 text-[12.5px] font-semibold text-white">
+          <Link href={link({ path: null })} className="rounded-[14px] border border-navy bg-navy px-3 py-1.5 text-[12.5px] font-semibold text-white">
             {pathFilter} ✕
           </Link>
         ) : null}
@@ -98,22 +98,22 @@ export default async function AdminSessionsPage({ params, searchParams }: PagePr
         </div>
       ) : (
         <AdminCard>
-          <p className="py-8 text-center text-[13px] text-slate-warm-500">{c.tables.empty}</p>
+          <p className="py-8 text-center text-[13px] text-muted">{c.tables.empty}</p>
         </AdminCard>
       )}
 
       {totalPages > 1 ? (
         <nav className="flex items-center justify-center gap-2 text-[13px]">
           {page > 1 ? (
-            <Link href={link({ page: String(page - 1) })} className="rounded-lg border border-cream-300 bg-white px-3 py-1.5 font-bold">
+            <Link href={link({ page: String(page - 1) })} className="rounded-[14px] border border-line bg-white px-3 py-1.5 font-bold">
               ←
             </Link>
           ) : null}
-          <span className="tabular-nums text-slate-warm-600">
+          <span className="tabular-nums text-muted">
             {page} / {totalPages}
           </span>
           {page < totalPages ? (
-            <Link href={link({ page: String(page + 1) })} className="rounded-lg border border-cream-300 bg-white px-3 py-1.5 font-bold">
+            <Link href={link({ page: String(page + 1) })} className="rounded-[14px] border border-line bg-white px-3 py-1.5 font-bold">
               →
             </Link>
           ) : null}

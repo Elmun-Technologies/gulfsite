@@ -19,10 +19,10 @@ export function AdminCard({
   className?: string;
 }) {
   return (
-    <section className={cn('rounded-xl border border-cream-200 bg-white p-4 shadow-soft', className)}>
+    <section className={cn('rounded-[20px] border border-line-soft bg-white p-4', className)}>
       {title || aside ? (
         <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          {title ? <h2 className="font-display text-[14px] font-extrabold tracking-tight text-pine-900">{title}</h2> : <span />}
+          {title ? <h2 className="font-display text-[14px] font-semibold tracking-tight text-ink">{title}</h2> : <span />}
           {aside}
         </header>
       ) : null}
@@ -35,8 +35,8 @@ export function PageTitle({ title, sub, actions }: { title: string; sub?: string
   return (
     <header className="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h1 className="font-display text-[clamp(1.25rem,2.6vw,1.6rem)] font-extrabold tracking-tight text-pine-900">{title}</h1>
-        {sub ? <p className="mt-1 text-[13px] text-slate-warm-600">{sub}</p> : null}
+        <h1 className="text-[clamp(1.6rem,3vw,2.2rem)] font-normal tracking-[-0.02em] text-ink">{title}</h1>
+        {sub ? <p className="mt-1 text-[13px] text-muted">{sub}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
     </header>
@@ -56,16 +56,16 @@ export function Kpi({
   hint?: string;
 }) {
   return (
-    <div className="rounded-xl border border-cream-200 bg-white p-3.5 shadow-soft">
-      <span className="block text-[11.5px] leading-snug text-slate-warm-600">{label}</span>
-      <span className="mt-1.5 block font-display text-[1.55rem] font-extrabold leading-none tracking-tight text-pine-900 tabular-nums">
+    <div className="rounded-[20px] border border-line-soft bg-white p-3.5">
+      <span className="block text-[11.5px] leading-snug text-muted">{label}</span>
+      <span className="mt-1.5 block font-display text-[1.55rem] font-semibold leading-none tracking-tight text-ink tabular-nums">
         {value}
       </span>
       {delta != null ? (
         <span
           className={cn(
             'mt-1.5 inline-flex items-center gap-1 text-[11.5px] font-bold tabular-nums',
-            delta > 0 ? 'text-teal-600' : delta < 0 ? 'text-clay-600' : 'text-slate-warm-500',
+            delta > 0 ? 'text-copper-dark' : delta < 0 ? 'text-error' : 'text-muted',
           )}
           title={hint}
         >
@@ -101,14 +101,14 @@ export function PeriodPicker({
   const qs = (p: Record<string, string>) => new URLSearchParams({ ...extra, ...p }).toString();
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <nav className="flex flex-wrap gap-1 rounded-xl border border-cream-200 bg-white p-1">
+      <nav className="flex flex-wrap gap-1 rounded-[20px] border border-line-soft bg-white p-1">
         {keys.map((k) => (
           <Link
             key={k}
             href={`${base}?${qs({ p: k })}`}
             className={cn(
-              'rounded-lg px-3 py-1.5 text-[12.5px] font-bold transition',
-              current === k ? 'bg-teal-600 text-white' : 'text-pine-800 hover:bg-cream-100',
+              'rounded-[14px] px-3 py-1.5 text-[12.5px] font-bold transition',
+              current === k ? 'bg-navy text-white' : 'text-slate hover:bg-panel',
             )}
             aria-current={current === k ? 'true' : undefined}
           >
@@ -120,10 +120,10 @@ export function PeriodPicker({
         {Object.entries(extra ?? {}).map(([k, v]) => (
           <input key={k} type="hidden" name={k} value={v} />
         ))}
-        <input type="date" name="from" defaultValue={from} className="h-9 rounded-lg border border-cream-300 bg-white px-2" aria-label={copy.period.from} />
-        <span className="text-slate-warm-500">—</span>
-        <input type="date" name="to" defaultValue={to} className="h-9 rounded-lg border border-cream-300 bg-white px-2" aria-label={copy.period.to} />
-        <button type="submit" className="h-9 rounded-lg bg-pine-900 px-3 font-bold text-white hover:bg-teal-600">
+        <input type="date" name="from" defaultValue={from} className="h-9 rounded-[14px] border border-line bg-white px-2" aria-label={copy.period.from} />
+        <span className="text-muted">—</span>
+        <input type="date" name="to" defaultValue={to} className="h-9 rounded-[14px] border border-line bg-white px-2" aria-label={copy.period.to} />
+        <button type="submit" className="h-9 rounded-[14px] bg-navy px-3 font-bold text-white hover:bg-ink">
           {copy.period.apply}
         </button>
       </form>

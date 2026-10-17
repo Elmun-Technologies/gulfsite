@@ -16,9 +16,9 @@ import type { ClientLogo, SiteContent, VideoItem } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 const input =
-  'h-10 w-full rounded-lg border border-cream-300 bg-white px-3 text-[13.5px] text-pine-900 focus:border-teal-500 focus:outline-none';
+  'h-10 w-full rounded-[14px] border border-line bg-white px-3 text-[13.5px] text-ink focus:border-copper focus:outline-none';
 const smallBtn =
-  'inline-flex h-9 items-center justify-center rounded-lg border border-cream-300 bg-white px-2.5 text-[12.5px] font-bold text-pine-800 transition hover:border-teal-500 hover:text-teal-600 disabled:opacity-40';
+  'inline-flex h-9 items-center justify-center rounded-[14px] border border-line bg-white px-2.5 text-[12.5px] font-bold text-slate transition hover:border-copper hover:text-copper-dark disabled:opacity-40';
 
 function move<T>(list: T[], i: number, d: -1 | 1): T[] {
   const j = i + d;
@@ -107,11 +107,11 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
   return (
     <div className="flex flex-col gap-4">
       {/* ============ KONTAKTLAR ============ */}
-      <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-        <h2 className="mb-3 font-display text-[14px] font-extrabold text-pine-900">{c.content.people}</h2>
+      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+        <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.people}</h2>
         <div className="flex flex-col gap-2.5">
           {people.map((p, i) => (
-            <div key={i} className="grid gap-2 rounded-lg bg-cream-50 p-2.5 md:grid-cols-[150px_1fr_1fr_auto]">
+            <div key={i} className="grid gap-2 rounded-[14px] bg-panel/50 p-2.5 md:grid-cols-[150px_1fr_1fr_auto]">
               <select
                 value={p.role}
                 aria-label={c.content.role}
@@ -147,7 +147,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
               />
               <div className="flex flex-wrap items-center gap-1.5">
                 {(['whatsapp', 'telegram'] as const).map((k) => (
-                  <label key={k} className="flex items-center gap-1 text-[12px] text-pine-800">
+                  <label key={k} className="flex items-center gap-1 text-[12px] text-slate">
                     <input
                       type="checkbox"
                       checked={p[k]}
@@ -165,7 +165,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                 <button type="button" className={smallBtn} onClick={() => (setPeople((l) => move(l, i, 1)), dirty())} aria-label={c.content.down} disabled={i === people.length - 1}>
                   ↓
                 </button>
-                <button type="button" className={cn(smallBtn, 'hover:border-clay-500 hover:text-clay-600')} onClick={() => (setPeople((l) => l.filter((_, j) => j !== i)), dirty())}>
+                <button type="button" className={cn(smallBtn, 'hover:border-error hover:text-error')} onClick={() => (setPeople((l) => l.filter((_, j) => j !== i)), dirty())}>
                   {c.content.remove}
                 </button>
               </div>
@@ -185,12 +185,12 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
       </section>
 
       {/* ============ LOGOTIPLAR ============ */}
-      <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-        <h2 className="mb-3 font-display text-[14px] font-extrabold text-pine-900">{c.content.clients}</h2>
+      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+        <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.clients}</h2>
         <div className="grid gap-2.5 md:grid-cols-2">
           {clients.map((cl, i) => (
-            <div key={cl.id} className={cn('flex gap-3 rounded-lg border p-2.5', cl.visible ? 'border-cream-200 bg-cream-50' : 'border-dashed border-cream-300 opacity-60')}>
-              <label className="relative flex h-20 w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border border-cream-200 bg-white" title={c.content.upload}>
+            <div key={cl.id} className={cn('flex gap-3 rounded-[14px] border p-2.5', cl.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
+              <label className="relative flex h-20 w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border border-line-soft bg-white" title={c.content.upload}>
                 {cl.logo ? (
                   <Image src={cl.logo} alt={cl.name} fill sizes="112px" className="object-contain p-1.5" unoptimized={cl.logo.startsWith('/api/')} />
                 ) : null}
@@ -222,7 +222,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                   className={input}
                 />
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <label className="flex items-center gap-1 text-[12px] text-pine-800">
+                  <label className="flex items-center gap-1 text-[12px] text-slate">
                     <input
                       type="checkbox"
                       checked={cl.visible}
@@ -236,7 +236,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                   <button type="button" className={smallBtn} onClick={() => (setClients((l) => move(l, i, 1)), dirty())} aria-label={c.content.down} disabled={i === clients.length - 1}>
                     ↓
                   </button>
-                  <button type="button" className={cn(smallBtn, 'ml-auto hover:border-clay-500 hover:text-clay-600')} onClick={() => (setClients((l) => l.filter((x) => x.id !== cl.id)), dirty())}>
+                  <button type="button" className={cn(smallBtn, 'ml-auto hover:border-error hover:text-error')} onClick={() => (setClients((l) => l.filter((x) => x.id !== cl.id)), dirty())}>
                     {c.content.remove}
                   </button>
                 </div>
@@ -260,12 +260,12 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
       </section>
 
       {/* ============ VIDEOLAR ============ */}
-      <section className="rounded-xl border border-cream-200 bg-white p-4 shadow-soft">
-        <h2 className="mb-3 font-display text-[14px] font-extrabold text-pine-900">{c.content.videos}</h2>
+      <section className="rounded-[20px] border border-line-soft bg-white p-4">
+        <h2 className="mb-3 font-display text-[14px] font-semibold text-ink">{c.content.videos}</h2>
         <div className="flex flex-col gap-2">
           {videos.map((v, i) => (
-            <div key={v.id} className={cn('grid gap-2 rounded-lg border p-2.5 md:grid-cols-[1fr_1fr_auto]', v.visible ? 'border-cream-200 bg-cream-50' : 'border-dashed border-cream-300 opacity-60')}>
-              <a href={v.url} target="_blank" rel="noopener noreferrer" className="truncate self-center text-[13px] text-teal-600 hover:underline" title={v.url}>
+            <div key={v.id} className={cn('grid gap-2 rounded-[14px] border p-2.5 md:grid-cols-[1fr_1fr_auto]', v.visible ? 'border-line-soft bg-panel/50' : 'border-dashed border-line opacity-60')}>
+              <a href={v.url} target="_blank" rel="noopener noreferrer" className="truncate self-center text-[13px] text-copper-dark hover:underline" title={v.url}>
                 {v.url}
               </a>
               <input
@@ -276,7 +276,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                 className={input}
               />
               <div className="flex flex-wrap items-center gap-1.5">
-                <label className="flex items-center gap-1 text-[12px] text-pine-800">
+                <label className="flex items-center gap-1 text-[12px] text-slate">
                   <input
                     type="checkbox"
                     checked={v.visible}
@@ -290,7 +290,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                 <button type="button" className={smallBtn} onClick={() => (setVideos((l) => move(l, i, 1)), dirty())} aria-label={c.content.down} disabled={i === videos.length - 1}>
                   ↓
                 </button>
-                <button type="button" className={cn(smallBtn, 'hover:border-clay-500 hover:text-clay-600')} onClick={() => (setVideos((l) => l.filter((x) => x.id !== v.id)), dirty())}>
+                <button type="button" className={cn(smallBtn, 'hover:border-error hover:text-error')} onClick={() => (setVideos((l) => l.filter((x) => x.id !== v.id)), dirty())}>
                   {c.content.remove}
                 </button>
               </div>
@@ -311,7 +311,7 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
                   addVideo();
                 }
               }}
-              className={cn(input, videoError && 'border-clay-500')}
+              className={cn(input, videoError && 'border-error')}
             />
             <input
               value={newVideo.title}
@@ -324,25 +324,25 @@ export function ContentEditor({ initial, copy: c, locale }: { initial: SiteConte
               + {c.content.addVideo}
             </button>
           </div>
-          {videoError ? <p className="text-[12px] text-clay-600">{c.content.badVideo}</p> : null}
+          {videoError ? <p className="text-[12px] text-error">{c.content.badVideo}</p> : null}
         </div>
       </section>
 
       {/* ============ SAQLASH (pastda yopishgan) ============ */}
-      <div className="sticky bottom-3 z-20 flex flex-wrap items-center gap-3 rounded-xl border border-cream-200 bg-white/95 p-3 shadow-lift backdrop-blur">
+      <div className="sticky bottom-3 z-20 flex flex-wrap items-center gap-3 rounded-[20px] border border-line-soft bg-white/95 p-3 backdrop-blur">
         <button
           type="button"
           onClick={save}
           disabled={state === 'saving'}
-          className="inline-flex h-10 items-center rounded-xl bg-teal-600 px-5 text-[13.5px] font-bold text-white transition hover:bg-pine-800 disabled:opacity-60"
+          className="inline-flex h-10 items-center rounded-[20px] bg-navy px-5 text-[13.5px] font-bold text-white transition hover:bg-ink disabled:opacity-60"
         >
           {state === 'saving' ? c.content.saving : c.content.save}
         </button>
-        <span role="status" className={cn('text-[13px]', state === 'error' ? 'text-clay-600' : 'text-teal-600')}>
+        <span role="status" className={cn('text-[13px]', state === 'error' ? 'text-error' : 'text-copper-dark')}>
           {state === 'saved' ? c.content.saved : state === 'error' ? c.content.error : ''}
         </span>
         {updatedAt ? (
-          <span className="ml-auto text-[12px] text-slate-warm-500">
+          <span className="ml-auto text-[12px] text-muted">
             {c.content.updated}: {new Date(updatedAt).toLocaleString(locale === 'en' ? 'en-GB' : locale === 'ru' ? 'ru-RU' : 'uz-UZ')}
           </span>
         ) : null}

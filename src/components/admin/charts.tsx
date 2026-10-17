@@ -85,8 +85,8 @@ export function TrendChart({
           const y = PAD.t + (H - PAD.t - PAD.b) * (1 - t / max);
           return (
             <g key={t}>
-              <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} className="stroke-cream-200" strokeWidth={1} />
-              <text x={PAD.l - 8} y={y + 4} textAnchor="end" className="fill-slate-warm-500 text-[11px] tabular-nums">
+              <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} className="stroke-line-soft" strokeWidth={1} />
+              <text x={PAD.l - 8} y={y + 4} textAnchor="end" className="fill-muted text-[11px] tabular-nums">
                 {Math.round(t)}
               </text>
             </g>
@@ -94,23 +94,23 @@ export function TrendChart({
         })}
         {points.map((p, i) =>
           i % labelEvery === 0 || i === points.length - 1 ? (
-            <text key={p.x} x={coords[i].x} y={H - 8} textAnchor="middle" className="fill-slate-warm-500 text-[11px]">
+            <text key={p.x} x={coords[i].x} y={H - 8} textAnchor="middle" className="fill-muted text-[11px]">
               {fx(p.x)}
             </text>
           ) : null,
         )}
-        <path d={area} className="fill-teal-600/10" />
-        <path d={line} fill="none" className="stroke-teal-600" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+        <path d={area} className="fill-copper/15" />
+        <path d={line} fill="none" className="stroke-navy" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
         {h ? (
           <>
-            <line x1={h.x} x2={h.x} y1={PAD.t} y2={H - PAD.b} className="stroke-pine-800/30" strokeWidth={1} />
-            <circle cx={h.x} cy={h.y} r={5} className="fill-teal-600 stroke-white" strokeWidth={2} />
+            <line x1={h.x} x2={h.x} y1={PAD.t} y2={H - PAD.b} className="stroke-ink/30" strokeWidth={1} />
+            <circle cx={h.x} cy={h.y} r={5} className="fill-navy stroke-white" strokeWidth={2} />
           </>
         ) : null}
       </svg>
       {h && hover != null ? (
         <div
-          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 rounded-lg bg-pine-950 px-2.5 py-1.5 text-[12px] text-white shadow-soft"
+          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 rounded-[14px] bg-navy px-2.5 py-1.5 text-[12px] text-white"
           style={{ left: `${(h.x / W) * 100}%` }}
         >
           <span className="block text-white/60">{fx(points[hover].x)}</span>
@@ -143,11 +143,11 @@ export function ColumnBars({ values, labels, unit }: { values: number[]; labels:
       {values.map((v, i) => (
         <div key={labels[i]} role="listitem" className="group relative flex h-full flex-1 flex-col justify-end">
           <div
-            className="rounded-t-[4px] bg-teal-600 transition-colors group-hover:bg-pine-800"
+            className="rounded-t-[4px] bg-navy transition-colors group-hover:bg-copper"
             style={{ height: `${Math.max(v ? 3 : 0, (v / max) * 100)}%` }}
           />
-          <span className="mt-1 text-center text-[10px] text-slate-warm-500">{labels[i]}</span>
-          <span className="pointer-events-none absolute -top-7 left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-pine-950 px-2 py-1 text-[11px] font-bold text-white group-hover:block">
+          <span className="mt-1 text-center text-[10px] text-muted">{labels[i]}</span>
+          <span className="pointer-events-none absolute -top-7 left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-navy px-2 py-1 text-[11px] font-bold text-white group-hover:block">
             {labels[i]}: {v} {unit}
           </span>
           <span className="sr-only">
@@ -181,7 +181,7 @@ export function BarList({
   limit?: number;
   showShare?: boolean;
 }) {
-  if (!rows.length) return <p className="py-6 text-center text-[13px] text-slate-warm-500">{empty}</p>;
+  if (!rows.length) return <p className="py-6 text-center text-[13px] text-muted">{empty}</p>;
   const max = Math.max(1, ...rows.map((r) => r.value));
   const sum = total ?? rows.reduce((n, r) => n + r.value, 0);
   return (
@@ -191,24 +191,24 @@ export function BarList({
           <>
             <span
               aria-hidden
-              className="absolute inset-y-0 left-0 rounded-md bg-teal-600/12"
+              className="absolute inset-y-0 left-0 rounded-md bg-copper/20"
               style={{ width: `${(r.value / max) * 100}%` }}
             />
             <span className="relative min-w-0 flex-1 truncate">
               {r.label}
-              {r.sub ? <span className="ml-1.5 text-slate-warm-500">{r.sub}</span> : null}
+              {r.sub ? <span className="ml-1.5 text-muted">{r.sub}</span> : null}
             </span>
-            <span className="relative shrink-0 font-bold tabular-nums text-pine-900">
+            <span className="relative shrink-0 font-bold tabular-nums text-ink">
               {r.value}
               {showShare && sum ? (
-                <span className="ml-1.5 font-normal text-slate-warm-500">{Math.round((r.value / sum) * 100)}%</span>
+                <span className="ml-1.5 font-normal text-muted">{Math.round((r.value / sum) * 100)}%</span>
               ) : null}
             </span>
           </>
         );
         const cls = cn(
-          'relative flex items-center gap-3 overflow-hidden rounded-md px-2.5 py-1.5 text-[13px] text-pine-800',
-          r.href && 'transition hover:bg-cream-100',
+          'relative flex items-center gap-3 overflow-hidden rounded-md px-2.5 py-1.5 text-[13px] text-slate',
+          r.href && 'transition hover:bg-panel',
         );
         return (
           <li key={r.key}>
