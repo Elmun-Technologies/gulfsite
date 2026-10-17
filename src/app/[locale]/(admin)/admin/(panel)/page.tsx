@@ -13,6 +13,8 @@
  * yo'q) — panel server komponent, shuning uchun tez va xavfsiz.
  */
 
+import { requireAdmin } from '@/lib/guard';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { makeT, normalizeLocale } from '@/i18n';
 import { getStats, listLeads } from '@/lib/leads/store';
@@ -30,6 +32,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage({ params }: PageProps) {
   const { locale: raw } = await params;
+  // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
+  if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);

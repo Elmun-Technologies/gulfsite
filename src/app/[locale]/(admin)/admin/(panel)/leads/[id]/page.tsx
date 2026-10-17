@@ -10,8 +10,9 @@
  * PATCH qilinadi va `router.refresh()` bilan sahifa yangilanadi.
  */
 
+import { requireAdmin } from '@/lib/guard';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { makeT, normalizeLocale } from '@/i18n';
 import { getLead } from '@/lib/leads/store';
 import { BUSINESS_TYPES, LEAD_STATUSES, LEAD_TYPES, UZ_REGIONS, tr, type Locale } from '@/lib/taxonomy';
@@ -29,6 +30,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminLeadDetailPage({ params }: PageProps) {
   const { locale: raw, id } = await params;
+  // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
+  if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);

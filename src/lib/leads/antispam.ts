@@ -78,7 +78,21 @@ export function resetRateLimit(key: string) {
    IP manzilini aniqlash (proksi orqali)
    ------------------------------------------------------------ */
 
+/**
+ * `TRUSTED_IP_HEADER` sozlansa — FAQAT o'sha sarlavha ishlatiladi (masalan
+ * Cloudflare ortida `cf-connecting-ip`, nginx ortida `x-real-ip`). Aks holda
+ * mijoz har so'rovda yangi `X-Real-IP` yuborib rate limit'ni (lead va admin
+ * login) aylanib o'tishi mumkin. `x-forwarded-for` uchun eng O'NGDAGI qiymat
+ * olinadi — uni mijoz emas, oxirgi proksi qo'shadi.
+ */
+const TRUSTED_IP_HEADER = (process.env.TRUSTED_IP_HEADER ?? '').trim().toLowerCase();
+
 export function clientIp(headers: Headers): string {
+  if (TRUSTED_IP_HEADER) {
+    const raw = headers.get(TRUSTED_IP_HEADER) ?? '';
+    const value = TRUSTED_IP_HEADER === 'x-forwarded-for' ? raw.split(',').pop() : raw;
+    return value?.trim().slice(0, 64) || 'unknown';
+  }
   const candidates = [
     headers.get('cf-connecting-ip'),
     headers.get('x-real-ip'),

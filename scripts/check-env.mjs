@@ -71,10 +71,17 @@ function parseEnvFile(path) {
   return out;
 }
 
-const fromFiles = { ...parseEnvFile(join(ROOT, '.env')), ...parseEnvFile(join(ROOT, '.env.local')) };
-const env = { ...process.env, ...fromFiles };
+// Next.js tartibi: .env < .env.production < .env.local < .env.production.local,
+// va HAQIQIY muhit o'zgaruvchilari hammasidan ustun (fayl ularni bosib o'tmaydi).
+const fromFiles = {
+  ...parseEnvFile(join(ROOT, '.env')),
+  ...parseEnvFile(join(ROOT, '.env.production')),
+  ...parseEnvFile(join(ROOT, '.env.local')),
+  ...parseEnvFile(join(ROOT, '.env.production.local')),
+};
+const env = { ...fromFiles, ...process.env };
 const get = (k) => (env[k] ?? '').trim();
-const source = (k) => (k in fromFiles ? '.env' : k in process.env ? 'muhit' : 'standart');
+const source = (k) => (k in process.env ? 'muhit' : k in fromFiles ? '.env' : 'standart');
 
 /* ------------------------------------------------------------
    Natijalarni yig'ish
@@ -211,6 +218,13 @@ if (rlMax !== CANON.rateLimitMax || rlWin !== CANON.rateLimitWindow) {
     'Brief talabini qaytaring: RATE_LIMIT_MAX=5, RATE_LIMIT_WINDOW_SECONDS=600',
   );
 } else ok(`Rate limit: ${rlMax} so'rov / ${rlWin}s (§11.2)`);
+
+if (get('TRUSTED_IP_HEADER')) ok(`Mijoz IP sarlavhasi: ${get('TRUSTED_IP_HEADER')}`);
+else
+  warn(
+    'TRUSTED_IP_HEADER bo\'sh — IP sarlavhalarini mijoz soxtalashtirib rate limit\'ni (lead + admin login) aylanib o\'tishi mumkin',
+    'Cloudflare → cf-connecting-ip, nginx → x-real-ip, Vercel → x-forwarded-for',
+  );
 
 if (get('TURNSTILE_SECRET_KEY') && get('NEXT_PUBLIC_TURNSTILE_SITE_KEY')) ok('Turnstile yoqilgan');
 else if (get('TURNSTILE_SECRET_KEY') || get('NEXT_PUBLIC_TURNSTILE_SITE_KEY'))

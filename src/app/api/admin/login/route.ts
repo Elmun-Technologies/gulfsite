@@ -10,6 +10,7 @@ import {
   checkPassword,
   clearAttempts,
   createSessionToken,
+  GLOBAL_LOGIN_KEY,
   isAdminConfigured,
   isBlocked,
   registerFailedAttempt,
@@ -24,7 +25,9 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   const ip = clientIp(req.headers);
 
-  const blocked = isBlocked(`login:${ip}`);
+  const ipBlock = isBlocked(`login:${ip}`);
+  const globalBlock = isBlocked(GLOBAL_LOGIN_KEY);
+  const blocked = ipBlock.blocked ? ipBlock : globalBlock;
   if (blocked.blocked) {
     return NextResponse.json(
       { ok: false, error: { code: 'rate_limit', message: 'admin.loginRateLimit', retryAfterSec: blocked.retryAfterSec } },
@@ -51,7 +54,9 @@ export async function POST(req: NextRequest) {
   }
 
   if (!password || !checkPassword(password)) {
-    const attempt = registerFailedAttempt(`login:${ip}`);
+    const ipAttempt = registerFailedAttempt(`login:${ip}`);
+    const globalAttempt = registerFailedAttempt(GLOBAL_LOGIN_KEY);
+    const attempt = ipAttempt.blocked ? ipAttempt : globalAttempt;
     console.warn(`[admin] muvaffaqiyatsiz kirish urinishi, ip=${sanitizeLog(ip)}`);
     return NextResponse.json(
       {

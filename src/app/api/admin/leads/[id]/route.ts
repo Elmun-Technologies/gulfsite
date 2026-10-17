@@ -29,7 +29,9 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
 
   let body: Record<string, unknown>;
   try {
-    body = (await req.json()) as Record<string, unknown>;
+    const raw: unknown = await req.json();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('not an object');
+    body = raw as Record<string, unknown>;
   } catch {
     return NextResponse.json({ ok: false, error: { code: 'bad_json', message: 'admin.errors.badJson' } }, { status: 400 });
   }
@@ -37,7 +39,7 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   const patch: LeadPatch = {};
 
   if (typeof body.status === 'string') {
-    if (!(body.status in LEAD_STATUSES)) {
+    if (!Object.hasOwn(LEAD_STATUSES, body.status)) {
       return NextResponse.json({ ok: false, error: { code: 'invalid_status', message: 'admin.errors.invalidStatus' } }, { status: 400 });
     }
     patch.status = body.status as LeadStatusId;

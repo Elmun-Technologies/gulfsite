@@ -10,6 +10,8 @@
  *   - katta ro'yxatlar uchun klient bundle'ni kichik saqlaydi
  */
 
+import { requireAdmin } from '@/lib/guard';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { makeT, normalizeLocale } from '@/i18n';
 import { listLeads } from '@/lib/leads/store';
@@ -44,6 +46,8 @@ function toStr(v: string | string[] | undefined): string {
 
 export default async function AdminLeadsPage({ params, searchParams }: PageProps) {
   const { locale: raw } = await params;
+  // Layout qisman (RSC) navigatsiyada qayta render bo'lmaydi — himoya sahifaning o'zida ham
+  if (!(await requireAdmin())) redirect(`/${normalizeLocale(raw)}/admin/login`);
   const locale = normalizeLocale(raw);
   const L = locale as Locale;
   const t = makeT(locale);

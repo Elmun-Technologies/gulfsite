@@ -60,10 +60,7 @@ function LoginFormInner({ locale }: { locale: string }) {
 
       if (res.ok && json?.ok) {
         const next = params.get('next');
-        const target =
-          next && next.startsWith('/') && !next.startsWith('//')
-            ? next
-            : (json.data?.redirect ?? `/${locale}/admin`);
+        const target = next && isSameOriginPath(next) ? next : (json.data?.redirect ?? `/${locale}/admin`);
         router.replace(target);
         router.refresh();
         return;
@@ -193,4 +190,14 @@ export function AdminLoginForm({ locale }: { locale: string }) {
       <LoginFormInner locale={locale} />
     </Suspense>
   );
+}
+
+/** Ochiq redirect'dan himoya: `/\\evil.com`, `//evil.com` kabi qiymatlar rad etiladi */
+function isSameOriginPath(next: string): boolean {
+  if (!next.startsWith('/') || next.includes('\\')) return false;
+  try {
+    return new URL(next, window.location.origin).origin === window.location.origin;
+  } catch {
+    return false;
+  }
 }

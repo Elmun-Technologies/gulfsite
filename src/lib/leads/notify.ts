@@ -175,12 +175,17 @@ async function sendTelegram(chatId: string, text: string, token: string): Promis
     // HTML parse xatosi bo'lsa — parse_mode siz qayta yuboramiz
     if (res.status === 400 && /can't parse|parse entities/i.test(errText)) {
       const plain = text.replace(/<[^>]+>/g, '');
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      const retry = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ chat_id: chatId, text: plain, disable_web_page_preview: true }),
         signal: AbortSignal.timeout(8000),
       });
+      // qayta yuborish ham yiqilsa — "yetkazildi" deb hisoblanmasin (503 himoyasi ishlashi uchun)
+      if (!retry.ok) {
+        const retryText = await retry.text().catch(() => '');
+        throw new Error(`Telegram ${retry.status}: ${retryText.slice(0, 200)}`);
+      }
       return;
     }
     throw new Error(`Telegram ${res.status}: ${errText.slice(0, 200)}`);

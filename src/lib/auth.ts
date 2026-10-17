@@ -12,9 +12,8 @@
  *   openssl rand -hex 32
  */
 
-import { createHmac, timingSafeEqual } from 'node:crypto';
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { serverConfig } from './config';
-import { safeEqual } from './utils';
 
 const COOKIE_MAX_AGE = serverConfig.admin.sessionHours * 3600;
 
@@ -60,7 +59,11 @@ export function verifySessionToken(token: string | undefined | null): boolean {
 export function checkPassword(password: string): boolean {
   const expected = serverConfig.admin.password;
   if (!expected) return false; // parol o'rnatilmagan → hech kim kira olmaydi
-  return safeEqual(password, expected);
+  // Ikkala qiymatning SHA-256 xeshi solishtiriladi: uzunliklar har doim teng,
+  // shuning uchun javob vaqti parol UZUNLIGINI ham oshkor qilmaydi.
+  const a = createHash('sha256').update(password).digest();
+  const b = createHash('sha256').update(expected).digest();
+  return timingSafeEqual(a, b);
 }
 
 export function isAdminConfigured(): boolean {
@@ -83,8 +86,32 @@ const ATTEMPTS = new Map<string, { count: number; first: number }>();
 const MAX_ATTEMPTS = 6;
 const WINDOW_MS = 15 * 60 * 1000;
 
+/**
+ * IP'dan qat'i nazar umumiy chegara: IP sarlavhasi soxtalashtirilsa ham
+ * (har so'rovda yangi X-Forwarded-For) parolni cheksiz terib bo'lmaydi.
+ */
+export const GLOBAL_LOGIN_KEY = 'login:*';
+const GLOBAL_MAX_ATTEMPTS = 30;
+const MAX_TRACKED = 5000;
+
+function maxFor(key: string) {
+  return key === GLOBAL_LOGIN_KEY ? GLOBAL_MAX_ATTEMPTS : MAX_ATTEMPTS;
+}
+
+/** Muddati o'tgan yozuvlarni tozalash — xarita cheksiz o'smasin */
+function sweep(now: number) {
+  if (ATTEMPTS.size < MAX_TRACKED) return;
+  for (const [k, v] of ATTEMPTS) if (now - v.first > WINDOW_MS) ATTEMPTS.delete(k);
+  // hammasi "yangi" bo'lsa ham chegaradan oshmasin (eng eskilari o'chadi)
+  for (const k of ATTEMPTS.keys()) {
+    if (ATTEMPTS.size < MAX_TRACKED) break;
+    if (k !== GLOBAL_LOGIN_KEY) ATTEMPTS.delete(k);
+  }
+}
+
 export function registerFailedAttempt(key: string): { blocked: boolean; retryAfterSec: number } {
   const now = Date.now();
+  sweep(now);
   const entry = ATTEMPTS.get(key);
 
   if (!entry || now - entry.first > WINDOW_MS) {
@@ -93,7 +120,7 @@ export function registerFailedAttempt(key: string): { blocked: boolean; retryAft
   }
 
   entry.count += 1;
-  if (entry.count >= MAX_ATTEMPTS) {
+  if (entry.count >= maxFor(key)) {
     const retryAfterSec = Math.ceil((entry.first + WINDOW_MS - now) / 1000);
     return { blocked: true, retryAfterSec };
   }
@@ -112,7 +139,7 @@ export function isBlocked(key: string): { blocked: boolean; retryAfterSec: numbe
     ATTEMPTS.delete(key);
     return { blocked: false, retryAfterSec: 0 };
   }
-  if (entry.count >= MAX_ATTEMPTS) {
+  if (entry.count >= maxFor(key)) {
     return { blocked: true, retryAfterSec: Math.ceil((entry.first + WINDOW_MS - now) / 1000) };
   }
   return { blocked: false, retryAfterSec: 0 };
