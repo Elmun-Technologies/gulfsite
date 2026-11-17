@@ -109,6 +109,11 @@ export async function Footer({
             <Link href={`/${locale}/samples`} className="foot-link">
               {t('nav.samples')}
             </Link>
+            {locale !== 'en' ? (
+              <Link href={`/${locale}/blog`} className="foot-link">
+                {t('nav.blog')}
+              </Link>
+            ) : null}
             <Link href={`/${locale}/contact`} className="foot-link">
               {t('nav.contact')}
             </Link>

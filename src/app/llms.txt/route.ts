@@ -13,6 +13,7 @@ import { categoryIdsWithData, categoryName, groupsFor } from '@/lib/category-pag
 import { industryIds } from '@/lib/industry-copy';
 import { ensureCatalog } from '@/lib/catalog-live';
 import { APPLICATIONS, tr } from '@/lib/taxonomy';
+import { blogArticles } from '@/lib/blog';
 
 export const revalidate = 3600;
 
@@ -53,6 +54,12 @@ export async function GET(): Promise<Response> {
   for (const id of industryIds().filter((i) => (counts[i] ?? 0) > 0)) {
     const label = tr(APPLICATIONS.find((a) => a.id === id)?.name, 'uz', id);
     lines.push(`- [${label}](${SITE_URL}/uz/industries/${id})`);
+  }
+  lines.push('');
+
+  lines.push('## Maqolalar (uz)');
+  for (const a of blogArticles('uz')) {
+    lines.push(`- [${a.text.uz.title}](${SITE_URL}/uz/blog/${a.slug}) — ${a.text.uz.description}`);
   }
   lines.push('');
 
