@@ -25,9 +25,22 @@ function trimSlash(url: string): string {
   return url.replace(/\/+$/, '');
 }
 
-const rawUrl = str('NEXT_PUBLIC_SITE_URL', process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : 'http://localhost:3000');
+/**
+ * Production domeni — `NEXT_PUBLIC_SITE_URL` berilmasa (masalan Coolify build'ida
+ * env/build-arg unutilsa) canonical, og:url, hreflang va JSON-LD `localhost:3000`
+ * ga qurilib, Google sahifalarni indekslamas edi (2026-11-17 auditida aynan shu
+ * topildi). Production build uchun xavfsiz zaxira — haqiqiy domen.
+ */
+const PRODUCTION_FALLBACK_URL = 'https://gulfflavours.uz';
+
+const rawUrl = str(
+  'NEXT_PUBLIC_SITE_URL',
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.NODE_ENV === 'production'
+      ? PRODUCTION_FALLBACK_URL
+      : 'http://localhost:3000',
+);
 
 export const SITE_URL = trimSlash(rawUrl);
 

@@ -406,6 +406,24 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 
 ---
 
+### 4.14 SEO auditi: canonical `localhost` ga qarab qolgan (2026-11-17)
+
+- **Topilma (jonli sayt, curl):** `https://gulfflavours.uz/uz` HTML'ida `canonical`,
+  `og:url`, og:image va JSON-LD `@id` hammasi `http://localhost:3000/...` edi (39 ta
+  havola). Sabab: Coolify build'ida `NEXT_PUBLIC_SITE_URL` berilmagan, `SITE_URL`
+  `localhost:3000` zaxirasiga tushgan, statik sahifalar build vaqtida shu bilan
+  qotib qolgan. `robots.txt`/`sitemap.xml` runtime'da to'g'ri domenni ko'rsatgani
+  uchun muammo yashirin qolgan. Google bunday sahifani indekslamaydi.
+- **Tuzatish:** `lib/config.ts` — production'da env yo'q bo'lsa zaxira
+  `https://gulfflavours.uz` (dev'da `localhost` qoladi).
+- **Coolify'da baribir qo'ying:** `NEXT_PUBLIC_SITE_URL=https://gulfflavours.uz`
+  (BUILD argument sifatida ham). Deploy'dan keyin tekshiring:
+  `curl -s https://gulfflavours.uz/uz | grep -c localhost` → `0` bo'lishi shart.
+- **`/llms.txt`** avval `[locale]` ga tushib bosh sahifa HTML'ini 200 bilan
+  qaytarardi. Endi `src/app/llms.txt/route.ts` (katalog/taksonomiyadan yig'iladi).
+
+---
+
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)
 
 Palitra (§4.2): `--navy #0B0A3A` · `--ink #14132E` · `--copper #D6A27C`
