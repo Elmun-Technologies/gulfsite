@@ -21,7 +21,7 @@ import { notFound } from 'next/navigation';
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
-import { buildMetadata, clipText, breadcrumbLd, productLd } from '@/lib/seo';
+import { buildMetadata, clipText, fitTitle, breadcrumbLd, productLd } from '@/lib/seo';
 import { allProducts, getProductBySlug, relatedProducts } from '@/lib/catalog';
 import {
   ALL_GROUPS,
@@ -89,16 +89,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = tr(product.name, locale as Locale);
   const cat = CATEGORIES.find((c) => c.id === product.category);
   const category = cat ? tr(cat.name, locale as Locale) : t('nav.catalog');
+  const groupLabel = tr(ALL_GROUPS.find((g) => g.id === product.group)?.name, locale as Locale, '');
+  const formLabel = tr(FORMS.find((f) => f.id === product.form)?.name, locale as Locale, product.form);
+  // Admin kiritgan tavsif ustuvor; aks holda har mahsulotga xos (shakl + doza)
+  // qisqa meta — 3 ta umumiy shablon 617 mahsulotda takrorlanib, dublikat
+  // ko'rinishini oldini oladi.
   const description = clipText(
     product.description?.[locale as Locale] ||
-      productDescription(product.category, name, product.applications, product.copyVariant, locale as Locale),
+      t('seo.product.description', {
+        name,
+        form: formLabel,
+        dose: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
+      }),
     150,
   );
 
   return buildMetadata({
     locale,
-    // 42 belgi + layout shabloni qo'shadigan " — GFF Uzbekistan" (17) ≤ 59 (§13.1)
-    title: clipText(`${name} — ${category}`, 42),
+    // Layout shabloni " — GFF …" (≈17) qo'shadi: jami ≤ 60. "…" siz sig'adigan
+    // eng to'liq variant tanlanadi (avval "Oziq-ovqat…" kabi kesilgan edi).
+    title: fitTitle(
+      [
+        `${name} — ${category}`,
+        groupLabel ? `${name} — ${groupLabel}` : '',
+        `${name} — ${product.sku}`,
+        name,
+      ].filter(Boolean),
+      42,
+    ),
     description,
     path: `/catalog/${product.slug}`,
     type: 'product',

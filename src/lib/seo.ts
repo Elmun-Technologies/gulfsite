@@ -28,8 +28,21 @@ export function clipText(text: string, max: number): string {
   const clean = text.replace(/\s+/g, ' ').trim();
   if (clean.length <= max) return clean;
   const cut = clean.slice(0, max);
+  // Avval GAP chegarasida (". ") kesamiz — "…" siz, to'liq jumla bilan tugaydi
+  const lastSentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+  if (lastSentence > max * 0.5) return cut.slice(0, lastSentence + 1);
   const lastSpace = cut.lastIndexOf(' ');
   return `${cut.slice(0, lastSpace > max * 0.6 ? lastSpace : max).replace(/[\s,.\-–—]+$/, '')}…`;
+}
+
+/**
+ * Sarlavhani "…" siz sig'dirish: nomzodlardan (uzundan qisqaga) `max` ga
+ * sig'adigan birinchisini tanlaydi. Hech biri sig'masa — oxirgisini (odatda
+ * faqat mahsulot nomi) so'z chegarasida qisqartiradi.
+ */
+export function fitTitle(candidates: string[], max: number): string {
+  for (const c of candidates) if (c.length <= max) return c;
+  return clipText(candidates[candidates.length - 1] ?? '', max);
 }
 
 export function localizedPath(locale: AppLocale, path = ''): string {
@@ -52,10 +65,14 @@ interface BuildMetadataOptions {
   keywords?: string[];
   noIndex?: boolean;
   type?: 'website' | 'article' | 'product';
+  /** hreflang faqat shu tillarga (standart — hammasi). Blog: faqat uz/ru. */
+  languages?: AppLocale[];
+  /** article uchun: ISO sana */
+  publishedTime?: string;
 }
 
 export function buildMetadata(opts: BuildMetadataOptions): Metadata {
-  const { locale, title, description = SITE.seo.defaultDescription, path = '', image, keywords, noIndex, type = 'website' } = opts;
+  const { locale, title, description = SITE.seo.defaultDescription, path = '', image, keywords, noIndex, type = 'website', languages, publishedTime } = opts;
   const url = absoluteUrl(localizedPath(locale, path));
   const ogImage = absoluteUrl(image ?? SITE.seo.ogImage);
   const meta = LOCALE_META[locale];
@@ -64,7 +81,7 @@ export function buildMetadata(opts: BuildMetadataOptions): Metadata {
     canonical: url,
     languages: {
       ...Object.fromEntries(
-        (['uz', 'ru', 'en'] as AppLocale[]).map((l) => [l, absoluteUrl(localizedPath(l, path))]),
+        (languages ?? (['uz', 'ru', 'en'] as AppLocale[])).map((l) => [l, absoluteUrl(localizedPath(l, path))]),
       ),
       // §13.5 — til aniqlanmagan foydalanuvchi uchun standart variant
       'x-default': absoluteUrl(localizedPath('uz', path)),
@@ -81,6 +98,7 @@ export function buildMetadata(opts: BuildMetadataOptions): Metadata {
       // Next.js OpenGraph turi faqat 'website'|'article' ni qabul qiladi;
       // mahsulot sahifalari uchun schema.org Product JSON-LD ishlatiladi.
       type: type === 'article' ? 'article' : 'website',
+      ...(type === 'article' && publishedTime ? { publishedTime } : {}),
       // og:locale formati `uz_UZ` (meta.lang `uz-Latn-UZ` → replace `uz_Latn-UZ` beradi)
       locale: meta.tag,
       url,
@@ -285,6 +303,31 @@ export function faqLd(items: { q: string; a: string }[]) {
       name: i.q,
       acceptedAnswer: { '@type': 'Answer', text: i.a },
     })),
+  };
+}
+
+/** Blog maqolasi (BlogPosting) */
+export function articleLd(opts: {
+  locale: AppLocale;
+  path: string;
+  headline: string;
+  description: string;
+  published: string;
+}) {
+  const url = absoluteUrl(localizedPath(opts.locale, opts.path));
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    headline: opts.headline,
+    description: opts.description,
+    inLanguage: LOCALE_META[opts.locale].htmlLang,
+    datePublished: opts.published,
+    dateModified: opts.published,
+    image: [absoluteUrl(SITE.seo.ogImage)],
+    author: { '@id': `${SITE_URL}/#organization` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
   };
 }
 

@@ -422,6 +422,20 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **`/llms.txt`** avval `[locale]` ga tushib bosh sahifa HTML'ini 200 bilan
   qaytarardi. Endi `src/app/llms.txt/route.ts` (katalog/taksonomiyadan yig'iladi).
 
+### 4.15 Blog (SEO kontent markazi) va metadata tuzatishlari (2026-11-18)
+
+- **Blog**: `/[locale]/blog` va `/[locale]/blog/<slug>` — matnlar `src/lib/blog.ts` da
+  (4 ta maqola, **faqat UZ va RU**; EN uchun sahifa YO'Q — `proxy.ts` `BLOG_RE` haqiqiy 404 beradi,
+  hreflang faqat uz/ru + x-default). Maqola qo'shish: `ARTICLES` ga yozuv (haqiqiy `published` sana —
+  sitemap `lastmod` shundan). Matnda to'qilgan raqam/sertifikat da'vosi bo'lmasin.
+  UI kalitlari `blog.*`, `nav.blog` (3 tilda). `articleLd()` (BlogPosting) `seo.ts` da;
+  `buildMetadata({ languages, publishedTime })`. Footer (uz/ru), sitemap, `/llms.txt` ulangan.
+- **Mahsulot metadata**: tavsif har mahsulotga noyob (`seo.product.description` + shakl/doza),
+  title `fitTitle()` bilan kesilmaydi. `clipText` gap chegarasida kesadi.
+- **Sitemap**: soxta `lastmod` olib tashlandi — faqat haqiqiy sana bo'lsa beriladi.
+- **Ochiq (Coolify/Search Console)**: www → non-www 301, http→https doimiy (308/301),
+  Search Console'da non-www/Domain property qo'shib sitemap'ni qayta yuborish.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)

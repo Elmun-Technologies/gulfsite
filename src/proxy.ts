@@ -27,10 +27,19 @@ import { AUTH_COOKIE, isAdminConfigured, verifySessionToken } from '@/lib/auth';
 const PRODUCT_RE = /^\/(uz|ru|en)\/(?:catalog|product|tg\/p)\/([^/]+)\/?$/;
 const GROUP_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/([^/]+)\/?$/;
 const CATEGORY_RE = /^\/(uz|ru|en)\/category\/([^/]+)\/?$/;
+const BLOG_RE = /^\/(uz|ru|en)\/blog(?:\/([^/]+))?\/?$/;
 const INDUSTRY_RE = /^\/(uz|ru|en)\/industries\/([^/]+)\/?$/;
 
 /** Mahsulot/guruh manzili mavjudmi (null — bu tekshiruv tegishli emas) */
 async function catalogPathMissing(pathname: string): Promise<string | null> {
+  const b = BLOG_RE.exec(pathname);
+  if (b) {
+    // blog: faqat uz/ru; maqola slug'i `lib/blog.ts` da bo'lishi shart (yengil modul)
+    const { getArticle, hasBlog } = await import('@/lib/blog');
+    if (!hasBlog(b[1])) return b[1];
+    if (b[2] && !getArticle(decodeURIComponent(b[2]), b[1])) return b[1];
+    return null;
+  }
   const p = PRODUCT_RE.exec(pathname);
   const g = GROUP_RE.exec(pathname);
   const c = CATEGORY_RE.exec(pathname);

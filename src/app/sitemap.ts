@@ -19,19 +19,28 @@ import { allProducts, applicationCounts } from '@/lib/catalog';
 import { categoryIdsWithData, groupsFor } from '@/lib/category-pages';
 import { industryIds } from '@/lib/industry-copy';
 import { ensureCatalog } from '@/lib/catalog-live';
+import { BLOG_LOCALES, blogArticles } from '@/lib/blog';
 
 /** Bitta mantiqiy sahifa uchun 3 tilli yozuv */
-function entry(path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'], lastmod?: Date) {
-  return LOCALES.map((locale) => ({
+function entry(
+  path: string,
+  priority: number,
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
+  lastmod?: Date,
+  locales: readonly AppLocale[] = LOCALES,
+) {
+  return locales.map((locale) => ({
     url: `${SITE_URL}/${locale}${path}`,
-    lastModified: lastmod ?? new Date('2026-01-15'),
+    // Haqiqiy sana noma'lum bo'lsa BERILMAYDI: hamma sahifada bir xil to'qilgan
+    // sana (avval 2026-01-15) Google'ni lastmod'ga ishonmaydigan qiladi.
+    ...(lastmod ? { lastModified: lastmod } : {}),
     changeFrequency,
     priority,
     alternates: {
       languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`])),
+        ...Object.fromEntries(locales.map((l) => [l, `${SITE_URL}/${l}${path}`])),
         // §13.5 — x-default doim standart tilga (uz) ko'rsatadi
-        'x-default': `${SITE_URL}/uz${path}`,
+        'x-default': `${SITE_URL}/${locales.includes('uz') ? 'uz' : locales[0]}${path}`,
       } as Record<AppLocale | 'x-default', string>,
     },
   }));
@@ -79,6 +88,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 301 bilan shu yerga yo'naltirilgan, shuning uchun sitemap'ga TUSHMAYDI
     // (aks holda Google har bir mahsulot uchun redirect'ni kuzatadi).
     out.push(...entry(`/catalog/${p.slug}`, 0.6, 'monthly'));
+  }
+
+  /* ---------- Blog (faqat uz/ru; lastmod = haqiqiy nashr sanasi) ---------- */
+  const blogLocales = [...BLOG_LOCALES] as AppLocale[];
+  const articles = blogArticles('uz');
+  const newest = articles.reduce((m, a) => (a.published > m ? a.published : m), '');
+  if (newest) out.push(...entry('/blog', 0.7, 'weekly', new Date(newest), blogLocales));
+  for (const a of articles) {
+    out.push(...entry(`/blog/${a.slug}`, 0.7, 'monthly', new Date(a.published), blogLocales));
   }
 
   return out;
