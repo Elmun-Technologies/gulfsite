@@ -1,0 +1,36 @@
+name: IndexNow
+
+# main'ga merge'dan keyin Coolify deploy tugashini kutib, sitemap'dagi URL'larni
+# IndexNow (Bing/Yandex) ga yuboradi. Haftalik — to'liq qayta yuborish.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Deploy'ni kutish va yuborish
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then sleep 600; fi
+          for i in 1 2 3 4 5 6; do
+            node scripts/indexnow.mjs && exit 0
+            echo "Kalit fayli hali jonli emas — 3 daqiqa kutamiz ($i/6)"; sleep 180
+          done
+          exit 1

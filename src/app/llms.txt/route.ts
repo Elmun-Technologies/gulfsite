@@ -14,6 +14,20 @@ import { industryIds } from '@/lib/industry-copy';
 import { ensureCatalog } from '@/lib/catalog-live';
 import { APPLICATIONS, tr } from '@/lib/taxonomy';
 import { blogArticles } from '@/lib/blog';
+import { makeT, type DictKey } from '@/i18n';
+
+/** Bosh sahifadagi FAQ bilan bir xil manba (lug'at) — AI javoblari sayt bilan mos bo'lsin. */
+const FAQ_COUNT = 7;
+
+function faqLines(locale: 'uz' | 'ru'): string[] {
+  const t = makeT(locale);
+  const vars = { min: siteConfig.business.minOrderKg };
+  const out: string[] = [];
+  for (let i = 1; i <= FAQ_COUNT; i++) {
+    out.push(`- **${t(`faq.q${i}` as DictKey)}** ${t(`faq.a${i}` as DictKey, vars)}`);
+  }
+  return out;
+}
 
 export const revalidate = 3600;
 
@@ -63,6 +77,35 @@ export async function GET(): Promise<Response> {
   }
   lines.push('');
 
+  lines.push('## Qanday buyurtma beriladi');
+  lines.push(`1. Katalogdan pozitsiyalarni tanlang: ${SITE_URL}/uz/catalog`);
+  lines.push(`2. 8 tagacha bepul namuna so‘rang: ${SITE_URL}/uz/samples`);
+  lines.push(`3. Narx so‘rovi (RFQ) yuboring: ${SITE_URL}/uz/quote — yoki Telegram ${siteConfig.social.telegramHandle}, telefon ${c.phonePrimary}`);
+  lines.push('');
+
+  lines.push('## Ko‘p beriladigan savollar');
+  lines.push(...faqLines('uz'));
+  lines.push('');
+
+  lines.push('## По-русски');
+  lines.push(
+    `> Официальный и единственный дистрибьютор ${siteConfig.brand.full} (Дубай) в Узбекистане. ` +
+      `B2B: пищевые ароматизаторы (выпечка, кондитерка, молочка, напитки), парфюмерные композиции, эфирные масла, ` +
+      `ароматические вещества и ингредиенты — ${allProducts().length} позиций, склад в Ташкенте. ` +
+      `Цены по запросу; бесплатные образцы (test box).`,
+  );
+  lines.push(`- [Каталог](${SITE_URL}/ru/catalog)`);
+  lines.push(`- [Бесплатные образцы](${SITE_URL}/ru/samples)`);
+  lines.push(`- [Запросить цену](${SITE_URL}/ru/quote)`);
+  lines.push(`- [Контакты](${SITE_URL}/ru/contact)`);
+  for (const a of blogArticles('ru')) {
+    lines.push(`- [${a.text.ru.title}](${SITE_URL}/ru/blog/${a.slug}) — ${a.text.ru.description}`);
+  }
+  lines.push('');
+  lines.push('### Частые вопросы');
+  lines.push(...faqLines('ru'));
+  lines.push('');
+
   lines.push('## Tillar');
   lines.push(`- O‘zbekcha: ${SITE_URL}/uz`);
   lines.push(`- Русский: ${SITE_URL}/ru`);
@@ -72,6 +115,8 @@ export async function GET(): Promise<Response> {
   lines.push('## Aloqa');
   lines.push(`- Telefon: ${c.phonePrimary}`);
   lines.push(`- E-mail: ${c.salesEmail}`);
+  lines.push(`- Telegram: ${siteConfig.social.telegram}`);
+  lines.push(`- Instagram: ${siteConfig.social.instagram}`);
   lines.push(`- Manzil: ${c.addressEn}`);
   lines.push('');
 
