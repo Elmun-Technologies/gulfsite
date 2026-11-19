@@ -13,8 +13,9 @@
  */
 
 import type { Metadata, Viewport } from 'next';
+import { notFound } from 'next/navigation';
 import '@/app/globals.css';
-import { getDictionary, LOCALES, LOCALE_META, normalizeLocale, type AppLocale } from '@/i18n';
+import { getDictionary, isLocale, LOCALES, LOCALE_META, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
 import { buildMetadata } from '@/lib/seo';
 import { I18nProvider } from '@/components/i18n/I18nProvider';
@@ -94,6 +95,10 @@ export default async function RootLayout({
 }) {
   await ensureCatalog();
   const { locale: raw } = await params;
+  // Fayl kengaytmali yo'llar (`/foo.txt`, `/x.png`) proxy matcher'idan chetda
+  // qoladi va `[locale]` ga tushadi: avval bosh sahifa 200 bilan qaytardi
+  // (cheksiz soft-404 dublikatlar). Noma'lum til → haqiqiy 404 (ildiz not-found).
+  if (!isLocale(raw)) notFound();
   const locale: AppLocale = normalizeLocale(raw);
   const dict = getDictionary(locale);
   const meta = LOCALE_META[locale];

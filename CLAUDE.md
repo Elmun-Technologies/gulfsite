@@ -436,6 +436,19 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **Ochiq (Coolify/Search Console)**: www → non-www 301, http→https doimiy (308/301),
   Search Console'da non-www/Domain property qo'shib sitemap'ni qayta yuborish.
 
+### 4.16 SEO/GEO: soft-404 fayl yo'llari, IndexNow, llms.txt (2026-11-20)
+
+- **Soft-404 (jonli saytda topildi):** `/foo.txt`, `/x.png` kabi ILDIZ darajadagi fayl
+  yo'llari proxy matcher'idan chetda qolib `[locale]` ga tushardi va bosh sahifani **200**
+  bilan qaytarardi (cheksiz dublikat). Endi `[locale]/layout.tsx` da `!isLocale(raw)` →
+  `notFound()` (ildiz `not-found.tsx`, status 404). Tekshirish: `curl -o /dev/null -w '%{http_code}' …/foo.txt` → 404.
+- **IndexNow** (Bing/Yandex; ChatGPT qidiruvi Bing indeksiga tayanadi): kalit OCHIQ fayl
+  `public/<KEY>.txt` (protokol talabi, sir emas), `scripts/indexnow.mjs` (`npm run indexnow`,
+  `--only blog`, aniq URL'lar). `.github/workflows/indexnow.yml` — main'ga push'dan 10 daqiqa
+  keyin (Coolify deploy) va har dushanba sitemap'ni yuboradi. Kalit faylini o'chirmang/o'zgartirmang.
+- **`/llms.txt`** endi: buyurtma qadamlari, FAQ (uz+ru, lug'atdagi `faq.*` — sayt bilan bir xil
+  manba, to'qilgan da'vo yo'q), ruscha bo'lim va RU maqolalar, Telegram/Instagram.
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)

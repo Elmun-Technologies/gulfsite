@@ -24,6 +24,7 @@
     "audit:links": "node scripts/audit-links.mjs",
     "audit:links:quick": "node scripts/audit-links.mjs --quick",
     "lighthouse": "node scripts/lighthouse.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "lighthouse:all": "node scripts/lighthouse.mjs --all",
     "icons": "node scripts/build-icons.mjs"
   },
