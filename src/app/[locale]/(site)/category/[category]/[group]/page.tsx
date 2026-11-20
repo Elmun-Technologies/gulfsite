@@ -5,7 +5,7 @@
 
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
+import { getDictionary, LOCALES, makeT, normalizeLocale, type AppLocale, type DictKey } from '@/i18n';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
 import { CATEGORY_IMAGE, groupImage } from '@/lib/design';
 import { categoryIdsWithData, categoryName, fitTitle, groupName, groupsFor } from '@/lib/category-pages';
@@ -31,6 +31,21 @@ export async function generateStaticParams() {
   );
 }
 
+/**
+ * Title: avval kategoriyaga xos qidiruv shakli ("Ароматизаторы «Хлеб и выпечка» оптом"),
+ * sig'masa — qisqa shakli, keyin umumiy "{group} · {category}", oxiri — guruh nomi.
+ * Admin qo'shgan (lug'atda matni yo'q) kategoriya uchun to'g'ridan-to'g'ri umumiy shakl.
+ */
+function groupMetaTitle(locale: AppLocale, category: string, grp: string, cat: string): string {
+  const t = makeT(locale);
+  const dict = getDictionary(locale) as unknown as Record<string, string>;
+  const generic = fitTitle(t('catseo.groupTitle', { group: grp, category: cat }), grp);
+  const long = `catseo.${category}.groupTitle`;
+  const short = `catseo.${category}.groupTitleShort`;
+  if (!(long in dict) || !(short in dict)) return generic;
+  return fitTitle(t(long as DictKey, { group: grp }), fitTitle(t(short as DictKey, { group: grp }), generic));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await ensureCatalog();
   const { locale: raw, category, group } = await params;
@@ -42,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const count = groupsFor(category, L).find((g) => g.id === group)?.count ?? 0;
   return buildMetadata({
     locale,
-    title: fitTitle(t('catseo.groupTitle', { group: grp, category: cat }), grp),
+    title: groupMetaTitle(locale, category, grp, cat),
     description: t('catseo.groupDescription', { group: grp, category: cat, count }).slice(0, 155),
     path: `/category/${category}/${group}`,
     image: groupImage(group) ?? CATEGORY_IMAGE[category],
