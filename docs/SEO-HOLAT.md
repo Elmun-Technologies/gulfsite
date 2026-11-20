@@ -28,3 +28,10 @@ yellowpages.uz, top.uz, uzum.uz (chakana) egallagan. Raqobatchi kartochkalari yu
 
 **Ochiq:** Coolify deploy · fly.io invoys yoki fly workflow'ni o'chirish · katalog
 saytlarida (prom.uz, goldenpages, yellowpages, 2GIS, Yandex Business, GBP) GFF kartochkasi.
+
+**Qo'shimcha (egasi so'rovi bilan, shu kun):** 3 ta yangi maqola (uz + ru, FAQPage bilan):
+`ichimliklar-uchun-aromatizator`, `efir-moylari-ishlab-chiqarish-uchun`, `yuvish-vositalari-uchun-otdushka` —
+"kimlar uchun" bo'limi, katalogdagi haqiqiy pozitsiyalar, kategoriya/soha sahifalariga ichki havolalar.
+Katalog/xaritalarga joylash uchun tayyor matnlar: `docs/CITATIONS.md` (egasi ro'yxatdan o'tadi).
+Mahsulot bo'yicha alohida maqola YOZILMAYDI (617 ta shablon maqola = yupqa/dublikat kontent);
+mahsulot kartochkasida "Применение" (kimlar uchun) bo'limi allaqachon bor.

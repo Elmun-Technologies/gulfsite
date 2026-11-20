@@ -17,6 +17,7 @@
 
 import type { Locale } from './taxonomy';
 import { ARTICLES_2026_11 } from './blog-articles-2026-11';
+import { ARTICLES_2026_11_B } from './blog-articles-2026-11-b';
 
 export const BLOG_LOCALES = ['uz', 'ru'] as const;
 export type BlogLocale = (typeof BLOG_LOCALES)[number];
@@ -393,6 +394,7 @@ const ARTICLES: BlogArticle[] = [
 
   /* 2026-noyabr — alohida fayl (blog-articles-2026-11.ts) */
   ...ARTICLES_2026_11,
+  ...ARTICLES_2026_11_B,
 ];
 
 export function blogArticles(locale: string): BlogArticle[] {
