@@ -9,8 +9,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
-import { articleLd, buildMetadata, breadcrumbLd, clipText } from '@/lib/seo';
-import { BLOG_LOCALES, allBlogSlugs, blogText, getArticle, hasBlog } from '@/lib/blog';
+import { articleLd, buildMetadata, breadcrumbLd, clipText, faqLd } from '@/lib/seo';
+import { BLOG_LOCALES, allBlogSlugs, blogFaq, blogText, getArticle, hasBlog } from '@/lib/blog';
 import type { Locale } from '@/lib/taxonomy';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/PageHead';
@@ -52,6 +52,7 @@ export default async function BlogArticlePage({ params }: Props) {
   if (!article) notFound();
   const t = makeT(locale);
   const x = blogText(article, locale as Locale);
+  const faq = blogFaq(x);
 
   const date = new Intl.DateTimeFormat(locale === 'ru' ? 'ru-RU' : 'uz-Latn-UZ', {
     year: 'numeric',
@@ -80,6 +81,7 @@ export default async function BlogArticlePage({ params }: Props) {
             description: x.description,
             published: article.published,
           }),
+          ...(faq.length ? [faqLd(faq)] : []),
         ]}
       />
 
@@ -103,6 +105,17 @@ export default async function BlogArticlePage({ params }: Props) {
                 <p key={i} className="max-w-[720px] text-body-l leading-relaxed">
                   {b.p}
                 </p>
+              );
+            if ('faq' in b)
+              return (
+                <div key={i} className="flex max-w-[720px] flex-col">
+                  {b.faq.map((f, fi) => (
+                    <div key={fi} className="border-t border-line py-5 first:border-t-0 first:pt-2">
+                      <h3 className="m-0 text-[clamp(18px,1.6vw,22px)] font-medium leading-snug text-ink">{f.q}</h3>
+                      <p className="mb-0 mt-2 text-body-l leading-relaxed">{f.a}</p>
+                    </div>
+                  ))}
+                </div>
               );
             return (
               <ul key={i} className="my-4 flex max-w-[720px] list-none flex-col gap-2 p-0">
