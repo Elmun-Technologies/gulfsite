@@ -16,11 +16,18 @@
  */
 
 import type { Locale } from './taxonomy';
+import { ARTICLES_2026_11 } from './blog-articles-2026-11';
 
 export const BLOG_LOCALES = ['uz', 'ru'] as const;
 export type BlogLocale = (typeof BLOG_LOCALES)[number];
 
-export type BlogBlock = { h2: string } | { p: string } | { ul: string[] };
+export interface BlogFaqItem {
+  q: string;
+  a: string;
+}
+
+/** `faq` — savol-javob bloki (sahifada FAQPage JSON-LD ham beriladi) */
+export type BlogBlock = { h2: string } | { p: string } | { ul: string[] } | { faq: BlogFaqItem[] };
 
 export interface BlogLink {
   /** `/uz`-siz yo'l: `/industries/bakery`, `/category/flavours` … */
@@ -383,6 +390,9 @@ const ARTICLES: BlogArticle[] = [
       },
     },
   },
+
+  /* 2026-noyabr — alohida fayl (blog-articles-2026-11.ts) */
+  ...ARTICLES_2026_11,
 ];
 
 export function blogArticles(locale: string): BlogArticle[] {
@@ -395,6 +405,11 @@ export function getArticle(slug: string, locale: string): BlogArticle | undefine
 
 export function allBlogSlugs(): string[] {
   return ARTICLES.map((a) => a.slug);
+}
+
+/** Maqoladagi barcha FAQ savol-javoblari (FAQPage JSON-LD uchun) */
+export function blogFaq(text: BlogText): BlogFaqItem[] {
+  return text.blocks.flatMap((b) => ('faq' in b ? b.faq : []));
 }
 
 export function blogText(article: BlogArticle, locale: Locale): BlogText {
