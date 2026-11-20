@@ -3,9 +3,9 @@
 # Kerak: repo secret FLY_API_TOKEN (`fly tokens create deploy`).
 name: Fly deploy
 
+# 2026-11-20: sayt Hetzner/Coolify'ga ko'chgan — fly endi ishlatilmaydi va har push'da
+# xato berardi. Faqat qo'lda ishga tushiriladi.
 on:
-  push:
-    branches: [main, claude/intelligent-edison-g3j9ie]
   workflow_dispatch:
 
 concurrency:
