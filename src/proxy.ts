@@ -241,7 +241,7 @@ export const config = {
      *  - _next statik va build artefaktlari
      *  - fayl kengaytmalari (rasm, shrift, hujjat)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|pdf|txt|xml|json|woff2?|css|js|map)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|pdf|txt|html|xml|json|woff2?|css|js|map)$).*)',
   ],
 };
 
