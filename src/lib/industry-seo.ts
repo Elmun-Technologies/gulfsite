@@ -13,7 +13,7 @@
 import type { Trilingual } from './taxonomy';
 
 /** Otdushka (fragrance) sohalari — tavsif shabloni boshqacha */
-export const FRAGRANCE_INDUSTRIES = new Set(['personal-care', 'home-care', 'fabric-care', 'fragrance-base']);
+export const FRAGRANCE_INDUSTRIES = new Set(['personal-care', 'home-care', 'fabric-care']);
 
 export const INDUSTRY_SEO_TITLE: Record<string, Trilingual> = {
   bakery: { uz: 'Pishiriqlar uchun aromatizatorlar ulgurji', ru: 'Ароматизаторы для выпечки оптом', en: 'Bakery flavours wholesale' },
@@ -34,5 +34,5 @@ export const INDUSTRY_SEO_TITLE: Record<string, Trilingual> = {
   pharma: { uz: 'Farmatsevtika uchun aromatizatorlar', ru: 'Ароматизаторы для фармацевтики', en: 'Pharmaceutical flavours' },
   'pet-food': { uz: 'Hayvon ozuqasi uchun aromatizatorlar', ru: 'Ароматизаторы для кормов животных', en: 'Pet food flavours' },
   'flavour-base': { uz: 'Aromatizator ishlab chiqarishga xomashyo', ru: 'Сырьё для производства ароматизаторов', en: 'Raw materials for flavour manufacturing' },
-  'fragrance-base': { uz: 'Atir ishlab chiqarish uchun xomashyo', ru: 'Сырьё и отдушки для производства духов', en: 'Raw materials for perfume manufacturing' },
+  'fragrance-base': { uz: 'Atir ishlab chiqarish uchun xomashyo', ru: 'Сырьё для производства духов и парфюмерии', en: 'Raw materials for perfume manufacturing' },
 };
