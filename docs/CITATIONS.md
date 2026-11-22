@@ -46,7 +46,8 @@ bir xil bo'lishi qidiruv tizimlari va AI uchun muhim. Faqat saytdagi haqiqiy ma'
 | 6 | **yellowpages.uz** | Kompaniya qo'shish | "Пищевые ароматизаторы" |
 | 7 | **Bing Places** (bingplaces.com) | Google profilidan import | — (ChatGPT qidiruvi Bing indeksiga tayanadi) |
 | 8 | **top.uz** | Kompaniya kartochkasi | "Ароматизаторы, вкусовые добавки" |
-| 9 | **gulfflavours.ae / gff.co.ae** (ota kompaniya) | "Distributors / Uzbekistan" sahifasida gulfflavours.uz ga havola so'rash | — |
+| 9 | **glotr.uz** (B2B marketplace) | Sotuvchi sifatida ro'yxatdan o'tish → "витрина" → 20–30 asosiy pozitsiya (vanilin, efir moylari, aromatizatorlar), har biri saytdagi kartochkaga havola bilan | "Ароматизаторы", "Эфирные масла", "Сырьё" (2026-11-22: "vanilin", "эфирные масла" so'rovlarida chiqyapti) |
+| 10 | **gulfflavours.ae / gff.co.ae** (ota kompaniya) | "Distributors / Uzbekistan" sahifasida gulfflavours.uz ga havola so'rash | — |
 
 **Raqobatchilar ustidan ustunlik:** prom.uz va goldenpages'dagi raqobatchi kartochkalari yupqa (mahsulot ro'yxati yo'q
 yoki "нет в наличии"). Kartochkada albatta yozing: *bepul namuna qutisi*, *617 pozitsiya*, *dozirovka va shakl*,
@@ -70,4 +71,5 @@ yoki "нет в наличии"). Kartochkada albatta yozing: *bepul namuna quti
 | yellowpages.uz | ⬜ | |
 | Bing Places | ⬜ | |
 | top.uz | ⬜ | |
+| glotr.uz | ⬜ | |
 | Ota kompaniya havolasi | ⬜ | |
