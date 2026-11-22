@@ -3,6 +3,26 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-22
+
+**Raqamlar (jonli):** sitemap **2165** URL (+10: #16 va #18 maqolalari jonli) · 60 ta tasodifiy URL:
+0 muammo (200, canonical o'ziga, localhost/noindex yo'q, h1 = 1, title ≤ 60, hreflang) ·
+`/` → `/uz` 307 · www → non-www 301 · http → https 301 · robots/sitemap/llms.txt 200 ·
+`/uz/catalog/yoq-mahsulot` va `/foo.txt` → **404** · IndexNow kalit fayli 200 text/plain · TTFB `/uz` ≈ 0.65 s.
+**Deploy muammosi hal bo'ldi** (11-20 dagi #15–#21 jonli), IndexNow workflow yashil.
+
+**Qilingan:** mahsulot sahifalari (617 × 3 til) title/description tijoriy so'rovga moslandi —
+"Ванилин кристаллический оптом в Ташкенте", "Vanilin (kristall) — Toshkentda ulgurji",
+"… wholesale in Tashkent" (sig'masa "<nom> оптом", keyin kategoriya). Meta description endi
+sahifadagi mavjudlik belgisi bilan bir xil: avval 56 ta "Под заказ"/"Новое поступление" mahsulot
+snippet'ida ham "На складе в Ташкенте" yozilardi (noto'g'ri da'vo).
+
+**Raqobat/AI:** 7 so'rovda gulfflavours.uz hali chiqmadi; SERP — prom.uz, goldenpages.uz,
+yellowpages.uz, top.uz, glotr.uz (yangi: B2B marketplace, "vanilin", "эфирные масла" so'rovlarida).
+
+**Ochiq:** katalog saytlarida GFF kartochkasi (`docs/CITATIONS.md`; glotr.uz ham qo'shildi) ·
+fly.io invoys.
+
 ## 2026-11-20
 
 **Raqamlar (jonli):** sitemap 2155 URL (baseline bilan bir xil) · 60 ta tasodifiy URL: 200,

@@ -93,13 +93,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const formLabel = tr(FORMS.find((f) => f.id === product.form)?.name, locale as Locale, product.form);
   // Admin kiritgan tavsif ustuvor; aks holda har mahsulotga xos (shakl + doza)
   // qisqa meta — 3 ta umumiy shablon 617 mahsulotda takrorlanib, dublikat
-  // ko'rinishini oldini oladi.
+  // ko'rinishini oldini oladi. Mavjudlik sahifadagi belgi bilan BIR XIL
+  // (avval "Под заказ" mahsulotlarda ham snippet "На складе" derdi).
+  const form = formLabel.charAt(0).toLocaleLowerCase(locale) + formLabel.slice(1);
   const description = clipText(
     product.description?.[locale as Locale] ||
       t('seo.product.description', {
         name,
-        form: formLabel,
+        form,
         dose: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
+        stock: availabilityLabel(product.availability, t),
       }),
     150,
   );
@@ -108,8 +111,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     locale,
     // Layout shabloni " — GFF …" (≈17) qo'shadi: jami ≤ 60. "…" siz sig'adigan
     // eng to'liq variant tanlanadi (avval "Oziq-ovqat…" kabi kesilgan edi).
+    // Tijoriy so'rov ("<nom> оптом Ташкент") birinchi; sig'masa — kategoriya.
     title: fitTitle(
       [
+        t('seo.product.title', { name }),
+        t('seo.product.titleShort', { name }),
         `${name} — ${category}`,
         groupLabel ? `${name} — ${groupLabel}` : '',
         `${name} — ${product.sku}`,
