@@ -449,6 +449,24 @@ ichida ref yozish → "Cannot access refs during render" (u yerda faqat
 - **`/llms.txt`** endi: buyurtma qadamlari, FAQ (uz+ru, lug'atdagi `faq.*` — sayt bilan bir xil
   manba, to'qilgan da'vo yo'q), ruscha bo'lim va RU maqolalar, Telegram/Instagram.
 
+### 4.17 Coolify hodisasi: osilgan deploy → aralash versiyalar va 5xx (2026-11-22)
+
+- **Belgilar:** bir URL goh 200, goh 308/404 (har so'rovda boshqa konteyner javob beradi),
+  keyin 503 "Site not available", Coolify paneli (`:8000`) ochilmaydi, Googlebot 5xx oladi.
+- **Sabab:** 20-noyabrdagi deploylar (#19, #21) bekor qilinganda yangi konteynerlar ishlab
+  qolgan, eski konteyner esa o'chirilmagan; server CPU'si 2 kun 400% (4/4 yadro) da qolgan.
+  Reboot + toza **Redeploy** (oxirgi `main`) hal qildi; CPU ~50–100% ga tushdi.
+- **Auto-deploy YO'Q** (deploy key bilan ulangan, GitHub webhook sozlanmagan): `main`'ga
+  merge qilingach Coolify'da qo'lda **Redeploy** kerak. Webhook — Coolify → Webhooks → GitHub
+  secret + repo Settings → Webhooks (secret'ni egasi kiritadi).
+- **Deploy'dan keyin tekshiruv** (bitta versiya ishlashi):
+  ```bash
+  for i in $(seq 10); do curl -s -o /dev/null -w '%{http_code} ' https://gulfflavours.uz/google0d999169f3dd0459.html; done  # hammasi 200
+  ```
+  Aralash javob bo'lsa — deploy'ni bekor qilmang; tugashini kuting yoki Stop → Deploy.
+- **Search Console:** asosiy property endi `https://gulfflavours.uz/` (HTML fayl bilan tasdiqlangan,
+  sitemap yuborilgan). `www` property — tarixiy ma'lumot uchun (www → non-www 301).
+
 ---
 
 ## 5. Dizayn tizimi (qisqa xulosa — to'liq ro'yxat `/styleguide` da)
