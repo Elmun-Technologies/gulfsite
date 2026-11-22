@@ -1293,6 +1293,7 @@ export const uz = {
   'seo.industries.description': 'Har bir soha uchun tavsiya etilgan mahsulotlar, dozirovka va tayyor namuna to‘plamlari.',
   'seo.industry.title': '{name}: aromatizatorlar',
   'seo.industry.description': '{name}: {count} tavsiya etilgan pozitsiya, dozirovka, issiqqa chidamli formalar va bepul namuna to‘plami.',
+  'seo.industry.descriptionFragrance': '{name}: {count} ta tavsiya etilgan otdushka va dozirovkalar. Toshkentdagi ombor, bepul namuna to‘plami.',
   'seo.about.title': 'GFF rasmiy distribyutori O‘zbekistonda',
   'seo.about.description': 'GFF Uzbekistan — Gulf Flavours & Fragrances FZCO (Dubay) ning rasmiy va yagona distribyutori. 2002-yildan beri, Toshkentdagi ombor.',
   'seo.search.title': 'Qidiruv — {q}',

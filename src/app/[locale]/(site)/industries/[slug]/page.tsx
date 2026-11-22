@@ -25,6 +25,7 @@ import { siteConfig } from '@/lib/config';
 import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
 import { applicationCounts, applicationProducts, queryCatalog } from '@/lib/catalog';
 import { DUBAI_BESTSELLERS } from '@/lib/dubai-bestsellers';
+import { FRAGRANCE_INDUSTRIES, INDUSTRY_SEO_TITLE } from '@/lib/industry-seo';
 import {
   APPLICATIONS,
   FEATURES,
@@ -91,8 +92,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return buildMetadata({
     locale,
-    title: industryTitle(name, t('seo.industry.title', { name })),
-    description: t('seo.industry.description', { name, count }),
+    title: INDUSTRY_SEO_TITLE[slug]
+      ? tr(INDUSTRY_SEO_TITLE[slug], locale as Locale)
+      : industryTitle(name, t('seo.industry.title', { name })),
+    description: FRAGRANCE_INDUSTRIES.has(slug)
+      ? t('seo.industry.descriptionFragrance', { name, count })
+      : t('seo.industry.description', { name, count }),
     path: `/industries/${slug}`,
     image: publicAssetExists(APPLICATION_IMAGE[slug] ?? '') ? APPLICATION_IMAGE[slug] : FALLBACK_IMAGE,
   });

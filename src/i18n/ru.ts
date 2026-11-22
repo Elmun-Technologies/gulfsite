@@ -1256,6 +1256,7 @@ export const ru: Dict = {
   'seo.industries.description': 'Рекомендуемые продукты, дозировки и готовые наборы образцов для каждой отрасли.',
   'seo.industry.title': '{name}: ароматизаторы',
   'seo.industry.description': '{name}: {count} рекомендованных позиций, дозировки, термостабильные формы и бесплатный набор образцов.',
+  'seo.industry.descriptionFragrance': '{name}: {count} рекомендованных отдушек с дозировками. Склад в Ташкенте, бесплатный набор образцов.',
   'seo.about.title': 'Официальный дистрибьютор GFF в Узбекистане',
   'seo.about.description': 'GFF Uzbekistan — официальный и эксклюзивный дистрибьютор Gulf Flavours & Fragrances FZCO (Дубай). С 2002 года, склад в Ташкенте.',
   'seo.search.title': 'Поиск — {q}',

@@ -1255,6 +1255,7 @@ export const en: Dict = {
   'seo.industries.description': 'Recommended products, dosages and ready-made sample sets for every industry.',
   'seo.industry.title': '{name} — flavours',
   'seo.industry.description': '{name}: {count} recommended items, dosages, heat-stable forms and a free sample set.',
+  'seo.industry.descriptionFragrance': '{name}: {count} recommended fragrances with dosages. Tashkent warehouse, free sample set.',
   'seo.about.title': 'Official GFF distributor in Uzbekistan',
   'seo.about.description': 'GFF Uzbekistan is the official and exclusive distributor of Gulf Flavours & Fragrances FZCO (Dubai). Since 2002, warehouse in Tashkent.',
   'seo.search.title': 'Search — {q}',
