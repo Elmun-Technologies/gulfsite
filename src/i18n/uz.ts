@@ -1053,7 +1053,7 @@ export const uz = {
   'catseo.flavours.title': 'Oziq-ovqat aromatizatorlari, Toshkent',
   'catseo.flavours.description': 'Suyuq, kukun va emulsiya aromatizatorlar: qandolat, non, sut, ichimliklar uchun. Toshkentdagi ombor, bepul namunalar, hujjatlar.',
   'catseo.flavours.intro': 'GFF oziq-ovqat aromatizatorlari (xushbo‘ylantirgichlar) — Dubaydagi zavodda Yevropa xomashyosidan tayyorlangan suyuq, kukun va emulsiya shaklidagi konsentratlar. Ular qandolat va non mahsulotlari, sut mahsulotlari, muzqaymoq, ichimliklar va gastronomiya uchun mos: issiqlikka chidamli, tabiiy ta’mni kuchaytiradi va oz dozada ishlaydi. Har bir pozitsiyani bepul namuna sifatida sinab ko‘rish mumkin.',
-  'catseo.fragrances.title': 'Otdushkalar va atir kompozitsiyalari',
+  'catseo.fragrances.title': 'Otdushka va atir kompozitsiyalari ulgurji',
   'catseo.fragrances.description': 'Kosmetika, parfyumeriya, maishiy kimyo va kir yuvish vositalari uchun atir kompozitsiyalari. Toshkentdagi ombor, bepul namunalar.',
   'catseo.fragrances.intro': 'GFF atir kompozitsiyalari (otdushkalar) — parfyumeriya, shaxsiy parvarish vositalari, maishiy kimyo, idish yuvish va kir yuvish vositalari uchun yaratilgan. Yorqin va barqaror hidlar mahsulotingizga o‘ziga xoslik beradi va xaridor tanlovida hal qiluvchi rol o‘ynaydi. Kompozitsiyalarni bepul namuna sifatida sinab ko‘ring.',
   'catseo.food-ingredients.title': 'Oziq-ovqat qo‘shimchalari ulgurji, Toshkent',
