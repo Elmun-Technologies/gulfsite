@@ -48,6 +48,7 @@ import { Breadcrumbs } from '@/components/ui/PageHead';
 import { Section, SectionHeader } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { MonogramStatic, Reveal } from '@/components/motion';
+import { toTableRows } from '@/lib/table-rows';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
 import { IndustrySetButton } from '@/components/industry/IndustrySetButton';
 import { RelatedArticles } from '@/components/blog/RelatedArticles';
@@ -293,7 +294,7 @@ export default async function IndustryPage({ params }: Props) {
           <SectionHeader title={t('industry.productsTitle')} num="02" rules="none" className="pb-8" />
 
           <IndustryProductsTable
-            cards={cards}
+            cards={toTableRows(cards)}
             locale={L}
             productHrefBase={`/${locale}/catalog`}
             formLabels={formLabels}

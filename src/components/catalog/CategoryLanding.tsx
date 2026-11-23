@@ -20,6 +20,7 @@ import { Breadcrumbs } from '@/components/ui/PageHead';
 import { Section } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
+import { toTableRows } from '@/lib/table-rows';
 import { RelatedArticles } from '@/components/blog/RelatedArticles';
 
 export function CategoryLanding({
@@ -127,7 +128,7 @@ export function CategoryLanding({
           {t('catseo.products')} <span className="text-muted">· {result.total}</span>
         </h2>
         <IndustryProductsTable
-          cards={result.cards}
+          cards={toTableRows(result.cards)}
           locale={L}
           productHrefBase={`/${locale}/catalog`}
           formLabels={formLabels}
