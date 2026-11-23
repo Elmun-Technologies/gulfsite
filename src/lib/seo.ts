@@ -8,6 +8,7 @@ import { siteConfig, SITE_URL } from './config';
 import type { CatalogProduct } from './types';
 import { tr, CATEGORIES, ALL_GROUPS, APPLICATIONS, type Trilingual } from './taxonomy';
 import { productDescription } from './catalog-copy';
+import { productFacts } from './product-facts';
 
 const SITE = siteConfig;
 
@@ -237,7 +238,9 @@ export function breadcrumbLd(items: { name: string; path: string }[], locale: Ap
 export function productLd(product: CatalogProduct, locale: AppLocale, categoryName?: string) {
   const cat = CATEGORIES.find((c) => c.id === product.category);
   const group = ALL_GROUPS.find((g) => g.id === product.group);
-  const description = productDescription(product.category, tr(product.name, locale), product.applications, product.copyVariant, locale);
+  const description =
+    productFacts(product.slug, locale) ||
+    productDescription(product.category, tr(product.name, locale), product.applications, product.copyVariant, locale);
 
   return {
     '@context': 'https://schema.org',
