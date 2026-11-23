@@ -49,6 +49,7 @@ import { ProductGallery, type GallerySlide } from '@/components/product/ProductG
 import { ProductInfoPanel } from '@/components/product/ProductInfoPanel';
 import { ProductStickyBar } from '@/components/product/ProductStickyBar';
 import { ensureCatalog } from '@/lib/catalog-live';
+import { productFacts } from '@/lib/product-facts';
 
 const MAX_RELATED = 4;
 
@@ -146,7 +147,9 @@ export default async function ProductPage({ params }: Props) {
   const form = FORMS.find((f) => f.id === product.form);
   const catLabel = category ? tr(category.name, L) : t('nav.catalog');
   const description =
-    product.description?.[L] || productDescription(product.category, name, product.applications, product.copyVariant, L);
+    product.description?.[L] ||
+    productFacts(product.slug, L) ||
+    productDescription(product.category, name, product.applications, product.copyVariant, L);
 
   const apps = product.applications
     .map((id) => {
