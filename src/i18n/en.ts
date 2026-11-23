@@ -1048,7 +1048,7 @@ export const en: Dict = {
   'catseo.groupDescription': '{group} ({category}): {count} items from the Tashkent warehouse — dosages, forms, free samples and documents.',
   'catseo.groupIntro': 'The “{group}” group in “{category}”: {count} items. Each lists dosage, form and applications — request up to {max} samples free.',
   'catseo.positions': '{count} items',
-  'catseo.faqCountQ': 'Which items are listed in the “{category}” category?',
+  'catseo.faqCountQ': 'How many items are in the “{category}” category?',
   'catseo.faqCountA': 'The catalogue lists {count} items in “{category}”. Largest groups: {groups}. Each item page shows dosage, form and applications; up to {max} samples can be added to the box.',
   'catseo.faqGroupA': 'The catalogue lists {count} items for “{category}”. Each item page shows dosage, form and applications; up to {max} samples can be added to the box.',
   'catseo.groups': 'Groups',
