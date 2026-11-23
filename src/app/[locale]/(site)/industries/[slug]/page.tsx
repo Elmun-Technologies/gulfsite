@@ -50,6 +50,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { MonogramStatic, Reveal } from '@/components/motion';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
 import { IndustrySetButton } from '@/components/industry/IndustrySetButton';
+import { RelatedArticles } from '@/components/blog/RelatedArticles';
 import { ensureCatalog } from '@/lib/catalog-live';
 
 const TABLE_LIMIT = 10;
@@ -387,6 +388,9 @@ export default async function IndustryPage({ params }: Props) {
           </Reveal>
         </Section>
       ) : null}
+
+      {/* ============ MAQOLALAR (blogga teskari havola) ============ */}
+      <RelatedArticles locale={locale} t={t} path={`/industries/${slug}`} />
 
       {/* ============ BOSHQA SOHALAR ============ */}
       <Section className="pb-6">

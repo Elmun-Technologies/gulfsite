@@ -20,6 +20,7 @@ import { Breadcrumbs } from '@/components/ui/PageHead';
 import { Section } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
+import { RelatedArticles } from '@/components/blog/RelatedArticles';
 
 export function CategoryLanding({
   locale,
@@ -146,6 +147,14 @@ export function CategoryLanding({
           }}
         />
       </Section>
+
+      {/* ============ MAQOLALAR (blogga teskari havola) ============ */}
+      <RelatedArticles
+        locale={locale}
+        t={t}
+        path={group ? `/category/${category}/${group}` : `/category/${category}`}
+        prefix={!group}
+      />
 
       {/* ============ CTA ============ */}
       <Section>
