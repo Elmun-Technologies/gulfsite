@@ -19,6 +19,7 @@ import type { Locale } from './taxonomy';
 import { ARTICLES_2026_11 } from './blog-articles-2026-11';
 import { ARTICLES_2026_11_B } from './blog-articles-2026-11-b';
 import { ARTICLES_2026_11_C } from './blog-articles-2026-11-c';
+import { ARTICLES_2026_11_D } from './blog-articles-2026-11-d';
 
 export const BLOG_LOCALES = ['uz', 'ru'] as const;
 export type BlogLocale = (typeof BLOG_LOCALES)[number];
@@ -397,6 +398,7 @@ const ARTICLES: BlogArticle[] = [
   ...ARTICLES_2026_11,
   ...ARTICLES_2026_11_B,
   ...ARTICLES_2026_11_C,
+  ...ARTICLES_2026_11_D,
 ];
 
 export function blogArticles(locale: string): BlogArticle[] {
