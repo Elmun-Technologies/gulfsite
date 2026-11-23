@@ -89,7 +89,8 @@ kategoriya/guruh sahifalarida FAQ + FAQPage JSON-LD (`categoryFaq`) · GSC so'ro
 mahsulot faktlari kengaytirildi (`product-facts.ts`: citral, E1442, E171, quruq sut, zardob —
 faqat CAS/E-raqam/vazifa, tijoriy da'vo yo'q; RU "сыворотка в порошке") · maqolalar:
 `quruq-sut-yogli-va-yogsiz-farqi`, `qandolat-uchun-aromatizator-tanlash` (katalogdagi 178 ta
-qandolat aromatizatori, dozalash 0,05–0,3% — ma'lumotdan).
+qandolat aromatizatori, dozalash 0,05–0,3% — ma'lumotdan), `snack-va-chips-uchun-aromatizator` (59 ta),
+`sous-va-mayonez-uchun-aromatizator` (73 ta).
 
 **Ochiq (egasi):** katalog saytlarida kartochkalar (`docs/CITATIONS.md`) · GitHub'da Vercel
 ilovasini o'chirish (har PR'da befoyda qizil "Vercel" status) · MOQ va hujjat PDF'lari
