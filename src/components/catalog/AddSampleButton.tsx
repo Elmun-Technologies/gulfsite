@@ -10,7 +10,7 @@
  * · analytics: `sample_add` / `sample_remove` (§12)
  */
 
-import { useCallback, useState } from 'react';
+import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Check, Plus } from 'lucide-react';
 import type { ProductCard } from '@/lib/types';
@@ -35,23 +35,36 @@ export interface AddSampleLabels {
   fullTpl: string;
 }
 
+/**
+ * Jadval qatorlarida matnlar har tugmaga alohida prop sifatida uzatilsa, RSC
+ * payload 400 marta kengayadi — shuning uchun bitta kontekst orqali beriladi.
+ */
+const AddSampleLabelsContext = createContext<AddSampleLabels | null>(null);
+
+export function AddSampleLabelsProvider({ labels, children }: { labels: AddSampleLabels; children: ReactNode }) {
+  return <AddSampleLabelsContext.Provider value={labels}>{children}</AddSampleLabelsContext.Provider>;
+}
+
 export function AddSampleButton({
   product,
   locale,
-  labels,
+  labels: labelsProp,
   source,
   variant = 'row',
   className,
 }: {
   product: Pick<ProductCard, 'sku' | 'slug' | 'name' | 'form'>;
   locale: Locale;
-  labels: AddSampleLabels;
+  labels?: AddSampleLabels;
   /** analytics `source`: catalog | product | industry | search */
   source: string;
   /** `row` — jadval/kartochka (kichik), `cta` — mahsulot sahifasi (xl) */
   variant?: 'row' | 'cta';
   className?: string;
 }) {
+  const ctxLabels = useContext(AddSampleLabelsContext);
+  const labels = labelsProp ?? ctxLabels;
+  if (!labels) throw new Error('AddSampleButton: labels prop yoki AddSampleLabelsProvider kerak');
   const box = useSampleBox();
   const toast = useToast();
   const [busy, setBusy] = useState(false);
