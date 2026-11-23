@@ -71,7 +71,7 @@ export const ARTICLES_2026_11_C: BlogArticle[] = [
             ],
           },
           {
-            p: 'Efir moylari (sarimsoq, qora murch, koriandr urug‘i va boshqalar) juda konsentrlangan. Ularni oldindan moy, tuz yoki ziravor aralashmasiga qo‘shib kiriting — aks holda mahsulotda ta’mi juda kuchli alohida joylar paydo bo‘lishi mumkin.',
+            p: 'Go‘sht mahsulotlariga faqat oziq-ovqatda ishlatishga ruxsat etilgan va hujjatlari bor efir moylarini tanlang: atir va kosmetika uchun mo‘ljallangan moylar ovqatga qo‘shilmaydi — qo‘llanish sohasini kartochka va spetsifikatsiyadan tekshiring. Efir moylari (sarimsoq, qora murch, koriandr urug‘i va boshqalar) juda konsentrlangan. Ularni oldindan moy, tuz yoki ziravor aralashmasiga qo‘shib kiriting — aks holda mahsulotda ta’mi juda kuchli alohida joylar paydo bo‘lishi mumkin.',
           },
           {
             p: 'Tuzli ta’mni chuqurlashtirish uchun aromatizator bilan birga ta’m asoslari — achitqi ekstrakti va gidrolizlangan o‘simlik oqsili ishlatiladi. Ular katalogning oziq-ovqat ingrediyentlari bo‘limida alohida pozitsiya sifatida bor.',
@@ -208,7 +208,7 @@ export const ARTICLES_2026_11_C: BlogArticle[] = [
             ],
           },
           {
-            p: 'Эфирные масла (чеснока, чёрного перца, семян кориандра и другие) сильно концентрированы. Вносите их предварительно смешанными с маслом, солью или смесью специй — иначе в продукте могут появиться отдельные участки со слишком резким вкусом.',
+            p: 'Для мясной продукции выбирайте только эфирные масла, допущенные для пищевого применения и имеющие документы: масла для парфюмерии и косметики в пищу не добавляют — проверяйте область применения по карточке и спецификации. Эфирные масла (чеснока, чёрного перца, семян кориандра и другие) сильно концентрированы. Вносите их предварительно смешанными с маслом, солью или смесью специй — иначе в продукте могут появиться отдельные участки со слишком резким вкусом.',
           },
           {
             p: 'Для усиления солёного вкуса вместе с ароматизатором используют вкусовые основы — дрожжевой экстракт и гидролизованный растительный белок. Они есть в разделе пищевых ингредиентов каталога как отдельные позиции.',
