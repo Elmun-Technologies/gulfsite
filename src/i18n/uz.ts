@@ -494,6 +494,7 @@ export const uz = {
   'blog.ctaSamples': 'Bepul namuna olish',
   'blog.ctaQuote': 'Narx so‘rash',
   'blog.all': 'Barcha maqolalar',
+  'blog.onTopic': 'Mavzu bo‘yicha maqolalar',
   'footer.terms': 'Foydalanish shartlari',
   'footer.rights': 'Barcha huquqlar himoyalangan.',
   'footer.disclaimer':

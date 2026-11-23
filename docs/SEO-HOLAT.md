@@ -3,6 +3,27 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-23
+
+**Raqamlar (jonli):** sitemap navbatma-navbat **2169 / 2165** URL — production'da IKKI versiya
+aralash (§4.17 hodisasi takrorlandi): #28/#29 maqolalari (go‘sht, sut mahsulotlari) 200/404 almashib
+javob beradi. Egasiga xabar berildi (Coolify: Stop → Deploy). Qolgani OK: 60 ta tasodifiy URL — 0 muammo ·
+`/` → `/uz` 307 · www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot` va
+`/foo.txt` → 404 · IndexNow kalit fayli 200 · TTFB `/uz` ≈ 0.5–1.0 s · CI va IndexNow yashil.
+
+**Qilingan:** blogga teskari ichki havola — soha (`/industries/<id>`), kategoriya va guruh
+landinglarida "Статьи по теме / Mavzu bo‘yicha maqolalar" bloki (`components/blog/RelatedArticles.tsx`,
+`articlesLinkingTo()`): maqola o‘zi havola bergan sahifadan maqolaga qaytish havolasi (maks. 3, faqat uz/ru).
+Avval 11 ta maqolaga faqat blog ro‘yxati va footer'dan havola bor edi.
+
+**Raqobat/AI:** 8 so‘rovda gulfflavours.uz hali chiqmadi; SERP — prom.uz, goldenpages.uz, yellowpages.uz,
+top.uz, glotr.uz. Kartochkalar yupqa: LTZ (ltz.uz — mahalliy ziravor/aromatizator ishlab chiqaruvchi,
+goldenpages'da mahsulot yo‘q), AROMA-KOLOR (kolbasa ishlab chiqaruvchi bilan aralash kartochka),
+HERCULES/prom.uz (bitta e'lon, tavsif boshqa kompaniyalardan ko‘chirilgan). Hech birida namuna,
+TDS/SDS, MOQ va'dasi yo‘q.
+
+**Ochiq:** Coolify — eski konteynerni o‘chirish · katalog saytlarida GFF kartochkasi (`docs/CITATIONS.md`).
+
 ## 2026-11-22
 
 **Raqamlar (jonli):** sitemap **2165** URL (+10: #16 va #18 maqolalari jonli) · 60 ta tasodifiy URL:

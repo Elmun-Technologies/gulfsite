@@ -411,6 +411,31 @@ export function allBlogSlugs(): string[] {
   return ARTICLES.map((a) => a.slug);
 }
 
+/**
+ * Berilgan sahifaga (soha / kategoriya / guruh) havola beradigan maqolalar —
+ * teskari ichki havola: maqola → sahifa bor, endi sahifa → maqola ham.
+ * `prefix` — `/category/flavours` uchun `/category/flavours/<guruh>` ga
+ * havola beruvchilar ham olinadi. Avval aniq mos, keyin yangilari.
+ */
+export function articlesLinkingTo(
+  path: string,
+  locale: string,
+  { prefix = false, limit = 3 }: { prefix?: boolean; limit?: number } = {},
+): BlogArticle[] {
+  if (!hasBlog(locale)) return [];
+  const score = (a: BlogArticle): number => {
+    const paths = a.text[locale].links.map((l) => l.path);
+    if (paths.includes(path)) return 2;
+    if (prefix && paths.some((x) => x.startsWith(`${path}/`))) return 1;
+    return 0;
+  };
+  return ARTICLES.map((a) => ({ a, s: score(a) }))
+    .filter((x) => x.s > 0)
+    .sort((x, y) => y.s - x.s || y.a.published.localeCompare(x.a.published))
+    .slice(0, limit)
+    .map((x) => x.a);
+}
+
 /** Maqoladagi barcha FAQ savol-javoblari (FAQPage JSON-LD uchun) */
 export function blogFaq(text: BlogText): BlogFaqItem[] {
   return text.blocks.flatMap((b) => ('faq' in b ? b.faq : []));

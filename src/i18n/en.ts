@@ -465,6 +465,7 @@ export const en: Dict = {
   'blog.ctaSamples': 'Get free samples',
   'blog.ctaQuote': 'Request a quote',
   'blog.all': 'All articles',
+  'blog.onTopic': 'Related articles',
   'footer.terms': 'Terms of use',
   'footer.rights': 'All rights reserved.',
   'footer.disclaimer':

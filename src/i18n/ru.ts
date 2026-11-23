@@ -465,6 +465,7 @@ export const ru: Dict = {
   'blog.ctaSamples': 'Получить бесплатные образцы',
   'blog.ctaQuote': 'Запросить цену',
   'blog.all': 'Все статьи',
+  'blog.onTopic': 'Статьи по теме',
   'footer.terms': 'Условия использования',
   'footer.rights': 'Все права защищены.',
   'footer.disclaimer':
