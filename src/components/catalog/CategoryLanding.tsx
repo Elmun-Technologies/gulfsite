@@ -16,12 +16,43 @@ import { FEATURES, FORMS, tr, type Locale } from '@/lib/taxonomy';
 import { categoryName, groupName, groupsFor, topApplications } from '@/lib/category-pages';
 import { industryIds } from '@/lib/industry-copy';
 import { applicationCounts } from '@/lib/catalog';
+import { Faq, type FaqItem } from '@/components/ui/Faq';
 import { Breadcrumbs } from '@/components/ui/PageHead';
 import { Section } from '@/components/ui/SectionHeader';
 import { ButtonLink } from '@/components/ui/Button';
 import { IndustryProductsTable } from '@/components/industry/IndustryProducts';
 import { toTableRows } from '@/lib/table-rows';
 import { RelatedArticles } from '@/components/blog/RelatedArticles';
+
+/**
+ * Kategoriya/guruh FAQ: 1 ta ma'lumotdan hisoblangan savol (pozitsiyalar soni, yirik guruhlar)
+ * + sayt FAQ'idagi tasdiqlangan 2 ta savol (bepul namuna, yetkazish). MOQ/hujjat da'volari
+ * mijoz tasdig'igacha bu yerga KIRITILMAYDI.
+ */
+export function categoryFaq(t: Translator, locale: AppLocale, category: string, group: string | null): FaqItem[] {
+  const L = locale as Locale;
+  const total = queryCatalog({ categories: [category], groups: group ? [group] : [] }, L, 1).total;
+  const top = groupsFor(category, L)
+    .slice(0, 4)
+    .map((g) => `${g.label} (${g.count})`)
+    .join(', ');
+  const label = group ? `${groupName(group, L)} · ${categoryName(category, L)}` : categoryName(category, L);
+  return [
+    {
+      q: t('catseo.faqCountQ', { category: label }),
+      a: group
+        ? t('catseo.faqGroupA', { category: label, count: total, max: siteConfig.business.sampleBoxMaxItems })
+        : t('catseo.faqCountA', {
+            category: label,
+            count: total,
+            groups: top,
+            max: siteConfig.business.sampleBoxMaxItems,
+          }),
+    },
+    { q: t('samples.faq1Q'), a: t('samples.faq1A') },
+    { q: t('samples.faq2Q'), a: t('samples.faq2A', { days: siteConfig.business.sampleDeliveryDays }) },
+  ];
+}
 
 export function CategoryLanding({
   locale,
@@ -146,6 +177,17 @@ export function CategoryLanding({
             remove: t('catalog.removeSample'),
             fullTpl: t.raw('samples.boxFullToast'),
           }}
+        />
+      </Section>
+
+      {/* ============ FAQ ============ */}
+      <Section gap={false} className="pt-16">
+        <Faq
+          title={t('faq.title')}
+          items={categoryFaq(t, locale, category, group)}
+          moreLabel={t('faq.more')}
+          moreHref={`/${locale}/contact`}
+          firstOpen={false}
         />
       </Section>
 
