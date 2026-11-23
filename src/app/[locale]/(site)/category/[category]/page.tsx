@@ -5,12 +5,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
-import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
+import { buildMetadata, breadcrumbLd, collectionPageLd, faqLd } from '@/lib/seo';
 import { CATEGORY_IMAGE } from '@/lib/design';
 import { categoryIdsWithData, categoryName, fitTitle } from '@/lib/category-pages';
 import type { Locale } from '@/lib/taxonomy';
 import { JsonLdGroup } from '@/components/seo/JsonLd';
-import { CategoryLanding, categoryLdItems } from '@/components/catalog/CategoryLanding';
+import { CategoryLanding, categoryFaq, categoryLdItems } from '@/components/catalog/CategoryLanding';
 import { ensureCatalog } from '@/lib/catalog-live';
 
 interface Props {
@@ -73,6 +73,7 @@ export default async function CategoryPage({ params }: Props) {
             `/category/${category}`,
             categoryLdItems(category, null, locale),
           ),
+          faqLd(categoryFaq(t, locale, category, null)),
         ]}
       />
       <CategoryLanding locale={locale} t={t} category={category} group={null} />
