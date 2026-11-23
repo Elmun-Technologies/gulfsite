@@ -3,6 +3,22 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-23 (kechki run)
+
+**Raqamlar (jonli):** sitemap **2173** URL, barqaror (6 so‘rovda bir xil — aralash versiya muammosi yo‘q) ·
+66 ta URL (60 tasodifiy + 6 ta yangi maqola): 0 muammo · `/` → `/uz` 307 · www/http → 301 ·
+robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot` va `/foo.txt` → 404 · IndexNow kalit 200 ·
+TTFB `/uz` ≈ 0.7 s · CI/IndexNow yashil. #39 (snack/sous maqolalari) deploy kutilmoqda.
+
+**Qilingan:** `product-facts.ts` — yana 12 ta xomashyo uchun texnik tavsif (CAS/E-raqam/vazifa):
+vanilin, maltodekstrin, dekstroza, natriy tripolifosfati (E451), limon kislotasi, benzil spirti,
+triatsetin, trietilsitrat, IPM, linalool, kumarin, gedion + `FACT_ALIASES` (bir modda ikki
+kategoriyada: vanillin-crystalline, ethyl-vanillin-2, ethyl-maltol-2, maltodextrin-bulk,
+sodium-tripolyphosphate) — jami 17 sahifa × 3 til shablon matn o‘rniga noyob tavsif oldi.
+
+**Raqobat/AI:** 7 so‘rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, top.uz,
+glotr.uz). Yangi nomlar: VANILIN PLUS MChJ (yellowpages), TC Tashkent Chemicals (glotr vitrina).
+
 ## 2026-11-23
 
 **Raqamlar (jonli):** sitemap navbatma-navbat **2169 / 2165** URL — production'da IKKI versiya
