@@ -76,3 +76,21 @@ saytlarida (prom.uz, goldenpages, yellowpages, 2GIS, Yandex Business, GBP) GFF k
 Katalog/xaritalarga joylash uchun tayyor matnlar: `docs/CITATIONS.md` (egasi ro'yxatdan o'tadi).
 Mahsulot bo'yicha alohida maqola YOZILMAYDI (617 ta shablon maqola = yupqa/dublikat kontent);
 mahsulot kartochkasida "Применение" (kimlar uchun) bo'limi allaqachon bor.
+
+## 2026-11-22 — 2026-11-23
+
+**Deploy:** GitHub webhook → Coolify avtomatik deploy ishlaydi (har main'ga merge ~11–14 daqiqa).
+Deploy paytida bir necha daqiqa 404/502 aralash javoblar bo'lishi mumkin — tugagach barqaror.
+Tekshiruv: `for i in $(seq 10); do curl -s -o /dev/null -w '%{http_code} ' <URL>; done` — hammasi 200.
+
+**Qilingan:** Bing Webmaster (gulfflavours.uz, sitemap yuborilgan) · kategoriya/guruh sahifalari
+yengillashtirildi (jadval uchun `TableRow` + `AddSampleLabelsContext`, payload 1,07 MB → 669 KB) ·
+kategoriya/guruh sahifalarida FAQ + FAQPage JSON-LD (`categoryFaq`) · GSC so'rovlariga qarab
+mahsulot faktlari kengaytirildi (`product-facts.ts`: citral, E1442, E171, quruq sut, zardob —
+faqat CAS/E-raqam/vazifa, tijoriy da'vo yo'q; RU "сыворотка в порошке") · maqolalar:
+`quruq-sut-yogli-va-yogsiz-farqi`, `qandolat-uchun-aromatizator-tanlash` (katalogdagi 178 ta
+qandolat aromatizatori, dozalash 0,05–0,3% — ma'lumotdan).
+
+**Ochiq (egasi):** katalog saytlarida kartochkalar (`docs/CITATIONS.md`) · GitHub'da Vercel
+ilovasini o'chirish (har PR'da befoyda qizil "Vercel" status) · MOQ va hujjat PDF'lari
+tasdiqlanmaguncha FAQ'ga yozilmaydi.
