@@ -3,6 +3,21 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-24 (kechki run)
+
+**Raqamlar (jonli):** sitemap **2181** (o'zgarmagan) · 60 ta tasodifiy URL: 0 muammo · `/` → `/uz` 307 ·
+www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 · IndexNow kalit 200 ·
+TTFB `/uz` ≈ 0.45–0.9 s · CI/IndexNow yashil.
+
+**Qilingan:** `product-facts.ts` — 40 ta efir moyi uchun (butun "Efir moylari" kategoriyasi) texnik tavsif:
+lotincha botanik nom, umumiy olinish usuli, asosiy komponentlar, qo'llanish sohasi (katalogdagi `applications`
+bilan mos). Foydali farqlar: zanjabil/qora murch moyi achchiqlik bermaydi (oleorezinda qoladi), zardachob moyi
+rang bermaydi (kurkumin), rozmarin moyi ≠ antioksidant ekstrakti, RU "кедровое масло" ≠ yong'oq yog'i.
+Tijoriy da'vo, foiz, sertifikat YO'Q.
+
+**Raqobat/AI:** 8 so'rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, glotr, top.uz).
+Brend so'rovi "Gulf Flavours Uzbekistan" ham US indeksda saytni ko'rsatmadi — brend kartochkalari (CITATIONS) muhim.
+
 ## 2026-11-24
 
 **Raqamlar (jonli):** sitemap **2181** URL (+8: #41 maqolalari) · 60 ta tasodifiy URL: 0 muammo

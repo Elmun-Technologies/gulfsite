@@ -350,6 +350,207 @@ export const PRODUCT_FACTS: Record<string, Facts> = {
     ru: 'Полисорбат 80 (CAS 9005-65-6, E433) — эмульгатор, помогающий соединять жир и воду. Применяется в мороженом, соусах, напитках и выпечке.',
     en: 'Polysorbate 80 (CAS 9005-65-6, E433) is an emulsifier that helps combine fat and water. It is used in ice cream, sauces, beverages and bakery.',
   },
+  // ── Efir moylari: botanik nomi, olinish usuli (umumiy), asosiy komponentlari ──
+  'bergamot-essential-oil': {
+    uz: 'Bergamot efir moyi (Citrus bergamia) bergamot mevasining po‘stini sovuq presslash orqali olinadi. Asosiy komponentlari — limonen, linalilatsetat va linalool; hidi yangi sitrus-gulli. Earl Grey choyi ta’mida, ichimliklarda, odekolon va kosmetika otdushkalarida ishlatiladi.',
+    ru: 'Эфирное масло бергамота (Citrus bergamia) получают холодным прессованием кожуры плодов бергамота. Основные компоненты — лимонен, линалилацетат и линалоол; запах свежий цитрусово-цветочный. Используется во вкусе чая Earl Grey, напитках, одеколонах и отдушках для косметики.',
+    en: 'Bergamot essential oil (Citrus bergamia) is obtained by cold-pressing the peel of bergamot fruit. Its main components are limonene, linalyl acetate and linalool, giving a fresh citrus-floral odour. It is used in Earl Grey tea flavour, beverages, colognes and cosmetic fragrances.',
+  },
+  'cinnamon-bark-essential-oil': {
+    uz: 'Dolchin po‘stlog‘i efir moyi (Cinnamomum verum, seylon dolchini) daraxt po‘stlog‘idan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — sinnamaldegid, unga issiq, shirin-achchiq ziravor hidi xos. Pishiriq, qandolat, ichimliklar va og‘iz bo‘shlig‘i gigiyenasi vositalarida qo‘llanadi.',
+    ru: 'Эфирное масло коры корицы (Cinnamomum verum, цейлонская корица) получают перегонкой коры с водяным паром. Основной компонент — коричный альдегид, отсюда тёплый сладко-пряный запах. Применяется в выпечке, кондитерских изделиях, напитках и средствах для полости рта.',
+    en: 'Cinnamon bark essential oil (Cinnamomum verum, Ceylon cinnamon) is obtained by steam distillation of the bark. Its main component is cinnamaldehyde, which gives the warm, sweet-spicy odour. It is used in bakery, confectionery, beverages and oral-care products.',
+  },
+  'clove-essential-oil': {
+    uz: 'Qaranfil efir moyi (Syzygium aromaticum) qaranfil daraxtining gul kurtaklari, barglari yoki poyalaridan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — evgenol; hidi issiq, ziravorli. Stomatologiya va og‘iz gigiyenasi vositalarida, farmatsevtikada, atirchilik va maishiy kimyo otdushkalarida ishlatiladi.',
+    ru: 'Эфирное масло гвоздики (Syzygium aromaticum) получают перегонкой с водяным паром из бутонов, листьев или стеблей гвоздичного дерева. Основной компонент — эвгенол; запах тёплый, пряный. Применяется в стоматологических средствах и средствах для полости рта, фармацевтике, парфюмерии и отдушках для бытовой химии.',
+    en: 'Clove essential oil (Syzygium aromaticum) is steam-distilled from the buds, leaves or stems of the clove tree. Its main component is eugenol, giving a warm, spicy odour. It is used in dental and oral-care products, pharmaceuticals, perfumery and household-product fragrances.',
+  },
+  'sweet-orange-essential-oil': {
+    uz: 'Shirin apelsin efir moyi (Citrus sinensis) apelsin po‘stini sovuq presslash orqali olinadi. Tarkibining asosiy qismi — limonen; hidi shirin, mevali-sitrusli. Ichimliklar, qandolat, sitrus aromatizatorlari, tozalash vositalari va kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло сладкого апельсина (Citrus sinensis) получают холодным прессованием апельсиновой кожуры. Основная часть состава — лимонен; запах сладкий, фруктово-цитрусовый. Применяется в напитках, кондитерских изделиях, цитрусовых ароматизаторах, чистящих средствах и косметике.',
+    en: 'Sweet orange essential oil (Citrus sinensis) is obtained by cold-pressing orange peel. Limonene makes up most of its composition, giving a sweet, fruity citrus odour. It is used in beverages, confectionery, citrus flavours, cleaning products and cosmetics.',
+  },
+  'orange-terpenes': {
+    uz: 'Apelsin terpenlari — apelsin moyini konsentratsiyalash (terpensizlantirish) va sharbat ishlab chiqarishda ajraladigan terpen fraksiyasi; asosan d-limonendan iborat. Tabiiy erituvchi va sitrus hid beruvchi sifatida tozalash, yog‘ ketkazuvchi vositalar va kir yuvish mahsulotlarida ishlatiladi.',
+    ru: 'Терпены апельсина — терпеновая фракция, которая отделяется при концентрировании (детерпенизации) апельсинового масла и производстве сока; состоят в основном из d-лимонена. Используются как натуральный растворитель и цитрусовая отдушка в чистящих и обезжиривающих средствах и средствах для стирки.',
+    en: 'Orange terpenes are the terpene fraction separated when orange oil is concentrated (deterpenated) and during juice production; they consist mainly of d-limonene. They are used as a natural solvent and citrus scent in cleaners, degreasers and laundry products.',
+  },
+  'garlic-essential-oil': {
+    uz: 'Sarimsoq efir moyi (Allium sativum) sarimsoq boshlaridan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida oltingugurtli birikmalar (diallil disulfid, diallil trisulfid) ustun, shu sababli juda kuchli va oz miqdorda qo‘llanadi. Souslar, go‘sht mahsulotlari, tuzli aromatizatorlar va biologik faol qo‘shimchalarda ishlatiladi.',
+    ru: 'Эфирное масло чеснока (Allium sativum) получают перегонкой головок чеснока с водяным паром. В составе преобладают серосодержащие соединения (диаллилдисульфид, диаллилтрисульфид), поэтому масло очень сильное и вводится в малых количествах. Применяется в соусах, мясных продуктах, солёных ароматизаторах и БАД.',
+    en: 'Garlic essential oil (Allium sativum) is obtained by steam distillation of garlic bulbs. It is dominated by sulphur compounds (diallyl disulphide, diallyl trisulphide), so it is very strong and used in small amounts. It is used in sauces, meat products, savoury flavours and dietary supplements.',
+  },
+  'grapefruit-essential-oil': {
+    uz: 'Greyfurt efir moyi (Citrus paradisi) greyfurt po‘stini sovuq presslash orqali olinadi. Asosiy komponenti — limonen; greyfurtga xos achchiqroq notani oz miqdordagi nootkaton beradi. Ichimliklar, sitrus aromatizatorlari, atirchilik va kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло грейпфрута (Citrus paradisi) получают холодным прессованием кожуры грейпфрута. Основной компонент — лимонен; характерную горьковатую грейпфрутовую ноту даёт нооткатон в небольшом количестве. Применяется в напитках, цитрусовых ароматизаторах, парфюмерии и косметике.',
+    en: 'Grapefruit essential oil (Citrus paradisi) is obtained by cold-pressing grapefruit peel. Its main component is limonene, while small amounts of nootkatone give the characteristic slightly bitter grapefruit note. It is used in beverages, citrus flavours, perfumery and cosmetics.',
+  },
+  'lemon-essential-oil': {
+    uz: 'Limon efir moyi (Citrus limon) limon po‘stini sovuq presslash orqali olinadi. Asosiy qismi — limonen, limonga xos notani esa sitral (geranial va neral) beradi. Ichimliklar, qandolat, limon aromatizatorlari, tozalash vositalari va kosmetikada ishlatiladi.',
+    ru: 'Эфирное масло лимона (Citrus limon) получают холодным прессованием лимонной кожуры. Основная часть — лимонен, а характерную лимонную ноту даёт цитраль (гераниаль и нераль). Используется в напитках, кондитерских изделиях, лимонных ароматизаторах, чистящих средствах и косметике.',
+    en: 'Lemon essential oil (Citrus limon) is obtained by cold-pressing lemon peel. Limonene is the main component, while citral (geranial and neral) provides the characteristic lemon note. It is used in beverages, confectionery, lemon flavours, cleaning products and cosmetics.',
+  },
+  'lime-terpenes': {
+    uz: 'Laym terpenlari — laym moyini konsentratsiyalashda ajraladigan terpen fraksiyasi; asosan limonen va boshqa monoterpenlardan iborat. Ichimliklarda sitrus nota berish uchun, shuningdek tozalash vositalarida tabiiy erituvchi va hid beruvchi sifatida qo‘llanadi.',
+    ru: 'Терпены лайма — терпеновая фракция, отделяемая при концентрировании масла лайма; состоят в основном из лимонена и других монотерпенов. Применяются для цитрусовой ноты в напитках, а также как натуральный растворитель и отдушка в чистящих средствах.',
+    en: 'Lime terpenes are the terpene fraction separated when lime oil is concentrated; they consist mainly of limonene and other monoterpenes. They are used to add a citrus note to beverages and as a natural solvent and scent in cleaning products.',
+  },
+  'peppermint-essential-oil': {
+    uz: 'Qalampir yalpiz (pipermint) efir moyi (Mentha × piperita) o‘simlikning yer usti qismidan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — mentol va menton, ular sovituvchi ta’sir beradi. Saqich, konfet, tish pastasi, og‘iz chayish vositalari va farmatsevtikada ishlatiladi.',
+    ru: 'Эфирное масло перечной мяты (Mentha × piperita) получают перегонкой надземной части растения с водяным паром. Основные компоненты — ментол и ментон, которые дают холодящий эффект. Используется в жевательной резинке, конфетах, зубных пастах, ополаскивателях для рта и фармацевтике.',
+    en: 'Peppermint essential oil (Mentha × piperita) is obtained by steam distillation of the aerial parts of the plant. Its main components are menthol and menthone, which give the cooling effect. It is used in chewing gum, sweets, toothpaste, mouthwash and pharmaceuticals.',
+  },
+  'spearmint-essential-oil': {
+    uz: 'Yashil (boshoqli) yalpiz efir moyi (Mentha spicata) o‘simlikdan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — L-karvon; mentoli kam bo‘lgani uchun qalampir yalpizdan yumshoqroq va shirinroq. Saqich, konfet, tish pastasi va ichimliklarda qo‘llanadi.',
+    ru: 'Эфирное масло мяты колосковой (Mentha spicata) получают перегонкой растения с водяным паром. Основной компонент — L-карвон; ментола в нём мало, поэтому вкус мягче и слаще, чем у перечной мяты. Применяется в жевательной резинке, конфетах, зубных пастах и напитках.',
+    en: 'Spearmint essential oil (Mentha spicata) is obtained by steam distillation of the plant. Its main component is L-carvone; it contains little menthol, so it is softer and sweeter than peppermint. It is used in chewing gum, sweets, toothpaste and beverages.',
+  },
+  'aniseed-essential-oil': {
+    uz: 'Anis efir moyi (Pimpinella anisum) anis urug‘idan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — trans-anetol, shirin qizilmiya-anis hidini beradi; salqin haroratda qotib qolishi mumkin (ishlatishdan oldin ozgina isitiladi). Pishiriq, qandolat, likyorlar va yo‘talga qarshi vositalarda ishlatiladi.',
+    ru: 'Эфирное масло аниса (Pimpinella anisum) получают перегонкой семян аниса с водяным паром. Основной компонент — транс-анетол, дающий сладкий анисово-лакричный запах; при прохладной температуре масло может застывать (перед применением слегка подогревают). Используется в выпечке, кондитерских изделиях, ликёрах и средствах от кашля.',
+    en: 'Aniseed essential oil (Pimpinella anisum) is obtained by steam distillation of anise seeds. Its main component is trans-anethole, giving a sweet anise-liquorice odour; the oil may solidify at cool temperatures and is gently warmed before use. It is used in bakery, confectionery, liqueurs and cough remedies.',
+  },
+  'geranium-essential-oil': {
+    uz: 'Geran efir moyi (Pelargonium graveolens) o‘simlik barglari va poyalaridan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — sitronellol va geraniol, hidi atirgulsimon-yashil. Atirchilik, sovun, krem va maishiy kimyo otdushkalarida qo‘llanadi.',
+    ru: 'Эфирное масло герани (Pelargonium graveolens) получают перегонкой листьев и стеблей растения с водяным паром. Основные компоненты — цитронеллол и гераниол; запах розово-зелёный. Применяется в парфюмерии, мыле, кремах и отдушках для бытовой химии.',
+    en: 'Geranium essential oil (Pelargonium graveolens) is obtained by steam distillation of the leaves and stems. Its main components are citronellol and geraniol, giving a rosy-green odour. It is used in perfumery, soap, creams and household-product fragrances.',
+  },
+  'cardamom-essential-oil': {
+    uz: 'Kardamon efir moyi (Elettaria cardamomum) kardamon urug‘idan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — 1,8-sineol va alfa-terpinilatsetat; hidi issiq, ziravorli-kamforali. Qahva va choy ichimliklari, pishiriq, qandolat va farmatsevtikada ishlatiladi.',
+    ru: 'Эфирное масло кардамона (Elettaria cardamomum) получают перегонкой семян кардамона с водяным паром. Основные компоненты — 1,8-цинеол и альфа-терпинилацетат; запах тёплый, пряно-камфорный. Используется в кофейных и чайных напитках, выпечке, кондитерских изделиях и фармацевтике.',
+    en: 'Cardamom essential oil (Elettaria cardamomum) is obtained by steam distillation of cardamom seeds. Its main components are 1,8-cineole and alpha-terpinyl acetate, giving a warm, spicy-camphoraceous odour. It is used in coffee and tea drinks, bakery, confectionery and pharmaceuticals.',
+  },
+  'sandalwood-essential-oil': {
+    uz: 'Sandal efir moyi sandal daraxti (Santalum turkumi, masalan S. album) o‘zak yog‘ochidan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — alfa- va beta-santalol; hidi kremsimon, yumshoq-yog‘ochli va uzoq saqlanadi. Atirchilikda baza notasi va mustahkamlovchi sifatida, kosmetikada ishlatiladi.',
+    ru: 'Эфирное масло сандала получают перегонкой с водяным паром сердцевинной древесины сандалового дерева (род Santalum, например S. album). Основные компоненты — альфа- и бета-санталол; запах сливочный, мягко-древесный и стойкий. В парфюмерии служит базовой нотой и фиксатором, применяется в косметике.',
+    en: 'Sandalwood essential oil is steam-distilled from the heartwood of sandalwood trees (genus Santalum, for example S. album). Its main components are alpha- and beta-santalol, giving a creamy, soft-woody and long-lasting odour. It is used in perfumery as a base note and fixative, and in cosmetics.',
+  },
+  'cedarwood-essential-oil': {
+    uz: 'Kedr efir moyi savdoda odatda archa turidagi (Juniperus) yoki atlas kedri (Cedrus atlantica) yog‘ochidan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida seskviterpenlar (sedrol, sedren) ustun; hidi quruq-yog‘ochli. Atirchilik, sovun va maishiy kimyo otdushkalarida ishlatiladi. Kedr yong‘og‘idan olinadigan oziq-ovqat yog‘i bilan adashtirmang.',
+    ru: 'Эфирное масло кедра в торговле обычно получают перегонкой с водяным паром древесины можжевельника (род Juniperus) или атласского кедра (Cedrus atlantica). В составе преобладают сесквитерпены (цедрол, цедрен); запах сухой древесный. Применяется в парфюмерии, мыле и отдушках для бытовой химии. Не путать с пищевым кедровым маслом из орехов.',
+    en: 'Commercial cedarwood essential oil is usually steam-distilled from the wood of juniper species (genus Juniperus) or Atlas cedar (Cedrus atlantica). It is dominated by sesquiterpenes (cedrol, cedrene) and has a dry, woody odour. It is used in perfumery, soap and household-product fragrances.',
+  },
+  'lavender-essential-oil': {
+    uz: 'Lavanda efir moyi (Lavandula angustifolia) gullagan uchki qismlaridan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — linalool va linalilatsetat; hidi gulli-o‘tli, tinchlantiruvchi. Sovun, krem, shampun, kir yuvish vositalari va maishiy kimyo otdushkalarida qo‘llanadi.',
+    ru: 'Эфирное масло лаванды (Lavandula angustifolia) получают перегонкой цветущих верхушек с водяным паром. Основные компоненты — линалоол и линалилацетат; запах цветочно-травянистый. Применяется в мыле, кремах, шампунях, средствах для стирки и отдушках для бытовой химии.',
+    en: 'Lavender essential oil (Lavandula angustifolia) is obtained by steam distillation of the flowering tops. Its main components are linalool and linalyl acetate, giving a floral-herbaceous odour. It is used in soap, creams, shampoos, laundry products and household-product fragrances.',
+  },
+  'betel-leaf-essential-oil': {
+    uz: 'Betel bargi efir moyi (Piper betle) betel barglaridan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida fenol birikmalari (xavibetol, evgenol) ustun; hidi ziravorli, qalampirsimon-yashil. Og‘iz gigiyenasi vositalari, farmatsevtika va atirchilikda ishlatiladi.',
+    ru: 'Эфирное масло листа бетеля (Piper betle) получают перегонкой листьев бетеля с водяным паром. В составе преобладают фенольные соединения (хавибетол, эвгенол); запах пряный, перечно-зелёный. Применяется в средствах для полости рта, фармацевтике и парфюмерии.',
+    en: 'Betel leaf essential oil (Piper betle) is obtained by steam distillation of betel leaves. It is dominated by phenolic compounds (chavibetol, eugenol) and has a spicy, peppery-green odour. It is used in oral-care products, pharmaceuticals and perfumery.',
+  },
+  'rose-essential-oil': {
+    uz: 'Atirgul efir moyi (Rosa damascena, damask atirguli) gul barglaridan bug‘ bilan distillyatsiya qilib olinadi; bir kilogramm moy uchun tonnalab gul kerak bo‘ladi. Asosiy komponentlari — sitronellol, geraniol va nerol; tarkibidagi mumsimon moddalar tufayli salqinda qotishi mumkin. Nafis atirchilik va premium kosmetikada ishlatiladi.',
+    ru: 'Эфирное масло розы (Rosa damascena, дамасская роза) получают перегонкой лепестков с водяным паром; на килограмм масла уходят тонны цветков. Основные компоненты — цитронеллол, гераниол и нерол; из-за восковых веществ в прохладе масло может застывать. Используется в селективной парфюмерии и премиальной косметике.',
+    en: 'Rose essential oil (Rosa damascena, Damask rose) is obtained by steam distillation of the petals; tonnes of flowers are needed for one kilogram of oil. Its main components are citronellol, geraniol and nerol, and its waxy constituents can make it solidify when cool. It is used in fine perfumery and premium cosmetics.',
+  },
+  'eucalyptus-essential-oil': {
+    uz: 'Evkalipt efir moyi (Eucalyptus globulus) barglardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — 1,8-sineol (evkaliptol); hidi yangi, kamforali. Ingalyatsiya va yo‘talga qarshi vositalar, og‘iz gigiyenasi, tozalash vositalari va kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло эвкалипта (Eucalyptus globulus) получают перегонкой листьев с водяным паром. Основной компонент — 1,8-цинеол (эвкалиптол); запах свежий, камфорный. Применяется в средствах для ингаляций и от кашля, средствах для полости рта, чистящих средствах и косметике.',
+    en: 'Eucalyptus essential oil (Eucalyptus globulus) is obtained by steam distillation of the leaves. Its main component is 1,8-cineole (eucalyptol), giving a fresh, camphoraceous odour. It is used in inhalation and cough products, oral care, cleaning products and cosmetics.',
+  },
+  'cassia-essential-oil': {
+    uz: 'Kassiya efir moyi (Cinnamomum cassia, xitoy dolchini) barglar, novdalar va po‘stloqdan bug‘ bilan distillyatsiya qilib olinadi. Tarkibining katta qismi — sinnamaldegid; hidi seylon dolchinidan qattiqroq va issiqroq. Kola tipidagi ichimliklar, pishiriq, qandolat va maishiy kimyo otdushkalarida ishlatiladi.',
+    ru: 'Эфирное масло кассии (Cinnamomum cassia, китайская корица) получают перегонкой листьев, веточек и коры с водяным паром. Большая часть состава — коричный альдегид; запах резче и теплее, чем у цейлонской корицы. Используется в напитках типа колы, выпечке, кондитерских изделиях и отдушках для бытовой химии.',
+    en: 'Cassia essential oil (Cinnamomum cassia, Chinese cinnamon) is steam-distilled from the leaves, twigs and bark. Most of its composition is cinnamaldehyde, giving a harsher, warmer odour than Ceylon cinnamon. It is used in cola-type drinks, bakery, confectionery and household-product fragrances.',
+  },
+  'neroli-essential-oil': {
+    uz: 'Neroli efir moyi achchiq apelsin (Citrus × aurantium) gullaridan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — linalool, limonen va linalilatsetat; hidi nafis gulli-sitrus. Odekolon, nafis atirchilik va premium kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло нероли получают перегонкой цветков горького апельсина (Citrus × aurantium) с водяным паром. Основные компоненты — линалоол, лимонен и линалилацетат; запах изысканный цветочно-цитрусовый. Применяется в одеколонах, селективной парфюмерии и премиальной косметике.',
+    en: 'Neroli essential oil is obtained by steam distillation of bitter orange blossoms (Citrus × aurantium). Its main components are linalool, limonene and linalyl acetate, giving a refined floral-citrus odour. It is used in colognes, fine perfumery and premium cosmetics.',
+  },
+  'lemongrass-essential-oil': {
+    uz: 'Limon o‘ti (lemongrass) efir moyi (Cymbopogon flexuosus yoki C. citratus) o‘simlik barglaridan bug‘ bilan distillyatsiya qilib olinadi. Tarkibining asosiy qismi — sitral, shuning uchun kuchli limonsimon hidga ega. Sovun, kir yuvish va tozalash vositalari, kosmetika va ichimliklarda ishlatiladi.',
+    ru: 'Эфирное масло лемонграсса (Cymbopogon flexuosus или C. citratus) получают перегонкой листьев растения с водяным паром. Основная часть состава — цитраль, поэтому запах интенсивно лимонный. Используется в мыле, средствах для стирки и уборки, косметике и напитках.',
+    en: 'Lemongrass essential oil (Cymbopogon flexuosus or C. citratus) is obtained by steam distillation of the leaves. Most of its composition is citral, which gives the intense lemony odour. It is used in soap, laundry and cleaning products, cosmetics and beverages.',
+  },
+  'tea-tree-essential-oil': {
+    uz: 'Choy daraxti efir moyi (Melaleuca alternifolia) barglardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — terpinen-4-ol; hidi yangi, dorivor-kamforali. Teri va soch parvarishi vositalari, shampunlar, gigiyena va tozalash vositalarida qo‘llanadi.',
+    ru: 'Эфирное масло чайного дерева (Melaleuca alternifolia) получают перегонкой листьев с водяным паром. Основной компонент — терпинен-4-ол; запах свежий, лекарственно-камфорный. Применяется в средствах ухода за кожей и волосами, шампунях, гигиенических и чистящих средствах.',
+    en: 'Tea tree essential oil (Melaleuca alternifolia) is obtained by steam distillation of the leaves. Its main component is terpinen-4-ol, giving a fresh, medicinal-camphoraceous odour. It is used in skin- and hair-care products, shampoos, hygiene and cleaning products.',
+  },
+  'ylang-ylang-essential-oil': {
+    uz: 'Ilang-ilang efir moyi (Cananga odorata) gullardan bug‘ bilan bosqichma-bosqich distillyatsiya qilib olinadi (fraksiyalar: Extra, I, II, III, complete). Tarkibida linalool, germakren D va benzilatsetat bor; hidi shirin, ekzotik-gulli. Atirchilik, sovun va kosmetikada ishlatiladi.',
+    ru: 'Эфирное масло иланг-иланга (Cananga odorata) получают фракционной перегонкой цветков с водяным паром (фракции Extra, I, II, III, complete). В составе — линалоол, гермакрен D и бензилацетат; запах сладкий, экзотически-цветочный. Используется в парфюмерии, мыле и косметике.',
+    en: 'Ylang-ylang essential oil (Cananga odorata) is obtained by fractional steam distillation of the flowers (grades Extra, I, II, III and complete). It contains linalool, germacrene D and benzyl acetate, giving a sweet, exotic floral odour. It is used in perfumery, soap and cosmetics.',
+  },
+  'patchouli-essential-oil': {
+    uz: 'Pachuli efir moyi (Pogostemon cablin) quritilgan barglardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — patchulol (pachuli spirti); hidi tuproqsimon-yog‘ochli, vaqt o‘tishi bilan yumshab boradi. Atirchilikda baza notasi va mustahkamlovchi sifatida, sovun va kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло пачули (Pogostemon cablin) получают перегонкой высушенных листьев с водяным паром. Основной компонент — пачулол (пачулиевый спирт); запах землисто-древесный, со временем становится мягче. В парфюмерии служит базовой нотой и фиксатором, применяется в мыле и косметике.',
+    en: 'Patchouli essential oil (Pogostemon cablin) is obtained by steam distillation of dried leaves. Its main component is patchoulol (patchouli alcohol), giving an earthy-woody odour that mellows with age. It is used in perfumery as a base note and fixative, and in soap and cosmetics.',
+  },
+  'vetiver-essential-oil': {
+    uz: 'Vetiver efir moyi (Chrysopogon zizanioides) o‘simlik ildizlaridan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida seskviterpen spirtlari va ketonlar (vetiverollar, xusimol, vetivonlar) bor; moy quyuq, hidi tutunsimon-tuproqli va juda uzoq saqlanadi. Atirchilikda baza notasi va mustahkamlovchi sifatida ishlatiladi.',
+    ru: 'Эфирное масло ветивера (Chrysopogon zizanioides) получают перегонкой корней растения с водяным паром. В составе — сесквитерпеновые спирты и кетоны (ветиверолы, кузимол, ветивоны); масло густое, запах дымно-землистый и очень стойкий. В парфюмерии служит базовой нотой и фиксатором.',
+    en: 'Vetiver essential oil (Chrysopogon zizanioides) is obtained by steam distillation of the roots. It contains sesquiterpene alcohols and ketones (vetiverols, khusimol, vetivones); the oil is viscous, with a smoky-earthy and very long-lasting odour. It is used in perfumery as a base note and fixative.',
+  },
+  'jasmine-absolute': {
+    uz: 'Yasmin absolyuti (Jasminum grandiflorum yoki J. sambac) bug‘ distillyatsiyasi bilan emas, erituvchi ekstraksiyasi bilan olinadi: avval gullardan konkret, undan spirt yordamida absolyut ajratiladi. Tarkibida benzilatsetat, benzilbenzoat, linalool, indol va sis-jasmon bor. Nafis atirchilikda gulli kompozitsiyalarning yuragi sifatida ishlatiladi.',
+    ru: 'Абсолют жасмина (Jasminum grandiflorum или J. sambac) получают не перегонкой, а экстракцией растворителем: сначала из цветков получают конкрет, затем из него спиртом — абсолют. В составе — бензилацетат, бензилбензоат, линалоол, индол и цис-жасмон. Используется в селективной парфюмерии как сердце цветочных композиций.',
+    en: 'Jasmine absolute (Jasminum grandiflorum or J. sambac) is produced by solvent extraction rather than distillation: the flowers first yield a concrete, from which the absolute is extracted with alcohol. It contains benzyl acetate, benzyl benzoate, linalool, indole and cis-jasmone. It is used in fine perfumery as the heart of floral compositions.',
+  },
+  'ginger-essential-oil': {
+    uz: 'Zanjabil efir moyi (Zingiber officinale) quritilgan ildizpoyadan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — zingiberen; moy zanjabil hidini beradi, achchiqligini esa bermaydi (achchiq gingerollar oleorezinda qoladi). Ichimliklar, go‘sht mahsulotlari, ziravor aromatizatorlari va farmatsevtikada qo‘llanadi.',
+    ru: 'Эфирное масло имбиря (Zingiber officinale) получают перегонкой высушенного корневища с водяным паром. Основной компонент — зингиберен; масло передаёт аромат имбиря, но не жгучесть (жгучие гингеролы остаются в олеорезине). Применяется в напитках, мясных продуктах, пряных ароматизаторах и фармацевтике.',
+    en: 'Ginger essential oil (Zingiber officinale) is obtained by steam distillation of the dried rhizome. Its main component is zingiberene; the oil carries the aroma of ginger but not its pungency, as the pungent gingerols remain in the oleoresin. It is used in beverages, meat products, spice flavours and pharmaceuticals.',
+  },
+  'basil-essential-oil': {
+    uz: 'Reyhon efir moyi (Ocimum basilicum) o‘simlikning yer usti qismidan bug‘ bilan distillyatsiya qilib olinadi. Xemotipiga qarab asosiy komponenti linalool yoki metilxavikol (estragol) bo‘ladi; hidi yashil, ziravorli-shirin. Souslar, italyan tipidagi ziravor aromatizatorlari va atirchilikda ishlatiladi.',
+    ru: 'Эфирное масло базилика (Ocimum basilicum) получают перегонкой надземной части растения с водяным паром. В зависимости от хемотипа основной компонент — линалоол или метилхавикол (эстрагол); запах зелёный, пряно-сладкий. Используется в соусах, пряных ароматизаторах итальянского типа и парфюмерии.',
+    en: 'Basil essential oil (Ocimum basilicum) is obtained by steam distillation of the aerial parts. Depending on the chemotype, its main component is linalool or methyl chavicol (estragole), giving a green, sweet-spicy odour. It is used in sauces, Italian-style spice flavours and perfumery.',
+  },
+  'oregano-essential-oil': {
+    uz: 'Oregano efir moyi (Origanum turkumi, masalan O. vulgare) gullagan o‘tdan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — karvakrol, oz miqdorda timol; hidi kuchli, issiq-ziravorli. Souslar, pitsa ziravorlari, go‘sht mahsulotlari va biologik faol qo‘shimchalarda qo‘llanadi.',
+    ru: 'Эфирное масло орегано (род Origanum, например O. vulgare) получают перегонкой цветущей травы с водяным паром. Основной компонент — карвакрол, в меньшем количестве тимол; запах сильный, тёпло-пряный. Применяется в соусах, приправах для пиццы, мясных продуктах и БАД.',
+    en: 'Oregano essential oil (genus Origanum, for example O. vulgare) is obtained by steam distillation of the flowering herb. Its main component is carvacrol, with smaller amounts of thymol, giving a strong, warm-spicy odour. It is used in sauces, pizza seasonings, meat products and dietary supplements.',
+  },
+  'thyme-essential-oil': {
+    uz: 'Timyan (tog‘ jambili) efir moyi (Thymus vulgaris) gullagan o‘tdan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — timol, shuningdek p-simen va karvakrol; hidi issiq, o‘tli-dorivor. Go‘sht mahsulotlari, souslar, og‘iz gigiyenasi vositalari va biologik faol qo‘shimchalarda ishlatiladi.',
+    ru: 'Эфирное масло тимьяна (чабреца) (Thymus vulgaris) получают перегонкой цветущей травы с водяным паром. Основной компонент — тимол, также п-цимол и карвакрол; запах тёплый, травянисто-лекарственный. Используется в мясных продуктах, соусах, средствах для полости рта и БАД.',
+    en: 'Thyme essential oil (Thymus vulgaris) is obtained by steam distillation of the flowering herb. Its main component is thymol, together with p-cymene and carvacrol, giving a warm, herbal-medicinal odour. It is used in meat products, sauces, oral-care products and dietary supplements.',
+  },
+  'rosemary-essential-oil': {
+    uz: 'Rozmarin efir moyi (Salvia rosmarinus, avval Rosmarinus officinalis) barglar va gullagan uchki qismlardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — 1,8-sineol, kamfora va alfa-pinen; hidi yangi, o‘tli-kamforali. Go‘sht mahsulotlari, souslar va soch parvarishi kosmetikasida qo‘llanadi. Go‘shtda antioksidant sifatida ishlatiladigan rozmarin ekstrakti (karnoz kislota) — boshqa mahsulot.',
+    ru: 'Эфирное масло розмарина (Salvia rosmarinus, ранее Rosmarinus officinalis) получают перегонкой листьев и цветущих верхушек с водяным паром. Основные компоненты — 1,8-цинеол, камфора и альфа-пинен; запах свежий, травянисто-камфорный. Применяется в мясных продуктах, соусах и косметике для волос. Экстракт розмарина (карнозовая кислота), который используют в мясе как антиоксидант, — другой продукт.',
+    en: 'Rosemary essential oil (Salvia rosmarinus, formerly Rosmarinus officinalis) is obtained by steam distillation of the leaves and flowering tops. Its main components are 1,8-cineole, camphor and alpha-pinene, giving a fresh, herbal-camphoraceous odour. It is used in meat products, sauces and hair-care cosmetics. Rosemary extract (carnosic acid), used in meat as an antioxidant, is a different product.',
+  },
+  'nutmeg-essential-oil': {
+    uz: 'Muskat yong‘og‘i efir moyi (Myristica fragrans) urug‘lardan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida sabinen, alfa- va beta-pinen hamda miristitsin bor; hidi issiq, shirin-ziravorli. Pishiriq, kolbasa va boshqa go‘sht mahsulotlari, kola tipidagi ichimliklar va farmatsevtikada ishlatiladi.',
+    ru: 'Эфирное масло мускатного ореха (Myristica fragrans) получают перегонкой семян с водяным паром. В составе — сабинен, альфа- и бета-пинен и миристицин; запах тёплый, сладко-пряный. Используется в выпечке, колбасах и других мясных продуктах, напитках типа колы и фармацевтике.',
+    en: 'Nutmeg essential oil (Myristica fragrans) is obtained by steam distillation of the seeds. It contains sabinene, alpha- and beta-pinene and myristicin, giving a warm, sweet-spicy odour. It is used in bakery, sausages and other meat products, cola-type drinks and pharmaceuticals.',
+  },
+  'coriander-seed-essential-oil': {
+    uz: 'Koriandr urug‘i efir moyi (Coriandrum sativum) maydalangan urug‘lardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — linalool; hidi shirin, gulli-ziravorli (kashnich bargining hidi emas). Kolbasa va go‘sht mahsulotlari, souslar, pishiriq va atirchilikda qo‘llanadi.',
+    ru: 'Эфирное масло семян кориандра (Coriandrum sativum) получают перегонкой измельчённых семян с водяным паром. Основной компонент — линалоол; запах сладкий, цветочно-пряный (не похож на запах зелени кинзы). Применяется в колбасах и мясных продуктах, соусах, выпечке и парфюмерии.',
+    en: 'Coriander seed essential oil (Coriandrum sativum) is obtained by steam distillation of crushed seeds. Its main component is linalool, giving a sweet, floral-spicy odour unlike that of coriander leaf. It is used in sausages and meat products, sauces, bakery and perfumery.',
+  },
+  'black-pepper-essential-oil': {
+    uz: 'Qora murch efir moyi (Piper nigrum) quritilgan mevalardan bug‘ bilan distillyatsiya qilib olinadi. Tarkibida beta-kariofillen, limonen, sabinen va pinenlar bor; moy murch hidini beradi, achchiqligini esa bermaydi (piperin oleorezinda qoladi). Go‘sht mahsulotlari, souslar, ziravor aromatizatorlari va atirchilikda ishlatiladi.',
+    ru: 'Эфирное масло чёрного перца (Piper nigrum) получают перегонкой высушенных плодов с водяным паром. В составе — бета-кариофиллен, лимонен, сабинен и пинены; масло передаёт аромат перца, но не жгучесть (пиперин остаётся в олеорезине). Используется в мясных продуктах, соусах, пряных ароматизаторах и парфюмерии.',
+    en: 'Black pepper essential oil (Piper nigrum) is obtained by steam distillation of the dried fruits. It contains beta-caryophyllene, limonene, sabinene and pinenes; the oil carries the aroma of pepper but not its pungency, as piperine remains in the oleoresin. It is used in meat products, sauces, spice flavours and perfumery.',
+  },
+  'turmeric-essential-oil': {
+    uz: 'Zardachob efir moyi (Curcuma longa) ildizpoyadan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponentlari — ar-turmeron va turmeronlar; moy hid beradi, lekin sariq rang bermaydi (bo‘yovchi kurkumin uchmaydi va moyga o‘tmaydi). Souslar, go‘sht mahsulotlari, ziravor aromatizatorlari va biologik faol qo‘shimchalarda qo‘llanadi.',
+    ru: 'Эфирное масло куркумы (Curcuma longa) получают перегонкой корневища с водяным паром. Основные компоненты — ар-турмерон и турмероны; масло даёт аромат, но не жёлтый цвет (красящий куркумин нелетуч и в масло не переходит). Применяется в соусах, мясных продуктах, пряных ароматизаторах и БАД.',
+    en: 'Turmeric essential oil (Curcuma longa) is obtained by steam distillation of the rhizome. Its main components are ar-turmerone and turmerones; the oil gives aroma but not yellow colour, because the colouring curcumin is non-volatile and does not pass into the oil. It is used in sauces, meat products, spice flavours and dietary supplements.',
+  },
+  'cumin-essential-oil': {
+    uz: 'Zira efir moyi (Cuminum cyminum) urug‘lardan bug‘ bilan distillyatsiya qilib olinadi. Asosiy komponenti — kuminaldegid, shuningdek gamma-terpinen va beta-pinen; hidi kuchli, issiq-ziravorli. Go‘sht mahsulotlari, souslar, ziravor aralashmalari va pishiriqda ishlatiladi.',
+    ru: 'Эфирное масло зиры (кумина, Cuminum cyminum) получают перегонкой семян с водяным паром. Основной компонент — куминальдегид, также гамма-терпинен и бета-пинен; запах сильный, тёпло-пряный. Используется в мясных продуктах, соусах, пряных смесях и выпечке.',
+    en: 'Cumin essential oil (Cuminum cyminum) is obtained by steam distillation of the seeds. Its main component is cuminaldehyde, together with gamma-terpinene and beta-pinene, giving a strong, warm-spicy odour. It is used in meat products, sauces, spice blends and bakery.',
+  },
+  'mandarin-essential-oil': {
+    uz: 'Mandarin efir moyi (Citrus reticulata) mandarin po‘stini sovuq presslash orqali olinadi. Asosiy qismi — limonen va gamma-terpinen; mandaringa xos shirin notani oz miqdordagi metil-N-metilantranilat beradi. Ichimliklar, qandolat, sitrus aromatizatorlari va kosmetikada qo‘llanadi.',
+    ru: 'Эфирное масло мандарина (Citrus reticulata) получают холодным прессованием кожуры мандарина. Основная часть — лимонен и гамма-терпинен; характерную сладкую мандариновую ноту даёт метил-N-метилантранилат в небольшом количестве. Применяется в напитках, кондитерских изделиях, цитрусовых ароматизаторах и косметике.',
+    en: 'Mandarin essential oil (Citrus reticulata) is obtained by cold-pressing mandarin peel. It consists mainly of limonene and gamma-terpinene, while small amounts of methyl N-methylanthranilate give the characteristic sweet mandarin note. It is used in beverages, confectionery, citrus flavours and cosmetics.',
+  },
+  'yuzu-essential-oil': {
+    uz: 'Yuzu efir moyi (Citrus junos) — yapon sitrusi yuzu po‘stidan presslash yoki distillyatsiya orqali olinadi. Asosiy komponentlari — limonen, gamma-terpinen va linalool; hidi greyfurt va mandarin oralig‘idagi nordon-gulli sitrus. Ichimliklar, sitrus aromatizatorlari va atirchilikda ishlatiladi.',
+    ru: 'Эфирное масло юдзу (Citrus junos) — японского цитруса — получают прессованием или перегонкой кожуры. Основные компоненты — лимонен, гамма-терпинен и линалоол; запах кисловато-цветочный цитрусовый, между грейпфрутом и мандарином. Используется в напитках, цитрусовых ароматизаторах и парфюмерии.',
+    en: 'Yuzu essential oil (Citrus junos), from the Japanese citrus fruit, is obtained by pressing or distilling the peel. Its main components are limonene, gamma-terpinene and linalool, giving a tart, floral citrus odour between grapefruit and mandarin. It is used in beverages, citrus flavours and perfumery.',
+  },
 };
 
 /**
