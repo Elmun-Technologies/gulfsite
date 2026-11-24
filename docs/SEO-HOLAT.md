@@ -3,6 +3,23 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-24
+
+**Raqamlar (jonli):** sitemap **2181** URL (+8: #41 maqolalari) · 60 ta tasodifiy URL: 0 muammo
+(200, canonical o'ziga, localhost/noindex yo'q, h1 = 1, title ≤ 60, hreflang) · `/` → `/uz` 307 ·
+www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 ·
+IndexNow kalit 200 · TTFB `/uz` ≈ 0.5–0.65 s · CI/IndexNow yashil.
+
+**Qilingan:** soha sahifalari (18 × 3 til) meta description noyob qilindi — shablon o'rniga
+sahifa jadvalidagi birinchi 3 ta haqiqiy pozitsiya; RU ko'plik xatosi tuzatildi ("2 рекомендованных
+позиций" → "2 позиции"); xomashyo sohalari (flavour-base, fragrance-base) uchun alohida tavsif
+("термостабильные формы" ma'nosiz edi); personal-care title "Отдушки для мыла, шампуней и косметики"
+("отдушка для мыла" so'rovi uchun).
+
+**Raqobat/AI:** 8 so'rovda gulfflavours.uz hali chiqmadi; SERP — prom.uz, goldenpages, yellowpages,
+glotr.uz, top.uz, uzum.uz. Yangi nomlar: VANILIN PLUS (yellowpages, mahsulot ro'yxatisiz),
+TC Tashkent Chemicals (glotr, ~22 ta lok-bo'yoq xomashyosi, aromatizator emas).
+
 ## 2026-11-23 (kechki run)
 
 **Raqamlar (jonli):** sitemap **2173** URL, barqaror (6 so‘rovda bir xil — aralash versiya muammosi yo‘q) ·

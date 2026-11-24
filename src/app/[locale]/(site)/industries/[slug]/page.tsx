@@ -22,10 +22,10 @@ import { notFound } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { LOCALES, makeT, normalizeLocale, type AppLocale } from '@/i18n';
 import { siteConfig } from '@/lib/config';
-import { buildMetadata, breadcrumbLd, collectionPageLd } from '@/lib/seo';
+import { buildMetadata, breadcrumbLd, clipText, collectionPageLd } from '@/lib/seo';
 import { applicationCounts, applicationProducts, queryCatalog } from '@/lib/catalog';
 import { DUBAI_BESTSELLERS } from '@/lib/dubai-bestsellers';
-import { FRAGRANCE_INDUSTRIES, INDUSTRY_SEO_TITLE } from '@/lib/industry-seo';
+import { FRAGRANCE_INDUSTRIES, INDUSTRY_SEO_TITLE, RAW_INDUSTRIES } from '@/lib/industry-seo';
 import {
   APPLICATIONS,
   FEATURES,
@@ -90,16 +90,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const name = tr(taxon.name, locale as Locale);
-  const count = applicationProducts(slug, TABLE_LIMIT, locale as Locale).length;
+  const picks = applicationProducts(slug, TABLE_LIMIT, locale as Locale);
+  // Har soha tavsifi noyob bo'lsin: sahifa jadvalidagi birinchi 3 ta haqiqiy pozitsiya
+  const positions = t.tp('plural.positions', picks.length);
+  const examples = picks.slice(0, 3).map((p) => tr(p.name, locale as Locale)).join(', ');
 
   return buildMetadata({
     locale,
     title: INDUSTRY_SEO_TITLE[slug]
       ? tr(INDUSTRY_SEO_TITLE[slug], locale as Locale)
       : industryTitle(name, t('seo.industry.title', { name })),
-    description: FRAGRANCE_INDUSTRIES.has(slug)
-      ? t('seo.industry.descriptionFragrance', { name, count })
-      : t('seo.industry.description', { name, count }),
+    description: clipText(
+      RAW_INDUSTRIES.has(slug)
+        ? t('seo.industry.descriptionRaw', { name, positions, examples })
+        : FRAGRANCE_INDUSTRIES.has(slug)
+          ? t('seo.industry.descriptionFragrance', { name, positions, examples })
+          : t('seo.industry.description', { name, positions, examples }),
+      155,
+    ),
     path: `/industries/${slug}`,
     image: publicAssetExists(APPLICATION_IMAGE[slug] ?? '') ? APPLICATION_IMAGE[slug] : FALLBACK_IMAGE,
   });
