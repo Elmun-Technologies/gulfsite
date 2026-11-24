@@ -354,7 +354,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
           },
           { h2: 'Dozirovka va barqarorlik sinovi' },
           {
-            p: 'Kartochkadagi oraliq — 0,3–3%. Umumiy amaliyotda yuviladigan mahsulotlarda (shampun, dush geli) miqdor yuqoriroq, teriga qoldiriladigan mahsulotlarda (krem, losyon) esa pastroq tanlanadi. Aniq miqdorni o‘z formulangizda sinov belgilaydi.',
+            p: 'Kartochkadagi oraliq — 0,3–3%, lekin bu faqat boshlang‘ich yo‘nalish, har qanday mahsulot uchun ruxsat etilgan yuqori chegara emas. Kosmetikada maksimal miqdor aniq kompozitsiya va mahsulot turiga (yuviladigan yoki teriga qoldiriladigan, yuz, tana, soch) qarab belgilanadi va eng qattiq cheklovli komponentga bog‘liq. Shuning uchun sinovdan oldin yetkazib beruvchidan aynan sizning mahsulot turingiz uchun ruxsat etilgan maksimal miqdorni yozma ravishda so‘rang. Umumiy amaliyotda yuviladigan mahsulotlarda (shampun, dush geli) miqdor yuqoriroq, teriga qoldiriladiganlarda (krem, losyon) pastroq tanlanadi; aniq miqdorni shu chegara ichida o‘z formulangizdagi sinov belgilaydi.',
           },
           {
             ul: [
@@ -375,7 +375,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
           {
             ul: [
               'Xavfsizlik ma’lumotlari varaqasi (SDS).',
-              'Kosmetikada qo‘llanish bo‘yicha muvofiqlik hujjati (masalan, IFRA muvofiqlik sertifikati — bor-yo‘qligini aniqlashtiring).',
+              'Kosmetikada qo‘llanish bo‘yicha muvofiqlik hujjati (masalan, IFRA muvofiqlik sertifikati) — undagi mahsulot turingiz uchun ko‘rsatilgan maksimal miqdorni tekshiring.',
               'Yorliqda ko‘rsatilishi talab qilinishi mumkin bo‘lgan allergen komponentlar ro‘yxati.',
             ],
           },
@@ -398,7 +398,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
             faq: [
               {
                 q: 'Shampun uchun qancha otdushka qo‘shiladi?',
-                a: 'Katalog kartochkasidagi oraliq — 0,3–3%. Yuviladigan mahsulotlarda odatda yuqoriroq, teriga qoldiriladiganlarda pastroq miqdor tanlanadi. Aniq miqdorni 2–3 nuqtali sinov va barqarorlik kuzatuvi belgilaydi.',
+                a: 'Katalog kartochkasidagi oraliq — 0,3–3%, bu boshlang‘ich yo‘nalish. Avval yetkazib beruvchidan shampun uchun ruxsat etilgan maksimal miqdorni so‘rang; shu chegara ichida aniq miqdorni 2–3 nuqtali sinov va barqarorlik kuzatuvi belgilaydi.',
               },
               {
                 q: 'Shaffof dush geli otdushkadan keyin loyqalandi — nima qilish kerak?',
@@ -483,7 +483,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
           },
           { h2: 'Дозировка и тест стабильности' },
           {
-            p: 'Диапазон в карточке — 0,3–3%. В общей практике в смываемых продуктах (шампунь, гель для душа) количество выбирают выше, в несмываемых (крем, лосьон) — ниже. Точное количество для вашей формулы определяет проба.',
+            p: 'Диапазон в карточке — 0,3–3%, но это лишь отправная точка, а не допустимый максимум для любого продукта. В косметике предельное количество определяется для конкретной композиции и типа продукта (смываемый или несмываемый, для лица, тела, волос) и зависит от самого ограниченного компонента. Поэтому до пробы запросите у поставщика письменно допустимый максимум именно для вашего типа продукта. В общей практике в смываемых продуктах (шампунь, гель для душа) количество выбирают выше, в несмываемых (крем, лосьон) — ниже; точное количество в пределах этого лимита определяет проба на вашей формуле.',
           },
           {
             ul: [
@@ -504,7 +504,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
           {
             ul: [
               'Паспорт безопасности (SDS).',
-              'Документ о соответствии для применения в косметике (например, сертификат соответствия IFRA — уточните его наличие).',
+              'Документ о соответствии для применения в косметике (например, сертификат соответствия IFRA) — проверьте указанный в нём максимум для вашего типа продукта.',
               'Перечень аллергенных компонентов, указание которых может требоваться на этикетке.',
             ],
           },
@@ -527,7 +527,7 @@ export const ARTICLES_2026_11_G: BlogArticle[] = [
             faq: [
               {
                 q: 'Сколько отдушки добавлять в шампунь?',
-                a: 'Диапазон в карточке каталога — 0,3–3%. В смываемых продуктах обычно выбирают более высокое количество, в несмываемых — более низкое. Точное количество определяют проба в 2–3 точках и наблюдение за стабильностью.',
+                a: 'Диапазон в карточке каталога — 0,3–3%, это отправная точка. Сначала запросите у поставщика допустимый максимум для шампуня; в пределах этого лимита точное количество определяют проба в 2–3 точках и наблюдение за стабильностью.',
               },
               {
                 q: 'Прозрачный гель для душа помутнел после отдушки — что делать?',
