@@ -22,6 +22,7 @@ import { ARTICLES_2026_11_C } from './blog-articles-2026-11-c';
 import { ARTICLES_2026_11_D } from './blog-articles-2026-11-d';
 import { ARTICLES_2026_11_E } from './blog-articles-2026-11-e';
 import { ARTICLES_2026_11_F } from './blog-articles-2026-11-f';
+import { ARTICLES_2026_11_G } from './blog-articles-2026-11-g';
 
 export const BLOG_LOCALES = ['uz', 'ru'] as const;
 export type BlogLocale = (typeof BLOG_LOCALES)[number];
@@ -403,6 +404,7 @@ const ARTICLES: BlogArticle[] = [
   ...ARTICLES_2026_11_D,
   ...ARTICLES_2026_11_E,
   ...ARTICLES_2026_11_F,
+  ...ARTICLES_2026_11_G,
 ];
 
 export function blogArticles(locale: string): BlogArticle[] {
