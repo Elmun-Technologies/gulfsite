@@ -128,3 +128,16 @@ qandolat aromatizatori, dozalash 0,05–0,3% — ma'lumotdan), `snack-va-chips-u
 **Ochiq (egasi):** katalog saytlarida kartochkalar (`docs/CITATIONS.md`) · GitHub'da Vercel
 ilovasini o'chirish (har PR'da befoyda qizil "Vercel" status) · MOQ va hujjat PDF'lari
 tasdiqlanmaguncha FAQ'ga yozilmaydi.
+
+## 2026-11-24 — ruscha so'rovlar
+
+**SERP (RU):** "ароматизаторы пищевые оптом Ташкент", "ванилин оптом Узбекистан", "отдушки для мыла
+оптом Ташкент" — birinchi sahifani yellowpages.uz, prom.uz, goldenpages.uz, glotr.uz, olx.uz egallagan;
+goldenpages'dagi "отдушки" rubrikalarida 1–4 ta kompaniya (o'z saytlari yo'q) — bo'sh joy bor.
+**GSC (11/19–11/21):** yagona bosish — `/ru/catalog/caster-sugar-fine` (o'rin 4); `/ru/blog/vanilin-va-vanil-ekstrakti-farqi`
+("экстракт ванили и ванилин", o'rin ~10–14). Xulosa: tovar-xomashyo nomli so'rovlar (shakar, limon kislotasi,
+E171, quruq sut) yetakchi katalog saytlarisiz yengilroq chiqadi — shu sahifalarga texnik tavsif qo'shildi.
+
+**Qilingan:** `product-facts.ts` ga yana 37 ta xomashyo (shakar, kislotalar, konservantlar, quyultiruvchilar,
+shirinlashtirgichlar, bo'yoqlar, kraxmal, emulgatorlar) — faqat CAS/E-raqam/vazifasi, tijoriy da'vo yo'q.
+E'tibor: RU matnlar katalogdagi rus nomlariga mos (ограничений: dozalar va ruxsat — "texnik reglamentlar bo'yicha").
