@@ -71,5 +71,5 @@ yoki "нет в наличии"). Kartochkada albatta yozing: *bepul namuna quti
 | yellowpages.uz | ⬜ | |
 | Bing Places | ⬜ | |
 | top.uz | ⬜ | |
-| glotr.uz | ✅ | 2026-11-24: kompaniya kabineti yaratildi (ID 41718), tavsif, manzil, 2 telefon, e-mail, Telegram saqlandi. Yo‘q: logotip, sayt maydoni (disabled), Sha 10–15 jadvali, mahsulotlar |
+| glotr.uz | 🟡 | 2026-11-24: faqat akkaunt va kartochka (mahsulotlar hali yo‘q): kabinet yaratildi (ID 41718), tavsif, manzil, 2 telefon, e-mail, Telegram saqlandi. Yo‘q: logotip, sayt maydoni (disabled), Sha 10–15 jadvali, mahsulotlar |
 | Ota kompaniya havolasi | ⬜ | |
