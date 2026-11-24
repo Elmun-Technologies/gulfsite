@@ -68,7 +68,7 @@ yoki "нет в наличии"). Kartochkada albatta yozing: *bepul namuna quti
 | 2GIS | ⬜ | |
 | goldenpages.uz | 🟡 | 2026-11-24: ariza moderatsiyaga yuborildi (4 rubrika); tasdiq e-mail kutilmoqda |
 | prom.uz | ⬜ | |
-| yellowpages.uz | ⬜ | |
+| yellowpages.uz | 🟡 | 2026-11-24: ariza moderatsiyaga yuborildi (4 rubrika: ароматизаторы, парфюмерия, пищевые добавки, химсырьё); pochta indeksi va ОКЭД kiritilmadi; tasdiq kutilmoqda |
 | Bing Places | ⬜ | |
 | top.uz | ⬜ | |
 | glotr.uz | 🟡 | 2026-11-24: faqat akkaunt va kartochka (mahsulotlar hali yo‘q): kabinet yaratildi (ID 41718), tavsif, manzil, 2 telefon, e-mail, Telegram saqlandi. Yo‘q: logotip, sayt maydoni (disabled), Sha 10–15 jadvali, mahsulotlar |
