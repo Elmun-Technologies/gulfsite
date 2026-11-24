@@ -473,7 +473,7 @@ export const INDUSTRY_COPY: Record<string, IndustryCopy> = {
   'personal-care': {
     intro: {
       uz: 'Kosmetika va shaxsiy parvarish — nozik atir kompozitsiyalari, shampon, krem, sovun va losyonlar uchun. IFRA standartlariga muvofiqlik majburiy.',
-      ru: 'Косметика и средства личной гигиены — тонкие парфюмерные композиции для шампуней, кремов, мыла и лосьонов. Обязательна соответствие IFRA.',
+      ru: 'Косметика и средства личной гигиены — тонкие парфюмерные композиции для шампуней, кремов, мыла и лосьонов. Обязательно соответствие IFRA.',
       en: 'Personal care covers fine fragrance compositions for shampoos, creams, soaps and lotions. IFRA compliance is mandatory.',
     },
     challenges: [

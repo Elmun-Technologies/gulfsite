@@ -15,6 +15,9 @@ import type { Trilingual } from './taxonomy';
 /** Otdushka (fragrance) sohalari — tavsif shabloni boshqacha */
 export const FRAGRANCE_INDUSTRIES = new Set(['personal-care', 'home-care', 'fabric-care']);
 
+/** Xomashyo sohalari (aromatizator/atir ishlab chiqaruvchilar) — "issiqqa chidamli forma" ma'nosiz */
+export const RAW_INDUSTRIES = new Set(['flavour-base', 'fragrance-base']);
+
 export const INDUSTRY_SEO_TITLE: Record<string, Trilingual> = {
   bakery: { uz: 'Pishiriqlar uchun aromatizatorlar ulgurji', ru: 'Ароматизаторы для выпечки оптом', en: 'Bakery flavours wholesale' },
   confectionery: { uz: 'Konditer mahsulotlari uchun aromatizator', ru: 'Ароматизаторы для кондитерских изделий', en: 'Confectionery flavours supplier' },
@@ -28,7 +31,7 @@ export const INDUSTRY_SEO_TITLE: Record<string, Trilingual> = {
   horeca: { uz: 'HoReCa uchun aromatizatorlar', ru: 'Ароматизаторы для HoReCa и кейтеринга', en: 'Flavours for HoReCa and catering' },
   supplements: { uz: 'BAA va sport ozuqasi uchun aromatizator', ru: 'Ароматизаторы для БАДов и спортпита', en: 'Flavours for supplements & sports food' },
   tobacco: { uz: 'Tamaki va HTP uchun aromatizatorlar', ru: 'Ароматизаторы для табака и СНТП', en: 'Tobacco and HTP flavours' },
-  'personal-care': { uz: 'Kosmetika uchun otdushkalar ulgurji', ru: 'Отдушки для косметики и шампуней', en: 'Fragrances for cosmetics & personal care' },
+  'personal-care': { uz: 'Sovun va kosmetika uchun otdushkalar', ru: 'Отдушки для мыла, шампуней и косметики', en: 'Fragrances for soap & cosmetics' },
   'home-care': { uz: 'Maishiy kimyo uchun otdushkalar', ru: 'Отдушки для бытовой химии оптом', en: 'Fragrances for household chemicals' },
   'fabric-care': { uz: 'Kir yuvish kukuni uchun otdushkalar', ru: 'Отдушки для стирального порошка', en: 'Fragrances for laundry detergents' },
   pharma: { uz: 'Farmatsevtika uchun aromatizatorlar', ru: 'Ароматизаторы для фармацевтики', en: 'Pharmaceutical flavours' },
