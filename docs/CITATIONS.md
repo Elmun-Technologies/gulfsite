@@ -66,10 +66,10 @@ yoki "нет в наличии"). Kartochkada albatta yozing: *bepul namuna quti
 | Google Business Profile | ⬜ | |
 | Yandex Business | ⬜ | |
 | 2GIS | ⬜ | |
-| goldenpages.uz | ⬜ | |
+| goldenpages.uz | 🟡 | 2026-11-24: ariza moderatsiyaga yuborildi (4 rubrika); tasdiq e-mail kutilmoqda |
 | prom.uz | ⬜ | |
 | yellowpages.uz | ⬜ | |
 | Bing Places | ⬜ | |
 | top.uz | ⬜ | |
-| glotr.uz | ⬜ | |
+| glotr.uz | ✅ | 2026-11-24: kompaniya kabineti yaratildi (ID 41718), tavsif, manzil, 2 telefon, e-mail, Telegram saqlandi. Yo‘q: logotip, sayt maydoni (disabled), Sha 10–15 jadvali, mahsulotlar |
 | Ota kompaniya havolasi | ⬜ | |
