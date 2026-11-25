@@ -551,6 +551,156 @@ export const PRODUCT_FACTS: Record<string, Facts> = {
     ru: 'Эфирное масло юдзу (Citrus junos) — японского цитруса — получают прессованием или перегонкой кожуры. Основные компоненты — лимонен, гамма-терпинен и линалоол; запах кисловато-цветочный цитрусовый, между грейпфрутом и мандарином. Используется в напитках, цитрусовых ароматизаторах и парфюмерии.',
     en: 'Yuzu essential oil (Citrus junos), from the Japanese citrus fruit, is obtained by pressing or distilling the peel. Its main components are limonene, gamma-terpinene and linalool, giving a tart, floral citrus odour between grapefruit and mandarin. It is used in beverages, citrus flavours and perfumery.',
   },
+  'linalyl-acetate': {
+    uz: 'Linalilatsetat (CAS 115-95-7) — yangi, shirin gulli-mevali hidga ega aroma kimyoviy modda; lavanda va bergamot efir moylarining asosiy komponentlaridan biri. Atir kompozitsiyalarida lavanda, bergamot va «toza» notalarni qurishda, sovun, shampun va uy kimyosi otdushkalarida qo‘llanadi.',
+    ru: 'Линалилацетат (CAS 115-95-7) — ароматическое вещество со свежим сладким цветочно-фруктовым запахом; один из основных компонентов лавандового и бергамотового эфирных масел. Используется в парфюмерных композициях для лавандовых, бергамотовых и «чистых» нот, в отдушках для мыла, шампуней и бытовой химии.',
+    en: 'Linalyl acetate (CAS 115-95-7) is an aroma chemical with a fresh, sweet floral-fruity odour and one of the main constituents of lavender and bergamot oils. It is used to build lavender, bergamot and clean notes in fragrance compositions and in fragrances for soap, shampoo and household products.',
+  },
+  geraniol: {
+    uz: 'Geraniol (CAS 106-24-1) — atirgulga xos gulli hidli terpen spirti; palmaroza, atirgul va geran efir moylarida uchraydi. Atirgul va gulli kompozitsiyalarda, sovun, kosmetika va uy kimyosi otdushkalarida ishlatiladi.',
+    ru: 'Гераниол (CAS 106-24-1) — терпеновый спирт с цветочным запахом розы; содержится в эфирных маслах пальмарозы, розы и герани. Применяется в розовых и цветочных композициях, отдушках для мыла, косметики и бытовой химии.',
+    en: 'Geraniol (CAS 106-24-1) is a terpene alcohol with a rosy floral odour, found in palmarosa, rose and geranium oils. It is used in rose and floral compositions and in fragrances for soap, cosmetics and household products.',
+  },
+  citronellol: {
+    uz: 'Sitronellol (CAS 106-22-9) — yangi atirgul hidiga ega terpen spirti; atirgul va geran efir moylarining tarkibiy qismi. Atirgul notasini qurishda va kosmetika otdushkalarida qo‘llanadi; geraniol bilan birga ishlatilganda tabiiyroq atirgul hidi hosil bo‘ladi.',
+    ru: 'Цитронеллол (CAS 106-22-9) — терпеновый спирт со свежим запахом розы; компонент розового и геранового эфирных масел. Используется для построения розовой ноты и в косметических отдушках; в паре с гераниолом даёт более натуральное звучание розы.',
+    en: 'Citronellol (CAS 106-22-9) is a terpene alcohol with a fresh rose odour and a constituent of rose and geranium oils. It is used to build rose notes and in cosmetic fragrances; combined with geraniol it gives a more natural rose character.',
+  },
+  limonene: {
+    uz: 'Limonen (d-limonen, CAS 5989-27-5) — sitrus mevalar po‘sti efir moylarining asosiy komponenti, hidi yangi apelsin-sitrus. Uy kimyosi va kosmetikada sitrus nota beruvchi sifatida, tozalash vositalarida esa tabiiy kelib chiqishli erituvchi sifatida ham ishlatiladi.',
+    ru: 'Лимонен (d-лимонен, CAS 5989-27-5) — основной компонент эфирных масел цитрусовой кожуры со свежим апельсиново-цитрусовым запахом. В бытовой химии и косметике применяется как источник цитрусовой ноты, в чистящих средствах — также как растворитель природного происхождения.',
+    en: 'Limonene (d-limonene, CAS 5989-27-5) is the main constituent of citrus peel oils, with a fresh orange-citrus odour. In household products and cosmetics it provides a citrus note, and in cleaning products it is also used as a solvent of natural origin.',
+  },
+  'musk-ketone': {
+    uz: 'Mushk keton (CAS 81-14-1) — shirin, kukunsimon mushk hidiga ega nitromushk; hidni uzoq saqlovchi fiksator sifatida sharqona va gulli kompozitsiyalarda ishlatiladi. Kosmetikada qo‘llanishi IFRA standartlari va amaldagi reglamentlar bilan cheklangan.',
+    ru: 'Мускус кетон (CAS 81-14-1) — нитромускус со сладким пудровым мускусным запахом; используется как фиксатор в восточных и цветочных композициях. Применение в косметике ограничено стандартами IFRA и действующими регламентами.',
+    en: 'Musk ketone (CAS 81-14-1) is a nitro musk with a sweet, powdery musk odour, used as a fixative in oriental and floral compositions. Its use in cosmetics is restricted by IFRA standards and applicable regulations.',
+  },
+  galaxolide: {
+    uz: 'Galaxolide (HHCB, CAS 1222-05-5) — toza, shirin gulli-yog‘ochsimon hidli politsiklik mushk. Kir yuvish vositalari, yumshatgichlar, sovun va kosmetika otdushkalarida «tozalik» hissini beruvchi va hidni matoda uzoq saqlovchi baza notasi sifatida keng qo‘llanadi.',
+    ru: 'Галаксолид (HHCB, CAS 1222-05-5) — полициклический мускус с чистым сладким цветочно-древесным запахом. Широко применяется в отдушках для стиральных средств, кондиционеров для белья, мыла и косметики как базовая нота, дающая ощущение чистоты и стойкость запаха на ткани.',
+    en: 'Galaxolide (HHCB, CAS 1222-05-5) is a polycyclic musk with a clean, sweet floral-woody odour. It is widely used in fragrances for detergents, fabric softeners, soap and cosmetics as a base note that gives a clean feel and long-lasting scent on fabric.',
+  },
+  'ethylene-brassylate': {
+    uz: 'Etilenbrassilat (CAS 105-95-3) — shirin, kukunsimon mushk hidiga ega makrotsiklik mushk. Atir va kosmetika kompozitsiyalarida baza notasi va fiksator sifatida, gulli va sharqona hidlarni yumshatish uchun ishlatiladi.',
+    ru: 'Этиленбрассилат (CAS 105-95-3) — макроциклический мускус со сладким пудровым запахом. Используется в парфюмерных и косметических композициях как базовая нота и фиксатор, смягчает цветочные и восточные аккорды.',
+    en: 'Ethylene brassylate (CAS 105-95-3) is a macrocyclic musk with a sweet, powdery odour. It is used in fragrance and cosmetic compositions as a base note and fixative and to soften floral and oriental accords.',
+  },
+  'benzyl-acetate': {
+    uz: 'Benzilatsetat (CAS 140-11-4) — shirin mevali-gulli, yasmin hidiga ega efir; yasmin absolyutining asosiy komponentlaridan biri. Yasmin va oq gullar kompozitsiyalarida, sovun va uy kimyosi otdushkalarida qo‘llanadi.',
+    ru: 'Бензилацетат (CAS 140-11-4) — сложный эфир со сладким фруктово-цветочным запахом жасмина; один из основных компонентов абсолю жасмина. Применяется в жасминовых и белоцветочных композициях, отдушках для мыла и бытовой химии.',
+    en: 'Benzyl acetate (CAS 140-11-4) is an ester with a sweet fruity-floral jasmine odour and one of the main constituents of jasmine absolute. It is used in jasmine and white-floral compositions and in fragrances for soap and household products.',
+  },
+  'benzyl-salicylate': {
+    uz: 'Benzilsalitsilat (CAS 118-58-1) — kuchsiz, shirin balzamik-gulli hidli modda. Gulli kompozitsiyalarda aralashtiruvchi va fiksator sifatida, kosmetika va kir yuvish vositalari otdushkalarida ishlatiladi.',
+    ru: 'Бензилсалицилат (CAS 118-58-1) — вещество со слабым сладким бальзамически-цветочным запахом. Используется как связующий компонент и фиксатор в цветочных композициях, в отдушках для косметики и стиральных средств.',
+    en: 'Benzyl salicylate (CAS 118-58-1) has a faint, sweet balsamic-floral odour. It is used as a blender and fixative in floral compositions and in fragrances for cosmetics and laundry products.',
+  },
+  '1-4-cineole': {
+    uz: '1,4-Sineol (CAS 470-67-7) — yangi, kamforasimon-yalpizli, laymga o‘xshash hidli modda; laym efir moyida uchraydi. Yangi va yalpizli kompozitsiyalarda, uy kimyosi otdushkalarida qo‘llanadi. Evkaliptdagi 1,8-sineol (evkaliptol) bilan adashtirmaslik kerak.',
+    ru: '1,4-Цинеол (CAS 470-67-7) — вещество со свежим камфорно-мятным запахом с лаймовым оттенком; встречается в эфирном масле лайма. Применяется в свежих и мятных композициях, отдушках для бытовой химии. Не путать с 1,8-цинеолом (эвкалиптолом) из эвкалипта.',
+    en: '1,4-Cineole (CAS 470-67-7) has a fresh, camphoraceous-minty odour with a lime-like nuance and occurs in lime oil. It is used in fresh and minty compositions and in household-product fragrances. It should not be confused with 1,8-cineole (eucalyptol) from eucalyptus.',
+  },
+  piperitone: {
+    uz: 'Piperiton (CAS 89-81-6) — yangi yalpizli-kamforasimon hidli keton; Eucalyptus dives efir moyining asosiy komponenti. Yalpizli va salqinlashtiruvchi kompozitsiyalarda ishlatiladi.',
+    ru: 'Пиперитон (CAS 89-81-6) — кетон со свежим мятно-камфорным запахом; основной компонент эфирного масла Eucalyptus dives. Используется в мятных и освежающих композициях.',
+    en: 'Piperitone (CAS 89-81-6) is a ketone with a fresh minty-camphoraceous odour and the main constituent of Eucalyptus dives oil. It is used in minty and cooling compositions.',
+  },
+  '1-hexanol-natural': {
+    uz: '1-Geksanol (CAS 111-27-3) — yashil, o‘tsimon-mevali hidli spirt; ko‘plab meva va ko‘katlarda tabiiy holda uchraydi. Olma, rezavor va boshqa meva aromatizatorlariga yangi «yashil» nota berish hamda atirchilikda qo‘llanadi.',
+    ru: '1-Гексанол (CAS 111-27-3) — спирт с зелёным травянисто-фруктовым запахом; в природе содержится во многих фруктах и зелени. Применяется для свежей «зелёной» ноты в яблочных, ягодных и других фруктовых ароматизаторах, а также в парфюмерии.',
+    en: '1-Hexanol (CAS 111-27-3) is an alcohol with a green, grassy-fruity odour that occurs naturally in many fruits and greens. It is used to add a fresh green note to apple, berry and other fruit flavours and in perfumery.',
+  },
+  '2-acetylfuran': {
+    uz: '2-Atsetilfuran (CAS 1192-62-7) — shirin balzamik, bodom-karamel va qovurilgan notali modda; termik ishlov berishda (Mayyar reaksiyasi) hosil bo‘ladigan hid moddalaridan biri. Pishiriq, kofe, kakao va yong‘oq aromatizatorlarida juda kichik miqdorda ishlatiladi.',
+    ru: '2-Ацетилфуран (CAS 1192-62-7) — вещество со сладким бальзамическим запахом с миндально-карамельными и обжаренными нотами; одно из соединений, образующихся при термообработке (реакция Майяра). Используется в очень малых количествах в ароматизаторах выпечки, кофе, какао и орехов.',
+    en: '2-Acetylfuran (CAS 1192-62-7) has a sweet, balsamic odour with almond-caramel and roasted notes and is one of the compounds formed during heating (Maillard reaction). It is used at very low levels in bakery, coffee, cocoa and nut flavours.',
+  },
+  '2-pentyl-furan': {
+    uz: '2-Pentilfuran (CAS 3777-69-3) — yashil, dukkakli-yerli va mevali notali modda; yog‘larning oksidlanishida va ko‘plab oziq-ovqat mahsulotlarida tabiiy hosil bo‘ladi. Meva, sabzavot va sho‘r ta’mli aromatizatorlarda juda kichik miqdorda qo‘llanadi.',
+    ru: '2-Пентилфуран (CAS 3777-69-3) — вещество с зелёным бобово-землистым и фруктовым оттенком; естественно образуется при окислении жиров и присутствует во многих продуктах. Применяется в очень малых количествах во фруктовых, овощных и солёных ароматизаторах.',
+    en: '2-Pentylfuran (CAS 3777-69-3) has a green, beany-earthy and fruity character and forms naturally during fat oxidation in many foods. It is used at very low levels in fruit, vegetable and savoury flavours.',
+  },
+  acetanisole: {
+    uz: 'Atsetanizol (4-metoksiatsetofenon, CAS 100-06-1) — shirin, do‘lana guliga o‘xshash, anis-vanil notali hidli modda. Vanil, anis va yong‘oq aromatizatorlarida, pishiriq va qandolatda, shuningdek gulli atir kompozitsiyalarida ishlatiladi.',
+    ru: 'Ацетанизол (4-метоксиацетофенон, CAS 100-06-1) — вещество со сладким запахом цветков боярышника с анисово-ванильным оттенком. Используется в ванильных, анисовых и ореховых ароматизаторах для выпечки и кондитерских изделий, а также в цветочных парфюмерных композициях.',
+    en: 'Acetanisole (4-methoxyacetophenone, CAS 100-06-1) has a sweet, hawthorn-like odour with an anise-vanilla nuance. It is used in vanilla, anise and nut flavours for bakery and confectionery and in floral fragrance compositions.',
+  },
+  adoxal: {
+    uz: 'Adoxal (CAS 141-13-9) — yangi aldegidli, dengiz-gulli, «suvli» notaga ega aroma kimyoviy modda. Yangi va dengiz yo‘nalishidagi kompozitsiyalarda, kir yuvish vositalari va uy kimyosi otdushkalarida kichik dozada ishlatiladi.',
+    ru: 'Адоксаль (CAS 141-13-9) — ароматическое вещество со свежей альдегидной морской цветочной «водной» нотой. Используется в небольших дозировках в свежих и морских композициях, отдушках для стиральных средств и бытовой химии.',
+    en: 'Adoxal (CAS 141-13-9) is an aroma chemical with a fresh aldehydic, marine-floral, watery note. It is used at low levels in fresh and marine compositions and in fragrances for laundry and household products.',
+  },
+  bacdanol: {
+    uz: 'Bacdanol (CAS 28219-61-6) — sandal daraxtiga o‘xshash kremsimon-yog‘ochsimon hidli sintetik modda. Atir va kosmetika kompozitsiyalarida sandal notasini qurish uchun tabiiy sandal moyi o‘rnini bosuvchi sifatida qo‘llanadi.',
+    ru: 'Бакданол (CAS 28219-61-6) — синтетическое вещество со сливочно-древесным запахом сандала. Применяется в парфюмерных и косметических композициях для построения сандаловой ноты как заменитель натурального сандалового масла.',
+    en: 'Bacdanol (CAS 28219-61-6) is a synthetic material with a creamy, woody sandalwood odour. It is used in fragrance and cosmetic compositions to build sandalwood notes as a replacement for natural sandalwood oil.',
+  },
+  'damascone-beta': {
+    uz: 'Beta-damaskon — kuchli mevali-atirgul hidli «atirgul ketonlari» guruhiga mansub modda; olxo‘ri, qora smorodina va tamaki notalari bilan. Juda kichik dozada atirgul va mevali-gulli kompozitsiyalarga hajm va iliqlik berish uchun ishlatiladi.',
+    ru: 'Бета-дамаскон — вещество из группы «розовых кетонов» с мощным фруктово-розовым запахом с оттенками сливы, чёрной смородины и табака. В очень малых дозировках добавляет объём и теплоту розовым и фруктово-цветочным композициям.',
+    en: 'Beta-damascone belongs to the rose ketones and has a powerful fruity-rose odour with plum, blackcurrant and tobacco nuances. At very low levels it adds volume and warmth to rose and fruity-floral compositions.',
+  },
+  'ionone-alpha': {
+    uz: 'Alfa-ionon (CAS 127-41-3) — binafsha guliga xos gulli, yog‘ochsimon-mevali (malina) notali modda. Binafsha va gulli kompozitsiyalarda, kosmetika otdushkalarida qo‘llanadi; aromatizatorlarda malina notasini qurishda ham ishlatiladi.',
+    ru: 'Альфа-ионон (CAS 127-41-3) — вещество с цветочным запахом фиалки и древесно-фруктовым (малиновым) оттенком. Используется в фиалковых и цветочных композициях, косметических отдушках, а в ароматизаторах — для построения малиновой ноты.',
+    en: 'Alpha-ionone (CAS 127-41-3) has a floral violet odour with a woody-fruity, raspberry-like nuance. It is used in violet and floral compositions and cosmetic fragrances, and in flavours to build raspberry notes.',
+  },
+  dihydromyrcenol: {
+    uz: 'Digidromirsenol (CAS 18479-58-8) — yangi sitrus-laym, biroz metallsimon-gulli hidli spirt. Erkaklar atirlari, kir yuvish vositalari, yumshatgichlar va uy kimyosi otdushkalarida «toza yangilik» notasi uchun keng qo‘llanadi.',
+    ru: 'Дигидромирценол (CAS 18479-58-8) — спирт со свежим цитрусово-лаймовым, слегка металлически-цветочным запахом. Широко используется для ноты «чистой свежести» в мужской парфюмерии, отдушках для стиральных средств, кондиционеров и бытовой химии.',
+    en: 'Dihydromyrcenol (CAS 18479-58-8) is an alcohol with a fresh citrus-lime, slightly metallic-floral odour. It is widely used for a clean, fresh note in masculine fragrances and in fragrances for detergents, fabric softeners and household products.',
+  },
+  calone: {
+    uz: 'Calone (CAS 28940-11-6) — tarvuz va dengiz-ozon notali juda kuchli aroma kimyoviy modda; «dengiz» (akvatik) yo‘nalishidagi atirlarning asosiy komponenti. Juda kichik dozada yangi va dengiz kompozitsiyalarida ishlatiladi.',
+    ru: 'Калон (CAS 28940-11-6) — очень мощное ароматическое вещество с нотами арбуза и морского озона; ключевой компонент «морских» (акватических) ароматов. Используется в очень малых дозировках в свежих и морских композициях.',
+    en: 'Calone (CAS 28940-11-6) is a very powerful aroma chemical with watermelon and marine-ozonic notes and a key component of aquatic fragrances. It is used at very low levels in fresh and marine compositions.',
+  },
+  'cis-3-hexenol': {
+    uz: 'Sis-3-geksenol («barg spirti», CAS 928-96-1) — yangi o‘rilgan o‘t hidiga ega spirt; barglar va ko‘plab mevalarda tabiiy uchraydi. Meva aromatizatorlariga yangi «yashil» nota berish va atirchilikda yashil notalar uchun qo‘llanadi.',
+    ru: 'Цис-3-гексенол («листовой спирт», CAS 928-96-1) — спирт с запахом свежескошенной травы; естественно присутствует в листьях и многих фруктах. Применяется для свежей «зелёной» ноты во фруктовых ароматизаторах и для зелёных нот в парфюмерии.',
+    en: 'Cis-3-hexenol (leaf alcohol, CAS 928-96-1) has the odour of freshly cut grass and occurs naturally in leaves and many fruits. It is used to add a fresh green note to fruit flavours and for green notes in perfumery.',
+  },
+  furfural: {
+    uz: 'Furfurol (CAS 98-01-1) — shirin, bodom-nonsimon va karamel notali modda; qand va uglevodlarni qizdirishda tabiiy hosil bo‘ladi. Pishiriq, karamel va qovurilgan ta’mli aromatizatorlarda juda kichik miqdorda ishlatiladi.',
+    ru: 'Фурфурол (CAS 98-01-1) — вещество со сладким миндально-хлебным и карамельным запахом; естественно образуется при нагревании сахаров и углеводов. Используется в очень малых количествах в ароматизаторах выпечки, карамели и обжаренных вкусов.',
+    en: 'Furfural (CAS 98-01-1) has a sweet, almond-bready and caramel odour and forms naturally when sugars and carbohydrates are heated. It is used at very low levels in bakery, caramel and roasted flavours.',
+  },
+  nootkatone: {
+    uz: 'Nutkaton (CAS 4674-50-4) — greyfurtning xarakterli hid moddasi: achchiqroq, yog‘ochsimon-sitrus nota. Greyfurt va sitrus aromatizatorlarida, ichimliklarda hamda atirchilikda qo‘llanadi.',
+    ru: 'Нуткатон (CAS 4674-50-4) — ключевое ароматическое вещество грейпфрута с горьковатой древесно-цитрусовой нотой. Применяется в грейпфрутовых и цитрусовых ароматизаторах, напитках и парфюмерии.',
+    en: 'Nootkatone (CAS 4674-50-4) is the character-impact compound of grapefruit, with a slightly bitter, woody-citrus note. It is used in grapefruit and citrus flavours, beverages and perfumery.',
+  },
+  sclareolide: {
+    uz: 'Sklareolid (CAS 564-20-5) — muskat shalfeyidan olinadigan sklareoldan hosil qilinadigan modda; ambra-tamaki notali fiksator. Atir kompozitsiyalarida hidni mustahkamlash uchun ishlatiladi, ambrali moddalarni sintez qilishda ham boshlang‘ich xomashyo hisoblanadi.',
+    ru: 'Склареолид (CAS 564-20-5) — вещество, получаемое из склареола шалфея мускатного; фиксатор с амброво-табачной нотой. Используется для закрепления запаха в парфюмерных композициях, а также служит исходным сырьём для синтеза амбровых веществ.',
+    en: 'Sclareolide (CAS 564-20-5) is derived from sclareol obtained from clary sage and acts as a fixative with an ambery-tobacco note. It is used to anchor fragrance compositions and is also a starting material for the synthesis of amber odorants.',
+  },
+  'veramoss-evernyl': {
+    uz: 'Veramoss / Evernyl (metil atrarat, CAS 4707-47-5) — yerli-moxli hidga ega sintetik modda. Atir va kir yuvish vositalari otdushkalarida tabiiy eman moxi (oakmoss) ekstrakti o‘rnini bosuvchi sifatida shipr va yog‘ochsimon kompozitsiyalarda qo‘llanadi.',
+    ru: 'Верамосс / Эверниль (метилатрарат, CAS 4707-47-5) — синтетическое вещество с землисто-моховым запахом. Применяется в шипровых и древесных композициях, отдушках для парфюмерии и стиральных средств как заменитель натурального экстракта дубового мха.',
+    en: 'Veramoss / Evernyl (methyl atrarate, CAS 4707-47-5) is a synthetic material with an earthy, mossy odour. It is used in chypre and woody compositions and in fragrances for perfumery and laundry products as a replacement for natural oakmoss extract.',
+  },
+  tonalide: {
+    uz: 'Tonalide (AHTN, CAS 21145-77-7) — shirin mushk-yog‘ochsimon hidli politsiklik mushk. Kir yuvish vositalari, yumshatgichlar va sovun otdushkalarida baza notasi va fiksator sifatida ishlatiladi; kosmetikada qo‘llash me’yori amaldagi reglamentlar bilan cheklangan.',
+    ru: 'Тоналид (AHTN, CAS 21145-77-7) — полициклический мускус со сладким мускусно-древесным запахом. Используется как базовая нота и фиксатор в отдушках для стиральных средств, кондиционеров и мыла; содержание в косметике ограничено действующими регламентами.',
+    en: 'Tonalide (AHTN, CAS 21145-77-7) is a polycyclic musk with a sweet musky-woody odour. It is used as a base note and fixative in fragrances for detergents, fabric softeners and soap; its level in cosmetics is limited by applicable regulations.',
+  },
+  cashmeran: {
+    uz: 'Cashmeran (CAS 33704-61-9) — mushk-yog‘ochsimon, biroz ziravorli, «baxmal» notali aroma kimyoviy modda. Atir, kosmetika va kir yuvish vositalari otdushkalarida iliqlik va yumshoqlik beruvchi komponent sifatida ishlatiladi.',
+    ru: 'Кашмеран (CAS 33704-61-9) — ароматическое вещество с мускусно-древесной, слегка пряной «бархатной» нотой. Используется в парфюмерии, косметике и отдушках для стиральных средств как компонент, придающий теплоту и мягкость.',
+    en: 'Cashmeran (CAS 33704-61-9) is an aroma chemical with a musky-woody, slightly spicy, velvety note. It is used in perfumery, cosmetics and laundry fragrances to add warmth and softness.',
+  },
+  ebanol: {
+    uz: 'Ebanol (CAS 67801-20-1) — juda kuchli sandal daraxti notali sintetik modda. Atir va kosmetika kompozitsiyalarida kichik dozada sandal va yog‘ochsimon notalarni qurish uchun qo‘llanadi.',
+    ru: 'Эбанол (CAS 67801-20-1) — синтетическое вещество с очень мощной сандаловой нотой. Применяется в небольших дозировках для построения сандаловых и древесных нот в парфюмерных и косметических композициях.',
+    en: 'Ebanol (CAS 67801-20-1) is a synthetic material with a very powerful sandalwood note. It is used at low levels to build sandalwood and woody notes in fragrance and cosmetic compositions.',
+  },
+  'jasmone-cis': {
+    uz: 'Sis-jasmon (CAS 488-10-8) — yasmin absolyutida uchraydigan, yasminga xos yangi gulli, biroz mevali-o‘tsimon hidli keton. Yasmin va oq gullar kompozitsiyalarida tabiiylik berish uchun ishlatiladi.',
+    ru: 'Цис-жасмон (CAS 488-10-8) — кетон из абсолю жасмина со свежим цветочным, слегка фруктово-травянистым запахом, характерным для жасмина. Используется для придания натуральности жасминовым и белоцветочным композициям.',
+    en: 'Cis-jasmone (CAS 488-10-8) is a ketone found in jasmine absolute, with a fresh floral, slightly fruity-herbal odour characteristic of jasmine. It is used to add naturalness to jasmine and white-floral compositions.',
+  },
 };
 
 /**

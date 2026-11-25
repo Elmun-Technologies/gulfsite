@@ -3,6 +3,21 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-25
+
+**Raqamlar (jonli):** sitemap **2185** (+4: #49 maqolalari) · 64 ta URL (60 tasodifiy + 4 yangi maqola): 0 muammo ·
+`/` → `/uz` 307 · www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 ·
+IndexNow kalit 200 · TTFB `/uz` ≈ 0.9–1.3 s (oldingidan sekinroq) · CI/IndexNow yashil.
+
+**Qilingan:** `product-facts.ts` — aroma kimyosining qolgan 30 ta pozitsiyasi uchun texnik tavsif (CAS, hid profili,
+qaysi tabiiy moyda uchraydi, qo'llanish) — "Aroma kimyosi" kategoriyasi endi 40/40. Mushk keton va Tonalide uchun
+"qo'llanish reglamentlar bilan cheklangan" (umumiy fakt), 1,4-sineol ≠ evkaliptol. Fizik shakl yozilmadi
+(katalogda hammasi "suyuq").
+
+**Raqobat/AI:** 8 so'rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, glotr, top.uz, uzum).
+prom.uz "Ароматизаторы" bo'limi: 56 taklif / 20 sotuvchi, ko'pi diffuzor va propilenglikol; Grand Flavour (prom.uz) —
+~24 e'lon, ko'pi "нет в наличии", tavsifsiz. Hech birida texnik tavsif (CAS, doza) yoki namuna va'dasi yo'q.
+
 ## 2026-11-24 (kechki run)
 
 **Raqamlar (jonli):** sitemap **2181** (o'zgarmagan) · 60 ta tasodifiy URL: 0 muammo · `/` → `/uz` 307 ·
