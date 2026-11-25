@@ -3,6 +3,22 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-25 (kechki run)
+
+**Raqamlar (jonli):** sitemap **2185** (o'zgarmagan, 3 so'rovda bir xil) · 60 ta tasodifiy URL: 0 muammo ·
+`/` → `/uz` 307 · www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 ·
+IndexNow kalit 200 · TTFB `/uz` ≈ 0.45–0.9 s · CI/IndexNow yashil. #50 (aroma kimyosi) jonli.
+
+**Qilingan:** `product-facts.ts` — oziq-ovqat qo'shimchalaridan yana 30 ta pozitsiya (bo'yoqlar E151/E155/E163/E150d/E141/E162,
+sirka kislotasi, eritorbat, nitrit, TBHQ, askorbat, B3/B5/D3/A/B9, rux va temir sulfat, CaCO₃, TCP, pektin NH, jelatin,
+qabartuvchilar, SSL, DATEM, SHMP) + `skimmed-milk-powder-bulk` aliasi. "Oziq-ovqat qo'shimchalari" endi 74/95.
+Ruxsat/doza — "texnik reglament bo'yicha" (E151/E155 AQShda ruxsat etilmaganligi — umumiy fakt).
+
+**Topildi (egasi):** katalogda natriy nitriti dozasi "0.05–2%" — sof nitrit uchun xavfli darajada yuqori
+(odatda nitritli tuz aralashmasi orqali, mg/kg darajasida). Admin → Mahsulotlar orqali tuzatish kerak.
+
+**Raqobat/AI:** 6 so'rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, glotr, top.uz, uzum, olx).
+
 ## 2026-11-25
 
 **Raqamlar (jonli):** sitemap **2185** (+4: #49 maqolalari) · 64 ta URL (60 tasodifiy + 4 yangi maqola): 0 muammo ·

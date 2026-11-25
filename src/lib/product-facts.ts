@@ -701,6 +701,159 @@ export const PRODUCT_FACTS: Record<string, Facts> = {
     ru: 'Цис-жасмон (CAS 488-10-8) — кетон из абсолю жасмина со свежим цветочным, слегка фруктово-травянистым запахом, характерным для жасмина. Используется для придания натуральности жасминовым и белоцветочным композициям.',
     en: 'Cis-jasmone (CAS 488-10-8) is a ketone found in jasmine absolute, with a fresh floral, slightly fruity-herbal odour characteristic of jasmine. It is used to add naturalness to jasmine and white-floral compositions.',
   },
+
+  // ── Oziq-ovqat qo‘shimchalari: bo‘yoqlar ─────────────────────────────────
+  'black-pn-e151': {
+    uz: 'Qora PN (Brilliant Black BN, CAS 2519-30-4, E151) — suvda eriydigan sintetik azo-bo‘yoq, qora-binafsha rang beradi. Qandolat, glazur va ichimliklarda qora va to‘q tuslarni olish uchun, ko‘pincha boshqa bo‘yoqlar bilan aralashmada ishlatiladi. Hamma mamlakatlarda ham ruxsat etilmagan (masalan, AQShda) — eksport mahsulotida va ruxsat etilgan dozalarni texnik reglament bo‘yicha tekshiring.',
+    ru: 'Чёрный блестящий PN (Brilliant Black BN, CAS 2519-30-4, E151) — водорастворимый синтетический азокраситель чёрно-фиолетового цвета. Применяется в кондитерских изделиях, глазурях и напитках для получения чёрных и тёмных оттенков, часто в смеси с другими красителями. Разрешён не во всех странах (например, не разрешён в США) — для экспортной продукции и по допустимым дозировкам сверяйтесь с техническими регламентами.',
+    en: 'Black PN (Brilliant Black BN, CAS 2519-30-4, E151) is a water-soluble synthetic azo colour giving a black-violet shade. It is used in confectionery, glazes and beverages to build black and dark shades, often blended with other colours. It is not permitted in every country (for example, not in the USA), so check export markets and permitted levels against the applicable regulations.',
+  },
+  'brown-ht-e155': {
+    uz: 'Jigarrang HT (Chocolate Brown HT, CAS 4553-89-3, E155) — suvda eriydigan sintetik azo-bo‘yoq, shokolad-jigarrang tus beradi. Pishiriq, qandolat va ichimliklarda kakao yoki karamel rangini kuchaytirish uchun ishlatiladi. AQShda oziq-ovqat bo‘yog‘i sifatida ruxsat etilmagan — eksport va dozalarni texnik reglament bo‘yicha tekshiring.',
+    ru: 'Коричневый HT (Chocolate Brown HT, CAS 4553-89-3, E155) — водорастворимый синтетический азокраситель шоколадно-коричневого цвета. Применяется в выпечке, кондитерских изделиях и напитках для усиления «какао» или карамельного оттенка. В США как пищевой краситель не разрешён — экспорт и дозировки сверяйте с техническими регламентами.',
+    en: 'Brown HT (Chocolate Brown HT, CAS 4553-89-3, E155) is a water-soluble synthetic azo colour with a chocolate-brown shade. It is used in bakery, confectionery and beverages to reinforce a cocoa or caramel colour. It is not permitted as a food colour in the USA, so check export markets and permitted levels against the applicable regulations.',
+  },
+  'anthocyanin-powder-e163': {
+    uz: 'Antotsianinlar (E163) — rezavorlar, uzum po‘sti, qora sabzi kabi o‘simliklardan olinadigan tabiiy bo‘yoqlar. Rangi muhit kislotaligiga bog‘liq: kislotali mahsulotda qizil, neytralga yaqinlashganda binafsha-ko‘k tusga o‘tadi. Shuning uchun asosan kislotali ichimliklar, yogurt, jele va qandolatda ishlatiladi; yorug‘lik va yuqori haroratga sezgir.',
+    ru: 'Антоцианы (E163) — натуральные красители из ягод, кожицы винограда, чёрной моркови и других растений. Цвет зависит от кислотности: в кислой среде красный, ближе к нейтральной — фиолетово-синий. Поэтому применяются в основном в кислых напитках, йогуртах, желе и кондитерских изделиях; чувствительны к свету и высокой температуре.',
+    en: 'Anthocyanins (E163) are natural colours obtained from berries, grape skins, black carrot and other plants. The shade depends on acidity: red in acidic products, shifting to violet-blue towards neutral pH. They are therefore used mainly in acidic beverages, yoghurt, jellies and confectionery, and are sensitive to light and high temperatures.',
+  },
+  'caramel-colour-class-iv-e150d': {
+    uz: 'Karamel rangi IV klass (sulfit-ammiakli karamel, E150d) — shakarni ammoniy va sulfit birikmalari ishtirokida qizdirib olinadigan to‘q jigarrang suyuq bo‘yoq. Manfiy zaryadli va kislotali muhitda barqaror, shuning uchun kola tipidagi ichimliklar, souslar va pishiriqda ishlatiladi. Karamel ta’mi deyarli sezilmaydi — vazifasi faqat rang.',
+    ru: 'Карамельный колер IV класса (аммиачно-сульфитная карамель, E150d) — тёмно-коричневый жидкий краситель, получаемый нагреванием сахаров в присутствии аммонийных и сульфитных соединений. Отрицательно заряжен и стабилен в кислой среде, поэтому применяется в напитках типа колы, соусах и выпечке. Карамельного вкуса практически не даёт — задача только цвет.',
+    en: 'Caramel colour class IV (sulphite ammonia caramel, E150d) is a dark-brown liquid colour made by heating sugars in the presence of ammonium and sulphite compounds. It carries a negative charge and is stable in acidic conditions, so it is used in cola-type drinks, sauces and bakery. It contributes colour rather than a noticeable caramel taste.',
+  },
+  'chlorophyll-copper-complex-e141': {
+    uz: 'Xlorofill-mis komplekslari (E141) — xlorofilldagi magniyni mis bilan almashtirib olinadigan yashil bo‘yoq; oddiy xlorofilldan (E140) ko‘ra yorug‘lik va issiqlikka barqarorroq. E141(i) — yog‘da eriydigan shakl, E141(ii) — suvda eriydigan xlorofillin tuzlari. Ichimliklar, sut mahsulotlari va qandolatda yashil va zaytun tuslar uchun ishlatiladi.',
+    ru: 'Медные комплексы хлорофилла (E141) — зелёный краситель, получаемый заменой магния в хлорофилле на медь; устойчивее к свету и нагреву, чем обычный хлорофилл (E140). E141(i) — жирорастворимая форма, E141(ii) — водорастворимые соли хлорофиллина. Применяется в напитках, молочной продукции и кондитерских изделиях для зелёных и оливковых оттенков.',
+    en: 'Copper complexes of chlorophyll (E141) are green colours made by replacing the magnesium in chlorophyll with copper, which makes them more stable to light and heat than plain chlorophyll (E140). E141(i) is the oil-soluble form; E141(ii) are the water-soluble chlorophyllin salts. They are used in beverages, dairy and confectionery for green and olive shades.',
+  },
+  'beetroot-red-e162': {
+    uz: 'Lavlagi qizili (betanin, E162) — qizil lavlagidan olinadigan tabiiy pushti-qizil bo‘yoq. Uzoq qizdirish, yorug‘lik va kislorodga sezgir, shuning uchun kuchli termik ishlov berilmaydigan mahsulotlarda — muzqaymoq, yogurt, sut desertlari va sovuq ichimliklarda — eng yaxshi natija beradi.',
+    ru: 'Свекольный красный (бетанин, E162) — натуральный розово-красный краситель из красной свёклы. Чувствителен к длительному нагреву, свету и кислороду, поэтому лучше всего работает в продуктах без жёсткой термообработки — мороженом, йогуртах, молочных десертах и холодных напитках.',
+    en: 'Beetroot red (betanin, E162) is a natural pink-red colour extracted from red beet. It is sensitive to prolonged heating, light and oxygen, so it performs best in products without severe heat treatment, such as ice cream, yoghurt, dairy desserts and chilled drinks.',
+  },
+
+  // ── Kislotalar, konservantlar, antioksidantlar ──────────────────────────
+  'acetic-acid-glacial': {
+    uz: 'Muzdek sirka kislotasi (CAS 64-19-7, E260) — deyarli suvsiz sirka kislotasi; taxminan 16,6 °C da muzlaydi, nomi shundan. Sirka, marinad, sous va konservalarda kislotalilikni rostlovchi va konservalovchi sifatida suyultirib ishlatiladi. Konsentrlangan holda o‘yuvchi — himoya vositalari bilan ishlang.',
+    ru: 'Уксусная кислота ледяная (CAS 64-19-7, E260) — практически безводная уксусная кислота; застывает примерно при 16,6 °C, отсюда название. В разбавленном виде используется как регулятор кислотности и консервант в уксусе, маринадах, соусах и консервах. В концентрированном виде едкая — работайте со средствами защиты.',
+    en: 'Glacial acetic acid (CAS 64-19-7, E260) is essentially water-free acetic acid; it solidifies at about 16.6 °C, hence the name. Diluted, it is used as an acidity regulator and preservative in vinegar, marinades, sauces and canned foods. It is corrosive when concentrated, so handle it with protective equipment.',
+  },
+  'sodium-erythorbate': {
+    uz: 'Natriy eritorbati (CAS 6381-77-7, E316) — natriy askorbatining stereoizomeri bo‘lgan antioksidant. Kolbasa va dudlangan go‘sht mahsulotlarida nitrit bilan birga tuzlash jarayonini tezlashtiradi, pushti rangni barqarorlashtiradi va nitrozaminlar hosil bo‘lishini kamaytiradi; konservalarda oksidlanishni sekinlashtiradi.',
+    ru: 'Эриторбат натрия (CAS 6381-77-7, E316) — антиокислитель, стереоизомер аскорбата натрия. В колбасных изделиях и копчёностях вместе с нитритом ускоряет посол, стабилизирует розовый цвет и снижает образование нитрозаминов; в консервах замедляет окисление.',
+    en: 'Sodium erythorbate (CAS 6381-77-7, E316) is an antioxidant and a stereoisomer of sodium ascorbate. In cured and smoked meats it is used with nitrite to speed up curing, stabilise the pink colour and reduce nitrosamine formation; in canned foods it slows oxidation.',
+  },
+  'sodium-nitrite': {
+    uz: 'Natriy nitriti (CAS 7632-00-0, E250) — go‘sht mahsulotlarini tuzlash vositasi: pushti rang va «tuzlangan go‘sht» ta’mini beradi, Clostridium botulinum rivojlanishini to‘xtatadi. Sof holda zaharli, shuning uchun amalda odatda nitritli tuzlash aralashmasi tarkibida ishlatiladi; miqdori texnik reglamentlar bilan qat’iy cheklangan.',
+    ru: 'Нитрит натрия (CAS 7632-00-0, E250) — посолочное вещество для мясной продукции: даёт розовый цвет и вкус «ветчинности», подавляет развитие Clostridium botulinum. В чистом виде токсичен, поэтому на практике обычно применяется в составе нитритной посолочной смеси; содержание строго ограничено техническими регламентами.',
+    en: 'Sodium nitrite (CAS 7632-00-0, E250) is a curing agent for meat products: it gives the pink colour and cured flavour and inhibits Clostridium botulinum. It is toxic in pure form, so in practice it is normally used as part of a nitrite curing salt, and its content is strictly limited by regulations.',
+  },
+  'tbhq-antioxidant': {
+    uz: 'TBHQ (tert-butilgidroxinon, CAS 1948-33-0, E319) — o‘simlik moylari va yog‘lar uchun sintetik antioksidant. Qovurish moylari, chips va snacklar, yog‘li souslarda achib qolishni sekinlashtiradi va yuqori haroratda ham samarali. Ruxsat etilgan miqdor yog‘ massasiga nisbatan reglamentlanadi.',
+    ru: 'ТБГХ (трет-бутилгидрохинон, TBHQ, CAS 1948-33-0, E319) — синтетический антиокислитель для растительных масел и жиров. Замедляет прогоркание фритюрных масел, чипсов и снеков, жирных соусов и сохраняет эффективность при высоких температурах. Допустимое количество нормируется от массы жира.',
+    en: 'TBHQ (tert-butylhydroquinone, CAS 1948-33-0, E319) is a synthetic antioxidant for vegetable oils and fats. It slows rancidity in frying oils, crisps and snacks and fatty sauces, and remains effective at high temperatures. Permitted levels are set relative to the fat content.',
+  },
+  'sodium-ascorbate': {
+    uz: 'Natriy askorbati (CAS 134-03-2, E301) — askorbin kislotasining natriy tuzi: antioksidant va C vitamini manbai, kislotaga qaraganda ta’mi yumshoq. Go‘sht mahsulotlarida nitrit bilan tuzlashni tezlashtiradi va rangni barqarorlashtiradi, ichimliklar va biologik faol qo‘shimchalarda boyitish uchun ishlatiladi.',
+    ru: 'Аскорбат натрия (CAS 134-03-2, E301) — натриевая соль аскорбиновой кислоты: антиокислитель и источник витамина C с более мягким вкусом, чем у кислоты. В мясной продукции вместе с нитритом ускоряет посол и стабилизирует цвет, в напитках и БАД применяется для обогащения.',
+    en: 'Sodium ascorbate (CAS 134-03-2, E301) is the sodium salt of ascorbic acid: an antioxidant and vitamin C source with a milder taste than the acid. In meat products it speeds up nitrite curing and stabilises colour; in beverages and supplements it is used for fortification.',
+  },
+
+  // ── Vitamin va minerallar (boyitish) ────────────────────────────────────
+  'niacinamide-vitamin-b3': {
+    uz: 'Niatsinamid (nikotinamid, CAS 98-92-0) — B3 vitaminining suvda yaxshi eriydigan shakli. Un va yorma mahsulotlari, ichimliklar va biologik faol qo‘shimchalarni boyitishda ishlatiladi; nikotin kislotasidan farqli o‘laroq teri qizarishini chaqirmaydi.',
+    ru: 'Ниацинамид (никотинамид, CAS 98-92-0) — хорошо растворимая в воде форма витамина B3. Применяется для обогащения муки и зерновых продуктов, напитков и БАД; в отличие от никотиновой кислоты не вызывает покраснения кожи.',
+    en: 'Niacinamide (nicotinamide, CAS 98-92-0) is a readily water-soluble form of vitamin B3. It is used to fortify flour and cereal products, beverages and supplements and, unlike nicotinic acid, does not cause skin flushing.',
+  },
+  'calcium-pantothenate-b5': {
+    uz: 'Kalsiy D-pantotenat (CAS 137-08-6) — B5 vitamini (pantoten kislotasi) ning barqaror tuz shakli, suvda eriydigan oq kukun. Vitamin premikslari, boyitilgan ichimliklar, yormalar va biologik faol qo‘shimchalarda ishlatiladi.',
+    ru: 'D-пантотенат кальция (CAS 137-08-6) — стабильная солевая форма витамина B5 (пантотеновой кислоты), белый водорастворимый порошок. Используется в витаминных премиксах, обогащённых напитках, зерновых продуктах и БАД.',
+    en: 'Calcium D-pantothenate (CAS 137-08-6) is the stable salt form of vitamin B5 (pantothenic acid), a white water-soluble powder. It is used in vitamin premixes, fortified beverages, cereal products and supplements.',
+  },
+  'vitamin-d3-cholecalciferol': {
+    uz: 'D3 vitamini (xolekalsiferol, CAS 67-97-0) — yog‘da eriydigan vitamin. Oziq-ovqatda sof holda emas, balki suvda tarqaladigan kukun yoki moyli eritma ko‘rinishida ishlatiladi. Sut va sut mahsulotlari, ichimliklar va biologik faol qo‘shimchalarni boyitish uchun; yorug‘lik va kislorodga sezgir.',
+    ru: 'Витамин D3 (холекальциферол, CAS 67-97-0) — жирорастворимый витамин. В пищевых продуктах применяется не в чистом виде, а в форме диспергируемого в воде порошка или масляного раствора. Для обогащения молока и молочной продукции, напитков и БАД; чувствителен к свету и кислороду.',
+    en: 'Vitamin D3 (cholecalciferol, CAS 67-97-0) is a fat-soluble vitamin. In food it is used not in pure form but as a water-dispersible powder or an oil solution, to fortify milk and dairy products, beverages and supplements. It is sensitive to light and oxygen.',
+  },
+  'vitamin-a-palmitate': {
+    uz: 'A vitamini palmitati (retinil palmitat, CAS 79-81-2) — A vitaminining yog‘da eriydigan efir shakli, moysimon suyuqlik. Margarin, o‘simlik moyi, sut va sut mahsulotlarini boyitishda ishlatiladi; yorug‘lik va kislorodda parchalanadi, shuning uchun odatda antioksidant bilan barqarorlashtiriladi.',
+    ru: 'Пальмитат витамина A (ретинилпальмитат, CAS 79-81-2) — жирорастворимая эфирная форма витамина A, маслянистая жидкость. Применяется для обогащения маргарина, растительных масел, молока и молочной продукции; разрушается на свету и под действием кислорода, поэтому обычно стабилизирован антиоксидантом.',
+    en: 'Vitamin A palmitate (retinyl palmitate, CAS 79-81-2) is the fat-soluble ester form of vitamin A, an oily liquid. It is used to fortify margarine, vegetable oils, milk and dairy products; it degrades in light and oxygen, so it is usually stabilised with an antioxidant.',
+  },
+  'folic-acid-vitamin-b9': {
+    uz: 'Folat kislotasi (CAS 59-30-3) — B9 vitaminining sintetik shakli, sariq-to‘q sariq kukun. Unni boyitish (ko‘plab mamlakatlarda temir bilan birga), pishiriq, sut mahsulotlari va biologik faol qo‘shimchalarda ishlatiladi. Juda kichik dozalarda qo‘llanadi, shuning uchun odatda vitamin premiksi tarkibida kiritiladi.',
+    ru: 'Фолиевая кислота (CAS 59-30-3) — синтетическая форма витамина B9, жёлто-оранжевый порошок. Применяется для обогащения муки (во многих странах вместе с железом), в выпечке, молочной продукции и БАД. Вносится в очень малых дозах, поэтому обычно в составе витаминного премикса.',
+    en: 'Folic acid (CAS 59-30-3) is the synthetic form of vitamin B9, a yellow-orange powder. It is used to fortify flour (in many countries together with iron) and in bakery, dairy products and supplements. Because it is dosed at very low levels, it is usually added as part of a vitamin premix.',
+  },
+  'zinc-sulphate-monohydrate': {
+    uz: 'Rux sulfat monogidrati (CAS 7446-19-7) — suvda eriydigan rux manbai. Unni va yorma mahsulotlarini boyitish, ichimliklar va biologik faol qo‘shimchalarda mikroelement sifatida, odatda mineral premiks tarkibida ishlatiladi.',
+    ru: 'Сульфат цинка моногидрат (CAS 7446-19-7) — водорастворимый источник цинка. Используется как микроэлемент для обогащения муки и зерновых продуктов, в напитках и БАД, обычно в составе минерального премикса.',
+    en: 'Zinc sulphate monohydrate (CAS 7446-19-7) is a water-soluble source of zinc. It is used as a trace mineral to fortify flour and cereal products and in beverages and supplements, usually as part of a mineral premix.',
+  },
+  'ferrous-sulphate': {
+    uz: 'Temir (II) sulfat (FeSO₄) — yaxshi so‘riladigan temir manbai; unni boyitish, pishiriq, sut mahsulotlari va biologik faol qo‘shimchalarda ishlatiladi. Ayrim mahsulotlarda rang o‘zgarishi yoki yog‘ oksidlanishini tezlashtirishi mumkin, shuning uchun doza va shakl (gidrat, inkapsulyatsiya) mahsulotga qarab tanlanadi.',
+    ru: 'Сульфат железа (II) (FeSO₄) — хорошо усваиваемый источник железа; применяется для обогащения муки, в выпечке, молочной продукции и БАД. В некоторых продуктах может вызывать изменение цвета или ускорять окисление жиров, поэтому дозировка и форма (гидрат, инкапсуляция) подбираются под продукт.',
+    en: 'Ferrous sulphate (FeSO₄) is a well-absorbed source of iron used to fortify flour and in bakery, dairy products and supplements. In some foods it can cause colour changes or speed up fat oxidation, so the dose and form (hydrate, encapsulation) are chosen to suit the product.',
+  },
+  'calcium-carbonate': {
+    uz: 'Kalsiy karbonat (CAS 471-34-1, E170) — oq kukun; kalsiy manbai (taxminan 40% kalsiy), shuningdek kislotalilikni rostlovchi va yopishib qolishga qarshi vosita. Unni va sut mahsulotlarini boyitish, pishiriq va biologik faol qo‘shimchalarda ishlatiladi.',
+    ru: 'Карбонат кальция (CAS 471-34-1, E170) — белый порошок; источник кальция (около 40% кальция), а также регулятор кислотности и антислёживатель. Применяется для обогащения муки и молочной продукции, в выпечке и БАД.',
+    en: 'Calcium carbonate (CAS 471-34-1, E170) is a white powder: a calcium source (about 40% calcium) as well as an acidity regulator and anti-caking agent. It is used to fortify flour and dairy products and in bakery and supplements.',
+  },
+  'tricalcium-phosphate': {
+    uz: 'Trikalsiy fosfat (CAS 7758-87-4, E341(iii)) — kalsiy va fosfor manbai hamda kukunlar uchun yopishib qolishga qarshi vosita (sochiluvchanlikni yaxshilaydi). Quruq sut aralashmalari, sut mahsulotlari, pishiriq va biologik faol qo‘shimchalarda ishlatiladi.',
+    ru: 'Трикальцийфосфат (CAS 7758-87-4, E341(iii)) — источник кальция и фосфора и антислёживатель для порошков (улучшает сыпучесть). Применяется в сухих молочных смесях, молочной продукции, выпечке и БАД.',
+    en: 'Tricalcium phosphate (CAS 7758-87-4, E341(iii)) is a source of calcium and phosphorus and an anti-caking agent that keeps powders free-flowing. It is used in dry milk mixes, dairy products, bakery and supplements.',
+  },
+
+  // ── Jele hosil qiluvchilar, qabartuvchilar, emulgatorlar, stabilizatorlar ─
+  'pectin-nh': {
+    uz: 'Pektin NH (amidlangan past metoksilli pektin, E440(ii)) — kalsiy ishtirokida jele hosil qiladi va termoqaytar: qizdirilganda eriydi, sovuganda yana qotadi. Shu xususiyati uchun pishiriqdagi yaltiroq glazur (nappaj), mevali to‘ldirgichlar va sut desertlarida ishlatiladi; yuqori shakar talab qilmaydi.',
+    ru: 'Пектин NH (амидированный низкоэтерифицированный пектин, E440(ii)) — образует гель в присутствии кальция и термообратим: при нагреве плавится, при охлаждении снова застывает. Поэтому применяется в зеркальных глазурях (nappage), фруктовых начинках и молочных десертах; не требует высокого содержания сахара.',
+    en: 'Pectin NH (amidated low-methoxyl pectin, E440(ii)) forms gels with calcium and is thermo-reversible: it melts when heated and sets again on cooling. This makes it the usual choice for bakery glazes (nappage), fruit fillings and dairy desserts, and it does not require high sugar levels.',
+  },
+  'gelatin-bovine-200-bloom': {
+    uz: 'Mol jelatini 200 Bloom — qoramol xom ashyosidan olinadigan oqsil jele hosil qiluvchi. Bloom — jele mustahkamligi ko‘rsatkichi; 200 Bloom o‘rta-yuqori kuchga to‘g‘ri keladi. Marmelad va jele konfetlar, zefir va marshmallow, sut desertlari va kapsulalarda ishlatiladi; ishlatishdan oldin suvda bo‘ktiriladi.',
+    ru: 'Желатин говяжий 200 блюм — белковый гелеобразователь из сырья КРС. Блюм — показатель прочности геля; 200 блюм соответствует средне-высокой силе. Применяется в мармеладе и жевательных конфетах, зефире и маршмеллоу, молочных десертах и капсулах; перед использованием замачивается в воде.',
+    en: 'Bovine gelatin 200 Bloom is a protein gelling agent made from bovine raw material. Bloom measures gel strength, and 200 Bloom is a medium-high strength. It is used in gummies and jelly sweets, marshmallow, dairy desserts and capsules, and is hydrated in water before use.',
+  },
+  'gelatin-fish': {
+    uz: 'Baliq jelatini — baliq terisi va suyagidan olinadigan oqsil jele hosil qiluvchi; mol yoki cho‘chqa jelatini istalmagan retsepturalarga muqobil. Odatda pastroq haroratda eriydi va qotadi. Qandolat, sut desertlari va kapsulalarda ishlatiladi.',
+    ru: 'Желатин рыбный — белковый гелеобразователь из кожи и костей рыбы; альтернатива для рецептур, где говяжий или свиной желатин нежелателен. Как правило, плавится и застывает при более низкой температуре. Применяется в кондитерских изделиях, молочных десертах и капсулах.',
+    en: 'Fish gelatin is a protein gelling agent made from fish skin and bones, used as an alternative where bovine or porcine gelatin is not wanted. It typically melts and sets at lower temperatures. It is used in confectionery, dairy desserts and capsules.',
+  },
+  'ammonium-bicarbonate': {
+    uz: 'Ammoniy bikarbonati (CAS 1066-33-7, E503(ii)) — qizdirilganda ammiak, karbonat angidrid va suvga to‘liq parchalanadigan qabartuvchi. Ammiak faqat yupqa, quruq mahsulotlardan to‘liq chiqib ketadi, shuning uchun kreker, pechenye va galetada ishlatiladi; qalin va nam pishiriqda ammiak hidi qolishi mumkin.',
+    ru: 'Гидрокарбонат аммония (аммоний углекислый, CAS 1066-33-7, E503(ii)) — разрыхлитель, при нагреве полностью разлагающийся на аммиак, углекислый газ и воду. Аммиак полностью улетучивается только из тонких сухих изделий, поэтому применяется в крекерах, печенье и галетах; в толстых и влажных изделиях может остаться запах аммиака.',
+    en: 'Ammonium bicarbonate (CAS 1066-33-7, E503(ii)) is a leavening agent that decomposes completely into ammonia, carbon dioxide and water on heating. Ammonia escapes fully only from thin, dry products, so it is used in crackers, biscuits and cookies; in thick or moist bakes an ammonia note can remain.',
+  },
+  'baking-powder-double-acting': {
+    uz: 'Ikki bosqichli qabartma kukun — natriy bikarbonati, ikki xil kislotali komponent va tashuvchi (odatda kraxmal) aralashmasi. Gaz bir qismi xamir qorilganda, asosiy qismi pechda qizdirilganda ajraladi, shuning uchun xamir pishirishdan oldin turib qolsa ham hajm yo‘qolmaydi. Keks, biskvit, pechenye va qandolat xamirlarida ishlatiladi.',
+    ru: 'Разрыхлитель двойного действия — смесь гидрокарбоната натрия, двух кислотных компонентов и наполнителя (обычно крахмала). Часть газа выделяется при замесе, основная — при нагреве в печи, поэтому тесто сохраняет объём, даже если постоит перед выпечкой. Применяется в кексах, бисквитах, печенье и кондитерском тесте.',
+    en: 'Double-acting baking powder is a blend of sodium bicarbonate, two acid components and a carrier (usually starch). Some gas is released during mixing and most during heating in the oven, so the batter keeps its volume even if it stands before baking. It is used in cakes, sponges, cookies and confectionery doughs.',
+  },
+  'sodium-acid-pyrophosphate': {
+    uz: 'Natriy atsid pirofosfati (SAPP, CAS 7758-16-9, E450(i)) — qabartma kukunlardagi sekin reaksiyaga kirishuvchi kislotali komponent: gazning asosiy qismi pishirish paytida ajraladi. Shuningdek kartoshka mahsulotlari va snacklarda pishirilgandan keyingi qorayishni oldini olish uchun ishlatiladi.',
+    ru: 'Кислый пирофосфат натрия (SAPP, CAS 7758-16-9, E450(i)) — медленно реагирующий кислотный компонент разрыхлителей: основная часть газа выделяется при выпечке. Также используется в картофельных продуктах и снеках для предотвращения потемнения после варки и обжарки.',
+    en: 'Sodium acid pyrophosphate (SAPP, CAS 7758-16-9, E450(i)) is a slow-reacting leavening acid, releasing most of its gas during baking. It is also used in potato products and snacks to prevent darkening after cooking.',
+  },
+  'sodium-stearoyl-lactylate': {
+    uz: 'Natriy stearoil laktilati (SSL, CAS 25383-99-7, E481) — non va pishiriq uchun emulgator: xamirni mustahkamlaydi, hajm va mag‘iz yumshoqligini yaxshilaydi, nonning tez qotishini sekinlashtiradi. Sut mahsulotlari va qaymoq o‘rnini bosuvchilarda ham ishlatiladi.',
+    ru: 'Стеароиллактилат натрия (SSL, CAS 25383-99-7, E481) — эмульгатор для хлеба и выпечки: укрепляет тесто, улучшает объём и мягкость мякиша, замедляет черствение. Также применяется в молочной продукции и заменителях сливок.',
+    en: 'Sodium stearoyl lactylate (SSL, CAS 25383-99-7, E481) is an emulsifier for bread and bakery: it strengthens dough, improves volume and crumb softness and slows staling. It is also used in dairy products and cream substitutes.',
+  },
+  datem: {
+    uz: 'DATEM (mono- va diglitseridlarning diatsetilvino kislotasi efirlari, E472e) — xamirni mustahkamlovchi emulgator. Kleykovina tarmog‘ini kuchaytiradi va gazni yaxshiroq ushlab turadi: non hajmi oshadi, mag‘iz tuzilishi bir tekis bo‘ladi; ayniqsa kleykovinasi kuchsiz un va muzlatilgan xamirda foydali.',
+    ru: 'DATEM (эфиры диацетилвинной кислоты и моно- и диглицеридов, E472e) — эмульгатор-укрепитель теста. Усиливает клейковинный каркас и газоудерживающую способность: увеличивается объём хлеба, мякиш становится равномернее; особенно полезен для муки со слабой клейковиной и замороженного теста.',
+    en: 'DATEM (diacetyl tartaric acid esters of mono- and diglycerides, E472e) is a dough-strengthening emulsifier. It reinforces the gluten network and improves gas retention, giving greater loaf volume and a more even crumb; it is particularly useful with weak flours and frozen dough.',
+  },
+  'sodium-hexametaphosphate': {
+    uz: 'Natriy geksametafosfati (SHMP, CAS 10124-56-8, E452(i)) — kalsiy va magniy ionlarini bog‘lovchi sekvestrant. Go‘sht mahsulotlarida namlikni ushlab turishni yaxshilaydi, eritilgan pishloq va sut mahsulotlarida eritish tuzi va stabilizator, ichimliklarda esa suv qattiqligi ta’sirini kamaytiruvchi sifatida ishlatiladi.',
+    ru: 'Гексаметафосфат натрия (SHMP, CAS 10124-56-8, E452(i)) — секвестрант, связывающий ионы кальция и магния. В мясной продукции улучшает влагоудержание, в плавленых сырах и молочной продукции работает как плавильная соль и стабилизатор, в напитках снижает влияние жёсткости воды.',
+    en: 'Sodium hexametaphosphate (SHMP, CAS 10124-56-8, E452(i)) is a sequestrant that binds calcium and magnesium ions. In meat products it improves water retention, in processed cheese and dairy it acts as an emulsifying salt and stabiliser, and in beverages it reduces the effect of water hardness.',
+  },
 };
 
 /**
@@ -713,6 +866,7 @@ const FACT_ALIASES: Record<string, string> = {
   'ethyl-maltol-2': 'ethyl-maltol',
   'maltodextrin-bulk': 'maltodextrin-de10-15',
   'sodium-tripolyphosphate': 'sodium-tripolyphosphate-bulk',
+  'skimmed-milk-powder-bulk': 'skimmed-milk-powder',
 };
 
 export function productFacts(slug: string, locale: Locale): string | null {
