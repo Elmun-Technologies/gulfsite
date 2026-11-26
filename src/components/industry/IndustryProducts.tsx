@@ -72,9 +72,7 @@ export function IndustryProductsTable({
                 </Link>
               </td>
               <td>{formLabels[c.form] ?? c.form}</td>
-              <td className="whitespace-nowrap">
-                {c.dosageMin}–{c.dosageMax}%
-              </td>
+              <td className="whitespace-nowrap">{c.dose ?? '—'}</td>
               <td>
                 <span className="flex flex-wrap gap-1.5">
                   {c.features.map((f) => (

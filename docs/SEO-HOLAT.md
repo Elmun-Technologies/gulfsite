@@ -3,6 +3,27 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-26 (kechki run)
+
+**Raqamlar (jonli):** sitemap **2185** (3 so'rovda bir xil) · 60 ta tasodifiy URL: 0 muammo · `/` → `/uz` 307 ·
+www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 · IndexNow kalit 200 ·
+TTFB `/uz` ≈ 0.44–0.69 s · CI/IndexNow yashil.
+
+**Muammo davom etmoqda:** deploy to'xtagan — #51, #52, #53 jonli emas (sport/halol maqolalari 4 URL × 3 so'rov = 404).
+Egasiga xabar berildi: Coolify → Redeploy (oxirgi main).
+
+**Qilingan:** shablon doza olib tashlandi (`lib/dosage.ts`). Oziq-ovqat qo'shimchalari (95) va komoditi (24) uchun
+katalogdagi "0.05–2%" / "0.5–20%" — `build-catalog.mjs` kategoriya shabloni (un, tuz, shakar uchun ma'nosiz, nitrit uchun
+xavfli). Endi bu qiymat mahsulot sahifasida, meta description'da (yangi `seo.product.descriptionNoDose` — guruh nomi bilan),
+JSON-LD `additionalProperty`, katalog/soha/qidiruv jadvallari va Telegram do'konida ko'rsatilmaydi; doza filtriga tushmaydi.
+Admin haqiqiy qiymat kiritsa (shablondan farqli) — ko'rinadi. Landing matnlari ("har birida dozirovka ko'rsatilgan")
+"shakl, qadoq" ga o'zgartirildi.
+
+**Topildi (egasi):** `build-catalog.mjs` belgilar ham kategoriya shabloni — barcha 95 qo'shimchada `halal`, `iso`, `eac`
+(masalan "Техническая соль"da ham). Sertifikat da'vosi sifatida ko'rinadi — haqiqiy hujjatlar bo'yicha tekshirish kerak.
+
+**Raqobat/AI:** 7 so'rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, glotr, top.uz, uzum, olx).
+
 ## 2026-11-26 (ertalabki run)
 
 **Raqamlar (jonli):** sitemap **2185** (3 so'rovda bir xil) · 60 ta tasodifiy URL: 0 muammo · `/` → `/uz` 307 ·

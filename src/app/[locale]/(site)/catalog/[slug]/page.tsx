@@ -50,6 +50,7 @@ import { ProductInfoPanel } from '@/components/product/ProductInfoPanel';
 import { ProductStickyBar } from '@/components/product/ProductStickyBar';
 import { ensureCatalog } from '@/lib/catalog-live';
 import { productFacts } from '@/lib/product-facts';
+import { doseRange } from '@/lib/dosage';
 
 const MAX_RELATED = 4;
 
@@ -97,14 +98,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // ko'rinishini oldini oladi. Mavjudlik sahifadagi belgi bilan BIR XIL
   // (avval "Под заказ" mahsulotlarda ham snippet "На складе" derdi).
   const form = formLabel.charAt(0).toLocaleLowerCase(locale) + formLabel.slice(1);
+  const dose = doseRange(product);
+  const stock = availabilityLabel(product.availability, t);
+  // Shablon doza (qo'shimcha, komoditi — `lib/dosage.ts`) snippet'ga yozilmaydi
   const description = clipText(
     product.description?.[locale as Locale] ||
-      t('seo.product.description', {
-        name,
-        form,
-        dose: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
-        stock: availabilityLabel(product.availability, t),
-      }),
+      (dose
+        ? t('seo.product.description', { name, form, dose, stock })
+        : t('seo.product.descriptionNoDose', { name, form, group: groupLabel || category, stock })),
     150,
   );
 
@@ -306,9 +307,9 @@ export default async function ProductPage({ params }: Props) {
         {/* dozirovka tavsiyasi — navy kapsula */}
         <div className="mt-3 flex flex-wrap items-center justify-between gap-4 rounded-pill bg-navy py-[18px] pl-[clamp(20px,2.5vw,36px)] pr-[18px] max-tab:rounded-card max-tab:p-6 text-white">
           <span className="max-w-[620px] text-body-l">
-            {t('product.dosageAdvice', {
-              dosage: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
-            })}
+            {doseRange(product)
+              ? t('product.dosageAdvice', { dosage: doseRange(product) ?? '' })
+              : t('product.dosageAdviceRecipe')}
           </span>
           <ButtonLink
             href={`/${locale}/contact?type=product&product=${encodeURIComponent(product.sku)}`}
@@ -380,7 +381,10 @@ export default async function ProductPage({ params }: Props) {
                   </span>
                   <span className="flex-grow text-h5">{tr(c.name, L)}</span>
                   <span className="flex items-center justify-between gap-3 text-[15px] text-body">
-                    {tr(FORMS.find((f) => f.id === c.form)?.name, L, c.form)} · {c.dosageMin}–{c.dosageMax}%
+                    <span>
+                      {tr(FORMS.find((f) => f.id === c.form)?.name, L, c.form)}
+                      {c.dose ? ` · ${c.dose}` : ''}
+                    </span>
                     <span className="btn-icon btn-icon--44 btn-icon--navy shrink-0">
                       <ArrowUpRight size={16} strokeWidth={2} aria-hidden />
                     </span>

@@ -75,6 +75,8 @@ export interface ProductCard {
   applications: string[];
   dosageMin: number;
   dosageMax: number;
+  /** Ko'rsatiladigan doza ("0.05–0.3%") yoki `null` — shablon doza (`lib/dosage.ts`) */
+  dose: string | null;
   packaging: number[];
   features: string[];
   availability: AvailabilityId;

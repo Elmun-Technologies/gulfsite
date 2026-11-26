@@ -5,7 +5,7 @@
  */
 import type { ProductCard } from './types';
 
-export type TableRow = Pick<ProductCard, 'sku' | 'slug' | 'name' | 'form' | 'dosageMin' | 'dosageMax'> & {
+export type TableRow = Pick<ProductCard, 'sku' | 'slug' | 'name' | 'form' | 'dose'> & {
   features: string[];
 };
 
@@ -15,8 +15,7 @@ export function toTableRows(cards: ProductCard[]): TableRow[] {
     slug: c.slug,
     name: c.name,
     form: c.form,
-    dosageMin: c.dosageMin,
-    dosageMax: c.dosageMax,
+    dose: c.dose,
     features: c.features.slice(0, 2),
   }));
 }
