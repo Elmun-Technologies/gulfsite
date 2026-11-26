@@ -227,9 +227,7 @@ export default async function SearchPage({ params, searchParams }: Props) {
 
                     <span className="flex items-center gap-5 text-[15px] text-body">
                       <span>{formLabels[c.form] ?? c.form}</span>
-                      <span className="whitespace-nowrap">
-                        {c.dosageMin}–{c.dosageMax}%
-                      </span>
+                      {c.dose ? <span className="whitespace-nowrap">{c.dose}</span> : null}
                       <AddSampleButton
                         product={c}
                         locale={L}

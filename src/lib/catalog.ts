@@ -18,6 +18,7 @@ import type {
   SortKey,
 } from './types';
 import { DEFAULT_FILTERS, PAGE_SIZE } from './types';
+import { doseRange, hasRealDosage } from './dosage';
 import {
   ALL_GROUPS,
   APPLICATIONS,
@@ -153,6 +154,7 @@ export function toCard(p: CatalogProduct, locale: Locale): ProductCard {
     applications: p.applications,
     dosageMin: p.dosage.min,
     dosageMax: p.dosage.max,
+    dose: doseRange(p),
     packaging: p.packaging,
     features: p.features,
     availability: p.availability,
@@ -217,7 +219,8 @@ function buildMatchers(f: CatalogFilters): { matchers: Matcher[]; searchScore: (
   }
   if (f.dosageMax != null) {
     const max = f.dosageMax;
-    add('dosageMax', (p) => p.dosage.min <= max);
+    // shablon dozali pozitsiyalar (qo'shimcha, komoditi) doza filtriga tushmaydi
+    add('dosageMax', (p) => hasRealDosage(p) && p.dosage.min <= max);
   }
   if (f.onlyNew) add('onlyNew', (p) => p.isNew);
   if (f.onlyTop) add('onlyTop', (p) => p.isTop || p.popularity >= 85);

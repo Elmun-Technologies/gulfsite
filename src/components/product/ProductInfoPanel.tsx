@@ -18,6 +18,7 @@ import { Check } from 'lucide-react';
 import type { CatalogProduct } from '@/lib/types';
 import type { Locale } from '@/lib/taxonomy';
 import { tr } from '@/lib/taxonomy';
+import { doseRange } from '@/lib/dosage';
 import { dur, ease } from '@/lib/motion';
 import { fillVars } from '@/i18n/translator';
 import { useSampleBox } from '@/components/sample/SampleBoxProvider';
@@ -129,12 +130,11 @@ export function ProductInfoPanel({
     [added, box, labels, locale, product, size, toast],
   );
 
+  const dose = doseRange(product);
   const specs = [
     { label: labels.form, value: formValue },
-    {
-      label: labels.dosage,
-      value: `${product.dosage.min}–${product.dosage.max}${product.dosage.unit}`,
-    },
+    // shablon doza (qo'shimcha, komoditi) ko'rsatilmaydi — `lib/dosage.ts`
+    ...(dose ? [{ label: labels.dosage, value: dose }] : []),
     { label: labels.packaging, value: packValue },
     { label: labels.maker, value: labels.makerValue },
   ];

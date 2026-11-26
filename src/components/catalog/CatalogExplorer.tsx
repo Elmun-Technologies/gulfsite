@@ -476,9 +476,7 @@ export function CatalogExplorer({
                       </td>
                       <td>{groupLabels[c.group] ?? c.group}</td>
                       <td>{formLabels[c.form] ?? c.form}</td>
-                      <td className="font-medium text-ink">
-                        {c.dosageMin}–{c.dosageMax}%
-                      </td>
+                      <td className="font-medium text-ink">{c.dose ?? '—'}</td>
                       <td>
                         <StockDot
                           state={c.availability}
@@ -522,9 +520,7 @@ export function CatalogExplorer({
                   <div className="flex items-end justify-between gap-3">
                     <span className="flex flex-col gap-1 text-[14px] text-body">
                       <span>{formLabels[c.form] ?? c.form}</span>
-                      <span className="font-semibold text-ink">
-                        {c.dosageMin}–{c.dosageMax}%
-                      </span>
+                      {c.dose ? <span className="font-semibold text-ink">{c.dose}</span> : null}
                     </span>
                     <AddSampleButton product={c} locale={locale} labels={labels.add} source="catalog" />
                   </div>

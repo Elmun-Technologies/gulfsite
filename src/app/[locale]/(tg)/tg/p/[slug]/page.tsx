@@ -9,6 +9,7 @@ import { productDescription } from '@/lib/catalog-copy';
 import { ensureCatalog } from '@/lib/catalog-live';
 import { categoryName } from '@/lib/category-pages';
 import { productHeroImage } from '@/lib/design';
+import { doseRange } from '@/lib/dosage';
 import { APPLICATIONS, FORMS, tr, type Locale } from '@/lib/taxonomy';
 import { TgProductView } from '@/components/tg/TgProductView';
 
@@ -39,7 +40,7 @@ export default async function TgProductPage({ params }: { params: Promise<{ loca
       description={p.description?.[L] || productDescription(p.category, title, p.applications, p.copyVariant, L)}
       facts={[
         { label: t('product.formLabel'), value: tr(FORMS.find((f) => f.id === p.form)?.name, L, p.form) },
-        { label: t('product.dosageLabel'), value: `${p.dosage.min}–${p.dosage.max}${p.dosage.unit}` },
+        ...(doseRange(p) ? [{ label: t('product.dosageLabel'), value: doseRange(p) ?? '' }] : []),
         { label: t('product.packLabel'), value: `${p.packaging.join(' · ')} kg` },
         { label: t('tg.details'), value: availability },
       ]}

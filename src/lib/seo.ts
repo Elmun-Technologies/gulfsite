@@ -9,6 +9,7 @@ import type { CatalogProduct } from './types';
 import { tr, CATEGORIES, ALL_GROUPS, APPLICATIONS, type Trilingual } from './taxonomy';
 import { productDescription } from './catalog-copy';
 import { productFacts } from './product-facts';
+import { hasRealDosage } from './dosage';
 
 const SITE = siteConfig;
 
@@ -263,11 +264,10 @@ export function productLd(product: CatalogProduct, locale: AppLocale, categoryNa
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Group', value: tr(group?.name, locale) },
       { '@type': 'PropertyValue', name: 'Form', value: product.form },
-      {
-        '@type': 'PropertyValue',
-        name: 'Recommended dosage',
-        value: `${product.dosage.min}-${product.dosage.max}%`,
-      },
+      // shablon doza (qo'shimcha, komoditi) JSON-LD'ga yozilmaydi — `lib/dosage.ts`
+      ...(hasRealDosage(product)
+        ? [{ '@type': 'PropertyValue' as const, name: 'Recommended dosage', value: `${product.dosage.min}-${product.dosage.max}%` }]
+        : []),
       { '@type': 'PropertyValue', name: 'Shelf life', value: `${product.shelfLifeMonths} months` },
       ...product.features.map((f) => ({ '@type': 'PropertyValue' as const, name: 'Feature', value: f })),
     ],
