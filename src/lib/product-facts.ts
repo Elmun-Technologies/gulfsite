@@ -854,6 +854,145 @@ export const PRODUCT_FACTS: Record<string, Facts> = {
     ru: 'Гексаметафосфат натрия (SHMP, CAS 10124-56-8, E452(i)) — секвестрант, связывающий ионы кальция и магния. В мясной продукции улучшает влагоудержание, в плавленых сырах и молочной продукции работает как плавильная соль и стабилизатор, в напитках снижает влияние жёсткости воды.',
     en: 'Sodium hexametaphosphate (SHMP, CAS 10124-56-8, E452(i)) is a sequestrant that binds calcium and magnesium ions. In meat products it improves water retention, in processed cheese and dairy it acts as an emulsifying salt and stabiliser, and in beverages it reduces the effect of water hardness.',
   },
+
+  // --- Oziq-ovqat qo‘shimchalari va komoditi: qolgan pozitsiyalar (2026-11-26) ---
+  // Faqat umumiy texnologik faktlar; tarkib/yog‘lilik/oqsil ulushi kabi aniq
+  // ko‘rsatkichlar uchun — "spetsifikatsiya bo‘yicha" (to‘qilgan raqam yo‘q).
+  'glucose-powder': {
+    uz: 'Glyukoza (D-glyukoza, dekstroza, CAS 50-99-7) kukuni — monosaxarid, saxarozadan kamroq shirin. Pishiriqda xamirturush uchun oziq bo‘lib, qobiqning qizarishini (Mayyar reaksiyasi) kuchaytiradi; qandolatda shirinlikni yumshatadi va kristallanishni boshqaradi; ichimliklarda tez o‘zlashtiriladigan uglevod manbai sifatida ishlatiladi.',
+    ru: 'Глюкоза (D-глюкоза, декстроза, CAS 50-99-7) в порошке — моносахарид, менее сладкий, чем сахароза. В выпечке служит питанием для дрожжей и усиливает подрумянивание корки (реакция Майяра), в кондитерских изделиях снижает приторность и регулирует кристаллизацию, в напитках — источник быстроусвояемых углеводов.',
+    en: 'Glucose powder (D-glucose, dextrose, CAS 50-99-7) is a monosaccharide that is less sweet than sucrose. In bakery it feeds the yeast and enhances crust browning (Maillard reaction), in confectionery it softens sweetness and helps control crystallisation, and in beverages it is a fast-absorbed carbohydrate source.',
+  },
+  fructose: {
+    uz: 'Fruktoza (CAS 57-48-7) — meva shakari, saxarozadan shirinroq monosaxarid (shirinlik harorat va muhitga bog‘liq). Gigroskopik: pishiriqda namlikni ushlab turadi, ichimlik va sut mahsulotlarida meva ta’mini ochadi; sport ozuqasi va maxsus mahsulotlarda ham ishlatiladi.',
+    ru: 'Фруктоза (CAS 57-48-7) — плодовый сахар, моносахарид слаще сахарозы (степень сладости зависит от температуры и среды). Гигроскопична: удерживает влагу в выпечке, подчёркивает фруктовый вкус в напитках и молочной продукции; применяется также в спортивном и специализированном питании.',
+    en: 'Fructose (CAS 57-48-7) is fruit sugar, a monosaccharide sweeter than sucrose (relative sweetness depends on temperature and matrix). It is hygroscopic, keeping bakery goods moist, and lifts fruit notes in beverages and dairy; it is also used in sports and special-purpose nutrition.',
+  },
+  'stevia-extract-rebaudioside-a': {
+    uz: 'Steviya ekstrakti — rebaudiozid A (CAS 58543-16-1; steviol glikozidlari, E960) — Stevia rebaudiana bargidan olinadigan intensiv shirinlashtirgich, saxarozadan yuzlab marta shirin. Issiqlik va kislotali muhitga chidamli; yuqori dozada qizilmiyaga o‘xshash yoki achchiqroq ta’m qoldirishi mumkin, shuning uchun ko‘pincha eritritol yoki aromatizatorlar bilan birga ishlatiladi. Ichimliklar, sut mahsulotlari va sport ozuqasida qo‘llanadi.',
+    ru: 'Экстракт стевии — ребаудиозид A (CAS 58543-16-1; стевиол-гликозиды, E960) — интенсивный подсластитель из листьев Stevia rebaudiana, в сотни раз слаще сахарозы. Устойчив к нагреву и кислой среде; в высоких дозах может давать лакричное или горьковатое послевкусие, поэтому часто комбинируется с эритритолом или ароматизаторами. Применяется в напитках, молочной продукции и спортивном питании.',
+    en: 'Stevia extract, rebaudioside A (CAS 58543-16-1; steviol glycosides, E960), is an intense sweetener from Stevia rebaudiana leaves, hundreds of times sweeter than sucrose. It is stable to heat and acidity; at high levels it can leave a liquorice-like or bitter aftertaste, so it is often combined with erythritol or flavours. It is used in beverages, dairy and sports nutrition.',
+  },
+  'glucose-syrup-80-de': {
+    uz: 'Glyukoza siropi 80 DE — kraxmal gidrolizi mahsuloti; DE (dekstroza ekvivalenti) yuqori bo‘lgani uchun past DE siroplarga qaraganda shirinroq, kamroq yopishqoq va gigroskopikroq, qizarishni kuchliroq beradi. Qandolatda saxarozaning kristallanishini oldini oladi, pishiriqda namlikni saqlaydi, muzqaymoqda muzlash haroratini pasaytiradi.',
+    ru: 'Глюкозный сироп 80 DE — продукт гидролиза крахмала; благодаря высокому DE (декстрозному эквиваленту) он слаще, менее вязкий и более гигроскопичный, чем сиропы с низким DE, и сильнее участвует в подрумянивании. В кондитерских изделиях предотвращает кристаллизацию сахарозы, в выпечке удерживает влагу, в мороженом снижает температуру замерзания.',
+    en: 'Glucose syrup 80 DE is a starch hydrolysate; its high DE (dextrose equivalent) makes it sweeter, less viscous and more hygroscopic than low-DE syrups, with stronger browning. In confectionery it prevents sucrose crystallisation, in bakery it retains moisture and in ice cream it lowers the freezing point.',
+  },
+  'invert-sugar-syrup': {
+    uz: 'Invert shakar siropi — saxarozani (kislota yoki invertaza fermenti bilan) glyukoza va fruktozaga parchalab olinadi. Oddiy shakar siropidan shirinroq, kristallanmaydi va namlikni yaxshi ushlaydi: pishiriq uzoqroq yumshoq qoladi, qandolat to‘ldirmalari va glazurlar silliq bo‘ladi; ichimliklarda ham ishlatiladi.',
+    ru: 'Инвертный сироп получают расщеплением сахарозы (кислотой или ферментом инвертазой) на глюкозу и фруктозу. Слаще обычного сахарного сиропа, не кристаллизуется и хорошо удерживает влагу: выпечка дольше остаётся мягкой, кондитерские начинки и глазури — гладкими; применяется также в напитках.',
+    en: 'Invert sugar syrup is made by splitting sucrose (with acid or the enzyme invertase) into glucose and fructose. It is sweeter than plain sugar syrup, does not crystallise and holds moisture well, so baked goods stay soft longer and confectionery fillings and glazes stay smooth; it is also used in beverages.',
+  },
+  'coconut-milk-powder': {
+    uz: 'Quruq kokos suti — kokos suti yoki qaymog‘ini purkab quritish yo‘li bilan olinadi, odatda tashuvchi (masalan, maltodekstrin) bilan; aniq tarkib va yog‘lilik spetsifikatsiyada ko‘rsatiladi. Qandolat, ichimliklar, muzqaymoq va sut mahsulotlarida kokos ta’mi va qaymoqsimon tuzilish uchun ishlatiladi.',
+    ru: 'Сухое кокосовое молоко получают распылительной сушкой кокосового молока или сливок, как правило с носителем (например, мальтодекстрином); точный состав и жирность указываются в спецификации. Применяется в кондитерских изделиях, напитках, мороженом и молочной продукции для кокосового вкуса и сливочной текстуры.',
+    en: 'Coconut milk powder is made by spray-drying coconut milk or cream, usually with a carrier such as maltodextrin; exact composition and fat content are given in the specification. It is used in confectionery, beverages, ice cream and dairy for coconut flavour and a creamy texture.',
+  },
+  'buttermilk-powder': {
+    uz: 'Quruq paxta (buttermilk) — sariyog‘ ishlab chiqarishda qoladigan suyuqlikni quritib olinadi. Sut yog‘i sharchalari membranasidan fosfolipidlarga boy, shuning uchun yaxshi emulgatsiyalovchi xususiyatga ega va sariyog‘-sutli ta’m beradi. Pishiriq (keks, pankeyk, biskvit), qandolat va sut mahsulotlarida ishlatiladi.',
+    ru: 'Сухая пахта — высушенная жидкость, остающаяся при сбивании сливочного масла. Богата фосфолипидами мембран жировых шариков молока, поэтому обладает хорошими эмульгирующими свойствами и даёт сливочно-молочный вкус. Применяется в выпечке (кексы, панкейки, бисквиты), кондитерских изделиях и молочной продукции.',
+    en: 'Buttermilk powder is the dried liquid left after churning butter. It is rich in phospholipids from the milk fat globule membrane, so it has good emulsifying properties and gives a buttery-milky taste. It is used in bakery (cakes, pancakes, sponges), confectionery and dairy.',
+  },
+  'cheese-powder-cheddar': {
+    uz: 'Chedder pishloq kukuni — pishloqni (odatda eritish tuzlari bilan) eritib, purkab quritish yo‘li bilan olinadi; pishloq ulushi, tuz va boshqa komponentlar spetsifikatsiyada. Chips va sneklar uchun sepmalar, pishloqli souslar va pishiriq to‘ldirmalarida ishlatiladi.',
+    ru: 'Сырный порошок чеддер получают расплавлением сыра (обычно с плавильными солями) и распылительной сушкой; доля сыра, соль и прочие компоненты указываются в спецификации. Применяется в посыпках для чипсов и снеков, сырных соусах и начинках для выпечки.',
+    en: 'Cheddar cheese powder is made by melting cheese (usually with emulsifying salts) and spray-drying it; cheese content, salt and other components are given in the specification. It is used in seasonings for crisps and snacks, cheese sauces and bakery fillings.',
+  },
+  'yeast-extract': {
+    uz: 'Xamirturush ekstrakti — xamirturush (Saccharomyces cerevisiae) hujayralarining avtolizi natijasida olinadi; glutamin kislotasi va nukleotidlarga boy, umami — go‘shtli-bulonli ta’m beradi. Souslar, sneklar, go‘sht mahsulotlari va HoReCa yarim tayyor mahsulotlarida ta’m kuchaytiruvchi sifatida, shuningdek tuz miqdorini kamaytirishda ishlatiladi.',
+    ru: 'Дрожжевой экстракт получают автолизом клеток дрожжей (Saccharomyces cerevisiae); он богат глутаминовой кислотой и нуклеотидами и даёт вкус умами — мясной, бульонный. Используется как усилитель вкуса в соусах, снеках, мясной продукции и полуфабрикатах для HoReCa, а также при снижении содержания соли.',
+    en: 'Yeast extract is made by autolysis of yeast cells (Saccharomyces cerevisiae); it is rich in glutamic acid and nucleotides and gives an umami, meaty-brothy taste. It is used as a flavour enhancer in sauces, snacks, meat products and HoReCa convenience foods, and to help reduce salt.',
+  },
+  'hydrolysed-vegetable-protein': {
+    uz: 'Gidrolizlangan o‘simlik oqsili (HVP) — soya, bug‘doy yoki makkajo‘xori oqsilini gidrolizlab olinadi; aminokislotalarga boy, go‘shtli-bulonli ta’m beradi. Souslar, sho‘rvalar, sneklar, go‘sht mahsulotlari va konservalarda ishlatiladi. Oqsil manbai spetsifikatsiyada ko‘rsatiladi — allergen (soya, glyuten) markirovkasi uchun muhim.',
+    ru: 'Гидролизованный растительный белок (HVP) получают гидролизом белка сои, пшеницы или кукурузы; он богат аминокислотами и даёт мясной, бульонный вкус. Применяется в соусах, супах, снеках, мясной продукции и консервах. Источник белка указывается в спецификации — это важно для маркировки аллергенов (соя, глютен).',
+    en: 'Hydrolysed vegetable protein (HVP) is made by hydrolysing soy, wheat or maize protein; it is rich in amino acids and gives a meaty, brothy taste. It is used in sauces, soups, snacks, meat products and canned foods. The protein source is stated in the specification, which matters for allergen labelling (soy, gluten).',
+  },
+  'wheat-gluten': {
+    uz: 'Bug‘doy kleykovinasi (quruq kleykovina, vital wheat gluten) — bug‘doy unidan kraxmalni yuvib ajratib, quritib olinadigan oqsil kukuni. Kuchsiz unni mustahkamlaydi, xamirning gaz ushlashini va non hajmini oshiradi; go‘sht va vegetarian mahsulotlarda bog‘lovchi sifatida ishlatiladi. Tarkibida glyuten bor — allergen sifatida markirovka qilinadi.',
+    ru: 'Пшеничная клейковина (сухой глютен, vital wheat gluten) — белковый порошок, получаемый отмыванием крахмала из пшеничной муки и сушкой. Укрепляет слабую муку, повышает газоудерживающую способность теста и объём хлеба; в мясной и вегетарианской продукции работает как связующее. Содержит глютен — маркируется как аллерген.',
+    en: 'Wheat gluten (vital wheat gluten) is a protein powder obtained by washing the starch out of wheat flour and drying it. It strengthens weak flour, improves gas retention and loaf volume, and acts as a binder in meat and vegetarian products. It contains gluten and is labelled as an allergen.',
+  },
+  'soya-protein-isolate': {
+    uz: 'Soya oqsili izolyati — yog‘sizlantirilgan soyadan olinadigan eng toza soya oqsili shakli (quruq moddada oqsil kamida 90%). Suv va yog‘ni bog‘laydi, emulgatsiyalaydi va gel hosil qiladi: go‘sht mahsulotlari (kolbasa, in’eksiya), oqsilli ichimliklar, sport ozuqasi va pishiriqda ishlatiladi. Soya — allergen sifatida markirovka qilinadi.',
+    ru: 'Изолят соевого белка — наиболее очищенная форма соевого белка из обезжиренной сои (не менее 90% белка в сухом веществе). Связывает воду и жир, эмульгирует и образует гель: применяется в мясной продукции (колбасы, инъецирование), белковых напитках, спортивном питании и выпечке. Соя маркируется как аллерген.',
+    en: 'Soya protein isolate is the most refined form of soy protein, made from defatted soybeans (at least 90% protein on a dry basis). It binds water and fat, emulsifies and forms gels, and is used in meat products (sausages, injection brines), protein drinks, sports nutrition and bakery. Soy is labelled as an allergen.',
+  },
+  'pea-protein-isolate': {
+    uz: 'No‘xat (sariq no‘xat, Pisum sativum) oqsili izolyati — o‘simlik oqsili, soya va glyutensiz mahsulotlar uchun muqobil. Sport ozuqasi, oqsilli ichimliklar va o‘simlik asosidagi go‘sht analoglarida ishlatiladi; neytralroq ta’m uchun ko‘pincha aromatizatorlar bilan birga qo‘llanadi. Oqsil ulushi spetsifikatsiyada.',
+    ru: 'Изолят горохового белка (жёлтый горох, Pisum sativum) — растительный белок, альтернатива соевому для продуктов без сои и глютена. Применяется в спортивном питании, белковых напитках и растительных аналогах мяса; для более нейтрального вкуса часто используется вместе с ароматизаторами. Доля белка — по спецификации.',
+    en: 'Pea protein isolate (yellow pea, Pisum sativum) is a plant protein and an alternative to soy for soy-free and gluten-free products. It is used in sports nutrition, protein drinks and plant-based meat analogues, often together with flavours to achieve a more neutral taste. Protein content is given in the specification.',
+  },
+  'cocoa-powder-alkalised-10-12': {
+    uz: 'Alkalizatsiyalangan kakao kukuni 10–12% (tarkibida 10–12% kakao yog‘i) — kakao ishqoriy ishlov (“golland usuli”)dan o‘tgan: rangi to‘qroq, ta’mi yumshoqroq va kamroq nordon, suyuqlikda yaxshiroq tarqaladi. Kakao ichimliklari, sut mahsulotlari, to‘q rangli pishiriq va qandolatda ishlatiladi.',
+    ru: 'Какао-порошок алкализованный 10–12% (содержание какао-масла 10–12%) прошёл щелочную обработку («голландский способ»): он темнее, с более мягким и менее кислым вкусом и лучше диспергируется в жидкости. Применяется в какао-напитках, молочной продукции, тёмной выпечке и кондитерских изделиях.',
+    en: 'Alkalised cocoa powder 10–12% (10–12% cocoa butter) has undergone alkali treatment (“Dutch process”): it is darker, with a milder, less acidic taste, and disperses better in liquids. It is used in cocoa drinks, dairy, dark-coloured bakery and confectionery.',
+  },
+  'cocoa-powder-natural-10-12': {
+    uz: 'Tabiiy kakao kukuni 10–12% (tarkibida 10–12% kakao yog‘i) — ishqoriy ishlovsiz: rangi ochroq jigarrang, kakao ta’mi o‘tkirroq va nordonroq. Tabiiy kislotaliligi tufayli pishiriqda soda bilan reaksiyaga kirishib, ko‘pchitishga yordam beradi. Pishiriq, sut mahsulotlari va qandolatda ishlatiladi.',
+    ru: 'Какао-порошок натуральный 10–12% (содержание какао-масла 10–12%) — без щелочной обработки: светлее по цвету, с более ярким и кисловатым какао-вкусом. Благодаря природной кислотности реагирует с содой в выпечке и помогает разрыхлению. Применяется в выпечке, молочной продукции и кондитерских изделиях.',
+    en: 'Natural cocoa powder 10–12% (10–12% cocoa butter) is not alkalised: it is lighter in colour with a sharper, slightly acidic cocoa taste. Its natural acidity reacts with baking soda and helps leavening in bakery. It is used in bakery, dairy and confectionery.',
+  },
+  'milk-chocolate-compound': {
+    uz: 'Sutli qandolat glazuri (compound) — kakao yog‘i o‘rniga o‘simlik yog‘lari (kakao yog‘i ekvivalentlari yoki o‘rnini bosuvchilar) ishlatiladi, shuning uchun temperlash talab qilinmaydi va ishlash oson. Tarkibida shakar, quruq sut va kakao kukuni bor. Konfet, pechenye va vaflilarni qoplash, pishiriq bezagi va muzqaymoq uchun ishlatiladi; markirovkada shokolad emas, glazur deb ataladi.',
+    ru: 'Молочная кондитерская глазурь (compound) — вместо какао-масла используются растительные жиры (эквиваленты или заменители какао-масла), поэтому темперирование не требуется и с глазурью проще работать. Содержит сахар, сухое молоко и какао-порошок. Применяется для глазирования конфет, печенья и вафель, декора выпечки и мороженого; в маркировке называется глазурью, а не шоколадом.',
+    en: 'Milk chocolate compound coating uses vegetable fats (cocoa butter equivalents or substitutes) instead of cocoa butter, so it needs no tempering and is easy to work with. It contains sugar, milk powder and cocoa powder. It is used for enrobing sweets, biscuits and wafers, decorating bakery and ice cream; it is labelled as a compound coating, not chocolate.',
+  },
+  'dark-chocolate-compound': {
+    uz: 'To‘q qandolat glazuri (compound) — kakao kukuni, shakar va o‘simlik yog‘lari asosida, sutsiz; kakao yog‘i o‘rniga o‘simlik yog‘lari ishlatilgani uchun temperlashsiz ishlatiladi va tez qotadi. Konfet, pechenye, keks va vaflilarni qoplash, pishiriq bezagi va muzqaymoq qoplamasi uchun; markirovkada shokolad emas, glazur deb ataladi.',
+    ru: 'Тёмная кондитерская глазурь (compound) — на основе какао-порошка, сахара и растительных жиров, без молока; так как вместо какао-масла используются растительные жиры, работает без темперирования и быстро застывает. Применяется для глазирования конфет, печенья, кексов и вафель, декора выпечки и покрытия мороженого; в маркировке называется глазурью, а не шоколадом.',
+    en: 'Dark chocolate compound coating is based on cocoa powder, sugar and vegetable fats, with no milk; because vegetable fats replace cocoa butter it works without tempering and sets quickly. It is used for enrobing sweets, biscuits, cakes and wafers, decorating bakery and coating ice cream; it is labelled as a compound coating, not chocolate.',
+  },
+  'refined-salt-extra-fine': {
+    uz: 'Mayda tortilgan tozalangan tuz (natriy xlorid, CAS 7647-14-5), “Ekstra” — juda mayda va bir xil donadorligi tufayli tez eriydi va quruq aralashmalarda bir tekis taqsimlanadi. Sneklar uchun sepmalar, souslar, go‘sht mahsulotlari, konserva va pishiriqda ishlatiladi.',
+    ru: 'Соль поваренная экстра мелкого помола (хлорид натрия, CAS 7647-14-5) — благодаря очень мелкому и равномерному зерну быстро растворяется и равномерно распределяется в сухих смесях. Применяется в посыпках для снеков, соусах, мясной продукции, консервах и выпечке.',
+    en: 'Extra-fine refined salt (sodium chloride, CAS 7647-14-5) dissolves quickly and distributes evenly in dry blends thanks to its very fine, uniform grain. It is used in snack seasonings, sauces, meat products, canned foods and bakery.',
+  },
+  'iodised-salt': {
+    uz: 'Yodlangan tuz — natriy xloridga (CAS 7647-14-5) yod birikmasi (odatda kaliy yodat) qo‘shilgan osh tuzi; yod yetishmovchiligining oldini olish uchun ishlab chiqariladi. Go‘sht mahsulotlari, souslar, konserva va sneklarda oddiy tuz o‘rnida ishlatiladi; yod miqdori spetsifikatsiyada ko‘rsatiladi.',
+    ru: 'Йодированная соль — поваренная соль (хлорид натрия, CAS 7647-14-5) с добавлением соединения йода (как правило, йодата калия); выпускается для профилактики йододефицита. Используется вместо обычной соли в мясной продукции, соусах, консервах и снеках; содержание йода указывается в спецификации.',
+    en: 'Iodised salt is table salt (sodium chloride, CAS 7647-14-5) with an added iodine compound, usually potassium iodate, produced to help prevent iodine deficiency. It replaces ordinary salt in meat products, sauces, canned foods and snacks; iodine content is given in the specification.',
+  },
+  'sunflower-oil-refined': {
+    uz: 'Rafinatsiyalangan dezodoratsiyalangan kungaboqar yog‘i — neytral ta’m va hidga ega, linol kislotasiga boy suyuq o‘simlik yog‘i. Souslar va mayonez, pishiriq, sneklarni qovurish va konservalarda ishlatiladi; aromatizatorlar uchun neytral asos ham bo‘la oladi.',
+    ru: 'Подсолнечное масло рафинированное дезодорированное — жидкое растительное масло с нейтральным вкусом и запахом, богатое линолевой кислотой. Применяется в соусах и майонезах, выпечке, обжарке снеков и консервах; подходит как нейтральная основа для масляных ароматизаторов.',
+    en: 'Refined, deodorised sunflower oil is a liquid vegetable oil with neutral taste and odour, rich in linoleic acid. It is used in sauces and mayonnaise, bakery, snack frying and canned foods, and serves as a neutral base for oil-soluble flavours.',
+  },
+  'palm-oil-rbd': {
+    uz: 'RBD palma yog‘i (Refined, Bleached, Deodorised — rafinatsiyalangan, oqartirilgan, dezodoratsiyalangan) — xona haroratida yarim qattiq, neytral ta’mli o‘simlik yog‘i; to‘yingan yog‘ kislotalari ulushi yuqori bo‘lgani uchun oksidlanishga suyuq yog‘lardan chidamliroq. Margarin va shortening, pishiriq, qandolat to‘ldirmalari va qovurishda ishlatiladi.',
+    ru: 'Пальмовое масло RBD (Refined, Bleached, Deodorised — рафинированное, отбелённое, дезодорированное) — полутвёрдое при комнатной температуре растительное масло с нейтральным вкусом; за счёт высокой доли насыщенных жирных кислот устойчивее к окислению, чем жидкие масла. Применяется в маргаринах и шортенингах, выпечке, кондитерских начинках и для фритюра.',
+    en: 'RBD palm oil (refined, bleached, deodorised) is a vegetable oil that is semi-solid at room temperature with a neutral taste; its high share of saturated fatty acids makes it more oxidation-stable than liquid oils. It is used in margarine and shortening, bakery, confectionery fillings and frying.',
+  },
+  'coconut-oil-fractionated': {
+    uz: 'Fraksiyalangan kokos yog‘i (MCT; kaprilik/kaprik triglitseridlar, CAS 65381-09-1) — xona haroratida suyuq, rangsiz va deyarli hidsiz, oksidlanishga juda chidamli yog‘. Aromatizatorlar uchun erituvchi va tashuvchi, qandolatda yaltiratuvchi va qolipdan ajratuvchi vosita, kosmetikada tashuvchi yog‘ sifatida ishlatiladi.',
+    ru: 'Фракционированное кокосовое масло (MCT; триглицериды каприловой/каприновой кислот, CAS 65381-09-1) — жидкое при комнатной температуре, бесцветное и практически без запаха, очень устойчивое к окислению. Применяется как растворитель и носитель ароматизаторов, глянцеватель и разделительное средство в кондитерском производстве, базовое масло в косметике.',
+    en: 'Fractionated coconut oil (MCT; caprylic/capric triglyceride, CAS 65381-09-1) is liquid at room temperature, colourless, almost odourless and highly resistant to oxidation. It is used as a solvent and carrier for flavours, a glazing and release agent in confectionery, and a carrier oil in cosmetics.',
+  },
+  'salt-industrial-bulk': {
+    uz: 'Natriy xlorid (CAS 7647-14-5) navalom — sanoat hajmlari uchun. Muhim: “texnik tuz” atamasi ko‘pincha ovqatga yaroqsiz tuzni (suv tayyorlash, muzga qarshi) bildiradi — oziq-ovqat ishlab chiqarishida ishlatishdan oldin nav va oziq-ovqat talablariga mosligini spetsifikatsiya bo‘yicha tekshiring.',
+    ru: 'Хлорид натрия (CAS 7647-14-5) навалом — для промышленных объёмов. Важно: термином «техническая соль» часто называют непищевую соль (водоподготовка, противогололёдная обработка) — перед применением в пищевом производстве сверьте сорт и соответствие пищевым требованиям по спецификации.',
+    en: 'Sodium chloride (CAS 7647-14-5) in bulk for industrial volumes. Note that “industrial salt” often means non-food salt (water treatment, de-icing), so check the grade and food-use compliance against the specification before using it in food production.',
+  },
+  'wheat-flour-premium': {
+    uz: 'Oliy navli bug‘doy uni — asosan don endospermidan tortiladi: oq rangli, kul miqdori eng past nav. Shirin (sdoba) pishiriq, biskvit, pechenye va qandolat mahsulotlari uchun ishlatiladi; kleykovina miqdori va sifati spetsifikatsiyada ko‘rsatiladi.',
+    ru: 'Мука пшеничная высшего сорта — мелется в основном из эндосперма зерна: белая, с наименьшей зольностью среди сортов. Применяется для сдобной выпечки, бисквитов, печенья и кондитерских изделий; количество и качество клейковины указываются в спецификации.',
+    en: 'Premium-grade wheat flour is milled mainly from the grain endosperm: it is white and has the lowest ash content of the grades. It is used for enriched bakery, sponges, biscuits and confectionery; gluten content and quality are given in the specification.',
+  },
+  'cocoa-mass-liquor': {
+    uz: 'Kakao massasi (maydalangan kakao, cocoa liquor) — qovurilgan kakao donalarini maydalab olinadi; taxminan yarmi kakao yog‘idan iborat, xona haroratida qattiq, qizdirilganda eriydi. Shokolad va shokoladli glazurlarning asosi: kakao yog‘i va shakar bilan birga ishlatiladi, qandolatda kakao ta’mini beradi.',
+    ru: 'Какао тёртое (какао-масса, cocoa liquor) получают измельчением обжаренных какао-бобов; примерно половину массы составляет какао-масло, при комнатной температуре продукт твёрдый и плавится при нагреве. Основа шоколада и шоколадных глазурей: используется вместе с какао-маслом и сахаром, придаёт кондитерским изделиям какао-вкус.',
+    en: 'Cocoa mass (cocoa liquor) is made by grinding roasted cocoa nibs; roughly half of it is cocoa butter, so it is solid at room temperature and melts when warmed. It is the base of chocolate and chocolate coatings, used together with cocoa butter and sugar to give confectionery its cocoa taste.',
+  },
+  'whole-milk-powder-bulk': {
+    uz: 'Yog‘li quruq sut navalom — butun sutni quritib olinadi (Codex Alimentarius bo‘yicha sut yog‘i 26% dan 42% gacha); aniq yog‘lilik va oqsil spetsifikatsiyada. Sanoat hajmlarida shokolad, qandolat, sut mahsulotlari, pishiriq va muzqaymoq uchun ishlatiladi.',
+    ru: 'Сухое цельное молоко навалом получают сушкой цельного молока (по Codex Alimentarius массовая доля молочного жира — от 26% до 42%); точная жирность и белок — по спецификации. В промышленных объёмах применяется в шоколаде, кондитерских изделиях, молочной продукции, выпечке и мороженом.',
+    en: 'Whole milk powder in bulk is made by drying whole milk (under the Codex Alimentarius milk fat is 26% to under 42%); exact fat and protein are given in the specification. It is used in industrial volumes in chocolate, confectionery, dairy, bakery and ice cream.',
+  },
+  'whey-powder-bulk': {
+    uz: 'Zardob kukuni navalom — pishloq yoki tvorog ishlab chiqarishda qoladigan zardobni quritib olinadi; laktozaga boy, zardob oqsillari va minerallar saqlaydi. Turi (shirin yoki nordon zardob) spetsifikatsiyada. Qandolat, pishiriq va muzqaymoqda quruq sutning bir qismi o‘rnida va qizarishni yaxshilash uchun ishlatiladi.',
+    ru: 'Сухая сыворотка навалом — высушенная сыворотка, остающаяся при производстве сыра или творога; богата лактозой, содержит сывороточные белки и минеральные вещества. Тип (подсырная сладкая или кислая) указывается в спецификации. В кондитерских изделиях, выпечке и мороженом заменяет часть сухого молока и улучшает подрумянивание.',
+    en: 'Whey powder in bulk is dried whey left over from cheese or curd production; it is rich in lactose and contains whey proteins and minerals. The type (sweet or acid whey) is given in the specification. In confectionery, bakery and ice cream it replaces part of the milk powder and improves browning.',
+  },
 };
 
 /**
