@@ -3,6 +3,31 @@
 Kundalik avtomatik SEO monitoring (gulfflavours.uz) qisqa jurnali. Faqat muhim o'zgarishlar.
 Search Console ma'lumotlari bu yerda YO'Q (sessiyada kirish yo'q) — faqat curl/qidiruv natijalari.
 
+## 2026-11-26 (ertalabki run)
+
+**Raqamlar (jonli):** sitemap **2185** (3 so'rovda bir xil) · 60 ta tasodifiy URL: 0 muammo · `/` → `/uz` 307 ·
+www/http → 301 · robots/sitemap/llms.txt 200 · `/uz/catalog/yoq-mahsulot`, `/foo.txt` → 404 · IndexNow kalit 200 ·
+TTFB `/uz` ≈ 0.45–0.9 s · CI/IndexNow yashil.
+
+**Muammo — deploy yana to'xtagan:** jonli sayt #50 holatida. #51 (11-25 17:50 UTC merge, E151 va boshqalar tavsifi)
+va #52 (11-26 00:58 UTC, sport/halol maqolalari — 4 URL 404) jonli emas; aralash versiya yo'q (10/10 bir xil javob).
+Coolify webhook ishlamagan yoki deploy yiqilgan → qo'lda **Redeploy** kerak.
+
+**Qilingan:** `product-facts.ts` — qolgan 27 pozitsiya: shirinlashtirgichlar (glyukoza, fruktoza, steviya, glyukoza siropi
+80 DE, invert sirop), sut asoslari (kokos suti, paxta, chedder kukuni), umami asoslar (xamirturush ekstrakti, HVP),
+oqsillar (kleykovina, soya va no'xat izolyati), kakao kukuni (alkalizatsiyalangan/tabiiy farqi), glazurlar (compound ≠ shokolad),
+tuz, yog'lar (kungaboqar, RBD palma, MCT) + komoditi (tuz, un, kakao massasi, quruq sut, zardob navalom).
+**"Oziq-ovqat qo'shimchalari" 95/95, "Komoditi" 24/24.** Yog'lilik/oqsil foizlari — "spetsifikatsiya bo'yicha".
+"Техническая соль" — oziq-ovqatga yaroqliligini tekshirish haqida ogohlantirish.
+
+**Topildi (texnik qarz):** katalogda qo'shimcha/komoditi dozasi shablon (0.05–2% / 0.5–20%) — un, tuz, yog', kakao uchun
+ma'nosiz, lekin meta description va JSON-LD'da chiqadi. Admin'da haqiqiy qiymat yoki bu guruhlar uchun dozani yashirish kerak.
+
+**Raqobat/AI:** 8 so'rovda gulfflavours.uz hali chiqmadi (prom.uz, goldenpages, yellowpages, glotr, top.uz, uzum, olx).
+yellowpages "Пищевые ароматизаторы / Ташкент" rubrikasida atigi 8 kompaniya (7 tasida sayt: aromaprem.uz, balerom.uz,
+aromaclassic.uz, csca.uz, Döhler, elephantgroup.uz, tortodel.uz) — kartochkalar faqat kontakt (mahsulot, namuna, sertifikat yo'q).
+Raqobatchilarning o'z saytlari ham bu so'rovlarda chiqmaydi — SERP faqat kataloglar → GFF kartochkasi u yerda bo'lishi asosiy.
+
 ## 2026-11-25 (kechki run)
 
 **Raqamlar (jonli):** sitemap **2185** (o'zgarmagan, 3 so'rovda bir xil) · 60 ta tasodifiy URL: 0 muammo ·
